@@ -1,0 +1,2280 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda Dashboard Outlet - Mlg Tc Arjuno Partner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#ED1C24',
+                            darkred: '#B91C1C',
+                            navy: '#0F172A',
+                            slate: '#1E293B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-banner {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
+        }
+
+        /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
+        @keyframes teamStatusBlinkRed {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.88); }
+        }
+
+        @keyframes teamStatusBlinkGreen {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.88); }
+        }
+
+        .team-status-red {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .team-status-green {
+            background: #ecfdf5;
+            color: #047857;
+            border-color: #a7f3d0;
+        }
+
+        .team-status-dot-red,
+        .team-status-dot-green {
+            width: 6px;
+            height: 6px;
+            border-radius: 9999px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .team-status-dot-red {
+            background: #ef4444;
+            animation: teamStatusBlinkRed 1s ease-in-out infinite;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
+        }
+
+        .team-status-dot-green {
+            background: #10b981;
+            animation: teamStatusBlinkGreen 1s ease-in-out infinite;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
+
+    <!-- HEADER & NAVBAR -->
+    <header class="bg-brand-navy text-white sticky top-0 z-40 shadow-lg border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div
+                    class="bg-brand-red text-white p-2 rounded-xl font-bold font-heading text-lg tracking-wider flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">DASHBOARD</span>
+                </div>
+                <div>
+                    <h1 class="font-heading font-bold text-base leading-tight tracking-wide">MLG-TC-Arjuno</h1>
+                    <p class="text-xs text-slate-400">Kode Outlet: <span
+                            class="text-brand-red font-semibold">1415</span></p>
+                </div>
+            </div>
+
+            <div class="flex items-center text-sm">
+                <div class="flex flex-col text-right">
+                    <span id="current-date" class="font-medium text-slate-200 text-xs sm:text-sm"></span>
+                    <!-- STATUS OUTLET OTOMATIS BERDASARKAN JAM OPERASIONAL -->
+                    <span id="outlet-status-container" class="text-xs font-semibold">
+                        <!-- Otomatis diisi oleh JS -->
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MARQUEE ANNOUNCEMENT BANNER -->
+    <div class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-4 shadow-inner flex items-center">
+        <span
+            class="bg-white text-brand-red font-bold px-2 py-0.5 rounded-md text-xs uppercase mr-3 shrink-0 shadow-sm flex items-center gap-1">
+            <i class="fa-solid fa-bullhorn"></i> Info
+        </span>
+        <marquee behavior="scroll" direction="left" class="w-full font-medium">
+            📢 Maksimal pengajuan Off/Cuti 6 hari setiap bulan, Form hanya bisa diakses tgl 15 - 25 setiap bulannya dan
+            hanya untuk bulan berikutnya | ⚠️ Absensi Wajib Berada Dalam Radius Max 50m dari Outlet!
+        </marquee>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- HERO BANNER -->
+        <div
+            class="gradient-banner text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-slate-700/50">
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-7 space-y-3">
+                    <span
+                        class="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-md text-slate-200 text-xs font-semibold px-3 py-1 rounded-full border border-white/20">
+                        <i class="fa-solid fa-sparkles text-amber-300"></i> Pusat Informasi Operasional
+                    </span>
+                    <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                        Selamat Datang di Dashboard Internal Outlet
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Akses cepat untuk absensi harian, pengajuan off & cuti karyawan, pencatatan kas, hingga SOP/SOC
+                        resmi PT Waroeng Steak Indonesia.
+                    </p>
+                </div>
+                <div class="lg:col-span-5 w-full">
+                    <div
+                        class="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 bg-black/40">
+                        <video class="w-full h-full object-cover rounded-xl" autoplay loop muted playsinline controls
+                            preload="auto">
+                            <source src="./motivasi.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung pemutar video.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRID MENU PINTAS OPERASIONAL -->
+        <div>
+            <h3 class="font-heading font-bold text-lg text-slate-900 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
+            </h3>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+
+                <!-- Menu 1: Absensi -->
+                <button onclick="openAbsensiModal()"
+                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-red-50 text-brand-red flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-user-clock"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Absensi
+                        Karyawan</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Masuk / Istirahat / Pulang</span>
+                </button>
+
+                <!-- Menu 2: Pengajuan OFF & Cuti -->
+                <button onclick="openOffCutiModal()"
+                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-calendar-minus"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Pengajuan
+                        OFF & Cuti</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Max 6 Hari / Bulan</span>
+                </button>
+
+                <!-- Menu 3: Kas Outlet -->
+                <button onclick="openKasModal()"
+                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Kas
+                        Outlet</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Catatan & Saldo</span>
+                </button>
+
+                <!-- Menu 4: Manpower Planning -->
+                <a href="#section-shift"
+                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Manpower
+                        Planning</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Jadwal Shift Tim</span>
+                </a>
+
+                <!-- Menu 5: SOP / SOC -->
+                <a href="#section-sop"
+                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">SOP/SOC
+                        Outlet</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Berkas Google Drive</span>
+                </a>
+
+                <!-- Menu 6: Our Team -->
+                <a href="#section-our-team"
+                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-people-roof"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Our
+                        Team</span>
+                    <span class="text-[11px] text-slate-400 mt-1">Struktur Tim</span>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-base text-slate-900">Matriks Jadwal OFF & Cuti Tim</h3>
+                        <p class="text-xs text-slate-400">Monitoring libur seluruh karyawan dalam 1 bulan penuh</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <input type="month" id="filter-bulan-matriks" onchange="loadDashboardMonthlyRekap()"
+                        class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    <button type="button" onclick="loadDashboardMonthlyRekap()"
+                        class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5 shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-rotate text-purple-500"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- KETERANGAN SIMBOL / LEGEND -->
+            <div
+                class="flex items-center gap-4 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-blue-100 text-blue-700 font-extrabold rounded flex items-center justify-center text-xs">x</span>
+                    OFF (Hari 1 - 4)</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-purple-100 text-purple-700 font-extrabold rounded flex items-center justify-center text-xs">ct</span>
+                    CUTI (Hari 5+)</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-white border border-slate-200 rounded flex items-center justify-center text-xs"></span>
+                    Masuk Kerja</span>
+            </div>
+
+            <!-- TABEL MATRIKS VIEW -->
+            <div
+                class="overflow-x-auto max-h-[420px] overflow-y-auto border border-slate-200 rounded-xl relative shadow-inner">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead class="bg-slate-100 text-slate-700 sticky top-0 z-20 border-b border-slate-200"
+                        id="thead-matriks">
+                    </thead>
+                    <tbody id="tbody-dashboard-rekap" class="divide-y divide-slate-100 text-slate-700">
+                        <tr>
+                            <td colspan="32" class="text-center p-6 text-slate-400 font-medium">
+                                <i class="fa-solid fa-spinner animate-spin mr-2"></i> Memuat matriks jadwal libur...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SECTION MANPOWER PLANNING (PENAMPIL JADWAL SHIFT) -->
+        <section id="section-shift" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Manpower Planning & Shift
+                            Kerja</h3>
+                        <p class="text-xs text-slate-400">Jadwal pembagian shift operasional tim Mlg Tc Arjuno</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a id="btn-manpower-open" href="https://docs.google.com/spreadsheets" target="_blank"
+                        class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Fullscreen
+                    </a>
+                </div>
+            </div>
+
+            <!-- IFRAME CONTAINER MONITOR JADWAL MANPOWER -->
+            <div
+                class="hidden relative w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-50 min-h-[500px] shadow-inner">
+                <iframe id="iframe-manpower"
+                    src="https://docs.google.com/spreadsheets/d/1riQSLGGEEj3M1RS9oho-Om_sLS4mc-82YwzHaxWpRxs/preview"
+                    class="w-full h-[520px] border-0 rounded-xl" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <!-- SECTION OUR TEAM (UPDATED LAYOUT: CENTER & RESPONSIVE COMPACT WITH STATUS) -->
+        <section id="section-our-team"
+            class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-people-roof"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Struktur Organisasi
+                            Outlet (Our Team)</h3>
+                        <p class="text-xs text-slate-400">Tim Operasional Waroeng Steak & Shake - Mlg Tc Arjuno</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="team-counter-badge"
+                        class="text-xs font-semibold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 w-fit">
+                        <i class="fa-solid fa-users text-orange-500 mr-1"></i> Memuat Tim...
+                    </span>
+                    <button onclick="renderOurTeamSection()"
+                        class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTAINER DINAMIS STRUKTUR TIM (CENTERED & RESPONSIVE) -->
+            <div id="our-team-container" class="space-y-6 flex flex-col items-center w-full">
+                <div class="text-center py-8 text-slate-400">
+                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
+                    <p class="text-xs font-medium">Memuat struktur anggota tim...</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-navy text-slate-400 text-xs py-6 border-t border-slate-800 mt-8">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <div class="bg-brand-red text-white p-1 px-1.5 rounded font-bold text-xs">TC</div>
+                <p>© 2026 Dashboard Outlet Internal. Dibuat untuk Efisiensi Operasional Karyawan Outlet.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL EDIT FOTO TIM MEMBER (OUR TEAM) -->
+    <div id="modal-edit-team"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeModal('modal-edit-team')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-3 border-b pb-3 pr-8">
+                <div
+                    class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-slate-900 text-base">Edit Foto Profil Tim</h3>
+                    <p class="text-xs text-slate-400">Pilih dari Galeri/Kamera atau gunakan URL</p>
+                </div>
+            </div>
+
+            <form id="form-edit-team" onsubmit="saveTeamMember(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="edit-team-index">
+
+                <!-- Nama Karyawan (Read-Only) -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nama Karyawan</label>
+                    <input type="text" id="edit-team-name" readonly
+                        class="w-full bg-slate-100 border border-slate-300 text-slate-600 rounded-lg p-2.5 font-medium cursor-not-allowed">
+                </div>
+
+                <!-- NIK Karyawan (Read-Only) -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">NIK Karyawan</label>
+                    <input type="text" id="edit-team-nik" readonly
+                        class="w-full bg-slate-100 border border-slate-300 text-slate-600 rounded-lg p-2.5 font-medium uppercase cursor-not-allowed">
+                </div>
+
+                <!-- Jabatan (Read-Only) -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Jabatan</label>
+                    <input type="text" id="edit-team-role" readonly
+                        class="w-full bg-slate-100 border border-slate-300 text-slate-600 rounded-lg p-2.5 font-bold cursor-not-allowed">
+                </div>
+
+                <!-- Preview Foto Saat Ini / Baru -->
+                <div
+                    class="flex flex-col items-center justify-center p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <span class="text-[11px] font-semibold text-slate-600">Preview Foto</span>
+                    <img id="edit-team-preview" src="" alt="Preview"
+                        class="w-20 h-20 rounded-full object-cover border-2 border-orange-500 shadow-sm">
+                </div>
+
+                <!-- Pilihan 1: Upload dari Galeri / Kamera -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Upload dari Galeri / Kamera</label>
+                    <input type="file" id="edit-team-file" accept="image/*" onchange="handleFileOrUrlChange(event)"
+                        class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 border border-slate-300 rounded-lg cursor-pointer">
+                </div>
+
+                <!-- Pilihan 2: URL Foto External -->
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Atau Gunakan Link / URL Foto</label>
+                    <input type="url" id="edit-team-photo" placeholder="https://..."
+                        oninput="handleFileOrUrlChange(event)"
+                        class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-orange-500 focus:outline-none">
+                    <span class="text-[10px] text-slate-400 block mt-1">Kosongkan keduanya untuk kembali menggunakan
+                        avatar bawaan.</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                    <button type="button" onclick="deleteCurrentTeamPhoto()"
+                        class="w-full bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-bold p-3 rounded-xl transition shadow-sm flex items-center justify-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-trash"></i> Hapus Foto
+                    </button>
+
+                    <button type="submit"
+                        class="w-full bg-slate-900 hover:bg-black text-white font-bold p-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-floppy-disk"></i> Simpan Foto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL FORM ABSENSI -->
+    <div id="modal-absensi"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeModal('modal-absensi')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-3 border-b pb-3 pr-8">
+                <div
+                    class="w-10 h-10 rounded-xl bg-red-100 text-brand-red flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-user-check"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-slate-900 text-base">Absensi Harian Karyawan</h3>
+                    <p class="text-xs text-slate-400">Terhubung langsung dengan Google Sheets Rekap</p>
+                </div>
+            </div>
+
+            <form id="form-absensi" onsubmit="submitAbsensi(event)" class="space-y-4 text-xs">
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Tipe Absensi</label>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <label
+                            class="flex items-center justify-center gap-1.5 border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-300 has-[:checked]:border-brand-red has-[:checked]:bg-red-50 font-semibold transition">
+                            <input type="radio" name="tipe_absen" value="CHECKIN" checked class="accent-brand-red">
+                            <span><i class="fa-solid fa-right-to-bracket text-emerald-600 mr-1"></i> Masuk</span>
+                        </label>
+
+                        <label
+                            class="flex items-center justify-center gap-1.5 border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-300 has-[:checked]:border-brand-red has-[:checked]:bg-red-50 font-semibold transition">
+                            <input type="radio" name="tipe_absen" value="REST_OUT" class="accent-brand-red">
+                            <span><i class="fa-solid fa-utensils text-amber-600 mr-1"></i> Istirahat</span>
+                        </label>
+
+                        <label
+                            class="flex items-center justify-center gap-1.5 border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-300 has-[:checked]:border-brand-red has-[:checked]:bg-red-50 font-semibold transition">
+                            <input type="radio" name="tipe_absen" value="REST_IN" class="accent-brand-red">
+                            <span><i class="fa-solid fa-user-check text-blue-600 mr-1"></i> Masuk Istirahat</span>
+                        </label>
+
+                        <label
+                            class="flex items-center justify-center gap-1.5 border p-2 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-300 has-[:checked]:border-brand-red has-[:checked]:bg-red-50 font-semibold transition">
+                            <input type="radio" name="tipe_absen" value="CHECKOUT" class="accent-brand-red">
+                            <span><i class="fa-solid fa-right-from-bracket text-brand-red mr-1"></i> Pulang</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">NIK Karyawan <span
+                            class="text-red-500">*</span></label>
+                    <div class="flex gap-2">
+                        <input type="text" id="input-nik" placeholder="Contoh: WSI.1000.0800" required
+                            class="w-full border border-slate-300 rounded-lg p-2.5 uppercase focus:ring-2 focus:ring-brand-red focus:outline-none transition">
+                        <button type="button" onclick="verifyNIK()"
+                            class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-4 py-2 rounded-lg transition shrink-0">Cek
+                            NIK</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nama Karyawan</label>
+                    <select id="select-nama" onchange="onNamaChange()"
+                        class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-800 font-medium focus:ring-2 focus:ring-brand-red focus:outline-none">
+                        <option value="">-- Memuat Data Karyawan... --</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Jabatan / Level</label>
+                    <select id="select-jabatan"
+                        class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-800 font-medium focus:ring-2 focus:ring-brand-red focus:outline-none">
+                        <option value="">-- Pilih Jabatan --</option>
+                        <option value="MO">MO</option>
+                        <option value="WMO 1">WMO 1</option>
+                        <option value="WMO 2">WMO 2</option>
+                        <option value="KASIR">KASIR</option>
+                        <option value="STAFF">STAFF</option>
+                    </select>
+                </div>
+
+                <!-- KAMERA SELFIE OPSIONAL -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+                    <div class="flex items-center justify-between border-b pb-1">
+                        <label class="font-bold text-slate-800 text-xs">Foto Selfie (Opsional)</label>
+                        <span class="text-[10px] text-slate-400">Verifikasi Wajah</span>
+                    </div>
+
+                    <div id="camera-container" class="hidden space-y-2">
+                        <div
+                            class="relative w-full aspect-video bg-black rounded-lg overflow-hidden border border-slate-300">
+                            <video id="webcam-video" autoplay playsinline
+                                class="w-full h-full object-cover transform -scale-x-100"></video>
+                            <canvas id="photo-canvas" class="hidden w-full h-full object-cover"></canvas>
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="button" id="btn-take-photo" onclick="takeSnapshot()"
+                                class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 rounded-lg text-xs transition flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-camera"></i> Ambil Foto
+                            </button>
+                            <button type="button" id="btn-retake-photo" onclick="resetSnapshot()"
+                                class="hidden flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-1.5 rounded-lg text-xs transition flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-rotate-right"></i> Foto Ulang
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-open-camera" onclick="startCamera()"
+                        class="w-full bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold py-2 rounded-lg text-xs transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-camera-retro text-brand-red"></i> Buka Kamera Selfie
+                    </button>
+                </div>
+
+                <!-- CHECKLIST KELENGKAPAN -->
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+                    <label class="block font-bold text-slate-800 text-xs border-b pb-1">
+                        Checklist Kelengkapan Kerja <span class="text-red-500">* (Wajib Centang Semua)</span>
+                    </label>
+                    <div class="grid grid-cols-2 gap-2 text-slate-700">
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-slate-900">
+                            <input type="checkbox" id="chk-seragam"
+                                class="accent-brand-red rounded focus:ring-brand-red"> Seragam Lengkap
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-slate-900">
+                            <input type="checkbox" id="chk-nametag"
+                                class="accent-brand-red rounded focus:ring-brand-red"> Name Tag Dipakai
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-slate-900">
+                            <input type="checkbox" id="chk-atribut"
+                                class="accent-brand-red rounded focus:ring-brand-red"> Atribut Kerja
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer hover:text-slate-900">
+                            <input type="checkbox" id="chk-rapi" class="accent-brand-red rounded focus:ring-brand-red">
+                            Bersih & Rapi
+                        </label>
+                    </div>
+                </div>
+
+                <!-- GPS STATUS BOX -->
+                <div id="gps-status-box"
+                    class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot animate-bounce text-amber-600"></i>
+                        <div>
+                            <p class="font-bold text-[11px]" id="gps-status-title">Mendapatkan Lokasi GPS...</p>
+                            <p class="text-[10px]" id="gps-status-desc">Pastikan GPS HP/Laptop Aktif</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="getGPSLocation()"
+                        class="text-[10px] bg-white border border-amber-300 px-2.5 py-1 rounded-lg shadow-sm hover:bg-amber-100 font-semibold transition">
+                        Refresh
+                    </button>
+                </div>
+
+                <button type="submit" id="btn-submit-absen" disabled
+                    class="w-full bg-slate-400 cursor-not-allowed text-white font-bold p-3 rounded-xl transition mt-2 flex items-center justify-center gap-2">
+                    <span>Kirim Absensi Sekarang</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL FORM PENGAJUAN OFF & CUTI -->
+    <div id="modal-off-cuti"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeModal('modal-off-cuti')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="flex items-center justify-between border-b pb-3 pr-8">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg shrink-0">
+                        <i class="fa-solid fa-calendar-minus"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-slate-900 text-base">Pengajuan OFF & Cuti</h3>
+                        <p class="text-xs text-slate-400">Pilih hingga 6 tanggal (opsional)</p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="form-off-cuti" onsubmit="submitOffCuti(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nama Karyawan <span
+                            class="text-red-500">*</span></label>
+                    <select id="select-nama-off" required
+                        class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-800 font-medium focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                        <option value="">-- Memuat Data Karyawan... --</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Pilih Tanggal Libur (Isi Seperlunya):</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <span class="text-[10px] text-slate-500 font-medium">Hari ke-1 (Auto OFF)</span>
+                            <input type="date"
+                                class="input-tgl-off w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                onchange="checkTanggalKuota(this)">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-500 font-medium">Hari ke-2 (Auto OFF)</span>
+                            <input type="date"
+                                class="input-tgl-off w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                onchange="checkTanggalKuota(this)">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-500 font-medium">Hari ke-3 (Auto OFF)</span>
+                            <input type="date"
+                                class="input-tgl-off w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                onchange="checkTanggalKuota(this)">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-slate-500 font-medium">Hari ke-4 (Auto OFF)</span>
+                            <input type="date"
+                                class="input-tgl-off w-full border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                onchange="checkTanggalKuota(this)">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-purple-700 font-semibold">Hari ke-5 (Auto CUTI)</span>
+                            <input type="date"
+                                class="input-tgl-off w-full border border-purple-200 bg-purple-50/30 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                onchange="checkTanggalKuota(this)">
+                        </div>
+                        <div>
+                            <span class="text-[10px] text-purple-700 font-semibold">Hari ke-6 (Auto CUTI)</span>
+                            <input type="date"
+                                class="input-tgl-off w-full border border-purple-200 bg-purple-50/30 rounded-lg p-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                                onchange="checkTanggalKuota(this)">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Keterangan Acara <span
+                            class="text-red-500">*</span></label>
+                    <textarea id="input-keterangan-off" rows="2" required
+                        placeholder="Tuliskan alasan / keterangan acara..."
+                        class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-purple-500 focus:outline-none"></textarea>
+                </div>
+
+                <div class="bg-purple-50 border border-purple-200 rounded-xl p-3 text-purple-900 space-y-1 text-[11px]">
+                    <p class="font-bold flex items-center gap-1"><i class="fa-solid fa-circle-info text-purple-600"></i>
+                        Ketentuan Otomatisasi:</p>
+                    <ul class="list-disc list-inside space-y-0.5 text-slate-600">
+                        <li>Pengajuan ke 1 - 4 bulan ini &rarr; Terhitung <b>OFF</b></li>
+                        <li>Pengajuan ke 5 - 6 bulan ini &rarr; Terhitung <b>CUTI</b></li>
+                        <li>Kuota: Senin-Jumat max 4 org, Sabtu-Minggu & Tgl Merah max 1 org.</li>
+                    </ul>
+                </div>
+
+                <button type="submit" id="btn-submit-off"
+                    class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold p-3 rounded-xl transition mt-2 shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                    <span>Kirim Pengajuan Libur</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL KAS OUTLET -->
+    <div id="modal-kas"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeModal('modal-kas')"
+                class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-3 border-b pb-3 pr-8">
+                <div
+                    class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-slate-900 text-base">Kas Outlet</h3>
+                    <p class="text-xs text-slate-400">Pencatatan Masuk, Keluar & Saldo Real-time</p>
+                </div>
+            </div>
+
+            <!-- CARD RINGKASAN SALDO -->
+            <div
+                class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-xl p-4 shadow-md space-y-2 border border-slate-700">
+                <span class="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Saldo Kas Outlet Saat
+                    Ini</span>
+                <div class="text-2xl font-black text-emerald-400 font-heading" id="display-saldo-kas">Rp 0</div>
+
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-700/60 text-xs">
+                    <div>
+                        <span class="text-slate-400 block text-[10px]">Total Masuk</span>
+                        <span class="font-bold text-emerald-400" id="display-total-masuk">Rp 0</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block text-[10px]">Total Keluar</span>
+                        <span class="font-bold text-rose-400" id="display-total-keluar">Rp 0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORM INPUT KAS -->
+            <form id="form-kas" onsubmit="submitKas(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Tipe Transaksi <span
+                            class="text-red-500">*</span></label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label
+                            class="flex items-center justify-center gap-2 border p-2.5 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-300 has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 font-bold transition">
+                            <input type="radio" name="tipe_kas" value="MASUK" checked class="accent-emerald-600">
+                            <span class="text-emerald-700"><i class="fa-solid fa-arrow-down-left mr-1"></i> Uang
+                                Masuk</span>
+                        </label>
+
+                        <label
+                            class="flex items-center justify-center gap-2 border p-2.5 rounded-xl cursor-pointer hover:bg-slate-50 border-slate-300 has-[:checked]:border-rose-600 has-[:checked]:bg-rose-50 font-bold transition">
+                            <input type="radio" name="tipe_kas" value="KELUAR" class="accent-rose-600">
+                            <span class="text-rose-700"><i class="fa-solid fa-arrow-up-right mr-1"></i> Uang
+                                Keluar</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Nominal (Rp) <span
+                            class="text-red-500">*</span></label>
+                    <input type="number" id="input-nominal-kas" min="1" placeholder="Contoh: 50000" required
+                        class="w-full border border-slate-300 rounded-lg p-2.5 font-bold text-slate-800 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Keterangan Transaksi <span
+                            class="text-red-500">*</span></label>
+                    <textarea id="input-keterangan-kas" rows="2" required
+                        placeholder="Contoh: Tambah modal kasir / Beli galon & perlengkapan..."
+                        class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+                </div>
+
+                <button type="submit" id="btn-submit-kas"
+                    class="w-full bg-slate-900 hover:bg-black text-white font-bold p-3 rounded-xl transition mt-2 shadow-lg flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi Kas
+                </button>
+            </form>
+
+            <!-- RIWAYAT TRANSAKSI TERAKHIR -->
+            <div class="border-t pt-3">
+                <h4 class="font-bold text-slate-800 text-xs mb-2 flex items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left text-blue-600"></i> Transaksi Terakhir
+                </h4>
+                <div class="overflow-y-auto max-h-40 border rounded-xl">
+                    <table class="w-full text-left text-[11px]">
+                        <thead class="bg-slate-100 text-slate-600 sticky top-0">
+                            <tr>
+                                <th class="p-2 font-semibold">Waktu / Tipe</th>
+                                <th class="p-2 font-semibold">Keterangan</th>
+                                <th class="p-2 font-semibold text-right">Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-kas-history" class="divide-y text-slate-700">
+                            <tr>
+                                <td colspan="3" class="text-center p-3 text-slate-400">Memuat riwayat kas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT SYSTEM INTEGRATED GAS -->
+    <script>
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwhkpiZMyC3UaM2TCYGK_JQFmcLhCYt_CBa5ncOC5dvXBuan26b5R5v7CHScG9tEVIu/exec";
+
+        // KOORDINAT OUTLET & RADIUS MAX (50 METER)
+        const OUTLET_LOCATION = {
+            lat: -7.97919,
+            lng: 112.62649,
+            maxRadiusMeter: 50
+        };
+
+        let employeeList = [];
+        let customPhotoStore = {}; // Foto tim dari Google Drive/URL yang dikirim Apps Script
+        let tempEditPhotoBase64 = null; // Penampungan temporer data Base64 foto ter-upload
+        let disabledDates = [];
+        let todayAttendanceRecords = [];
+        let currentGPS = {lat: null, lng: null, distance: 0, valid: false};
+        let photoBase64 = null;
+        let mediaStream = null;
+
+        // Status Our Team dihitung dari Matriks Jadwal OFF & Cuti untuk hari ini.
+        // Struktur: { "NAMA KARYAWAN": { status: "AKTIF|OFF|CUTI", index: 1 } }
+        let teamScheduleStatus = {};
+        let teamScheduleStatusReady = false;
+
+        // FUNGSI CEK STATUS JAM OPERASIONAL OUTLET
+        function updateOutletStatus() {
+            const statusContainer = document.getElementById("outlet-status-container");
+            if (!statusContainer) return;
+
+            const now = new Date();
+            const day = now.getDay();
+            const currentMinutes = (now.getHours() * 60) + now.getMinutes();
+
+            let openMinutes = 0;
+            let closeMinutes = 0;
+
+            if (day >= 1 && day <= 4) { // Senin - Kamis (11:00 - 22:00)
+                openMinutes = (11 * 60);
+                closeMinutes = (22 * 60);
+            } else if (day === 5) { // Jumat (12:45 - 23:00)
+                openMinutes = (12 * 60) + 45;
+                closeMinutes = (23 * 60);
+            } else { // Sabtu - Minggu (10:00 - 23:00)
+                openMinutes = (10 * 60);
+                closeMinutes = (23 * 60);
+            }
+
+            const isOpen = currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+
+            if (isOpen) {
+                statusContainer.className = "text-xs text-emerald-400 font-semibold flex items-center justify-end gap-1";
+                statusContainer.innerHTML = `<i class="fa-solid fa-circle text-[8px] text-emerald-400 animate-pulse"></i> Outlet Open`;
+            } else {
+                statusContainer.className = "text-xs text-rose-500 font-semibold flex items-center justify-end gap-1";
+                statusContainer.innerHTML = `<i class="fa-solid fa-circle text-[8px] text-rose-500"></i> Outlet Closed`;
+            }
+        }
+
+        // HELPER NOTIFIKASI POPUP MODERN (SWEETALERT2)
+        function showPopup(type, title, message, callback = null) {
+            const colors = {
+                success: '#10B981',
+                error: '#ED1C24',
+                warning: '#F59E0B',
+                info: '#3B82F6'
+            };
+
+            Swal.fire({
+                icon: type,
+                title: title,
+                text: message,
+                confirmButtonColor: colors[type] || '#ED1C24',
+                confirmButtonText: 'Mengerti',
+                customClass: {
+                    popup: 'rounded-2xl p-5 text-center max-w-xs shadow-2xl border border-slate-100',
+                    title: 'text-base font-bold text-slate-800',
+                    htmlContainer: 'text-xs text-slate-600 mt-1.5 leading-relaxed',
+                    confirmButton: 'text-xs font-semibold px-5 py-2 rounded-xl shadow-sm focus:outline-none'
+                }
+            }).then((result) => {
+                if (result.isConfirmed && typeof callback === 'function') {
+                    callback();
+                }
+            });
+        }
+
+        // CALCULATE DISTANCE (HAVERSINE FORMULA)
+        function calculateDistanceMeter(lat1, lon1, lat2, lon2) {
+            const R = 6371e3;
+            const rad = Math.PI / 180;
+            const dLat = (lat2 - lat1) * rad;
+            const dLon = (lon2 - lon1) * rad;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * rad) * Math.cos(lat2 * rad) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden'); // Mencegah scroll pada background page
+            }
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden'); // Mengembalikan scroll background page
+            }
+            if (id === 'modal-absensi') stopCamera();
+        }
+
+        // ============================================================
+        // STATUS OUR TEAM OTOMATIS DARI MATRIKS OFF & CUTI
+        // ============================================================
+        function normalizeMatrixDate(value) {
+            if (value === null || value === undefined || value === '') return '';
+
+            const raw = String(value).trim();
+
+            // Format utama yang digunakan Matriks: YYYY-MM-DD
+            const isoMatch = raw.match(/^(\\d{4}-\\d{2}-\\d{2})/);
+            if (isoMatch) return isoMatch[1];
+
+            // Antisipasi format DD/MM/YYYY atau DD-MM-YYYY
+            const dmyMatch = raw.match(/^(\\d{1,2})[\\/\\-](\\d{1,2})[\\/\\-](\\d{4})/);
+            if (dmyMatch) {
+                return `${dmyMatch[3]}-${String(dmyMatch[2]).padStart(2, '0')}-${String(dmyMatch[1]).padStart(2, '0')}`;
+            }
+
+            return raw.substring(0, 10);
+        }
+
+        function updateTeamScheduleStatus(employeeDatesMap, year, month) {
+            teamScheduleStatus = {};
+
+            const today = new Date();
+            const todayYear = today.getFullYear();
+            const todayMonth = today.getMonth() + 1;
+            const todayDay = today.getDate();
+
+            // Status Our Team selalu menunjukkan kondisi HARI INI.
+            // Matriks tetap boleh dipilih bulan lain untuk monitoring.
+            if (todayYear !== year || todayMonth !== month) {
+                employeeList.forEach(emp => {
+                    const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+                    if (namaKey) {
+                        teamScheduleStatus[namaKey] = {
+                            status: 'AKTIF',
+                            index: 0
+                        };
+                    }
+                });
+                teamScheduleStatusReady = true;
+                return;
+            }
+
+            const todayKey = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
+
+            employeeList.forEach(emp => {
+                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+                if (!namaKey) return;
+
+                const entries = (employeeDatesMap[namaKey] || []).slice().sort((a, b) => {
+                    return normalizeMatrixDate(a.tgl).localeCompare(normalizeMatrixDate(b.tgl));
+                });
+
+                // Urutan 1-4 = OFF, urutan 5-6 = CUTI, sesuai Matriks.
+                const todayEntryIndex = entries.findIndex(entry => normalizeMatrixDate(entry.tgl) === todayKey);
+
+                if (todayEntryIndex >= 0) {
+                    const hariLiburKe = todayEntryIndex + 1;
+                    teamScheduleStatus[namaKey] = {
+                        status: hariLiburKe >= 5 ? 'CUTI' : 'OFF',
+                        index: hariLiburKe
+                    };
+                } else {
+                    teamScheduleStatus[namaKey] = {
+                        status: 'AKTIF',
+                        index: 0
+                    };
+                }
+            });
+
+            teamScheduleStatusReady = true;
+        }
+
+        function getTeamScheduleStatus(emp) {
+            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+
+            if (!teamScheduleStatusReady) {
+                return {
+                    status: 'MEMUAT',
+                    index: 0,
+                    className: 'bg-slate-50 text-slate-500 border-slate-200',
+                    dotClass: 'bg-slate-400'
+                };
+            }
+
+            const data = teamScheduleStatus[namaKey] || { status: 'AKTIF', index: 0 };
+
+            if (data.status === 'OFF' || data.status === 'CUTI') {
+                return {
+                    status: data.status,
+                    index: data.index,
+                    className: 'team-status-red',
+                    dotClass: 'team-status-dot-red'
+                };
+            }
+
+            return {
+                status: 'AKTIF',
+                index: 0,
+                className: 'team-status-green',
+                dotClass: 'team-status-dot-green'
+            };
+        }
+
+        // Karyawan yang statusnya DIPERBANTUKAN tidak dihitung sebagai "Tim Aktif".
+        // Saat ini Fahreza Ahmad Dani adalah karyawan diperbantukan.
+        // Helper juga membaca beberapa nama field status bila backend kelak mengirimkannya.
+        const excludedFromActiveTeamNames = new Set([
+            'FAHREZA AHMAD DANI'
+        ]);
+
+        function isDiperbantukanEmployee(emp) {
+            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+            if (excludedFromActiveTeamNames.has(namaKey)) return true;
+
+            const statusFields = [
+                emp.status,
+                emp.statusKaryawan,
+                emp.status_karyawan,
+                emp.keterangan,
+                emp.keteranganStatus,
+                emp.penempatanStatus
+            ];
+
+            return statusFields.some(value =>
+                String(value || '').trim().toUpperCase().includes('DIPERBANTUKAN')
+            );
+        }
+
+        function getActiveTeamCount() {
+            if (!employeeList || employeeList.length === 0) return 0;
+
+            return employeeList.filter(emp => {
+                // Karyawan diperbantukan tidak masuk hitungan aktif.
+                if (isDiperbantukanEmployee(emp)) return false;
+
+                // Jika Matriks belum selesai dimuat, jangan mengarang angka.
+                if (!teamScheduleStatusReady) return false;
+
+                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+                const schedule = teamScheduleStatus[namaKey];
+
+                // Hanya yang benar-benar AKTIF hari ini yang dihitung.
+                return !schedule || schedule.status === 'AKTIF';
+            }).length;
+        }
+
+        function updateTeamActiveCounter() {
+            const badge = document.getElementById('team-counter-badge');
+            if (!badge) return;
+
+            if (!employeeList || employeeList.length === 0) {
+                badge.innerHTML = `<i class="fa-solid fa-users text-orange-500 mr-1"></i> 0 Karyawan`;
+                return;
+            }
+
+            if (!teamScheduleStatusReady) {
+                badge.innerHTML = `<i class="fa-solid fa-users text-orange-500 mr-1"></i> Menghitung...`;
+                return;
+            }
+
+            const activeCount = getActiveTeamCount();
+            badge.innerHTML = `<i class="fa-solid fa-users text-orange-500 mr-1"></i> ${activeCount} Tim Aktif`;
+        }
+
+        // FUNGSIONALITAS OUR TEAM DYNAMIC RENDER & EDIT (UPDATED FOR COMPACT + CENTER LAYOUT + STATUS DISPLAY)
+        function renderOurTeamSection() {
+            const container = document.getElementById('our-team-container');
+            const badge = document.getElementById('team-counter-badge');
+            if (!container) return;
+
+            if (!employeeList || employeeList.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-6 text-slate-400">
+                        <i class="fa-solid fa-triangle-exclamation text-xl mb-1 text-amber-500"></i>
+                        <p class="text-xs">Data tim belum tersedia atau gagal dimuat dari server.</p>
+                    </div>`;
+                if (badge) badge.innerHTML = `<i class="fa-solid fa-users text-orange-500 mr-1"></i> 0 Karyawan`;
+                return;
+            }
+
+            if (badge) {
+                // Jangan lagi memakai employeeList.length sebagai jumlah "Tim Aktif".
+                // Counter diperbarui dari status Matriks OFF/CUTI hari ini.
+                updateTeamActiveCounter();
+            }
+
+            // Grouping Berdasarkan Jabatan / Role
+            const roleGroups = {
+                'MO': {title: 'Manager Outlet (MO)', colorBg: 'from-red-50 to-white', border: 'border-red-500/30 hover:border-brand-red', tagBg: 'bg-brand-red', dot: 'bg-brand-red', avatarBg: 'ED1C24'},
+                'WMO': {title: 'Wakil Manager Outlet (WMO)', colorBg: 'from-slate-100 to-white', border: 'border-slate-300 hover:border-slate-800', tagBg: 'bg-slate-800', dot: 'bg-slate-800', avatarBg: '1E293B'},
+                'KASIR': {title: 'Tim Kasir', colorBg: 'from-blue-50 to-white', border: 'border-blue-200 hover:border-blue-600', tagBg: 'bg-blue-600', dot: 'bg-blue-600', avatarBg: '2563EB'},
+                'STAFF': {title: 'Staff Operasional', colorBg: 'from-emerald-50 to-white', border: 'border-emerald-200 hover:border-emerald-600', tagBg: 'bg-emerald-600', dot: 'bg-emerald-600', avatarBg: '059669'}
+            };
+
+            const categorized = {'MO': [], 'WMO': [], 'KASIR': [], 'STAFF': []};
+
+            employeeList.forEach((emp, index) => {
+                let roleUpper = (emp.jabatan || 'STAFF').toString().trim().toUpperCase();
+                let categoryKey = 'STAFF';
+
+                if (roleUpper.includes('MO') && !roleUpper.includes('WMO')) categoryKey = 'MO';
+                else if (roleUpper.includes('WMO')) categoryKey = 'WMO';
+                else if (roleUpper.includes('KASIR')) categoryKey = 'KASIR';
+                else categoryKey = 'STAFF';
+
+                categorized[categoryKey].push({...emp, index});
+            });
+
+            let html = '';
+
+            Object.keys(roleGroups).forEach(groupKey => {
+                const groupConfig = roleGroups[groupKey];
+                const members = categorized[groupKey];
+
+                if (members && members.length > 0) {
+                    html += `
+                        <div class="space-y-3 w-full flex flex-col items-center">
+                            <div class="flex items-center justify-center gap-2 text-center">
+                                <span class="w-2.5 h-2.5 rounded-full ${groupConfig.dot}"></span>
+                                <h4 class="font-heading font-bold text-xs text-slate-500 uppercase tracking-wider">${groupConfig.title}</h4>
+                            </div>
+                            
+                            <!-- FLEX & GRID RESPONSIVE TERPUSAT -->
+                            <div class="flex flex-wrap justify-center gap-3 sm:gap-4 w-full">
+                    `;
+
+                    members.forEach(m => {
+                        const customPhoto = customPhotoStore[m.nik] || m.photoUrl;
+                        const avatarSrc = customPhoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=${groupConfig.avatarBg}&color=fff&size=128`;
+                        const sanitizedNama = m.nama.replace(/'/g, "\\'");
+                        const teamStatus = getTeamScheduleStatus(m);
+                        const statusLabel = teamStatus.status === 'OFF'
+                            ? `OFF${teamStatus.index ? ` (Hari ke-${teamStatus.index})` : ''}`
+                            : teamStatus.status === 'CUTI'
+                                ? `CUTI${teamStatus.index ? ` (Hari ke-${teamStatus.index})` : ''}`
+                                : teamStatus.status === 'MEMUAT'
+                                    ? 'Memuat...'
+                                    : 'Aktif';
+
+                        html += `
+                            <div class="bg-gradient-to-b ${groupConfig.colorBg} border-2 ${groupConfig.border} rounded-2xl p-2.5 sm:p-4 shadow-sm hover:shadow-md transition relative group text-center flex flex-col items-center w-[145px] sm:w-[190px] shrink-0">
+                                <span class="absolute top-2 right-2 sm:top-3 sm:right-3 ${groupConfig.tagBg} text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full uppercase">${m.jabatan || groupKey}</span>
+                                
+                                <div class="relative w-14 h-14 sm:w-20 sm:h-20 mb-2 sm:mb-3 mt-1 sm:mt-0">
+                                    <img id="team-img-${m.index}" src="${avatarSrc}" alt="${m.nama}" class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-white shadow-md">
+                                    <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${m.jabatan || groupKey}', '${m.nik}')" class="absolute bottom-0 right-0 bg-slate-900 text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transition shadow cursor-pointer" title="Edit Foto Profil">
+                                        <i class="fa-solid fa-camera"></i>
+                                    </button>
+                                </div>
+                                
+                                <h5 id="team-nama-${m.index}" class="font-heading font-bold text-xs sm:text-sm text-slate-900 line-clamp-1 w-full px-1">${m.nama}</h5>
+                                
+                                <!-- STATUS OTOMATIS DARI MATRIKS JADWAL OFF & CUTI -->
+                                <div class="mt-1 mb-1">
+                                    <span class="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] font-semibold px-2 py-0.5 rounded-full border ${teamStatus.className}">
+                                        <span class="${teamStatus.dotClass}"></span>
+                                        ${statusLabel}
+                                    </span>
+                                </div>
+
+                                <p id="team-nik-${m.index}" class="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate w-full">NIK: ${m.nik}</p>
+                                
+                                <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${m.jabatan || groupKey}', '${m.nik}')" class="mt-2 sm:mt-3 text-[10px] sm:text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg px-2 sm:px-3 py-1 font-semibold transition w-full cursor-pointer flex items-center justify-center gap-1 shadow-xs">
+                                    <i class="fa-solid fa-camera text-orange-500 text-[10px] sm:text-xs"></i> Edit Foto
+                                </button>
+                            </div>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        // FUNGSI MEMBUKA MODAL EDIT FOTO
+        function editTeamMember(index, currentName, role, currentNik) {
+            tempEditPhotoBase64 = null;
+            document.getElementById('edit-team-index').value = index;
+            document.getElementById('edit-team-name').value = currentName;
+            document.getElementById('edit-team-nik').value = currentNik;
+            document.getElementById('edit-team-role').value = role;
+
+            // Reset Input File & URL
+            document.getElementById('edit-team-file').value = '';
+
+            const existingPhoto = customPhotoStore[currentNik] || '';
+            const urlInput = document.getElementById('edit-team-photo');
+
+            // Jika foto existing berupa URL (bukan Base64), tampilkan di input URL
+            if (existingPhoto && !existingPhoto.startsWith('data:image')) {
+                urlInput.value = existingPhoto;
+            } else {
+                urlInput.value = '';
+            }
+
+            // Tampilkan Preview Foto
+            const previewImg = document.getElementById('edit-team-preview');
+            const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentName)}&background=1E293B&color=fff&size=128`;
+            previewImg.src = existingPhoto || fallbackAvatar;
+
+            openModal('modal-edit-team');
+        }
+
+        // KOMPRES FOTO TEAM SEBELUM UPLOAD
+        function compressImageToBase64(file, maxWidth, maxHeight) {
+            return new Promise((resolve, reject) => {
+                if (!file || !file.type.startsWith('image/')) {
+                    reject(new Error('File harus berupa gambar.'));
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onerror = () => reject(new Error('Gagal membaca file foto.'));
+
+                reader.onload = function (evt) {
+                    const img = new Image();
+
+                    img.onerror = () => reject(new Error('Gagal membaca gambar.'));
+
+                    img.onload = function () {
+                        let width = img.width;
+                        let height = img.height;
+
+                        const ratio = Math.min(1, maxWidth / width, maxHeight / height);
+                        width = Math.max(1, Math.round(width * ratio));
+                        height = Math.max(1, Math.round(height * ratio));
+
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        const ctx = canvas.getContext('2d', {alpha: false});
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        const qualities = [0.82, 0.74, 0.66, 0.58, 0.50];
+                        const maxOutputBytes = 650 * 1024;
+
+                        let result = '';
+
+                        for (let i = 0; i < qualities.length; i++) {
+                            result = canvas.toDataURL('image/jpeg', qualities[i]);
+
+                            const base64Part = result.split(',')[1] || '';
+                            const estimatedBytes = Math.floor(base64Part.length * 3 / 4);
+
+                            if (estimatedBytes <= maxOutputBytes) {
+                                break;
+                            }
+                        }
+
+                        resolve(result);
+                    };
+
+                    img.src = evt.target.result;
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // FUNGSI MENGELOLA CHANGE SAAT FILE ATAU URL DIISI
+        function handleFileOrUrlChange(e) {
+            const previewImg = document.getElementById('edit-team-preview');
+            const name = document.getElementById('edit-team-name').value;
+            const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1E293B&color=fff&size=128`;
+
+            if (e.target.id === 'edit-team-file') {
+                const file = e.target.files[0];
+                if (file) {
+                    document.getElementById('edit-team-photo').value = '';
+
+                    compressImageToBase64(file, 800, 800).then(function (compressed) {
+                        tempEditPhotoBase64 = compressed;
+                        previewImg.src = tempEditPhotoBase64;
+
+                        const base64Part = compressed.split(',')[1] || '';
+                        const estimatedKB = Math.round((base64Part.length * 3 / 4) / 1024);
+                        console.log('Foto Team setelah kompresi:', estimatedKB + ' KB');
+                    }).catch(function (err) {
+                        tempEditPhotoBase64 = null;
+                        console.error('Gagal memproses foto:', err);
+                        showPopup('error', 'Foto Tidak Bisa Diproses', 'Silakan pilih foto lain.');
+                    });
+                } else {
+                    tempEditPhotoBase64 = null;
+                    previewImg.src = fallbackAvatar;
+                }
+            } else if (e.target.id === 'edit-team-photo') {
+                const urlVal = e.target.value.trim();
+                if (urlVal) {
+                    document.getElementById('edit-team-file').value = '';
+                    tempEditPhotoBase64 = null;
+                    previewImg.src = urlVal;
+                } else {
+                    previewImg.src = fallbackAvatar;
+                }
+            }
+        }
+
+        // HAPUS FOTO TEAM
+        async function deleteCurrentTeamPhoto() {
+            const name = document.getElementById('edit-team-name').value.trim();
+            const nik = document.getElementById('edit-team-nik').value.trim().toUpperCase();
+
+            if (!nik) {
+                showPopup('warning', 'NIK Tidak Ditemukan', 'Data karyawan tidak lengkap.');
+                return;
+            }
+
+            const confirmResult = await Swal.fire({
+                icon: 'warning',
+                title: 'Hapus Foto?',
+                html: `Foto profil <b>${name || nik}</b> akan dihapus dari Google Drive dan Google Sheet.`,
+                showCancelButton: true,
+                confirmButtonText: 'Ya, Hapus',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                confirmButtonColor: '#dc2626'
+            });
+
+            if (!confirmResult.isConfirmed) return;
+
+            const deleteBtn = document.querySelector('#form-edit-team button[onclick="deleteCurrentTeamPhoto()"]');
+            const saveBtn = document.querySelector('#form-edit-team button[type="submit"]');
+
+            try {
+                if (deleteBtn) {
+                    deleteBtn.disabled = true;
+                    deleteBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menghapus...';
+                }
+
+                if (saveBtn) saveBtn.disabled = true;
+
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    body: JSON.stringify({
+                        action: 'deleteTeamPhoto',
+                        nik: nik
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!result || !result.success) {
+                    throw new Error(
+                        result && result.message
+                            ? result.message
+                            : 'Gagal menghapus foto team.'
+                    );
+                }
+
+                delete customPhotoStore[nik];
+
+                closeModal('modal-edit-team');
+                renderOurTeamSection();
+
+                showPopup(
+                    'success',
+                    'Foto Berhasil Dihapus',
+                    result.message || `Foto profil ${name || nik} sudah dihapus.`
+                );
+
+            } catch (err) {
+                console.error('Gagal menghapus foto team:', err);
+
+                showPopup(
+                    'error',
+                    'Gagal Menghapus Foto',
+                    err.message || err.toString()
+                );
+
+            } finally {
+                if (deleteBtn) {
+                    deleteBtn.disabled = false;
+                    deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Hapus Foto';
+                }
+
+                if (saveBtn) saveBtn.disabled = false;
+            }
+        }
+
+        // FUNGSI MENYIMPAN FOTO TIM KE GOOGLE DRIVE + GOOGLE SHEET
+        async function saveTeamMember(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('edit-team-name').value.trim();
+            const nik = document.getElementById('edit-team-nik').value.trim().toUpperCase();
+            const photoUrl = document.getElementById('edit-team-photo').value.trim();
+            const btn = document.querySelector('#form-edit-team button[type="submit"]');
+
+            if (!nik || !name) {
+                showPopup('warning', 'Data Tidak Lengkap', 'NIK dan nama karyawan tidak boleh kosong.');
+                return;
+            }
+
+            const payload = {
+                action: 'saveTeamPhoto',
+                nik: nik,
+                nama: name,
+                photoBase64: tempEditPhotoBase64 || '',
+                photoUrl: photoUrl || ''
+            };
+
+            try {
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Menyimpan ke Server...';
+                }
+
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(result.message || 'Gagal menyimpan foto tim.');
+                }
+
+                if (result.photoUrl) {
+                    customPhotoStore[nik] = result.photoUrl;
+                } else {
+                    delete customPhotoStore[nik];
+                }
+
+                closeModal('modal-edit-team');
+                renderOurTeamSection();
+                showPopup('success', 'Foto Berhasil Disimpan!', result.message || `Foto profil ${name} tersimpan di Google Drive dan dapat dilihat semua perangkat.`);
+            } catch (err) {
+                console.error('Gagal menyimpan foto tim:', err);
+                showPopup('error', 'Gagal Menyimpan Foto', err.message || err.toString());
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Foto';
+                }
+            }
+        }
+
+        // Ambil semua foto tim dari Google Sheet/Google Drive.
+        async function loadTeamPhotos() {
+            try {
+                const response = await fetch(GAS_WEB_APP_URL + '?action=getTeamPhotos');
+                const result = await response.json();
+
+                if (result && result.success && result.photos) {
+                    customPhotoStore = {};
+
+                    Object.keys(result.photos).forEach(function (nik) {
+                        const cleanNik = nik.toString().trim().toUpperCase();
+                        const url = result.photos[nik];
+
+                        if (cleanNik && url) {
+                            customPhotoStore[cleanNik] = url;
+                        }
+                    });
+
+                    console.log("Foto Team dimuat:", Object.keys(customPhotoStore).length);
+                } else {
+                    customPhotoStore = {};
+                    console.warn("Foto Team tidak tersedia:", result ? result.message : "response kosong");
+                }
+            } catch (err) {
+                console.error('Gagal memuat foto tim dari server:', err);
+                customPhotoStore = {};
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            const dateElement = document.getElementById("current-date");
+            if (dateElement) {
+                const now = new Date();
+                dateElement.textContent = now.toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            }
+
+            updateOutletStatus();
+            setInterval(updateOutletStatus, 60000);
+
+            const now = new Date();
+            const filterBulanInput = document.getElementById("filter-bulan-matriks");
+            if (filterBulanInput && !filterBulanInput.value) {
+                const curY = now.getFullYear();
+                const curM = String(now.getMonth() + 1).padStart(2, '0');
+                filterBulanInput.value = `${curY}-${curM}`;
+            }
+
+            await loadTeamPhotos();
+            await loadInitialData();
+            loadDisabledDates();
+            loadDashboardMonthlyRekap();
+        });
+
+        // FUNGSI UTAMA: MEMUAT MATRIKS JADWAL LIBUR
+        async function loadDashboardMonthlyRekap() {
+            const tbody = document.getElementById('tbody-dashboard-rekap');
+            const thead = document.getElementById('thead-matriks');
+            if (!tbody || !thead) return;
+
+            let monthVal = document.getElementById("filter-bulan-matriks").value;
+            if (!monthVal) {
+                const now = new Date();
+                monthVal = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+                document.getElementById("filter-bulan-matriks").value = monthVal;
+            }
+
+            const [yearStr, monthStr] = monthVal.split("-");
+            const year = parseInt(yearStr);
+            const month = parseInt(monthStr);
+
+            const daysInMonth = new Date(year, month, 0).getDate();
+
+            let theadHTML = `
+                <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                    <th class="p-2.5 font-bold sticky left-0 bg-slate-100 z-30 min-w-[160px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200">Nama Karyawan</th>
+            `;
+            for (let d = 1; d <= daysInMonth; d++) {
+                theadHTML += `<th class="p-2 text-center font-bold min-w-[34px] w-[34px] border-r border-slate-200 text-slate-600 ${d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70'}">${d}</th>`;
+            }
+            theadHTML += `</tr>`;
+            thead.innerHTML = theadHTML;
+
+            tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Mengambil data matriks jadwal...</td></tr>`;
+
+            try {
+                if (employeeList.length === 0) {
+                    await loadInitialData();
+                }
+
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getMonthlyRekap");
+                const res = await response.json();
+
+                let rawList = [];
+                if (Array.isArray(res)) rawList = res;
+                else if (res && Array.isArray(res.data)) rawList = res.data;
+                else if (res && Array.isArray(res.rekap)) rawList = res.rekap;
+                else if (res && Array.isArray(res.records)) rawList = res.records;
+
+                const employeeDatesMap = {};
+
+                rawList.forEach(item => {
+                    let nama = (item.nama || item.Nama || item.NAMA || '').toString().trim().toUpperCase();
+                    let rawTgl = item.tanggal || item.Tanggal || item.dates || item.tgl || '';
+                    let keterangan = item.keterangan || item.Keterangan || item.alasan || item.Alasan || '';
+
+                    if (!nama) return;
+                    if (!employeeDatesMap[nama]) employeeDatesMap[nama] = [];
+
+                    let arrayTgl = [];
+                    if (Array.isArray(rawTgl)) arrayTgl = rawTgl;
+                    else if (typeof rawTgl === 'string') arrayTgl = rawTgl.split(/[,;]+/);
+                    else arrayTgl = [String(rawTgl)];
+
+                    arrayTgl.forEach(t => {
+                        let dateStr = String(t).trim();
+                        if (dateStr) {
+                            if (!employeeDatesMap[nama].some(e => e.tgl === dateStr)) {
+                                employeeDatesMap[nama].push({
+                                    tgl: dateStr,
+                                    keterangan: keterangan
+                                });
+                            }
+                        }
+                    });
+                });
+
+                let employeesToRender = employeeList.map(e => e.nama.trim().toUpperCase());
+
+                Object.keys(employeeDatesMap).forEach(namaKey => {
+                    if (!employeesToRender.includes(namaKey)) {
+                        employeesToRender.push(namaKey);
+                    }
+                });
+
+                if (employeesToRender.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
+                    return;
+                }
+
+                const namaBulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"][month - 1];
+
+                let tbodyHTML = "";
+
+                employeesToRender.forEach(empNama => {
+                    let userEntries = employeeDatesMap[empNama] || [];
+                    userEntries.sort((a, b) => a.tgl.localeCompare(b.tgl));
+
+                    const lookupUserMonth = {};
+                    let orderIndex = 1;
+
+                    userEntries.forEach(entry => {
+                        lookupUserMonth[entry.tgl] = {
+                            index: orderIndex++,
+                            keterangan: entry.keterangan
+                        };
+                    });
+
+                    tbodyHTML += `
+                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                            <td class="p-2.5 font-bold text-slate-800 sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap">${empNama}</td>
+                    `;
+
+                    for (let d = 1; d <= daysInMonth; d++) {
+                        const dayPadded = String(d).padStart(2, '0');
+                        const monthPadded = String(month).padStart(2, '0');
+                        const fullDateKey = `${year}-${monthPadded}-${dayPadded}`;
+
+                        const matchData = lookupUserMonth[fullDateKey];
+
+                        if (matchData) {
+                            const isCuti = matchData.index >= 5;
+                            const symbol = isCuti ? 'ct' : 'x';
+                            const labelJenis = isCuti ? 'CUTI' : 'OFF';
+
+                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${labelJenis} (Libur Hari ke-${matchData.index}) - ${matchData.keterangan || 'Tanpa keterangan'}`;
+
+                            if (isCuti) {
+                                tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-purple-700 bg-purple-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
+                            } else {
+                                tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-blue-700 bg-blue-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
+                            }
+                        } else {
+                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: Masuk Kerja`;
+                            tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center border-r border-slate-100 text-slate-300"></td>`;
+                        }
+                    }
+
+                    tbodyHTML += `</tr>`;
+                });
+
+                tbody.innerHTML = tbodyHTML;
+
+                // Sinkronkan status kartu Our Team dengan Matriks yang baru dimuat.
+                updateTeamScheduleStatus(employeeDatesMap, year, month);
+                renderOurTeamSection();
+                updateTeamActiveCounter();
+
+            } catch (err) {
+                console.error("Gagal memuat matriks rekap:", err);
+                teamScheduleStatusReady = false;
+                renderOurTeamSection();
+                tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
+            }
+        }
+
+        // FUNGSI KAMERA
+        async function startCamera() {
+            const container = document.getElementById("camera-container");
+            const btnOpen = document.getElementById("btn-open-camera");
+            const video = document.getElementById("webcam-video");
+
+            try {
+                mediaStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: "user",
+                        width: {ideal: 640},
+                        height: {ideal: 480}
+                    },
+                    audio: false
+                });
+                video.srcObject = mediaStream;
+                container.classList.remove("hidden");
+                btnOpen.classList.add("hidden");
+            } catch (err) {
+                showPopup('warning', 'Akses Kamera Ditolak / Ditiadakan', 'Kamera tidak dapat dibuka. Buka Setelan Situs di browser untuk mengizinkan kamera, atau lanjutkan absensi tanpa foto.');
+            }
+        }
+
+        function stopCamera() {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+                mediaStream = null;
+            }
+            const container = document.getElementById("camera-container");
+            const btnOpen = document.getElementById("btn-open-camera");
+            if (container) container.classList.add("hidden");
+            if (btnOpen) btnOpen.classList.remove("hidden");
+            resetSnapshot();
+        }
+
+        function takeSnapshot() {
+            const video = document.getElementById("webcam-video");
+            const canvas = document.getElementById("photo-canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = video.videoWidth || 320;
+            canvas.height = video.videoHeight || 240;
+
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            photoBase64 = canvas.toDataURL("image/jpeg", 0.7);
+
+            video.classList.add("hidden");
+            canvas.classList.remove("hidden");
+
+            document.getElementById("btn-take-photo").classList.add("hidden");
+            document.getElementById("btn-retake-photo").classList.remove("hidden");
+        }
+
+        function resetSnapshot() {
+            photoBase64 = null;
+            const video = document.getElementById("webcam-video");
+            const canvas = document.getElementById("photo-canvas");
+
+            if (canvas && video) {
+                canvas.classList.add("hidden");
+                video.classList.remove("hidden");
+            }
+
+            const btnTake = document.getElementById("btn-take-photo");
+            const btnRetake = document.getElementById("btn-retake-photo");
+            if (btnTake) btnTake.classList.remove("hidden");
+            if (btnRetake) btnRetake.classList.add("hidden");
+        }
+
+        // MEMUAT DATA KARYAWAN SECARA DYNAMIC & OTOMATIS RENDER OUR TEAM
+        async function loadInitialData() {
+            const selectNama = document.getElementById("select-nama");
+            const selectNamaOff = document.getElementById("select-nama-off");
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getInitialData");
+                const res = await response.json();
+
+                if (res.success && res.employees && res.employees.length > 0) {
+                    employeeList = res.employees;
+
+                    let optionsAbsen = '<option value="">-- Pilih Nama Karyawan --</option>';
+                    let optionsOff = '<option value="">-- Pilih Nama Karyawan --</option>';
+
+                    employeeList.forEach(emp => {
+                        const namaClean = emp.nama ? emp.nama.toString().trim() : '';
+                        const nikClean = emp.nik ? emp.nik.toString().trim() : '';
+                        const jabatanClean = emp.jabatan ? emp.jabatan.toString().trim() : 'STAFF';
+
+                        if (namaClean) {
+                            optionsAbsen += `<option value="${namaClean}" data-nik="${nikClean}" data-jabatan="${jabatanClean}">${namaClean} (${nikClean})</option>`;
+                            optionsOff += `<option value="${namaClean}">${namaClean}</option>`;
+                        }
+                    });
+
+                    if (selectNama) selectNama.innerHTML = optionsAbsen;
+                    if (selectNamaOff) selectNamaOff.innerHTML = optionsOff;
+
+                    // Render awal. Status akan disinkronkan lagi setelah Matriks selesai dimuat.
+                    renderOurTeamSection();
+                } else {
+                    if (selectNama) selectNama.innerHTML = '<option value="">⚠️ Data Karyawan Kosong!</option>';
+                    if (selectNamaOff) selectNamaOff.innerHTML = '<option value="">⚠️ Data Karyawan Kosong!</option>';
+                    renderOurTeamSection();
+                }
+            } catch (err) {
+                console.error("Gagal memuat data dari Apps Script:", err);
+                renderOurTeamSection();
+            }
+        }
+
+        async function loadDisabledDates() {
+            try {
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getDisabledDates");
+                const res = await response.json();
+                if (res.success && res.disabledDates) {
+                    disabledDates = res.disabledDates;
+                }
+            } catch (err) {
+                console.error("Gagal memuat tanggal terblokir:", err);
+            }
+        }
+
+        async function loadTodayAttendance() {
+            try {
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getTodayAttendance");
+                const res = await response.json();
+                if (res.success && res.data) {
+                    todayAttendanceRecords = res.data;
+                }
+            } catch (err) {
+                console.error("Gagal memuat rekap absensi harian:", err);
+            }
+        }
+
+        async function openAbsensiModal() {
+            openModal('modal-absensi');
+            getGPSLocation();
+            if (employeeList.length === 0) await loadInitialData();
+            await loadTodayAttendance();
+        }
+
+        function openOffCutiModal() {
+            openModal('modal-off-cuti');
+            if (employeeList.length === 0) loadInitialData();
+            loadDisabledDates();
+        }
+
+        function checkTanggalKuota(input) {
+            const selectedDate = input.value;
+            if (!selectedDate) return;
+
+            if (disabledDates.includes(selectedDate)) {
+                showPopup('warning', 'Kuota Penuh!', 'Kuota libur untuk tanggal ini sudah penuh. Silakan pilih tanggal lain.');
+                input.value = "";
+            }
+        }
+
+        async function submitOffCuti(e) {
+            e.preventDefault();
+
+            const nama = document.getElementById("select-nama-off").value;
+            const inputs = document.querySelectorAll(".input-tgl-off");
+            const keterangan = document.getElementById("input-keterangan-off").value.trim();
+
+            const selectedDates = [];
+            inputs.forEach(inp => {
+                if (inp.value) selectedDates.push(inp.value);
+            });
+
+            if (!nama || selectedDates.length === 0 || !keterangan) {
+                showPopup('warning', 'Data Belum Lengkap', 'Pilih minimal 1 tanggal dan isi Keterangan Acara!');
+                return;
+            }
+
+            const btnSubmit = document.getElementById("btn-submit-off");
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Memproses...`;
+
+            const payload = {
+                action: "submitOffCuti",
+                nama: nama,
+                dates: selectedDates,
+                keterangan: keterangan
+            };
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: "POST",
+                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showPopup('success', 'Pengajuan Berhasil!', result.message, function () {
+                        closeModal("modal-off-cuti");
+                        document.getElementById("form-off-cuti").reset();
+                        loadDisabledDates();
+                        loadDashboardMonthlyRekap();
+                    });
+                } else {
+                    showPopup('error', 'Pengajuan Ditolak', result.message);
+                }
+            } catch (err) {
+                showPopup('error', 'Kesalahan Sistem', 'Terjadi kesalahan koneksi ke Google Sheet: ' + err.toString());
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<span>Kirim Pengajuan Libur</span>`;
+            }
+        }
+
+        // VERIFIKASI NIK
+        function verifyNIK() {
+            const nikInput = document.getElementById("input-nik").value.trim().toUpperCase();
+            if (!nikInput) {
+                showPopup('warning', 'NIK Kosong', 'Masukkan NIK terlebih dahulu!');
+                return;
+            }
+            if (employeeList.length === 0) {
+                showPopup('info', 'Memuat Data', 'Data karyawan sedang dimuat. Coba sebentar lagi.');
+                return;
+            }
+            const found = employeeList.find(e => e.nik && e.nik.toString().toUpperCase() === nikInput);
+            if (found) {
+                document.getElementById("input-nik").value = found.nik;
+                document.getElementById("select-nama").value = found.nama;
+                document.getElementById("select-jabatan").value = found.jabatan || 'STAFF';
+                showPopup('success', 'NIK Ditemukan!', `Nama: ${found.nama} (${found.jabatan || 'STAFF'})`);
+            } else {
+                showPopup('error', 'NIK Tidak Ditemukan', `NIK "${nikInput}" tidak terdaftar!`);
+            }
+        }
+
+        // OTOMATISASI SAAT NAMA DISELECT
+        function onNamaChange() {
+            const selectNama = document.getElementById("select-nama");
+            const selectedOpt = selectNama.options[selectNama.selectedIndex];
+            if (selectedOpt && selectedOpt.dataset && selectedOpt.dataset.nik) {
+                document.getElementById("input-nik").value = selectedOpt.dataset.nik;
+                document.getElementById("select-jabatan").value = selectedOpt.dataset.jabatan || 'STAFF';
+            }
+        }
+
+        // MENDAPATKAN LOKASI GPS & HITUNG DISTANCE (OPTIMASI HP & LAPTOP)
+        function getGPSLocation() {
+            const box = document.getElementById("gps-status-box");
+            const title = document.getElementById("gps-status-title");
+            const desc = document.getElementById("gps-status-desc");
+            const btnSubmit = document.getElementById("btn-submit-absen");
+
+            if (title && desc && box) {
+                title.textContent = "Mencari Lokasi GPS...";
+                desc.textContent = "Mohon tunggu sebentar sedang mengunci posisi...";
+                box.className = "p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-800 flex items-center justify-between";
+            }
+
+            if (btnSubmit) {
+                btnSubmit.disabled = true;
+                btnSubmit.className = "w-full bg-slate-400 cursor-not-allowed text-white font-bold p-3 rounded-xl transition mt-2 flex items-center justify-center gap-2";
+            }
+
+            if (window.location.protocol === 'file:') {
+                currentGPS.valid = false;
+                title.textContent = "Mode File Lokal Terdeteksi";
+                desc.textContent = "GPS tidak dapat berjalan jika file dibuka langsung (file://). Gunakan Live Server atau buka via HTTPS.";
+                box.className = "p-3 bg-red-50 border border-red-200 rounded-xl text-red-800 flex items-center justify-between";
+                return;
+            }
+
+            if (!navigator.geolocation) {
+                currentGPS.valid = false;
+                title.textContent = "GPS Tidak Didukung";
+                desc.textContent = "Browser Anda tidak mendukung fitur Geolocation.";
+                box.className = "p-3 bg-red-50 border border-red-200 rounded-xl text-red-800 flex items-center justify-between";
+                return;
+            }
+
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+
+                    const distance = calculateDistanceMeter(lat, lng, OUTLET_LOCATION.lat, OUTLET_LOCATION.lng);
+
+                    currentGPS = {
+                        valid: true,
+                        lat: lat,
+                        lng: lng,
+                        distance: Math.round(distance)
+                    };
+
+                    if (distance <= OUTLET_LOCATION.maxRadiusMeter) {
+                        title.textContent = "Lokasi Valid (Sesuai Radius)";
+                        desc.textContent = `Jarak Anda: ${Math.round(distance)} meter dari Outlet.`;
+                        box.className = "p-3 bg-green-50 border border-green-200 rounded-xl text-green-800 flex items-center justify-between";
+
+                        if (btnSubmit) {
+                            btnSubmit.disabled = false;
+                            btnSubmit.className = "w-full bg-brand-red hover:bg-brand-darkred cursor-pointer text-white font-bold p-3 rounded-xl transition mt-2 shadow-lg flex items-center justify-center gap-2";
+                        }
+                    } else {
+                        title.textContent = "Di Luar Radius Outlet!";
+                        desc.textContent = `Jarak Anda: ${Math.round(distance)} meter. Maksimal ${OUTLET_LOCATION.maxRadiusMeter}m.`;
+                        box.className = "p-3 bg-yellow-50 border border-yellow-200 rounded-xl text-yellow-800 flex items-center justify-between";
+
+                        if (btnSubmit) {
+                            btnSubmit.disabled = true;
+                            btnSubmit.className = "w-full bg-slate-400 cursor-not-allowed text-white font-bold p-3 rounded-xl transition mt-2 flex items-center justify-center gap-2";
+                        }
+                    }
+                },
+                (err) => {
+                    currentGPS.valid = false;
+                    title.textContent = "Gagal Mengambil Lokasi GPS";
+                    desc.textContent = isMobile
+                        ? "Pastikan GPS HP aktif & izin lokasi diberikan!"
+                        : "Akses lokasi di Laptop lambat/terblokir. Cek izin lokasi browser atau gunakan HP.";
+                    box.className = "p-3 bg-red-50 border border-red-200 rounded-xl text-red-800 flex items-center justify-between";
+
+                    if (btnSubmit) {
+                        btnSubmit.disabled = true;
+                        btnSubmit.className = "w-full bg-slate-400 cursor-not-allowed text-white font-bold p-3 rounded-xl transition mt-2 flex items-center justify-center gap-2";
+                    }
+
+                    if (err.code === err.PERMISSION_DENIED) {
+                        showPopup('warning', 'Izin Lokasi Ditolak', 'Izin lokasi di-block oleh browser. Klik icon gembok di sebelah URL browser untuk Mengizinkan Lokasi.');
+                    }
+                },
+                {
+                    enableHighAccuracy: isMobile,
+                    timeout: isMobile ? 6000 : 3000,
+                    maximumAge: 10000
+                }
+            );
+        }
+
+        // FUNGSI SUBMIT ABSENSI
+        async function submitAbsensi(e) {
+            e.preventDefault();
+
+            const nik = document.getElementById("input-nik").value.trim().toUpperCase();
+            const nama = document.getElementById("select-nama").value;
+            const jabatan = document.getElementById("select-jabatan").value;
+            const tipeChecked = document.querySelector('input[name="tipe_absen"]:checked');
+            const tipe = tipeChecked ? tipeChecked.value : null;
+
+            if (!nik || !nama || !jabatan) {
+                showPopup('warning', 'Data Belum Lengkap', 'Harap lengkapi NIK, Nama, dan Jabatan!');
+                return;
+            }
+
+            const chkSeragam = document.getElementById("chk-seragam").checked;
+            const chkNameTag = document.getElementById("chk-nametag").checked;
+            const chkAtribut = document.getElementById("chk-atribut").checked;
+            const chkRapi = document.getElementById("chk-rapi").checked;
+
+            if (!chkSeragam || !chkNameTag || !chkAtribut || !chkRapi) {
+                showPopup(
+                    'warning',
+                    'Kelengkapan Belum Centang!',
+                    'Harap centang semua checklist kelengkapan kerja sebelum kirim absensi.'
+                );
+                return;
+            }
+
+            if (!currentGPS.valid) {
+                showPopup('warning', 'GPS Belum Terkunci', 'Lokasi GPS belum terdeteksi. Aktifkan izin GPS HP atau tekan tombol Refresh GPS!');
+                return;
+            }
+
+            if (currentGPS.distance > OUTLET_LOCATION.maxRadiusMeter) {
+                showPopup('error', 'Di Luar Radius Outlet!', `Jarak Anda ${currentGPS.distance} meter dari Outlet. Maksimal radius absensi adalah ${OUTLET_LOCATION.maxRadiusMeter} meter.`);
+                return;
+            }
+
+            const btnSubmit = document.getElementById("btn-submit-absen");
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Menyimpan...`;
+
+            const payload = {
+                action: "submitAbsen",
+                nik: nik,
+                nama: nama,
+                jabatan: jabatan,
+                tipe: tipe,
+                chkSeragam: chkSeragam,
+                chkNameTag: chkNameTag,
+                chkAtribut: chkAtribut,
+                chkRapi: chkRapi,
+                lat: currentGPS.lat,
+                lng: currentGPS.lng,
+                fotoSelfie: photoBase64
+            };
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: "POST",
+                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showPopup('success', 'Absensi Berhasil!', result.message, async function () {
+                        if (typeof stopCamera === 'function') stopCamera();
+                        closeModal("modal-absensi");
+                        document.getElementById("form-absensi").reset();
+                        photoBase64 = null;
+                        if (typeof loadTodayAttendance === 'function') await loadTodayAttendance();
+                    });
+                } else {
+                    showPopup('error', 'Absensi Gagal', result.message);
+                }
+            } catch (err) {
+                showPopup('error', 'Kesalahan Sistem', 'Terjadi kesalahan koneksi: ' + err.toString());
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<span>Kirim Absensi Sekarang</span>`;
+            }
+        }
+
+        // FORMAT RUPIAH HELPER
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0}).format(angka);
+        }
+
+        // BUKA MODAL KAS & LOAD DATA
+        async function openKasModal() {
+            openModal('modal-kas');
+            await loadKasData();
+        }
+
+        // MEMUAT DATA KAS (SALDO & RIWAYAT) DARI GOOGLE APPS SCRIPT
+        async function loadKasData() {
+            const tbody = document.getElementById('tbody-kas-history');
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center p-3 text-slate-400"><i class="fa-solid fa-spinner animate-spin"></i> Memuat data...</td></tr>';
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getKasData");
+                const res = await response.json();
+
+                if (res.success) {
+                    document.getElementById('display-saldo-kas').textContent = formatRupiah(res.saldo || 0);
+                    document.getElementById('display-total-masuk').textContent = formatRupiah(res.totalMasuk || 0);
+                    document.getElementById('display-total-keluar').textContent = formatRupiah(res.totalKeluar || 0);
+
+                    if (res.history && res.history.length > 0) {
+                        tbody.innerHTML = res.history.map(item => {
+                            const isMasuk = item.tipe === 'MASUK';
+                            const colorClass = isMasuk ? 'text-emerald-600' : 'text-rose-600';
+                            const badgeClass = isMasuk ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-rose-50 text-rose-700 border-rose-200';
+                            const prefix = isMasuk ? '+' : '-';
+
+                            return `
+                                <tr class="hover:bg-slate-50">
+                                    <td class="p-2">
+                                        <span class="font-medium text-slate-500 block text-[10px]">${item.waktu}</span>
+                                        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${badgeClass}">${item.tipe}</span>
+                                    </td>
+                                    <td class="p-2 font-medium text-slate-700">${item.keterangan}</td>
+                                    <td class="p-2 text-right font-bold ${colorClass}">${prefix} ${formatRupiah(item.nominal)}</td>
+                                </tr>
+                            `;
+                        }).join('');
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="3" class="text-center p-3 text-slate-400">Belum ada transaksi kas.</td></tr>';
+                    }
+                }
+            } catch (err) {
+                console.error("Gagal load data kas:", err);
+                tbody.innerHTML = '<tr><td colspan="3" class="text-center p-3 text-red-500">Gagal memuat data kas.</td></tr>';
+            }
+        }
+
+        // SUBMIT TRANSAKSI KAS
+        async function submitKas(e) {
+            e.preventDefault();
+
+            const tipe = document.querySelector('input[name="tipe_kas"]:checked').value;
+            const nominal = parseFloat(document.getElementById('input-nominal-kas').value);
+            const keterangan = document.getElementById('input-keterangan-kas').value.trim();
+
+            if (!nominal || nominal <= 0 || !keterangan) {
+                showPopup('warning', 'Data Belum Lengkap', 'Masukkan nominal dan keterangan transaksi!');
+                return;
+            }
+
+            const btnSubmit = document.getElementById("btn-submit-kas");
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Menyimpan...`;
+
+            const payload = {
+                action: "submitKas",
+                tipe: tipe,
+                nominal: nominal,
+                keterangan: keterangan
+            };
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: "POST",
+                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showPopup('success', 'Transaksi Berhasil!', result.message, async function () {
+                        document.getElementById("form-kas").reset();
+                        await loadKasData();
+                    });
+                } else {
+                    showPopup('error', 'Gagal Menyimpan', result.message);
+                }
+            } catch (err) {
+                showPopup('error', 'Kesalahan Sistem', 'Terjadi kesalahan koneksi: ' + err.toString());
+            } finally {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi Kas`;
+            }
+        }
+    </script>
+</body>
+
+</html>
