@@ -1651,6 +1651,7 @@
 
             const daysInMonth = new Date(year, month, 0).getDate();
 
+            // 1. Render Header Tanggal
             let theadHTML = `
         <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
             <th class="p-2.5 font-bold sticky left-0 bg-slate-100 z-30 min-w-[160px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200">Nama Karyawan</th>
@@ -1672,7 +1673,6 @@
                 const response = await fetch(baseUrl + "?action=getMonthlyRekap");
                 const res = await response.json();
 
-                // Ambil array data dari wrapper createJsonResponse
                 let rawList = [];
                 if (Array.isArray(res)) rawList = res;
                 else if (res && Array.isArray(res.data)) rawList = res.data;
@@ -1689,9 +1689,10 @@
                     if (!nama && !nik) return;
 
                     let matchedEmp = null;
-                    if (nik) matchedEmp = employeeList.find(e => (e.nik || '').toString().trim().toUpperCase() === nik);
-                    if (!matchedEmp && nama) matchedEmp = employeeList.find(e => (e.nama || '').toString().trim().toUpperCase() === nama);
+                    if (nik) matchedEmp = employeeList.find(e => (e.nik || e.NIK || '').toString().trim().toUpperCase() === nik);
+                    if (!matchedEmp && nama) matchedEmp = employeeList.find(e => (e.nama || e.Nama || '').toString().trim().toUpperCase() === nama);
 
+                    // Tentukan key pemetaan data internal
                     const scheduleKey = matchedEmp
                         ? getEmployeeScheduleKey(matchedEmp)
                         : (nik ? `NIK:${nik}` : `NAME:${nama}`);
@@ -1706,6 +1707,9 @@
                     arrayTgl.forEach(t => {
                         let dateStr = String(t).trim();
                         if (dateStr) {
+                            // Normalisasi format YYYY-MM-DD
+                            if (dateStr.includes('T')) dateStr = dateStr.split('T')[0];
+
                             if (!employeeDatesMap[scheduleKey].some(e => e.tgl === dateStr)) {
                                 employeeDatesMap[scheduleKey].push({
                                     tgl: dateStr,
@@ -1716,89 +1720,85 @@
                     });
                 });
 
-                let employeesToRender = (employeeList || []).map(e => (e.nama || e.Nama || '').toString().trim().toUpperCase());
-
-                Object.keys(employeeDatesMap).forEach(namaKey => {
-                    if (!employeesToRender.includes(namaKey)) {
-                        employeesToRender.push(namaKey);
-                    }
-                });
+                // HANYA RENDER KARYAWAN DARI employeeList (Mencegah teks NIK:WSI... muncul sebagai baris nama)
+                const employeesToRender = employeeList.filter(e => e.nama || e.Nama);
 
                 if (employeesToRender.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
-                } else {
-                    const namaBulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"][month - 1];
-                    let tbodyHTML = "";
+                    return;
+                }
 
-                    employeesToRender.forEach(empNama => {
-                        const empObj = (employeeList || []).find(e => (e.nama || e.Nama || '').toString().trim().toUpperCase() === empNama);
-                        const empScheduleKey = empObj ? getEmployeeScheduleKey(empObj) : `NAME:${empNama}`;
-                        let userEntries = (employeeDatesMap[empScheduleKey] || employeeDatesMap[`NAME:${empNama}`] || []).slice();
-                        userEntries.sort((a, b) => a.tgl.localeCompare(b.tgl));
+                const namaBulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"][month - 1];
+                let tbodyHTML = "";
 
-                        const lookupUserMonth = {};
-                        let orderIndex = 1;
+                employeesToRender.forEach(empObj => {
+                    const empNama = (empObj.nama || empObj.Nama || '').toString().trim().toUpperCase();
+                    const empScheduleKey = getEmployeeScheduleKey(empObj);
 
-                        userEntries.forEach(entry => {
-                            lookupUserMonth[entry.tgl] = {
-                                index: orderIndex++,
-                                keterangan: entry.keterangan
-                            };
-                        });
+                    // Ambil entri libur karyawan ini
+                    let userEntries = (employeeDatesMap[empScheduleKey] || employeeDatesMap[`NAME:${empNama}`] || []).slice();
 
-                        tbodyHTML += `
-                    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                        <td class="p-2.5 font-bold text-slate-800 sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap">${empNama}</td>
-                `;
+                    // FILTER KHUSUS BULAN DAN TAHUN YANG AKTIF SAJA
+                    const currentMonthPrefix = `${year}-${String(month).padStart(2, '0')}`;
+                    userEntries = userEntries.filter(entry => entry.tgl.startsWith(currentMonthPrefix));
 
-                        for (let d = 1; d <= daysInMonth; d++) {
-                            const dayPadded = String(d).padStart(2, '0');
-                            const monthPadded = String(month).padStart(2, '0');
-                            const fullDateKey = `${year}-${monthPadded}-${dayPadded}`;
+                    // Urutkan berdasarkan tanggal (1 - 31)
+                    userEntries.sort((a, b) => a.tgl.localeCompare(b.tgl));
 
-                            const matchData = lookupUserMonth[fullDateKey];
+                    // Petakan index libur bulan ini (Hari ke-1 s/d 4 = x, Hari ke-5+ = ct)
+                    const lookupUserMonth = {};
+                    let orderIndex = 1;
 
-                            if (matchData) {
-                                const isCuti = matchData.index >= 5;
-                                const symbol = isCuti ? 'ct' : 'x';
-                                const labelJenis = isCuti ? 'CUTI' : 'OFF';
-                                const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${labelJenis} (Libur Hari ke-${matchData.index}) - ${matchData.keterangan || 'Tanpa keterangan'}`;
-
-                                if (isCuti) {
-                                    tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-purple-700 bg-purple-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
-                                } else {
-                                    tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-blue-700 bg-blue-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
-                                }
-                            } else {
-                                const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: Masuk Kerja`;
-                                tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center border-r border-slate-100 text-slate-300"></td>`;
-                            }
-                        }
-
-                        tbodyHTML += `</tr>`;
+                    userEntries.forEach(entry => {
+                        lookupUserMonth[entry.tgl] = {
+                            index: orderIndex++,
+                            keterangan: entry.keterangan
+                        };
                     });
 
-                    tbody.innerHTML = tbodyHTML;
-                }
+                    tbodyHTML += `
+                <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+                    <td class="p-2.5 font-bold text-slate-800 sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap">${empNama}</td>
+            `;
 
-                // Eksekusi Pembaruan Status Tim (Our Team)
-                if (typeof updateTeamScheduleStatus === 'function') {
-                    updateTeamScheduleStatus(employeeDatesMap, year, month);
-                }
-                if (typeof renderOurTeamSection === 'function') {
-                    renderOurTeamSection();
-                }
-                if (typeof updateTeamActiveCounter === 'function') {
-                    updateTeamActiveCounter();
-                }
+                    for (let d = 1; d <= daysInMonth; d++) {
+                        const dayPadded = String(d).padStart(2, '0');
+                        const monthPadded = String(month).padStart(2, '0');
+                        const fullDateKey = `${year}-${monthPadded}-${dayPadded}`;
+
+                        const matchData = lookupUserMonth[fullDateKey];
+
+                        if (matchData) {
+                            // Penentuan simbol: libur ke-1 s/d 4 = x (OFF), libur ke-5 dst = ct (CUTI)
+                            const isCuti = matchData.index >= 5;
+                            const symbol = isCuti ? 'ct' : 'x';
+                            const labelJenis = isCuti ? 'CUTI' : 'OFF';
+                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${labelJenis} (Libur Hari ke-${matchData.index}) - ${matchData.keterangan || 'Tanpa keterangan'}`;
+
+                            if (isCuti) {
+                                tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-purple-700 bg-purple-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
+                            } else {
+                                tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-blue-700 bg-blue-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
+                            }
+                        } else {
+                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: Masuk Kerja`;
+                            tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center border-r border-slate-100 text-slate-300"></td>`;
+                        }
+                    }
+
+                    tbodyHTML += `</tr>`;
+                });
+
+                tbody.innerHTML = tbodyHTML;
+
+                // Sync status Our Team
+                if (typeof updateTeamScheduleStatus === 'function') updateTeamScheduleStatus(employeeDatesMap, year, month);
+                if (typeof renderOurTeamSection === 'function') renderOurTeamSection();
+                if (typeof updateTeamActiveCounter === 'function') updateTeamActiveCounter();
 
             } catch (err) {
                 console.error("Gagal memuat matriks rekap:", err);
                 tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
-
-                // Tetap paksa render tim agar tidak stuck di "Memuat..."
-                if (typeof renderOurTeamSection === 'function') renderOurTeamSection();
-                if (typeof updateTeamActiveCounter === 'function') updateTeamActiveCounter();
             }
         }
 
