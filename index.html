@@ -1118,7 +1118,8 @@
                 };
             }
 
-            const data = teamScheduleStatus[namaKey] || { status: 'AKTIF', index: 0 };
+            // Fixed: Menggunakan scheduleKey (bukan namaKey)
+            const data = teamScheduleStatus[scheduleKey] || { status: 'AKTIF', index: 0 };
 
             if (data.status === 'OFF' || data.status === 'CUTI') {
                 return {
@@ -1644,156 +1645,70 @@
                 document.getElementById("filter-bulan-matriks").value = monthVal;
             }
 
-            const [yearStr, monthStr] = monthVal.split("-");
-            const year = parseInt(yearStr);
-            const month = parseInt(monthStr);
-
+            const [year, month] = monthVal.split('-').map(Number);
             const daysInMonth = new Date(year, month, 0).getDate();
 
-            let theadHTML = `
-                <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-                    <th class="p-2.5 font-bold sticky left-0 bg-slate-100 z-30 min-w-[160px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200">Nama Karyawan</th>
-            `;
+            // Render Header Tanggal (1 s/d 30/31)
+            let thHtml = `<th class="p-3 text-left font-bold text-slate-700 bg-slate-100 border-b border-slate-200 sticky left-0 z-10 w-48">Nama Karyawan</th>`;
             for (let d = 1; d <= daysInMonth; d++) {
-                theadHTML += `<th class="p-2 text-center font-bold min-w-[34px] w-[34px] border-r border-slate-200 text-slate-600 ${d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70'}">${d}</th>`;
+                thHtml += `<th class="p-2 text-center font-bold text-slate-600 bg-slate-50 border-b border-slate-200 min-w-[36px]">${d}</th>`;
             }
-            theadHTML += `</tr>`;
-            thead.innerHTML = theadHTML;
+            thead.innerHTML = `<tr>${thHtml}</tr>`;
 
-            tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Mengambil data matriks jadwal...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-6 text-slate-400 font-medium">Memuat data matriks...</td></tr>`;
 
             try {
-                if (employeeList.length === 0) {
-                    await loadInitialData();
-                }
+                // Fetch data karyawan & pengajuan paralel
+                const [resEmp, resRekap] = await Promise.all([
+                    fetch(`${SCRIPT_URL}?action=getInitialData`).then(r => r.json()),
+                    fetch(`${SCRIPT_URL}?action=getMonthlyRekap&month=${monthVal}`).then(r => r.json())
+                ]);
 
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getMonthlyRekap");
-                const res = await response.json();
+                const employees = resEmp.employees || resEmp.data || [];
+                const rekapMap = resRekap.rekap || resRekap.data || {};
 
-                let rawList = [];
-                if (Array.isArray(res)) rawList = res;
-                else if (res && Array.isArray(res.data)) rawList = res.data;
-                else if (res && Array.isArray(res.rekap)) rawList = res.rekap;
-                else if (res && Array.isArray(res.records)) rawList = res.records;
-
-                const employeeDatesMap = {};
-
-                rawList.forEach(item => {
-                    let nama = (item.nama || item.Nama || item.NAMA || '').toString().trim().toUpperCase();
-                    let nik = (item.nik || item.NIK || item.Nik || '').toString().trim().toUpperCase();
-                    let rawTgl = item.tanggal || item.Tanggal || item.dates || item.tgl || '';
-                    let keterangan = item.keterangan || item.Keterangan || item.alasan || item.Alasan || '';
-
-                    if (!nama && !nik) return;
-
-                    // Utamakan NIK. Untuk data lama yang belum memiliki NIK,
-                    // cocokkan nama ke employeeList sebagai fallback kompatibilitas.
-                    let matchedEmp = null;
-                    if (nik) matchedEmp = employeeList.find(e => (e.nik || '').toString().trim().toUpperCase() === nik);
-                    if (!matchedEmp && nama) matchedEmp = employeeList.find(e => (e.nama || '').toString().trim().toUpperCase() === nama);
-
-                    const scheduleKey = matchedEmp
-                        ? getEmployeeScheduleKey(matchedEmp)
-                        : (nik ? `NIK:${nik}` : `NAME:${nama}`);
-
-                    if (!employeeDatesMap[scheduleKey]) employeeDatesMap[scheduleKey] = [];
-
-                    let arrayTgl = [];
-                    if (Array.isArray(rawTgl)) arrayTgl = rawTgl;
-                    else if (typeof rawTgl === 'string') arrayTgl = rawTgl.split(/[,;]+/);
-                    else arrayTgl = [String(rawTgl)];
-
-                    arrayTgl.forEach(t => {
-                        let dateStr = String(t).trim();
-                        if (dateStr) {
-                            if (!employeeDatesMap[scheduleKey].some(e => e.tgl === dateStr)) {
-                                employeeDatesMap[scheduleKey].push({
-                                    tgl: dateStr,
-                                    keterangan: keterangan
-                                });
-                            }
-                        }
-                    });
-                });
-
-                let employeesToRender = employeeList.map(e => e.nama.trim().toUpperCase());
-
-                Object.keys(employeeDatesMap).forEach(namaKey => {
-                    if (!employeesToRender.includes(namaKey)) {
-                        employeesToRender.push(namaKey);
-                    }
-                });
-
-                if (employeesToRender.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
+                if (employees.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-6 text-slate-400">Tidak ada data karyawan.</td></tr>`;
                     return;
                 }
 
-                const namaBulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"][month - 1];
+                let rowsHtml = '';
+                employees.forEach(emp => {
+                    const empName = emp.Nama || emp.nama || emp;
+                    const empLiburMap = rekapMap[empName] || {};
 
-                let tbodyHTML = "";
-
-                employeesToRender.forEach(empNama => {
-                    const empObj = employeeList.find(e => (e.nama || '').toString().trim().toUpperCase() === empNama);
-                    const empScheduleKey = empObj ? getEmployeeScheduleKey(empObj) : `NAME:${empNama}`;
-                    let userEntries = (employeeDatesMap[empScheduleKey] || employeeDatesMap[`NAME:${empNama}`] || []).slice();
-                    userEntries.sort((a, b) => a.tgl.localeCompare(b.tgl));
-
-                    const lookupUserMonth = {};
-                    let orderIndex = 1;
-
-                    userEntries.forEach(entry => {
-                        lookupUserMonth[entry.tgl] = {
-                            index: orderIndex++,
-                            keterangan: entry.keterangan
-                        };
-                    });
-
-                    tbodyHTML += `
-                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                            <td class="p-2.5 font-bold text-slate-800 sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap">${empNama}</td>
-                    `;
+                    let cellsHtml = `<td class="p-2 text-left font-semibold text-slate-700 bg-white border-b border-slate-100 sticky left-0 z-10 shadow-sm">${empName}</td>`;
 
                     for (let d = 1; d <= daysInMonth; d++) {
-                        const dayPadded = String(d).padStart(2, '0');
-                        const monthPadded = String(month).padStart(2, '0');
-                        const fullDateKey = `${year}-${monthPadded}-${dayPadded}`;
+                        const statusData = empLiburMap[d]; // Format bisa angka urutan (1-6) atau objek {index: 1}
 
-                        const matchData = lookupUserMonth[fullDateKey];
+                        let badgeHtml = '<span class="text-slate-300 font-light">-</span>';
 
-                        if (matchData) {
-                            const isCuti = matchData.index >= 5;
-                            const symbol = isCuti ? 'ct' : 'x';
-                            const labelJenis = isCuti ? 'CUTI' : 'OFF';
+                        if (statusData) {
+                            // Ambil urutan hari pengajuan (index/count)
+                            const count = typeof statusData === 'object' ? (statusData.index || statusData.count || 1) : Number(statusData);
 
-                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${labelJenis} (Libur Hari ke-${matchData.index}) - ${matchData.keterangan || 'Tanpa keterangan'}`;
-
-                            if (isCuti) {
-                                tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-purple-700 bg-purple-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
-                            } else {
-                                tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-blue-700 bg-blue-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
+                            // Aturan 1: Hari 1-4 tampil 'x'
+                            if (count <= 4) {
+                                badgeHtml = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-blue-100 text-blue-700 font-bold text-xs shadow-sm">x</span>`;
                             }
-                        } else {
-                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: Masuk Kerja`;
-                            tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center border-r border-slate-100 text-slate-300"></td>`;
+                            // Aturan 2: Hari 5-6 tampil 'ct'
+                            else {
+                                badgeHtml = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-md bg-purple-100 text-purple-700 font-bold text-xs shadow-sm">ct</span>`;
+                            }
                         }
+
+                        cellsHtml += `<td class="p-1 text-center border-b border-slate-100">${badgeHtml}</td>`;
                     }
 
-                    tbodyHTML += `</tr>`;
+                    rowsHtml += `<tr>${cellsHtml}</tr>`;
                 });
 
-                tbody.innerHTML = tbodyHTML;
-
-                // Sinkronkan status kartu Our Team dengan Matriks yang baru dimuat.
-                updateTeamScheduleStatus(employeeDatesMap, year, month);
-                renderOurTeamSection();
-                updateTeamActiveCounter();
+                tbody.innerHTML = rowsHtml;
 
             } catch (err) {
                 console.error("Gagal memuat matriks rekap:", err);
-                teamScheduleStatusReady = false;
-                renderOurTeamSection();
-                tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center py-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
             }
         }
 
