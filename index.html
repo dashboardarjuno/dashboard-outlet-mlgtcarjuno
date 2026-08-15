@@ -43,13 +43,31 @@
 
         /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
         @keyframes teamStatusBlinkRed {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(0.88);
+            }
         }
 
         @keyframes teamStatusBlinkGreen {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(0.88);
+            }
         }
 
         .team-status-red {
@@ -103,6 +121,25 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
+
+        /* --- KODE BARU DIBAWAH INI --- */
+
+        /* Mencegah Safari iPhone Auto-Zoom saat klik input */
+        @media screen and (max-width: 768px) {
+
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
+            }
+        }
+
+        /* Memperhalus scroll di iOS */
+        .overflow-y-auto,
+        .overflow-x-auto,
+        .table-container {
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 </head>
 
@@ -137,15 +174,25 @@
     </header>
 
     <!-- MARQUEE ANNOUNCEMENT BANNER -->
-    <div class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-4 shadow-inner flex items-center">
-        <span
-            class="bg-white text-brand-red font-bold px-2 py-0.5 rounded-md text-xs uppercase mr-3 shrink-0 shadow-sm flex items-center gap-1">
-            <i class="fa-solid fa-bullhorn"></i> Info
-        </span>
-        <marquee behavior="scroll" direction="left" class="w-full font-medium">
-            📢 Maksimal pengajuan Off/Cuti 6 hari setiap bulan, Form hanya bisa diakses tgl 15 - 25 setiap bulannya dan
-            hanya untuk bulan berikutnya | ⚠️ Absensi Wajib Berada Dalam Radius Max 50m dari Outlet!
-        </marquee>
+    <div
+        class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-4 shadow-inner flex items-center justify-between gap-2">
+        <div class="flex items-center w-full overflow-hidden">
+            <span
+                class="bg-white text-brand-red font-bold px-2 py-0.5 rounded-md text-xs uppercase mr-3 shrink-0 shadow-sm flex items-center gap-1">
+                <i class="fa-solid fa-bullhorn"></i> Info
+            </span>
+            <div class="overflow-hidden w-full cursor-pointer" onclick="openInfoModal()">
+                <marquee id="bannerMarquee" behavior="scroll" direction="left" class="w-full font-medium">
+                    📢 Memuat informasi terbaru dari server...
+                </marquee>
+            </div>
+        </div>
+
+        <!-- Tombol Edit Khusus MO/Manager -->
+        <button id="btnEditBanner" onclick="openEditBannerModal()"
+            class="hidden bg-white/20 hover:bg-white/30 text-white text-xs font-bold py-1 px-2.5 rounded transition shrink-0 flex items-center gap-1">
+            <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Edit</span>
+        </button>
     </div>
 
     <!-- MAIN CONTENT AREA -->
@@ -745,7 +792,7 @@
                     <ul class="list-disc list-inside space-y-0.5 text-slate-600">
                         <li>Pengajuan ke 1 - 4 bulan ini &rarr; Terhitung <b>OFF</b></li>
                         <li>Pengajuan ke 5 - 6 bulan ini &rarr; Terhitung <b>CUTI</b></li>
-                        <li>Kuota: Senin-Jumat max 4 org, Sabtu-Minggu & Tgl Merah max 1 org.</li>
+                        <li>Kuota: Senin-kamis max 4 org, Jumat 3 org, Sabtu-Minggu & Tgl Merah max 1 org.</li>
                     </ul>
                 </div>
 
@@ -869,6 +916,15 @@
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS -->
     <script>
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwhkpiZMyC3UaM2TCYGK_JQFmcLhCYt_CBa5ncOC5dvXBuan26b5R5v7CHScG9tEVIu/exec";
+        // Helper parsing tanggal manual (Mencegah NaN / Invalid Date di iOS Safari)
+        function parseDateString(dateStr) {
+            if (!dateStr) return new Date();
+            const parts = dateStr.split('-');
+            if (parts.length === 3) {
+                return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+            }
+            return new Date(dateStr);
+        }
 
         // KOORDINAT OUTLET & RADIUS MAX (50 METER)
         const OUTLET_LOCATION = {
@@ -882,7 +938,7 @@
         let tempEditPhotoBase64 = null; // Penampungan temporer data Base64 foto ter-upload
         let disabledDates = [];
         let todayAttendanceRecords = [];
-        let currentGPS = {lat: null, lng: null, distance: 0, valid: false};
+        let currentGPS = { lat: null, lng: null, distance: 0, valid: false };
         let photoBase64 = null;
         let mediaStream = null;
 
@@ -991,17 +1047,23 @@
 
             const raw = String(value).trim();
 
-            // Format utama yang digunakan Matriks: YYYY-MM-DD
-            const isoMatch = raw.match(/^(\\d{4}-\\d{2}-\\d{2})/);
+            // Fix Regex: Gunakan Single Backslash (\d)
+            const isoMatch = raw.match(/^(\d{4}-\d{2}-\d{2})/);
             if (isoMatch) return isoMatch[1];
 
-            // Antisipasi format DD/MM/YYYY atau DD-MM-YYYY
-            const dmyMatch = raw.match(/^(\\d{1,2})[\\/\\-](\\d{1,2})[\\/\\-](\\d{4})/);
+            const dmyMatch = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
             if (dmyMatch) {
                 return `${dmyMatch[3]}-${String(dmyMatch[2]).padStart(2, '0')}-${String(dmyMatch[1]).padStart(2, '0')}`;
             }
 
             return raw.substring(0, 10);
+        }
+
+        function getEmployeeScheduleKey(emp) {
+            const nikKey = (emp.nik || '').toString().trim().toUpperCase();
+            if (nikKey) return `NIK:${nikKey}`;
+            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+            return namaKey ? `NAME:${namaKey}` : '';
         }
 
         function updateTeamScheduleStatus(employeeDatesMap, year, month) {
@@ -1011,30 +1073,16 @@
             const todayYear = today.getFullYear();
             const todayMonth = today.getMonth() + 1;
             const todayDay = today.getDate();
-
-            // Status Our Team selalu menunjukkan kondisi HARI INI.
-            // Matriks tetap boleh dipilih bulan lain untuk monitoring.
-            if (todayYear !== year || todayMonth !== month) {
-                employeeList.forEach(emp => {
-                    const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-                    if (namaKey) {
-                        teamScheduleStatus[namaKey] = {
-                            status: 'AKTIF',
-                            index: 0
-                        };
-                    }
-                });
-                teamScheduleStatusReady = true;
-                return;
-            }
-
             const todayKey = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
 
+            // Status Our Team SELALU dihitung dari jadwal hari ini,
+            // tidak peduli filter matriks sedang menampilkan bulan apa.
             employeeList.forEach(emp => {
-                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-                if (!namaKey) return;
+                const scheduleKey = getEmployeeScheduleKey(emp);
+                if (!scheduleKey) return;
 
-                const entries = (employeeDatesMap[namaKey] || []).slice().sort((a, b) => {
+                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+                const entries = (employeeDatesMap[scheduleKey] || employeeDatesMap[`NAME:${namaKey}`] || []).slice().sort((a, b) => {
                     return normalizeMatrixDate(a.tgl).localeCompare(normalizeMatrixDate(b.tgl));
                 });
 
@@ -1043,12 +1091,12 @@
 
                 if (todayEntryIndex >= 0) {
                     const hariLiburKe = todayEntryIndex + 1;
-                    teamScheduleStatus[namaKey] = {
+                    teamScheduleStatus[scheduleKey] = {
                         status: hariLiburKe >= 5 ? 'CUTI' : 'OFF',
                         index: hariLiburKe
                     };
                 } else {
-                    teamScheduleStatus[namaKey] = {
+                    teamScheduleStatus[scheduleKey] = {
                         status: 'AKTIF',
                         index: 0
                     };
@@ -1059,7 +1107,7 @@
         }
 
         function getTeamScheduleStatus(emp) {
-            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+            const scheduleKey = getEmployeeScheduleKey(emp);
 
             if (!teamScheduleStatusReady) {
                 return {
@@ -1089,22 +1137,13 @@
             };
         }
 
-        // Karyawan yang statusnya DIPERBANTUKAN tidak dihitung sebagai "Tim Aktif".
-        // Saat ini Fahreza Ahmad Dani adalah karyawan diperbantukan.
-        // Helper juga membaca beberapa nama field status bila backend kelak mengirimkannya.
-        const excludedFromActiveTeamNames = new Set([
-            'FAHREZA AHMAD DANI'
-        ]);
-
+        // Status DIPERBANTUKAN sekarang berasal dari data Karyawan melalui Code.gs.
+        // Tidak ada lagi pengecualian nama yang di-hard-code di HTML.
         function isDiperbantukanEmployee(emp) {
-            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-            if (excludedFromActiveTeamNames.has(namaKey)) return true;
-
             const statusFields = [
                 emp.status,
                 emp.statusKaryawan,
                 emp.status_karyawan,
-                emp.keterangan,
                 emp.keteranganStatus,
                 emp.penempatanStatus
             ];
@@ -1124,8 +1163,8 @@
                 // Jika Matriks belum selesai dimuat, jangan mengarang angka.
                 if (!teamScheduleStatusReady) return false;
 
-                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-                const schedule = teamScheduleStatus[namaKey];
+                const scheduleKey = getEmployeeScheduleKey(emp);
+                const schedule = teamScheduleStatus[scheduleKey];
 
                 // Hanya yang benar-benar AKTIF hari ini yang dihitung.
                 return !schedule || schedule.status === 'AKTIF';
@@ -1174,13 +1213,13 @@
 
             // Grouping Berdasarkan Jabatan / Role
             const roleGroups = {
-                'MO': {title: 'Manager Outlet (MO)', colorBg: 'from-red-50 to-white', border: 'border-red-500/30 hover:border-brand-red', tagBg: 'bg-brand-red', dot: 'bg-brand-red', avatarBg: 'ED1C24'},
-                'WMO': {title: 'Wakil Manager Outlet (WMO)', colorBg: 'from-slate-100 to-white', border: 'border-slate-300 hover:border-slate-800', tagBg: 'bg-slate-800', dot: 'bg-slate-800', avatarBg: '1E293B'},
-                'KASIR': {title: 'Tim Kasir', colorBg: 'from-blue-50 to-white', border: 'border-blue-200 hover:border-blue-600', tagBg: 'bg-blue-600', dot: 'bg-blue-600', avatarBg: '2563EB'},
-                'STAFF': {title: 'Staff Operasional', colorBg: 'from-emerald-50 to-white', border: 'border-emerald-200 hover:border-emerald-600', tagBg: 'bg-emerald-600', dot: 'bg-emerald-600', avatarBg: '059669'}
+                'MO': { title: 'Manager Outlet (MO)', colorBg: 'from-red-50 to-white', border: 'border-red-500/30 hover:border-brand-red', tagBg: 'bg-brand-red', dot: 'bg-brand-red', avatarBg: 'ED1C24' },
+                'WMO': { title: 'Wakil Manager Outlet (WMO)', colorBg: 'from-slate-100 to-white', border: 'border-slate-300 hover:border-slate-800', tagBg: 'bg-slate-800', dot: 'bg-slate-800', avatarBg: '1E293B' },
+                'KASIR': { title: 'Tim Kasir', colorBg: 'from-blue-50 to-white', border: 'border-blue-200 hover:border-blue-600', tagBg: 'bg-blue-600', dot: 'bg-blue-600', avatarBg: '2563EB' },
+                'STAFF': { title: 'Staff Operasional', colorBg: 'from-emerald-50 to-white', border: 'border-emerald-200 hover:border-emerald-600', tagBg: 'bg-emerald-600', dot: 'bg-emerald-600', avatarBg: '059669' }
             };
 
-            const categorized = {'MO': [], 'WMO': [], 'KASIR': [], 'STAFF': []};
+            const categorized = { 'MO': [], 'WMO': [], 'KASIR': [], 'STAFF': [] };
 
             employeeList.forEach((emp, index) => {
                 let roleUpper = (emp.jabatan || 'STAFF').toString().trim().toUpperCase();
@@ -1191,7 +1230,7 @@
                 else if (roleUpper.includes('KASIR')) categoryKey = 'KASIR';
                 else categoryKey = 'STAFF';
 
-                categorized[categoryKey].push({...emp, index});
+                categorized[categoryKey].push({ ...emp, index });
             });
 
             let html = '';
@@ -1323,7 +1362,7 @@
                         canvas.width = width;
                         canvas.height = height;
 
-                        const ctx = canvas.getContext('2d', {alpha: false});
+                        const ctx = canvas.getContext('2d', { alpha: false });
                         ctx.drawImage(img, 0, 0, width, height);
 
                         const qualities = [0.82, 0.74, 0.66, 0.58, 0.50];
@@ -1427,7 +1466,7 @@
 
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'deleteTeamPhoto',
                         nik: nik
@@ -1504,7 +1543,7 @@
 
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
 
@@ -1641,11 +1680,23 @@
 
                 rawList.forEach(item => {
                     let nama = (item.nama || item.Nama || item.NAMA || '').toString().trim().toUpperCase();
+                    let nik = (item.nik || item.NIK || item.Nik || '').toString().trim().toUpperCase();
                     let rawTgl = item.tanggal || item.Tanggal || item.dates || item.tgl || '';
                     let keterangan = item.keterangan || item.Keterangan || item.alasan || item.Alasan || '';
 
-                    if (!nama) return;
-                    if (!employeeDatesMap[nama]) employeeDatesMap[nama] = [];
+                    if (!nama && !nik) return;
+
+                    // Utamakan NIK. Untuk data lama yang belum memiliki NIK,
+                    // cocokkan nama ke employeeList sebagai fallback kompatibilitas.
+                    let matchedEmp = null;
+                    if (nik) matchedEmp = employeeList.find(e => (e.nik || '').toString().trim().toUpperCase() === nik);
+                    if (!matchedEmp && nama) matchedEmp = employeeList.find(e => (e.nama || '').toString().trim().toUpperCase() === nama);
+
+                    const scheduleKey = matchedEmp
+                        ? getEmployeeScheduleKey(matchedEmp)
+                        : (nik ? `NIK:${nik}` : `NAME:${nama}`);
+
+                    if (!employeeDatesMap[scheduleKey]) employeeDatesMap[scheduleKey] = [];
 
                     let arrayTgl = [];
                     if (Array.isArray(rawTgl)) arrayTgl = rawTgl;
@@ -1655,8 +1706,8 @@
                     arrayTgl.forEach(t => {
                         let dateStr = String(t).trim();
                         if (dateStr) {
-                            if (!employeeDatesMap[nama].some(e => e.tgl === dateStr)) {
-                                employeeDatesMap[nama].push({
+                            if (!employeeDatesMap[scheduleKey].some(e => e.tgl === dateStr)) {
+                                employeeDatesMap[scheduleKey].push({
                                     tgl: dateStr,
                                     keterangan: keterangan
                                 });
@@ -1683,7 +1734,9 @@
                 let tbodyHTML = "";
 
                 employeesToRender.forEach(empNama => {
-                    let userEntries = employeeDatesMap[empNama] || [];
+                    const empObj = employeeList.find(e => (e.nama || '').toString().trim().toUpperCase() === empNama);
+                    const empScheduleKey = empObj ? getEmployeeScheduleKey(empObj) : `NAME:${empNama}`;
+                    let userEntries = (employeeDatesMap[empScheduleKey] || employeeDatesMap[`NAME:${empNama}`] || []).slice();
                     userEntries.sort((a, b) => a.tgl.localeCompare(b.tgl));
 
                     const lookupUserMonth = {};
@@ -1754,8 +1807,8 @@
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: "user",
-                        width: {ideal: 640},
-                        height: {ideal: 480}
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
                     },
                     audio: false
                 });
@@ -1909,12 +1962,18 @@
             e.preventDefault();
 
             const nama = document.getElementById("select-nama-off").value;
+            const selectedEmployee = employeeList.find(emp => (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase());
+            const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
             const inputs = document.querySelectorAll(".input-tgl-off");
             const keterangan = document.getElementById("input-keterangan-off").value.trim();
 
             const selectedDates = [];
             inputs.forEach(inp => {
-                if (inp.value) selectedDates.push(inp.value);
+                if (inp.value) {
+                    // Memastikan format ISO YYYY-MM-DD aman di Safari
+                    const cleanDate = normalizeMatrixDate(inp.value);
+                    if (cleanDate) selectedDates.push(cleanDate);
+                }
             });
 
             if (!nama || selectedDates.length === 0 || !keterangan) {
@@ -1928,6 +1987,7 @@
 
             const payload = {
                 action: "submitOffCuti",
+                nik: nik,
                 nama: nama,
                 dates: selectedDates,
                 keterangan: keterangan
@@ -1936,7 +1996,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
 
@@ -2148,7 +2208,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
 
@@ -2175,7 +2235,7 @@
 
         // FORMAT RUPIAH HELPER
         function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0}).format(angka);
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         }
 
         // BUKA MODAL KAS & LOAD DATA
@@ -2253,7 +2313,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
 
@@ -2274,6 +2334,116 @@
                 btnSubmit.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi Kas`;
             }
         }
+
+        /* ==========================================
+           LOGIKA DYNAMIC BANNER INFO (GSHEET INTEGRATION)
+           ========================================== */
+
+        let currentActiveInfo = { title: "", content: "" };
+
+        // 1. Ambil & Langsung Jalankan Running Text dari Google Sheets
+        async function fetchBannerInfo() {
+            try {
+                const res = await fetch(`${GAS_WEB_APP_URL}?action=getBannerInfo`);
+                const data = await res.json();
+
+                const marqueeEl = document.getElementById('bannerMarquee');
+                if (data.status === "success" && marqueeEl) {
+                    currentActiveInfo = data;
+                    marqueeEl.innerHTML = `📢 <strong>${data.title}</strong>: ${data.content}`;
+                } else if (marqueeEl) {
+                    marqueeEl.innerText = "📢 Belum ada pengumuman terbaru saat ini.";
+                    currentActiveInfo = { title: "Pengumuman", content: "Belum ada informasi terbaru saat ini." };
+                }
+            } catch (err) {
+                console.error("Gagal memuat banner info:", err);
+            }
+        }
+
+        // 2. Pop-up Detail jika Running Text Diklik
+        function openInfoModal() {
+            if (!currentActiveInfo.title) return;
+            Swal.fire({
+                title: currentActiveInfo.title,
+                text: currentActiveInfo.content,
+                icon: 'info',
+                confirmButtonText: 'Tutup',
+                confirmButtonColor: '#0F172A'
+            });
+        }
+
+        // 3. Tampilkan Tombol Edit Hanya untuk User Role MO/Manager
+        function checkUserRoleForBanner(userRole) {
+            const allowedRoles = ["MO", "MANAGER", "MANAGER OUTLET"];
+            const btnEdit = document.getElementById('btnEditBanner');
+            if (btnEdit) {
+                if (allowedRoles.includes((userRole || "").toUpperCase().trim())) {
+                    btnEdit.classList.remove('hidden');
+                } else {
+                    btnEdit.classList.add('hidden');
+                }
+            }
+        }
+
+        // 4. Form Pop-up Input Info Baru (Khusus MO)
+        async function openEditBannerModal() {
+            const { value: formValues } = await Swal.fire({
+                title: 'Update Info Banner',
+                html:
+                    '<input id="swal-title" class="swal2-input" placeholder="Judul Info Singkat">' +
+                    '<textarea id="swal-content" class="swal2-textarea" placeholder="Isi Pengumuman / Pesan Berjalan..."></textarea>',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Terbitkan',
+                preConfirm: () => {
+                    return {
+                        title: document.getElementById('swal-title').value,
+                        content: document.getElementById('swal-content').value
+                    }
+                }
+            });
+
+            if (formValues) {
+                if (!formValues.title || !formValues.content) {
+                    Swal.fire('Error', 'Judul dan Isi tidak boleh kosong!', 'error');
+                    return;
+                }
+
+                const currentUserRole = window.currentUser ? window.currentUser.role : "MO";
+
+                showLoading("Memperbarui Banner...");
+                try {
+                    const response = await fetch(GAS_WEB_APP_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: 'updateBannerInfo',
+                            title: formValues.title,
+                            content: formValues.content,
+                            userRole: currentUserRole
+                        })
+                    });
+
+                    const result = await response.json();
+                    hideLoading();
+
+                    if (result.status === 'success') {
+                        Swal.fire('Berhasil!', result.message, 'success');
+                        fetchBannerInfo();
+                    } else {
+                        Swal.fire('Gagal!', result.message, 'error');
+                    }
+                } catch (err) {
+                    hideLoading();
+                    Swal.fire('Error', 'Gagal terhubung ke server', 'error');
+                }
+            }
+        }
+
+        // Panggil fungsi fetch saat aplikasi selesai dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchBannerInfo();
+        });
     </script>
 </body>
 
