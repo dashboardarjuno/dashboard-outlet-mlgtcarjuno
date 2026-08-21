@@ -443,9 +443,9 @@
         <!-- Kotak Tabel Hasil Render yang Diperbarui -->
         <div id="table-container"
             class="rounded-xl border border-slate-200 bg-slate-50 p-1 transition-all duration-300">
-            <!-- Kontainer pembatas agar muat satu layar penuh dari ujung ke ujung -->
-            <div style="overflow: hidden; width: 100%; position: relative; border-radius: 8px;">
-                <div id="scheduleContainer" class="w-full">
+            <!-- Kontainer pembatas dengan teknik masking/overflow clip -->
+            <div style="width: 100%; position: relative; border-radius: 8px; overflow: hidden; max-width: 100%;">
+                <div id="scheduleContainer" class="w-full" style="overflow: hidden;">
                     <p class="text-xs text-slate-400 text-center py-6">Silakan klik "Tampilkan" untuk memuat
                         jadwal
                         sesuai tanggal.</p>
