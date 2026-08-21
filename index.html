@@ -22,15 +22,22 @@
                 extend: {
                     colors: {
                         brand: {
-                            red: '#ED1C24',
-                            darkred: '#B91C1C',
+                            red: '#DC2626', // Sedikit lebih cerah dari sebelumnya
+                            darkred: '#991B1B',
                             navy: '#0F172A',
-                            slate: '#1E293B'
+                            // Tambahkan warna abu-abu netral yang lebih hangat
+                            coolgray: '#F1F5F9',
+                            warmgray: '#E2E8F0'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                        // Gunakan font yang lebih premium
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    // Tambahkan sedikit bayangan untuk kedalaman
+                    boxShadow: {
+                        'soft-xl': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
                     }
                 }
             }
@@ -146,28 +153,30 @@
 <body
     class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
 
-    <!-- HEADER & NAVBAR -->
-    <header class="bg-brand-navy text-white sticky top-0 z-40 shadow-lg border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
+    <!-- HEADER & NAVBAR REVISI -->
+    <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
+        <div class="max-w-full mx-auto px-5 h-16 flex items-center justify-between">
+            <!-- Kiri: Logo dan Judul -->
+            <div class="flex items-center gap-3.5">
                 <div
-                    class="bg-brand-red text-white p-2 rounded-xl font-bold font-heading text-lg tracking-wider flex items-center gap-2 shadow-md">
-                    <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">DASHBOARD</span>
+                    class="bg-brand-red text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
+                    <i class="fa-solid fa-store text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="font-heading font-bold text-base leading-tight tracking-wide">MLG-TC-Arjuno</h1>
-                    <p class="text-xs text-slate-400">Kode Outlet: <span
-                            class="text-brand-red font-semibold">1415</span></p>
+                    <h1 class="font-heading font-extrabold text-lg leading-tight tracking-tight text-brand-navy">
+                        MLG-TC-Arjuno</h1>
+                    <p class="text-xs text-slate-500 font-medium">Kode Outlet: <span
+                            class="text-brand-red font-bold">1415</span></p>
                 </div>
             </div>
 
-            <div class="flex items-center text-sm">
-                <div class="flex flex-col text-right">
-                    <span id="current-date" class="font-medium text-slate-200 text-xs sm:text-sm"></span>
-                    <!-- STATUS OUTLET OTOMATIS BERDASARKAN JAM OPERASIONAL -->
-                    <span id="outlet-status-container" class="text-xs font-semibold">
-                        <!-- Otomatis diisi oleh JS -->
-                    </span>
+            <!-- Kanan: Jam & Status -->
+            <div class="flex items-center text-sm gap-3 text-right">
+                <span id="outlet-status-container" class="text-xs font-semibold px-3 py-1 rounded-full"></span>
+                <div class="w-px h-6 bg-slate-200"></div>
+                <div class="flex flex-col">
+                    <span id="current-date" class="font-semibold text-brand-navy text-sm tracking-tight"></span>
+                    <span id="current-time" class="text-xs text-slate-500 font-medium"></span>
                 </div>
             </div>
         </div>
@@ -196,249 +205,289 @@
     </div>
 
     <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- HERO BANNER -->
-        <div
-            class="gradient-banner text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-slate-700/50">
-            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div class="lg:col-span-7 space-y-3">
+        <!-- HERO BANNER REVISI -->
+        <section class="relative bg-slate-900 text-white rounded-3xl p-8 overflow-hidden border border-slate-700/50">
+            <!-- Background Pattern Subtle -->
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: url('data:image/svg+xml,%3Csvg width=\'6\' height=\'6\' viewBox=\'0 0 6 6\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M5 0h1L0 6V5zM6 5v1H5z\'/%3E%3C/g%3E%3C/svg%3E');">
+            </div>
+
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
                     <span
-                        class="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-md text-slate-200 text-xs font-semibold px-3 py-1 rounded-full border border-white/20">
-                        <i class="fa-solid fa-sparkles text-amber-300"></i> Pusat Informasi Operasional
+                        class="inline-flex items-center gap-2 bg-white/10 text-amber-300 text-xs font-bold px-4 py-1.5 rounded-full">
+                        <i class="fa-solid fa-sparkles"></i> Pusat Informasi Operasional
                     </span>
-                    <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                        Selamat Datang di Dashboard Internal Outlet
+                    <h2
+                        class="font-heading text-3xl md:text-4xl font-extrabold text-white leading-tight tracking-tight">
+                        Selamat Datang di Dashboard Outlet Internal
                     </h2>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                        Akses cepat untuk absensi harian, pengajuan off & cuti karyawan, pencatatan kas, hingga SOP/SOC
-                        resmi PT Waroeng Steak Indonesia.
+                    <p class="text-slate-300 text-base leading-relaxed max-w-xl">
+                        Akses cepat untuk absensi harian, pengajuan libur, keuangan, dan database SOP standar Waroeng
+                        Steak Indonesia.
                     </p>
                 </div>
-                <div class="lg:col-span-5 w-full">
-                    <div
-                        class="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 bg-black/40">
-                        <video class="w-full h-full object-cover rounded-xl" autoplay loop muted playsinline controls
-                            preload="auto">
-                            <source src="./motivasi.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung pemutar video.
-                        </video>
-                    </div>
+
+                <!-- Video Container -->
+                <div
+                    class="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10 bg-black/40">
+                    <iframe id="motivationVideo" class="w-full h-full object-cover rounded-2xl" src=""
+                        title="Motivasi Tim" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
                 </div>
+            </div>
+        </section> <!-- Penutup section utama -->
+
+    </main>
+
+    <!-- GRID MENU PINTAS REVISI -->
+    <section>
+        <h3 class="font-heading font-bold text-xl text-slate-900 mb-5 flex items-center gap-2.5">
+            <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
+        </h3>
+
+        <!-- Gunakan Grid yang konsisten -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-5">
+
+            <!-- CONTOH REVISI 1 MENU (Terapkan pola ini ke menu lain) -->
+            <button onclick="openAbsensiModal()"
+                class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-50 text-brand-red flex items-center justify-center text-2xl mb-4 group-hover:scale-105 group-hover:bg-red-50 transition-all duration-300">
+                    <i class="fa-solid fa-user-clock"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-sm text-slate-900 group-hover:text-brand-red transition-colors">Absensi
+                    Karyawan</span>
+                <span class="text-[11px] text-slate-500 font-medium mt-1.5">Masuk / Pulang / Izin</span>
+            </button>
+
+            <!-- Menu 2: Pengajuan Off & Cuti -->
+            <button onclick="openOffCutiModal()"
+                class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-50 text-purple-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-105 group-hover:bg-purple-50 transition-all duration-300">
+                    <i class="fa-solid fa-calendar-minus"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-sm text-slate-900 group-hover:text-brand-red transition-colors">Pengajuan
+                    Libur</span>
+                <span class="text-[11px] text-slate-500 font-medium mt-1.5">Max 6 Hari / Bulan</span>
+            </button>
+
+            <!-- Menu 3: Kas Outlet -->
+            <button onclick="openKasModal()"
+                class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-50 text-emerald-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-105 group-hover:bg-emerald-50 transition-all duration-300">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-sm text-slate-900 group-hover:text-brand-red transition-colors">Keuangan
+                    Kas</span>
+                <span class="text-[11px] text-slate-500 font-medium mt-1.5">Catatan Kas & Saldo</span>
+            </button>
+
+            <!-- Menu 4: Manpower Planning -->
+            <a href="#section-shift"
+                class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-50 text-sky-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-105 group-hover:bg-sky-50 transition-all duration-300">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-sm text-slate-900 group-hover:text-brand-red transition-colors">Jadwal
+                    Tim</span>
+                <span class="text-[11px] text-slate-500 font-medium mt-1.5">Shift Kerja</span>
+            </a>
+
+            <!-- Menu 5: SOP / SOC -->
+            <a href="#section-sop"
+                class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-50 text-amber-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-105 group-hover:bg-amber-50 transition-all duration-300">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-sm text-slate-900 group-hover:text-brand-red transition-colors">SOP/SOC
+                    Outlet</span>
+                <span class="text-[11px] text-slate-500 font-medium mt-1.5">Berkas Digital</span>
+            </a>
+
+            <!-- Menu 6: Our Team -->
+            <a href="#section-our-team"
+                class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-50 text-orange-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-105 group-hover:bg-orange-50 transition-all duration-300">
+                    <i class="fa-solid fa-people-roof"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-sm text-slate-900 group-hover:text-brand-red transition-colors">Profil
+                    Tim</span>
+                <span class="text-[11px] text-slate-500 font-medium mt-1.5">Anggota & Struktur</span>
+            </a>
+
+            <!-- Menu 7: Database Karyawan -->
+            <a href="https://docs.google.com/spreadsheets/d/10_oZHz_yA3i2K6Xk-x_qAGyJDMxYvESE/edit?gid=2019967039#gid=2019967039"
+                target="_blank"
+                class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-50 text-indigo-600 flex items-center justify-center text-2xl mb-4 group-hover:scale-105 group-hover:bg-indigo-50 transition-all duration-300">
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-sm text-slate-900 group-hover:text-brand-red transition-colors">Data
+                    Karyawan</span>
+                <span class="text-[11px] text-slate-500 font-medium mt-1.5">Link Google Drive</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-base text-slate-900">Matriks Jadwal Off & Cuti
+                        Tim</h3>
+                    <p class="text-xs text-slate-400">Monitoring libur seluruh karyawan</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input type="month" id="filter-bulan-matriks" onchange="loadDashboardMonthlyRekap()"
+                    class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                <button type="button" onclick="loadDashboardMonthlyRekap()"
+                    class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5 shrink-0 cursor-pointer">
+                    <i class="fa-solid fa-rotate text-purple-500"></i> Refresh
+                </button>
             </div>
         </div>
 
-        <!-- GRID MENU PINTAS OPERASIONAL -->
-        <div>
-            <h3 class="font-heading font-bold text-lg text-slate-900 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
-            </h3>
+        <!-- KETERANGAN SIMBOL / LEGEND -->
+        <div
+            class="flex items-center gap-4 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <span class="flex items-center gap-1.5"><span
+                    class="w-5 h-5 bg-blue-100 text-blue-700 font-extrabold rounded flex items-center justify-center text-xs">x</span>
+                OFF (Hari 1 - 4)</span>
+            <span class="flex items-center gap-1.5"><span
+                    class="w-5 h-5 bg-purple-100 text-purple-700 font-extrabold rounded flex items-center justify-center text-xs">ct</span>
+                CUTI (Hari 5+)</span>
+            <span class="flex items-center gap-1.5"><span
+                    class="w-5 h-5 bg-white border border-slate-200 rounded flex items-center justify-center text-xs"></span>
+                Masuk Kerja</span>
+        </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <!-- TABEL MATRIKS VIEW -->
+        <div class="overflow-x-auto overflow-y-auto border border-slate-200 rounded-xl relative shadow-inner">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead class="bg-slate-100 text-slate-700 sticky top-0 z-20 border-b border-slate-200"
+                    id="thead-matriks">
+                </thead>
+                <tbody id="tbody-dashboard-rekap" class="divide-y divide-slate-100 text-slate-700">
+                    <tr>
+                        <td colspan="32" class="text-center p-6 text-slate-400 font-medium">
+                            <i class="fa-solid fa-spinner animate-spin mr-2"></i> Memuat matriks jadwal
+                            libur...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                <!-- Menu 1: Absensi -->
-                <button onclick="openAbsensiModal()"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-red-50 text-brand-red flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-user-clock"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Absensi
-                        Karyawan</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Masuk / Istirahat / Pulang</span>
+    <!-- SECTION MANPOWER PLANNING (DENGAN FILTER & WARNA PLEK-KETIPLEK) -->
+    <section id="section-shift"
+        class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4 transition-all duration-300">
+        <!-- Header Section & Filter Tanggal -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 gap-3">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Jadwal
+                        Operasional</h3>
+                    <p class="text-xs text-emerald-600 font-semibold">Pilih tanggal untuk melihat detail
+                        lembar
+                        kerja</p>
+                </div>
+            </div>
+
+            <!-- Bagian Filter & Tombol Fullscreen -->
+            <div class="flex flex-wrap items-center gap-2">
+                <input type="date" id="inputTanggal" value="2026-08-19"
+                    class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-medium bg-white text-slate-700">
+                <input type="text" id="inputOutlet" value="TC ARJUNO" readonly class="hidden">
+                <button onclick="loadSchedule()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded-lg text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-filter"></i> Tampilkan
                 </button>
-
-                <!-- Menu 2: Pengajuan OFF & Cuti -->
-                <button onclick="openOffCutiModal()"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-calendar-minus"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Pengajuan
-                        OFF & Cuti</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Max 6 Hari / Bulan</span>
+                <button onclick="toggleFullscreen()"
+                    class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                    <i id="fullscreen-icon" class="fa-solid fa-expand"></i> <span id="fullscreen-text">Fullscreen</span>
                 </button>
-
-                <!-- Menu 3: Kas Outlet -->
-                <button onclick="openKasModal()"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Kas
-                        Outlet</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Catatan & Saldo</span>
-                </button>
-
-                <!-- Menu 4: Manpower Planning -->
-                <a href="#section-shift"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-calendar-days"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Manpower
-                        Planning</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Jadwal Shift Tim</span>
-                </a>
-
-                <!-- Menu 5: SOP / SOC -->
-                <a href="#section-sop"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">SOP/SOC
-                        Outlet</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Berkas Google Drive</span>
-                </a>
-
-                <!-- Menu 6: Our Team -->
-                <a href="#section-our-team"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-people-roof"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Our
-                        Team</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Struktur Tim</span>
-                </a>
-
             </div>
         </div>
 
-        <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0">
-                        <i class="fa-solid fa-calendar-days"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-heading font-bold text-base text-slate-900">Matriks Jadwal OFF & Cuti Tim</h3>
-                        <p class="text-xs text-slate-400">Monitoring libur seluruh karyawan dalam 1 bulan penuh</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <input type="month" id="filter-bulan-matriks" onchange="loadDashboardMonthlyRekap()"
-                        class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
-                    <button type="button" onclick="loadDashboardMonthlyRekap()"
-                        class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5 shrink-0 cursor-pointer">
-                        <i class="fa-solid fa-rotate text-purple-500"></i> Refresh
-                    </button>
+        <!-- Kotak Tabel Hasil Render yang Diperbarui -->
+        <div id="table-container"
+            class="rounded-xl border border-slate-200 bg-slate-50 p-1 transition-all duration-300">
+            <!-- Kontainer pembatas agar muat satu layar penuh dari ujung ke ujung -->
+            <div style="overflow: hidden; width: 100%; position: relative; border-radius: 8px;">
+                <div id="scheduleContainer" class="w-full">
+                    <p class="text-xs text-slate-400 text-center py-6">Silakan klik "Tampilkan" untuk memuat
+                        jadwal
+                        sesuai tanggal.</p>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- KETERANGAN SIMBOL / LEGEND -->
-            <div
-                class="flex items-center gap-4 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                <span class="flex items-center gap-1.5"><span
-                        class="w-5 h-5 bg-blue-100 text-blue-700 font-extrabold rounded flex items-center justify-center text-xs">x</span>
-                    OFF (Hari 1 - 4)</span>
-                <span class="flex items-center gap-1.5"><span
-                        class="w-5 h-5 bg-purple-100 text-purple-700 font-extrabold rounded flex items-center justify-center text-xs">ct</span>
-                    CUTI (Hari 5+)</span>
-                <span class="flex items-center gap-1.5"><span
-                        class="w-5 h-5 bg-white border border-slate-200 rounded flex items-center justify-center text-xs"></span>
-                    Masuk Kerja</span>
+    <!-- SECTION OUR TEAM (UPDATED LAYOUT: CENTER & RESPONSIVE COMPACT WITH STATUS) -->
+    <section id="section-our-team" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-people-roof"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Struktur Tim
+                        Outlet</h3>
+                    <p class="text-xs text-slate-400">Waroeng Steak & Shake - Mlg Tc Arjuno</p>
+                </div>
             </div>
-
-            <!-- TABEL MATRIKS VIEW -->
-            <div
-                class="overflow-x-auto max-h-[420px] overflow-y-auto border border-slate-200 rounded-xl relative shadow-inner">
-                <table class="w-full text-left text-xs border-collapse">
-                    <thead class="bg-slate-100 text-slate-700 sticky top-0 z-20 border-b border-slate-200"
-                        id="thead-matriks">
-                    </thead>
-                    <tbody id="tbody-dashboard-rekap" class="divide-y divide-slate-100 text-slate-700">
-                        <tr>
-                            <td colspan="32" class="text-center p-6 text-slate-400 font-medium">
-                                <i class="fa-solid fa-spinner animate-spin mr-2"></i> Memuat matriks jadwal libur...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="flex items-center gap-2">
+                <span id="team-counter-badge"
+                    class="text-xs font-semibold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 w-fit">
+                    <i class="fa-solid fa-users text-orange-500 mr-1"></i> Memuat Tim...
+                </span>
+                <button onclick="renderOurTeamSection()"
+                    class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition">
+                    <i class="fa-solid fa-rotate"></i>
+                </button>
             </div>
         </div>
 
-        <!-- SECTION MANPOWER PLANNING (PENAMPIL JADWAL SHIFT) -->
-        <section id="section-shift" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Manpower Planning & Shift
-                            Kerja</h3>
-                        <p class="text-xs text-slate-400">Jadwal pembagian shift operasional tim Mlg Tc Arjuno</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <a id="btn-manpower-open" href="https://docs.google.com/spreadsheets" target="_blank"
-                        class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Fullscreen
-                    </a>
-                </div>
+        <!-- CONTAINER DINAMIS STRUKTUR TIM (CENTERED & RESPONSIVE) -->
+        <div id="our-team-container" class="space-y-6 flex flex-col items-center w-full">
+            <div class="text-center py-8 text-slate-400">
+                <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
+                <p class="text-xs font-medium">Memuat struktur anggota tim...</p>
             </div>
-
-            <!-- IFRAME CONTAINER MONITOR JADWAL MANPOWER -->
-            <div
-                class="hidden relative w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-50 min-h-[500px] shadow-inner">
-                <iframe id="iframe-manpower"
-                    src="https://docs.google.com/spreadsheets/d/1riQSLGGEEj3M1RS9oho-Om_sLS4mc-82YwzHaxWpRxs/preview"
-                    class="w-full h-[520px] border-0 rounded-xl" loading="lazy"></iframe>
-            </div>
-        </section>
-
-        <!-- SECTION OUR TEAM (UPDATED LAYOUT: CENTER & RESPONSIVE COMPACT WITH STATUS) -->
-        <section id="section-our-team"
-            class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-people-roof"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Struktur Organisasi
-                            Outlet (Our Team)</h3>
-                        <p class="text-xs text-slate-400">Tim Operasional Waroeng Steak & Shake - Mlg Tc Arjuno</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span id="team-counter-badge"
-                        class="text-xs font-semibold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 w-fit">
-                        <i class="fa-solid fa-users text-orange-500 mr-1"></i> Memuat Tim...
-                    </span>
-                    <button onclick="renderOurTeamSection()"
-                        class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition">
-                        <i class="fa-solid fa-rotate"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- CONTAINER DINAMIS STRUKTUR TIM (CENTERED & RESPONSIVE) -->
-            <div id="our-team-container" class="space-y-6 flex flex-col items-center w-full">
-                <div class="text-center py-8 text-slate-400">
-                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
-                    <p class="text-xs font-medium">Memuat struktur anggota tim...</p>
-                </div>
-            </div>
-        </section>
+        </div>
+    </section>
 
     </main>
 
@@ -516,7 +565,7 @@
                 <!-- Pilihan 2: URL Foto External -->
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Atau Gunakan Link / URL Foto</label>
-                    <input type="url" id="edit-team-photo" placeholder="https://..."
+                    <input type="url" id="edit-team-photo" placeholder="Tempel link foto di sini"
                         oninput="handleFileOrUrlChange(event)"
                         class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-orange-500 focus:outline-none">
                     <span class="text-[10px] text-slate-400 block mt-1">Kosongkan keduanya untuk kembali menggunakan
@@ -604,23 +653,14 @@
 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Nama Karyawan</label>
-                    <select id="select-nama" onchange="onNamaChange()"
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-800 font-medium focus:ring-2 focus:ring-brand-red focus:outline-none">
-                        <option value="">-- Memuat Data Karyawan... --</option>
-                    </select>
+                    <input type="text" id="input-nama" readonly placeholder="-- Otomatis terisi setelah Cek NIK --"
+                        class="w-full bg-slate-100 border border-slate-300 rounded-lg p-2.5 text-slate-600 font-medium cursor-not-allowed">
                 </div>
 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Jabatan / Level</label>
-                    <select id="select-jabatan"
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-800 font-medium focus:ring-2 focus:ring-brand-red focus:outline-none">
-                        <option value="">-- Pilih Jabatan --</option>
-                        <option value="MO">MO</option>
-                        <option value="WMO 1">WMO 1</option>
-                        <option value="WMO 2">WMO 2</option>
-                        <option value="KASIR">KASIR</option>
-                        <option value="STAFF">STAFF</option>
-                    </select>
+                    <input type="text" id="input-jabatan" readonly placeholder="-- Otomatis terisi setelah Cek NIK --"
+                        class="w-full bg-slate-100 border border-slate-300 rounded-lg p-2.5 text-slate-600 font-medium cursor-not-allowed">
                 </div>
 
                 <!-- KAMERA SELFIE OPSIONAL -->
@@ -720,7 +760,7 @@
                         <i class="fa-solid fa-calendar-minus"></i>
                     </div>
                     <div>
-                        <h3 class="font-heading font-bold text-slate-900 text-base">Pengajuan OFF & Cuti</h3>
+                        <h3 class="font-heading font-bold text-slate-900 text-base">Pengajuan Off & Cuti</h3>
                         <p class="text-xs text-slate-400">Pilih hingga 6 tanggal (opsional)</p>
                     </div>
                 </div>
@@ -1505,6 +1545,9 @@
                 );
 
             } finally {
+                // Reset variabel temporary Base64 setelah hapus berhasil
+                tempEditPhotoBase64 = '';
+
                 if (deleteBtn) {
                     deleteBtn.disabled = false;
                     deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Hapus Foto';
@@ -1567,6 +1610,9 @@
                 console.error('Gagal menyimpan foto tim:', err);
                 showPopup('error', 'Gagal Menyimpan Foto', err.message || err.toString());
             } finally {
+                // Reset variabel temporary Base64 setelah selesai
+                tempEditPhotoBase64 = '';
+
                 if (btn) {
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Foto';
@@ -1574,63 +1620,27 @@
             }
         }
 
-        // Ambil semua foto tim dari Google Sheet/Google Drive.
+        // Ambil semua foto tim
         async function loadTeamPhotos() {
             try {
-                const response = await fetch(GAS_WEB_APP_URL + '?action=getTeamPhotos');
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getTeamPhotos");
                 const result = await response.json();
-
                 if (result && result.success && result.photos) {
                     customPhotoStore = {};
-
                     Object.keys(result.photos).forEach(function (nik) {
                         const cleanNik = nik.toString().trim().toUpperCase();
                         const url = result.photos[nik];
-
-                        if (cleanNik && url) {
-                            customPhotoStore[cleanNik] = url;
-                        }
+                        if (cleanNik && url) customPhotoStore[cleanNik] = url;
                     });
-
                     console.log("Foto Team dimuat:", Object.keys(customPhotoStore).length);
                 } else {
                     customPhotoStore = {};
-                    console.warn("Foto Team tidak tersedia:", result ? result.message : "response kosong");
                 }
             } catch (err) {
                 console.error('Gagal memuat foto tim dari server:', err);
                 customPhotoStore = {};
             }
         }
-
-        document.addEventListener("DOMContentLoaded", async function () {
-            const dateElement = document.getElementById("current-date");
-            if (dateElement) {
-                const now = new Date();
-                dateElement.textContent = now.toLocaleDateString('id-ID', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
-            }
-
-            updateOutletStatus();
-            setInterval(updateOutletStatus, 60000);
-
-            const now = new Date();
-            const filterBulanInput = document.getElementById("filter-bulan-matriks");
-            if (filterBulanInput && !filterBulanInput.value) {
-                const curY = now.getFullYear();
-                const curM = String(now.getMonth() + 1).padStart(2, '0');
-                filterBulanInput.value = `${curY}-${curM}`;
-            }
-
-            await loadTeamPhotos();
-            await loadInitialData();
-            loadDisabledDates();
-            loadDashboardMonthlyRekap();
-        });
 
         // FUNGSI UTAMA: MEMUAT MATRIKS JADWAL LIBUR
         async function loadDashboardMonthlyRekap() {
@@ -1653,11 +1663,11 @@
 
             // 1. Render Header Tanggal
             let theadHTML = `
-        <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-            <th class="p-2.5 font-bold sticky left-0 bg-slate-100 z-30 min-w-[160px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200">Nama Karyawan</th>
-    `;
+    <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+        <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 min-w-[150px] max-w-[150px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs">Nama Karyawan</th>
+`;
             for (let d = 1; d <= daysInMonth; d++) {
-                theadHTML += `<th class="p-2 text-center font-bold min-w-[34px] w-[34px] border-r border-slate-200 text-slate-600 ${d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70'}">${d}</th>`;
+                theadHTML += `<th class="p-1 text-center font-bold min-w-[28px] w-[28px] border-r border-slate-200 text-slate-600 text-[11px] ${d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70'}">${d}</th>`;
             }
             theadHTML += `</tr>`;
             thead.innerHTML = theadHTML;
@@ -1757,9 +1767,9 @@
                     });
 
                     tbodyHTML += `
-                <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                    <td class="p-2.5 font-bold text-slate-800 sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap">${empNama}</td>
-            `;
+    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+        <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap max-w-[150px] truncate">${empNama}</td>
+`;
 
                     for (let d = 1; d <= daysInMonth; d++) {
                         const dayPadded = String(d).padStart(2, '0');
@@ -2027,23 +2037,38 @@
 
         // VERIFIKASI NIK
         function verifyNIK() {
-            const nikInput = document.getElementById("input-nik").value.trim().toUpperCase();
-            if (!nikInput) {
-                showPopup('warning', 'NIK Kosong', 'Masukkan NIK terlebih dahulu!');
+            const nikVal = document.getElementById('input-nik').value.trim().toUpperCase();
+            const namaInput = document.getElementById('input-nama');
+            const jabatanInput = document.getElementById('input-jabatan');
+
+            if (!nikVal) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Perhatian',
+                    text: 'Silahkan masukkan NIK karyawan terlebih dahulu!',
+                    confirmButtonColor: '#e11d48' // Warna merah ala tombol dashboard kamu
+                });
                 return;
             }
-            if (employeeList.length === 0) {
-                showPopup('info', 'Memuat Data', 'Data karyawan sedang dimuat. Coba sebentar lagi.');
+
+            if (!employeeList || employeeList.length === 0) {
+                alert("Data karyawan belum dimuat. Mohon tunggu sebentar atau refresh halaman.");
                 return;
             }
-            const found = employeeList.find(e => e.nik && e.nik.toString().toUpperCase() === nikInput);
+
+            // Cari karyawan berdasarkan NIK
+            const found = employeeList.find(e => {
+                const eNik = (e.nik || e.NIK || '').toString().trim().toUpperCase();
+                return eNik === nikVal;
+            });
+
             if (found) {
-                document.getElementById("input-nik").value = found.nik;
-                document.getElementById("select-nama").value = found.nama;
-                document.getElementById("select-jabatan").value = found.jabatan || 'STAFF';
-                showPopup('success', 'NIK Ditemukan!', `Nama: ${found.nama} (${found.jabatan || 'STAFF'})`);
+                namaInput.value = found.nama || found.Nama || '';
+                jabatanInput.value = found.jabatan || found.Jabatan || '';
             } else {
-                showPopup('error', 'NIK Tidak Ditemukan', `NIK "${nikInput}" tidak terdaftar!`);
+                namaInput.value = "";
+                jabatanInput.value = "";
+                alert("NIK tidak ditemukan di database! Pastikan NIK sudah terdaftar di sheet DATA KARYAWAN.");
             }
         }
 
@@ -2340,10 +2365,6 @@
             }
         }
 
-        /* ==========================================
-           LOGIKA DYNAMIC BANNER INFO (GSHEET INTEGRATION)
-           ========================================== */
-
         let currentActiveInfo = { title: "", content: "" };
 
         // 1. Ambil & Langsung Jalankan Running Text dari Google Sheets
@@ -2445,10 +2466,221 @@
             }
         }
 
-        // Panggil fungsi fetch saat aplikasi selesai dimuat
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchBannerInfo();
+        // 1. Fungsi Zoom / Fullscreen khusus section tabel
+        function toggleFullscreen() {
+            const section = document.getElementById('section-shift');
+            const container = document.getElementById('table-container');
+            const scheduleContainer = document.getElementById('scheduleContainer');
+            const icon = document.getElementById('fullscreen-icon');
+            const text = document.getElementById('fullscreen-text');
+
+            if (!document.fullscreenElement) {
+                // Request Fullscreen
+                const request = section.requestFullscreen || section.webkitRequestFullscreen || section.mozRequestFullScreen || section.msRequestFullscreen;
+                if (request) request.call(section);
+
+                // Ubah posisi section menjadi fixed layar penuh
+                section.classList.add("fixed", "inset-0", "z-50", "p-6", "bg-white", "overflow-y-auto");
+
+                // Atur container utama agar pas
+                container.style.width = "100%";
+                container.style.maxWidth = "100%";
+
+                // Bungkus scheduleContainer agar rapi di tengah layar penuh
+                if (scheduleContainer) {
+                    scheduleContainer.style.width = "100%";
+                    scheduleContainer.style.overflowX = "auto";
+                }
+
+                // Biarkan tabel aslinya berjalan normal tanpa dipaksa ubah sel-selnya
+                const table = container.querySelector('table');
+                if (table) {
+                    table.style.width = "auto"; // Kembali ke ukuran natural tabel agar tidak berantakan
+                }
+
+                icon.className = "fa-solid fa-compress";
+                text.innerText = "Tutup / Keluar";
+            } else {
+                exitFullscreenMode();
+            }
+        }
+
+        function exitFullscreenMode() {
+            const section = document.getElementById('section-shift');
+            const container = document.getElementById('table-container');
+            const scheduleContainer = document.getElementById('scheduleContainer');
+            const icon = document.getElementById('fullscreen-icon');
+            const text = document.getElementById('fullscreen-text');
+
+            if (document.fullscreenElement) {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
+
+            // Hapus style fullscreen dari section
+            section.classList.remove("fixed", "inset-0", "z-50", "p-6", "bg-white", "overflow-y-auto");
+
+            // Kembalikan style normal
+            container.style.width = "";
+            container.style.maxWidth = "";
+
+            if (scheduleContainer) {
+                scheduleContainer.style.width = "100%";
+                scheduleContainer.style.overflowX = "";
+            }
+
+            const table = container.querySelector('table');
+            if (table) {
+                table.style.width = "";
+            }
+
+            icon.className = "fa-solid fa-expand";
+            text.innerText = "Fullscreen";
+        }
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            const dateElement = document.getElementById("current-date");
+            if (dateElement) {
+                const now = new Date();
+                dateElement.textContent = now.toLocaleDateString('id-ID', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+            }
+
+            if (typeof fetchBannerInfo === 'function') fetchBannerInfo();
+
+            updateOutletStatus();
+            setInterval(updateOutletStatus, 60000);
+
+            const now = new Date();
+            const filterBulanInput = document.getElementById("filter-bulan-matriks");
+            if (filterBulanInput && !filterBulanInput.value) {
+                const curY = now.getFullYear();
+                const curM = String(now.getMonth() + 1).padStart(2, '0');
+                filterBulanInput.value = `${curY}-${curM}`;
+            }
+
+            // Pemanggilan fungsi dijalankan secara berurutan:
+            await loadTeamPhotos();
+            await loadInitialData();
+            if (typeof loadDisabledDates === 'function') loadDisabledDates();
+            if (typeof loadDashboardMonthlyRekap === 'function') loadDashboardMonthlyRekap();
+
         });
+
+        // === FUNGSI PEMANGGILAN JADWAL BERDASARKAN FILTER (PLEK-KETIPLEK WARNA GSHEET) ===
+        function loadSchedule() {
+            const tanggal = document.getElementById('inputTanggal').value;
+            const outlet = document.getElementById('inputOutlet').value;
+            const container = document.getElementById('scheduleContainer');
+
+            container.innerHTML = '<p class="text-xs text-slate-500 text-center py-6">Memuat lembar kerja dan warna...</p>';
+
+            // Menggunakan fetch ke Web App URL dengan parameter action getScheduleByFilter
+            let url = GAS_WEB_APP_URL + `?action=getScheduleByFilter&date=${tanggal}&outlet=${encodeURIComponent(outlet)}`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(res => {
+                    const result = res.data || res;
+
+                    if (!result.success) {
+                        container.innerHTML = `<p class="text-xs text-red-500 text-center py-6">${result.message || "Data tidak ditemukan."}</p>`;
+                        return;
+                    }
+
+                    const values = result.values;
+                    const colors = result.colors;
+
+                    // Membuat elemen tabel HTML secara dinamis dengan ukuran mikro agar muat banyak kolom jam
+                    let html = '<div style="width: 100%; overflow: hidden;"><table class="w-full border-collapse text-[9px] bg-white whitespace-nowrap" style="table-layout: auto;">';
+
+                    for (let r = 0; r < values.length; r++) {
+                        html += '<tr>';
+                        for (let c = 0; c < values[r].length; c++) {
+                            let cellValue = values[r][c] !== null && values[r][c] !== undefined ? values[r][c] : '';
+                            let cellColor = colors[r][c] ? colors[r][c] : '#ffffff'; // Mengambil warna asli dari GSheet
+
+                            // Di dalam loop baris dan kolom:
+                            html += `<td style="background-color: ${cellColor}; border: 1px solid #cbd5e1; padding: 2px 3px; text-align: center;">${cellValue}</td>`;
+                        }
+                        html += '</tr>';
+                    }
+
+                    html += '</table>';
+
+                    // Ganti container.innerHTML = html; dengan bungkus scale ini:
+                    container.innerHTML = `
+                        <div class="w-full overflow-hidden" style="line-height: 1;">
+                            <div style="width: 150%; transform: scale(0.95); transform-origin: top left; margin-bottom: -2%;">
+                                ${html}
+                            </div>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    console.error("Gagal memuat jadwal:", error);
+                    container.innerHTML = `<p class="text-xs text-red-500 text-center py-6">Gagal terhubung ke server.</p>`;
+                });
+        }
+
+        // Otomatis isi tanggal hari ini DAN muat data saat halaman pertama kali dibuka
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+
+            const inputTanggal = document.getElementById('inputTanggal');
+            if (inputTanggal) {
+                inputTanggal.value = formattedDate;
+            }
+
+            loadSchedule();
+
+            // PANGGIL VIDEO MOTIVASI ACAK DI SINI
+            loadRandomMotivationVideo();
+        });
+
+        // ==========================================
+        // FUNGSI PEMUTAR VIDEO MOTIVASI OTOMATIS
+        // ==========================================
+        const motivationVideos = [
+            "V96hXqw2oU8",
+            "srkG0zqJZSw", // Merry Riana
+            "JAdTjHsOid0",
+            "oqRX02uhicc",
+            "q0GiWKl5aaI",
+            "hj9KRxnCc00",
+            "VirbuHEjmmY&t=94s"
+        ];
+
+        function loadRandomMotivationVideo() {
+            const iframe = document.getElementById('motivationVideo');
+            if (!iframe) return;
+
+            const randomIndex = Math.floor(Math.random() * motivationVideos.length);
+            const selectedVideoId = motivationVideos[randomIndex];
+
+            const embedUrl = `https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&mute=1&loop=1&playlist=${selectedVideoId}`;
+            iframe.src = embedUrl;
+        }
+
+        // Tambahkan fungsi jam di sini
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const timeElement = document.getElementById("current-time");
+            if (timeElement) {
+                timeElement.textContent = timeStr;
+            }
+        }
+
+        // Panggil kedua fungsi saat halaman dimuat
+        updateTime();
+        setInterval(updateTime, 60000);
+        loadRandomMotivationVideo();
     </script>
 </body>
 
