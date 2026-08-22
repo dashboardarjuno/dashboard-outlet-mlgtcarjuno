@@ -156,37 +156,42 @@
     <!-- HEADER & NAVBAR REVISI RESPONSIF -->
 <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
     <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
-        <!-- Kiri: Logo, Judul 1 Baris, Kode & Status di Bawahnya -->
+        <!-- Kiri: Logo dan Judul -->
         <div class="flex items-center gap-2.5 sm:gap-3.5">
-            <div class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
+            <div
+                class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
                 <i class="fa-solid fa-store text-base sm:text-lg"></i>
             </div>
-            <div>
-                <!-- Nama Outlet + Indikator Merah dalam 1 Baris -->
-                <div class="flex items-center gap-1.5">
-                    <h1 class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
-                        MLG-TC-Arjuno
-                    </h1>
-                    <span class="w-2 h-2 rounded-full bg-brand-red shrink-0"></span>
-                </div>
-                <!-- Kode Outlet & Badge Status Pindah ke Bawah -->
-                <div class="flex items-center gap-2 mt-0.5">
-                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium whitespace-nowrap">
-                        Kode Outlet: <span class="text-brand-red font-bold">1415</span>
-                    </p>
-                    <span id="outlet-status-container" class="text-[10px] sm:text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap"></span>
+            <!-- flex-col agar tersusun bertumpuk ke bawah -->
+            <div class="flex flex-col justify-center">
+                <!-- Baris 1: Nama Outlet (1 Baris) -->
+                <h1
+                    class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
+                    MLG-TC-Arjuno</h1>
+                
+                <!-- Baris 2: Kode Outlet -->
+                <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">Kode Outlet: <span
+                        class="text-brand-red font-bold">1415</span></p>
+                
+                <!-- Baris 3: Status Outlet (Pindah ke Bawah Kode Outlet) -->
+                <div class="mt-0.5">
+                    <span id="outlet-status-container"
+                        class="text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-1 rounded-full whitespace-nowrap"></span>
                 </div>
             </div>
         </div>
 
-        <!-- Kanan: Jam & Tanggal -->
-        <div class="flex flex-col text-right">
-            <span id="current-date" class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
-            <span id="current-time" class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
+        <!-- Kanan: Jam & Status -->
+        <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+            <div class="flex flex-col">
+                <span id="current-date"
+                    class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
+                <span id="current-time"
+                    class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
+            </div>
         </div>
     </div>
 </header>
-
     <!-- MARQUEE ANNOUNCEMENT BANNER -->
     <div
         class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-4 shadow-inner flex items-center justify-between gap-2">
