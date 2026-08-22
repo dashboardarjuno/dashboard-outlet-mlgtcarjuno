@@ -2042,16 +2042,34 @@
 
         // VERIFIKASI NIK
         function verifyNIK() {
+            // 1. Ambil elemen terlebih dahulu
             const nikVal = document.getElementById('input-nik').value.trim().toUpperCase();
             const namaInput = document.getElementById('input-nama');
             const jabatanInput = document.getElementById('input-jabatan');
 
+            // 2. CEK KEAMANAN ELEMEN (Tambahan Baru)
+            if (!namaInput || !jabatanInput) {
+                console.error("Elemen form input tidak ditemukan!");
+                return;
+            }
+
+            // 3. CEK KEAMANAN DATA (Tambahan Baru)
+            if (!employeeList || !Array.isArray(employeeList)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Data Belum Siap',
+                    text: 'Data karyawan sedang dimuat, mohon tunggu sebentar...'
+                });
+                return;
+            }
+
+            // 4. Lanjut ke kode lama Anda...
             if (!nikVal) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Perhatian',
                     text: 'Silahkan masukkan NIK karyawan terlebih dahulu!',
-                    confirmButtonColor: '#e11d48' // Warna merah ala tombol dashboard kamu
+                    confirmButtonColor: '#e11d48'
                 });
                 return;
             }
@@ -2074,16 +2092,6 @@
                 namaInput.value = "";
                 jabatanInput.value = "";
                 alert("NIK tidak ditemukan di database! Pastikan NIK sudah terdaftar di sheet DATA KARYAWAN.");
-            }
-        }
-
-        // OTOMATISASI SAAT NAMA DISELECT
-        function onNamaChange() {
-            const selectNama = document.getElementById("select-nama");
-            const selectedOpt = selectNama.options[selectNama.selectedIndex];
-            if (selectedOpt && selectedOpt.dataset && selectedOpt.dataset.nik) {
-                document.getElementById("input-nik").value = selectedOpt.dataset.nik;
-                document.getElementById("select-jabatan").value = selectedOpt.dataset.jabatan || 'STAFF';
             }
         }
 
@@ -2182,18 +2190,34 @@
             );
         }
 
-        // FUNGSI SUBMIT ABSENSI
+        // FUNGSI SUBMIT ABSENSI (VERSI AMAN DARI ERROR NULL)
         async function submitAbsensi(e) {
             e.preventDefault();
 
-            const nik = document.getElementById("input-nik").value.trim().toUpperCase();
-            const nama = document.getElementById("input-nama").value;
-            const jabatan = document.getElementById("input-jabatan").value;
+            const elNik = document.getElementById("input-nik");
+            const elNama = document.getElementById("input-nama");
+            const elJabatan = document.getElementById("input-jabatan");
+
+            // Validasi pencegahan jika elemen tidak ditemukan di DOM
+            if (!elNik || !elNama || !elJabatan) {
+                showPopup('warning', 'Kesalahan Sistem', 'Form absensi tidak lengkap. Silakan refresh halaman.');
+                return;
+            }
+
+            const nik = elNik.value.trim().toUpperCase();
+            const nama = elNama.value.trim();
+            const jabatan = elJabatan.value.trim();
+
             const tipeChecked = document.querySelector('input[name="tipe_absen"]:checked');
             const tipe = tipeChecked ? tipeChecked.value : null;
 
             if (!nik || !nama || !jabatan) {
-                showPopup('warning', 'Data Belum Lengkap', 'Harap lengkapi NIK, Nama, dan Jabatan!');
+                showPopup('warning', 'Data Belum Lengkap', 'Harap masukkan NIK dan lakukan Cek NIK terlebih dahulu!');
+                return;
+            }
+
+            if (!tipe) {
+                showPopup('warning', 'Pilih Tipe Absen', 'Harap pilih salah satu Tipe Absen (Masuk/Istirahat/Pulang)!');
                 return;
             }
 
