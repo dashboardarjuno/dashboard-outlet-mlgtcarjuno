@@ -2716,55 +2716,41 @@
                     const values = result.values;
                     const colors = result.colors;
 
-                    // 1. TABEL KIRI (Kunci Kolom NO & NAMA - Diam)
-                    let leftTable = '<table class="border-collapse text-[9px] bg-white whitespace-nowrap" style="border-spacing:0; table-layout: fixed;">';
-                    
-                    // 2. TABEL KANAN (Jam Operasional - Bawa Warna Asli GSheet)
-                    let rightTable = '<table class="border-collapse text-[9px] bg-white whitespace-nowrap" style="border-spacing:0; table-layout: fixed;">';
+                    // TABEL SATU WADAH (Aman Semua Device)
+                    let html = '<table class="border-collapse text-[9px] bg-white whitespace-nowrap" style="margin:0; padding:0; border-spacing:0; table-layout: auto; min-width: 100%;">';
+
+                    const wCol0 = 30;  // Lebar Kolom 0 (NO) = 30px
+                    const wCol1 = 125; // Lebar Kolom 1 (NAMA) = 125px
 
                     for (let r = 0; r < values.length; r++) {
-                        leftTable += '<tr style="height: 21px;">';
-                        rightTable += '<tr style="height: 21px;">';
-
+                        html += '<tr>';
                         for (let c = 0; c < values[r].length; c++) {
                             let cellValue = values[r][c] !== null && values[r][c] !== undefined ? values[r][c] : '';
-                            
-                            // Mengambil warna asli dari array colors Google Sheets
                             let cellColor = (colors && colors[r] && colors[r][c]) ? colors[r][c] : '#ffffff';
 
-                            // Kolom 0 (NO) dan Kolom 1 (NAMA) masuk ke Tabel Kiri
-                            if (c === 0 || c === 1) {
-                                let width = c === 0 ? '32px' : '135px';
-                                leftTable += `<td style="background-color: ${cellColor}; border: 1px solid #cbd5e1; padding: 2px 3px; text-align: center; width: ${width}; min-width: ${width}; max-width: ${width}; overflow: hidden; text-overflow: ellipsis;">${cellValue}</td>`;
-                            } 
-                            // Kolom 2 ke atas (Jabatan, Jam, & Status) masuk ke Tabel Kanan
-                            else {
-                                rightTable += `<td style="background-color: ${cellColor}; border: 1px solid #cbd5e1; padding: 2px 4px; text-align: center; min-width: 45px;">${cellValue}</td>`;
-                            }
-                        }
+                            let stickyStyle = '';
 
-                        leftTable += '</tr>';
-                        rightTable += '</tr>';
+                            // HANYA KUNCI KOLOM 0 (NO) DAN KOLOM 1 (NAMA KARYAWAN)
+                            if (c === 0) {
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; min-width: ${wCol0}px; max-width: ${wCol0}px; z-index: 25; background-color: ${cellColor}; background-clip: padding-box;`;
+                            } else if (c === 1) {
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: ${wCol0}px; min-width: ${wCol1}px; max-width: ${wCol1}px; z-index: 25; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.18);`;
+                            } else {
+                                // KOLOM JABATAN & JAM OPERASIONAL (BEBAS SCROLL)
+                                stickyStyle = `background-color: ${cellColor}; min-width: 42px;`;
+                            }
+
+                            html += `<td style="border: 1px solid #cbd5e1; padding: 3px 4px; text-align: center; ${stickyStyle}">${cellValue}</td>`;
+                        }
+                        html += '</tr>';
                     }
 
-                    leftTable += '</table>';
-                    rightTable += '</table>';
+                    html += '</table>';
 
-                    // GABUNGKAN DALAM WRAPPER FLEX
+                    // WRAPPER SCROLL TUNGGAL
                     container.className = "";
-                    container.style.cssText = "width: 100%; position: relative;";
-                    container.innerHTML = `
-                        <div style="display: flex; flex-direction: row; align-items: flex-start; width: 100%;">
-                            <!-- KIRI: STICKY/DIAM TOTAL -->
-                            <div style="flex-shrink: 0; z-index: 20; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.18);">
-                                ${leftTable}
-                            </div>
-                            <!-- KANAN: SCROLL HORIZONTAL + WARNA GSHEET -->
-                            <div style="flex-grow: 1; overflow-x: auto; -webkit-overflow-scrolling: touch;">
-                                ${rightTable}
-                            </div>
-                        </div>
-                    `;
+                    container.style.cssText = "width: 100%; overflow-x: auto !important; position: relative !important; -webkit-overflow-scrolling: touch;";
+                    container.innerHTML = html;
                 })
                 .catch(error => {
                     console.error("Gagal memuat jadwal:", error);
