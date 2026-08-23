@@ -2716,11 +2716,11 @@
                     const values = result.values;
                     const colors = result.colors;
 
-                    // TABEL SATU WADAH (Aman Semua Device)
                     let html = '<table class="border-collapse text-[9px] bg-white whitespace-nowrap" style="margin:0; padding:0; border-spacing:0; table-layout: auto; min-width: 100%;">';
 
-                    const wCol0 = 30;  // Lebar Kolom 0 (NO) = 30px
-                    const wCol1 = 125; // Lebar Kolom 1 (NAMA) = 125px
+                    // UKURAN KOLOM DITINGKATKAN PRESISINYA
+                    const wCol0 = 20;  // Kolom NO ramping (20px)
+                    const wCol1 = 130; // Kolom NAMA KARYAWAN (130px)
 
                     for (let r = 0; r < values.length; r++) {
                         html += '<tr>';
@@ -2730,24 +2730,26 @@
 
                             let stickyStyle = '';
 
-                            // HANYA KUNCI KOLOM 0 (NO) DAN KOLOM 1 (NAMA KARYAWAN)
+                            // KOLOM 0: NO (Ramping & Kunci di Left 0px)
                             if (c === 0) {
-                                stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; min-width: ${wCol0}px; max-width: ${wCol0}px; z-index: 25; background-color: ${cellColor}; background-clip: padding-box;`;
-                            } else if (c === 1) {
-                                stickyStyle = `position: -webkit-sticky; position: sticky; left: ${wCol0}px; min-width: ${wCol1}px; max-width: ${wCol1}px; z-index: 25; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.18);`;
-                            } else {
-                                // KOLOM JABATAN & JAM OPERASIONAL (BEBAS SCROLL)
-                                stickyStyle = `background-color: ${cellColor}; min-width: 42px;`;
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; min-width: ${wCol0}px; max-width: ${wCol0}px; z-index: 25; background-color: ${cellColor}; background-clip: padding-box; padding: 3px 1px;`;
+                            } 
+                            // KOLOM 1: NAMA KARYAWAN (Menempel Pas di Left 20px)
+                            else if (c === 1) {
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: ${wCol0}px; min-width: ${wCol1}px; max-width: ${wCol1}px; z-index: 25; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.18); padding: 3px 4px;`;
+                            } 
+                            // KOLOM LAINNYA (JABATAN & JAM OPERASIONAL)
+                            else {
+                                stickyStyle = `background-color: ${cellColor}; min-width: 42px; padding: 3px 4px;`;
                             }
 
-                            html += `<td style="border: 1px solid #cbd5e1; padding: 3px 4px; text-align: center; ${stickyStyle}">${cellValue}</td>`;
+                            html += `<td style="border: 1px solid #cbd5e1; text-align: center; ${stickyStyle}">${cellValue}</td>`;
                         }
                         html += '</tr>';
                     }
 
                     html += '</table>';
 
-                    // WRAPPER SCROLL TUNGGAL
                     container.className = "";
                     container.style.cssText = "width: 100%; overflow-x: auto !important; position: relative !important; -webkit-overflow-scrolling: touch;";
                     container.innerHTML = html;
