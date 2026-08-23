@@ -155,11 +155,12 @@
         }
     </script>
     <style>
+<style>
         .gradient-banner {
             background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
         }
 
-        /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
+        /* STATUS OUR TEAM */
         @keyframes teamStatusBlinkRed {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.35; transform: scale(0.88); }
@@ -170,96 +171,71 @@
             50% { opacity: 0.35; transform: scale(0.88); }
         }
 
-        .team-status-red {
-            background: #fef2f2;
-            color: #dc2626;
-            border-color: #fecaca;
-        }
+        .team-status-red { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+        .team-status-green { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
 
-        .team-status-green {
-            background: #ecfdf5;
-            color: #047857;
-            border-color: #a7f3d0;
-        }
-
-        .team-status-dot-red,
-        .team-status-dot-green {
-            width: 6px;
-            height: 6px;
-            border-radius: 9999px;
-            display: inline-block;
-            flex-shrink: 0;
+        .team-status-dot-red, .team-status-dot-green {
+            width: 6px; height: 6px; border-radius: 9999px; display: inline-block; flex-shrink: 0;
         }
 
         .team-status-dot-red {
-            background: #ef4444;
-            animation: teamStatusBlinkRed 1s ease-in-out infinite;
+            background: #ef4444; animation: teamStatusBlinkRed 1s ease-in-out infinite;
             box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
         }
 
         .team-status-dot-green {
-            background: #10b981;
-            animation: teamStatusBlinkGreen 1s ease-in-out infinite;
+            background: #10b981; animation: teamStatusBlinkGreen 1s ease-in-out infinite;
             box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-
-        /* Mencegah Safari iPhone Auto-Zoom saat klik input */
+        /* Mencegah Safari iPhone Auto-Zoom */
         @media screen and (max-width: 768px) {
-            input, select, textarea {
-                font-size: 16px !important;
-            }
+            input, select, textarea { font-size: 16px !important; }
         }
 
         /* Memperhalus scroll di iOS */
-        .overflow-y-auto,
-        .overflow-x-auto,
-        .table-container {
+        .overflow-y-auto, .overflow-x-auto, .table-container {
             -webkit-overflow-scrolling: touch;
         }
 
-        /* --- STICKY KOLOM NO & NAMA KARYAWAN (PENYESUAIAN KHUSUS) --- */
+        /* FIX STICKY TABEL JADWAL ALL DEVICE */
+        #table-container, #scheduleContainer {
+            overflow-x: auto !important;
+            position: relative !important;
+        }
+
         #scheduleContainer table {
             border-collapse: separate !important;
             border-spacing: 0 !important;
+            width: 100% !important;
         }
 
-        #scheduleContainer table tr th:nth-child(1),
-        #scheduleContainer table tr td:nth-child(1) {
+        /* Kolom 1: NO */
+        #scheduleContainer table td:nth-child(1),
+        #scheduleContainer table th:nth-child(1) {
             position: -webkit-sticky !important;
             position: sticky !important;
-            left: 0 !important;
-            z-index: 25 !important;
+            left: 0px !important;
+            z-index: 30 !important;
             background-color: #ffffff !important;
         }
 
-        #scheduleContainer table tr th:nth-child(2),
-        #scheduleContainer table tr td:nth-child(2) {
+        /* Kolom 2: NAMA KARYAWAN */
+        #scheduleContainer table td:nth-child(2),
+        #scheduleContainer table th:nth-child(2) {
             position: -webkit-sticky !important;
             position: sticky !important;
-            left: 32px !important;
-            z-index: 25 !important;
+            left: 30px !important;
+            z-index: 30 !important;
             background-color: #ffffff !important;
             white-space: nowrap !important;
-            box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 3px 0 5px -2px rgba(0,0,0,0.15) !important;
         }
     </style>
 </head>
@@ -334,11 +310,6 @@
 
         <!-- HERO BANNER REVISI RESPONSIF -->
 <section class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-4 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
-    <!-- Background Pattern Subtle -->
-    <div class="absolute inset-0 opacity-10"
-        style="background-image: url('data:image/svg+xml,%3Csvg width=\'6\' height=\'6\' viewBox=\'0 0 6 6\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M5 0h1L0 6V5zM6 5v1H5z\'/%3E%3C/g%3E%3C/svg%3E');">
-    </div>
-
     <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
         <div class="space-y-2 sm:space-y-3">
             <span class="inline-flex items-center gap-1.5 bg-white/10 text-amber-300 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full">
@@ -352,9 +323,9 @@
             </p>
         </div>
 
-        <!-- Video Container Aman -->
-        <div class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black/40">
-            <iframe id="motivationVideo" class="w-full h-full" src=""
+        <!-- Video Container (Tinggi Pasti & Aman) -->
+        <div class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
+            <iframe id="motivationVideo" class="w-full h-full absolute inset-0" src=""
                 title="Motivasi Tim" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen>
@@ -2816,7 +2787,7 @@
             "oqRX02uhicc",
             "q0GiWKl5aaI",
             "hj9KRxnCc00",
-            "VirbuHEjmmY&t=94s"
+            "VirbuHEjmmY"  // Dihapus &t=94s agar URL embed valid
         ];
 
         function loadRandomMotivationVideo() {
@@ -2826,7 +2797,13 @@
             const randomIndex = Math.floor(Math.random() * motivationVideos.length);
             const selectedVideoId = motivationVideos[randomIndex];
 
-            const embedUrl = `https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&mute=1&loop=1&playlist=${selectedVideoId}`;
+            // Tambahkan start=94 jika ingin video VirbuHEjmmY mulai dari detik ke-94
+            let extraParams = "";
+            if (selectedVideoId === "VirbuHEjmmY") {
+                extraParams = "&start=94";
+            }
+
+            const embedUrl = `https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&mute=1&loop=1&playlist=${selectedVideoId}${extraParams}`;
             iframe.src = embedUrl;
         }
 
@@ -2840,7 +2817,8 @@
             }
         }
 
-        // Panggil kedua fungsi saat halaman dimuat
+        // PENGGILAN FUNGSI SAAT HALAMAN DIMUAT
+        loadRandomMotivationVideo(); // <--- INI YANG TADI KURANG SEHINGGA VIDEO TIDAK MUNCUL
         updateTime();
         setInterval(updateTime, 60000);
     </script>
