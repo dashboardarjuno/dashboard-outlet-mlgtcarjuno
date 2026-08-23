@@ -204,8 +204,10 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* FIX STICKY TABEL JADWAL ALL DEVICE */
-        #table-container, #scheduleContainer {
+        /* FIX ULTIMATE: STICKY KOLOM NO & NAMA KARYAWAN */
+        #table-container, 
+        #scheduleContainer, 
+        #scheduleContainer > div {
             overflow-x: auto !important;
             position: relative !important;
         }
@@ -217,25 +219,37 @@
         }
 
         /* Kolom 1: NO */
-        #scheduleContainer table td:nth-child(1),
-        #scheduleContainer table th:nth-child(1) {
+        #scheduleContainer table tr > th:first-child,
+        #scheduleContainer table tr > td:first-child,
+        #scheduleContainer table tr > th:nth-child(1),
+        #scheduleContainer table tr > td:nth-child(1) {
             position: -webkit-sticky !important;
             position: sticky !important;
             left: 0px !important;
-            z-index: 30 !important;
+            z-index: 40 !important;
             background-color: #ffffff !important;
+            background-clip: padding-box !important;
         }
 
         /* Kolom 2: NAMA KARYAWAN */
-        #scheduleContainer table td:nth-child(2),
-        #scheduleContainer table th:nth-child(2) {
+        #scheduleContainer table tr > th:nth-child(2),
+        #scheduleContainer table tr > td:nth-child(2) {
             position: -webkit-sticky !important;
             position: sticky !important;
-            left: 30px !important;
-            z-index: 30 !important;
+            left: 32px !important;
+            z-index: 40 !important;
             background-color: #ffffff !important;
+            background-clip: padding-box !important;
             white-space: nowrap !important;
-            box-shadow: 3px 0 5px -2px rgba(0,0,0,0.15) !important;
+            box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        /* Menjaga warna baris khusus (seperti merah Kasir/MO) tetap aman */
+        #scheduleContainer table tr[class*="bg-"] td:nth-child(1),
+        #scheduleContainer table tr[class*="bg-"] td:nth-child(2),
+        #scheduleContainer table tr[style*="background"] td:nth-child(1),
+        #scheduleContainer table tr[style*="background"] td:nth-child(2) {
+            background-color: inherit !important;
         }
     </style>
 </head>
