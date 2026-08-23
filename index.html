@@ -154,58 +154,52 @@
     class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
 
     <!-- HEADER & NAVBAR REVISI RESPONSIF -->
-<header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
-    <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
-        <!-- Kiri: Logo dan Judul -->
-        <div class="flex items-center gap-2.5 sm:gap-3.5">
-            <div
-                class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
-                <i class="fa-solid fa-store text-base sm:text-lg"></i>
+    <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
+        <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
+            <!-- Kiri: Logo dan Judul -->
+            <div class="flex items-center gap-2.5 sm:gap-3.5">
+                <div
+                    class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
+                    <i class="fa-solid fa-store text-base sm:text-lg"></i>
+                </div>
+                <div>
+                    <h1
+                        class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy">
+                        MLG-TC-Arjuno</h1>
+                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium">Kode Outlet: <span
+                            class="text-brand-red font-bold">1415</span></p>
+                </div>
             </div>
-            <!-- flex-col agar tersusun bertumpuk ke bawah -->
-            <div class="flex flex-col justify-center items-start">
-                <!-- Baris 1: Nama Outlet (1 Baris) -->
-                <h1
-                    class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
-                    MLG-TC-Arjuno</h1>
-                
-                <!-- Baris 2: Kode Outlet -->
-                <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">Kode Outlet: <span
-                        class="text-brand-red font-bold">1415</span></p>
-                
-                <!-- Baris 3: Status Outlet (Rata Kiri Presisi Tanpa Padding Kiri) -->
-                <div class="mt-0.5">
-                    <span id="outlet-status-container"
-                        class="text-[10px] sm:text-xs font-semibold !px-0 py-0 rounded-full whitespace-nowrap block text-left"></span>
+
+            <!-- Kanan: Jam & Status -->
+            <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+                <span id="outlet-status-container"
+                    class="text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-1 rounded-full whitespace-nowrap"></span>
+                <div class="w-px h-5 sm:h-6 bg-slate-200"></div>
+                <div class="flex flex-col">
+                    <span id="current-date"
+                        class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
+                    <span id="current-time"
+                        class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
                 </div>
             </div>
         </div>
+    </header>
 
-        <!-- Kanan: Jam & Status -->
-        <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
-            <div class="flex flex-col">
-                <span id="current-date"
-                    class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
-                <span id="current-time"
-                    class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
+    <!-- MARQUEE ANNOUNCEMENT BANNER -->
+    <div
+        class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-4 shadow-inner flex items-center justify-between gap-2">
+        <div class="flex items-center w-full overflow-hidden">
+            <span
+                class="bg-white text-brand-red font-bold px-2 py-0.5 rounded-md text-xs uppercase mr-3 shrink-0 shadow-sm flex items-center gap-1">
+                <i class="fa-solid fa-bullhorn"></i> Info
+            </span>
+            <div class="overflow-hidden w-full cursor-pointer" onclick="openInfoModal()">
+                <marquee id="bannerMarquee" behavior="scroll" direction="left" class="w-full font-medium">
+                    📢 Memuat informasi terbaru dari server...
+                </marquee>
             </div>
         </div>
-    </div>
-</header>
-    <!-- MARQUEE ANNOUNCEMENT BANNER -->
-<div class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-3 sm:px-4 shadow-inner flex items-center w-full overflow-hidden relative">
-    <div class="flex items-center w-full overflow-hidden pr-1 sm:pr-2">
-        <span
-            class="bg-white text-brand-red font-bold px-2 py-0.5 rounded-md text-xs uppercase mr-2.5 sm:mr-3 shrink-0 shadow-sm flex items-center gap-1 z-10">
-            <i class="fa-solid fa-bullhorn"></i> Info
-        </span>
-        <div class="overflow-hidden w-full cursor-pointer" onclick="openInfoModal()">
-            <marquee id="bannerMarquee" behavior="scroll" direction="left" class="w-full font-medium block">
-                📢 Memuat informasi terbaru dari server...
-            </marquee>
-        </div>
-    </div>
-</div>
 
         <!-- Tombol Edit Khusus MO/Manager -->
         <button id="btnEditBanner" onclick="openEditBannerModal()"
@@ -215,43 +209,43 @@
     </div>
 
     <!-- MAIN CONTENT AREA -->
-<main class="flex-grow w-full px-3 sm:px-5 lg:px-8 py-3 sm:py-5 space-y-4 sm:space-y-6">
+    <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-    <!-- HERO BANNER REVISI RESPONSIF -->
-    <section
-        class="relative bg-slate-900 text-white rounded-xl sm:rounded-2xl md:rounded-3xl p-3.5 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
-        <!-- Background Pattern Subtle -->
-        <div class="absolute inset-0 opacity-10"
-            style="background-image: url('data:image/svg+xml,%3Csvg width=\'6\' height=\'6\' viewBox=\'0 0 6 6\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M5 0h1L0 6V5zM6 5v1H5z\'/%3E%3C/g%3E%3C/svg%3E');">
-        </div>
-
-        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-3.5 sm:gap-6 items-center">
-            <!-- Teks Informasi -->
-            <div class="space-y-2 sm:space-y-3">
-                <span
-                    class="inline-flex items-center gap-1.5 bg-white/10 text-amber-300 text-[10px] sm:text-xs font-bold px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full">
-                    <i class="fa-solid fa-sparkles text-[10px]"></i> Pusat Informasi Operasional
-                </span>
-                <h2
-                    class="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
-                    Welcome to the Internal Outlet Dashboard
-                </h2>
-                <p class="text-slate-300 text-[11px] sm:text-sm leading-snug sm:leading-relaxed max-w-xl">
-                    Akses cepat untuk Absensi harian, Jadwal Off/Cuti, Database Karyawan, Sop/Soc PT Waroeng Steak Indonesia.
-                </p>
+        <!-- HERO BANNER REVISI RESPONSIF -->
+        <section
+            class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-5 sm:p-8 overflow-hidden border border-slate-700/50 shadow-xl">
+            <!-- Background Pattern Subtle -->
+            <div class="absolute inset-0 opacity-10"
+                style="background-image: url('data:image/svg+xml,%3Csvg width=\'6\' height=\'6\' viewBox=\'0 0 6 6\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.4\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M5 0h1L0 6V5zM6 5v1H5z\'/%3E%3C/g%3E%3C/svg%3E');">
             </div>
 
-            <!-- Video Container -->
-            <div
-                class="w-full aspect-video rounded-lg sm:rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black/40 max-h-[180px] sm:max-h-none">
-                <iframe id="motivationVideo" class="w-full h-full object-cover" src=""
-                    title="Motivasi Tim" frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-center">
+                <div class="space-y-3 sm:space-y-4">
+                    <span
+                        class="inline-flex items-center gap-2 bg-white/10 text-amber-300 text-[11px] sm:text-xs font-bold px-3 sm:px-4 py-1 sm:py-1.5 rounded-full">
+                        <i class="fa-solid fa-sparkles"></i> Pusat Informasi Operasional
+                    </span>
+                    <h2
+                        class="font-heading text-xl sm:text-3xl md:text-4xl font-extrabold text-white leading-snug sm:leading-tight tracking-tight">
+                        Selamat Datang di Dashboard Outlet Internal
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-base leading-relaxed max-w-xl">
+                        Akses cepat untuk absensi harian, pengajuan libur, keuangan, dan database SOP standar Waroeng
+                        Steak Indonesia.
+                    </p>
+                </div>
+
+                <!-- Video Container -->
+                <div
+                    class="w-full aspect-video rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border-2 sm:border-4 border-white/10 bg-black/40">
+                    <iframe id="motivationVideo" class="w-full h-full object-cover rounded-xl sm:rounded-2xl" src=""
+                        title="Motivasi Tim" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
             </div>
-        </div>
-    </section>
+        </section> <!-- Penutup section utama -->
 
     </main>
 
@@ -1968,10 +1962,10 @@
             await loadTodayAttendance();
         }
 
-        function openOffCutiModal() {
+        async function openOffCutiModal() {
             openModal('modal-off-cuti');
-            if (employeeList.length === 0) loadInitialData();
-            loadDisabledDates();
+            if (employeeList.length === 0) await loadInitialData();
+            await loadDisabledDates();
         }
 
         function checkTanggalKuota(input) {
@@ -2472,7 +2466,12 @@
 
                 const currentUserRole = window.currentUser ? window.currentUser.role : "MO";
 
-                showLoading("Memperbarui Banner...");
+                Swal.fire({
+                    title: 'Memperbarui Banner...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => Swal.showLoading()
+                });
                 try {
                     const response = await fetch(GAS_WEB_APP_URL, {
                         method: 'POST',
@@ -2486,7 +2485,7 @@
                     });
 
                     const result = await response.json();
-                    hideLoading();
+                    Swal.close();
 
                     if (result.status === 'success') {
                         Swal.fire('Berhasil!', result.message, 'success');
@@ -2495,7 +2494,7 @@
                         Swal.fire('Gagal!', result.message, 'error');
                     }
                 } catch (err) {
-                    hideLoading();
+                    Swal.close();
                     Swal.fire('Error', 'Gagal terhubung ke server', 'error');
                 }
             }
@@ -2573,6 +2572,10 @@
             text.innerText = "Fullscreen";
         }
 
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) exitFullscreenMode();
+        });
+
         document.addEventListener("DOMContentLoaded", async function () {
             const dateElement = document.getElementById("current-date");
             if (dateElement) {
@@ -2630,14 +2633,26 @@
                     // Membuat elemen tabel HTML secara dinamis dengan ukuran mikro agar muat banyak kolom jam
                     let html = '<div style="width: 100%; overflow: hidden;"><table class="w-full border-collapse text-[9px] bg-white whitespace-nowrap" style="table-layout: auto;">';
 
+                    // Tiga kolom identitas tetap terlihat saat tabel digeser horizontal.
+                    const stickyColumns = [
+                        { left: '0px', width: '42px' },
+                        { left: '42px', width: '150px' },
+                        { left: '192px', width: '90px' }
+                    ];
+
                     for (let r = 0; r < values.length; r++) {
                         html += '<tr>';
                         for (let c = 0; c < values[r].length; c++) {
                             let cellValue = values[r][c] !== null && values[r][c] !== undefined ? values[r][c] : '';
                             let cellColor = colors[r][c] ? colors[r][c] : '#ffffff'; // Mengambil warna asli dari GSheet
 
+                            const stickyColumn = stickyColumns[c];
+                            const stickyStyle = stickyColumn
+                                ? `position: sticky; left: ${stickyColumn.left}; width: ${stickyColumn.width}; min-width: ${stickyColumn.width}; max-width: ${stickyColumn.width}; z-index: ${r === 0 ? 30 : 10}; box-shadow: 2px 0 4px rgba(15, 23, 42, 0.08);`
+                                : '';
+
                             // Di dalam loop baris dan kolom:
-                            html += `<td style="background-color: ${cellColor}; border: 1px solid #cbd5e1; padding: 2px 3px; text-align: center;">${cellValue}</td>`;
+                            html += `<td style="background-color: ${cellColor}; border: 1px solid #cbd5e1; padding: 2px 3px; text-align: center; ${stickyStyle}">${cellValue}</td>`;
                         }
                         html += '</tr>';
                     }
@@ -2674,8 +2689,6 @@
 
             loadSchedule();
 
-            // PANGGIL VIDEO MOTIVASI ACAK DI SINI
-            loadRandomMotivationVideo();
         });
 
         // ==========================================
@@ -2715,7 +2728,6 @@
         // Panggil kedua fungsi saat halaman dimuat
         updateTime();
         setInterval(updateTime, 60000);
-        loadRandomMotivationVideo();
     </script>
 </body>
 
