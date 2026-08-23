@@ -115,6 +115,99 @@
             width: 6px;
             height: 6px;
         }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda Dashboard Outlet - Mlg Tc Arjuno Partner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#DC2626',
+                            darkred: '#991B1B',
+                            navy: '#0F172A',
+                            coolgray: '#F1F5F9',
+                            warmgray: '#E2E8F0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft-xl': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-banner {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
+        }
+
+        /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
+        @keyframes teamStatusBlinkRed {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.88); }
+        }
+
+        @keyframes teamStatusBlinkGreen {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.88); }
+        }
+
+        .team-status-red {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .team-status-green {
+            background: #ecfdf5;
+            color: #047857;
+            border-color: #a7f3d0;
+        }
+
+        .team-status-dot-red,
+        .team-status-dot-green {
+            width: 6px;
+            height: 6px;
+            border-radius: 9999px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .team-status-dot-red {
+            background: #ef4444;
+            animation: teamStatusBlinkRed 1s ease-in-out infinite;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
+        }
+
+        .team-status-dot-green {
+            background: #10b981;
+            animation: teamStatusBlinkGreen 1s ease-in-out infinite;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
 
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
@@ -129,14 +222,9 @@
             background: #94a3b8;
         }
 
-        /* --- KODE BARU DIBAWAH INI --- */
-
         /* Mencegah Safari iPhone Auto-Zoom saat klik input */
         @media screen and (max-width: 768px) {
-
-            input,
-            select,
-            textarea {
+            input, select, textarea {
                 font-size: 16px !important;
             }
         }
@@ -148,27 +236,30 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* --- KUNCI KOLOM TABEL (NO & NAMA KARYAWAN) --- */
+        /* --- STICKY KOLOM NO & NAMA KARYAWAN (PENYESUAIAN KHUSUS) --- */
+        #scheduleContainer table {
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+        }
+
         #scheduleContainer table tr th:nth-child(1),
         #scheduleContainer table tr td:nth-child(1) {
+            position: -webkit-sticky !important;
             position: sticky !important;
             left: 0 !important;
-            z-index: 20 !important;
-            background-color: inherit !important;
+            z-index: 25 !important;
+            background-color: #ffffff !important;
         }
 
         #scheduleContainer table tr th:nth-child(2),
         #scheduleContainer table tr td:nth-child(2) {
+            position: -webkit-sticky !important;
             position: sticky !important;
             left: 32px !important;
-            z-index: 20 !important;
-            background-color: inherit !important;
+            z-index: 25 !important;
+            background-color: #ffffff !important;
             white-space: nowrap !important;
-            box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.1);
-        }
-
-        #scheduleContainer table tr td {
-            background-clip: padding-box;
+            box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.15) !important;
         }
     </style>
 </head>
