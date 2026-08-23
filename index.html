@@ -2716,11 +2716,11 @@
                     const values = result.values;
                     const colors = result.colors;
 
-                    let html = '<table class="w-full border-collapse text-[9px] bg-white whitespace-nowrap" style="table-layout: fixed; border-spacing: 0;">';
+                    // Menggunakan table auto & inline-block wrapper
+                    let html = '<table class="border-collapse text-[9px] bg-white whitespace-nowrap" style="margin:0; padding:0; border-spacing:0;">';
 
-                    // Lebar pasti untuk dikunci
-                    const col1Width = 32;  // Kolom 1 (NO) = 32px
-                    const col2Width = 140; // Kolom 2 (NAMA) = 140px
+                    const col1Width = 35;  // Lebar Kolom 1 (NO)
+                    const col2Width = 135; // Lebar Kolom 2 (NAMA)
 
                     for (let r = 0; r < values.length; r++) {
                         html += '<tr>';
@@ -2729,14 +2729,14 @@
                             let cellColor = colors[r][c] ? colors[r][c] : '#ffffff';
 
                             let stickyStyle = '';
-                            
-                            // KOLOM 1: NO (Nempel di Paling Kiri / 0px)
+
+                            // Jika sel bukan merge cell yang sangat panjang
                             if (c === 0) {
-                                stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; min-width: ${col1Width}px; max-width: ${col1Width}px; z-index: 35; background-color: ${cellColor}; background-clip: padding-box;`;
-                            } 
-                            // KOLOM 2: NAMA KARYAWAN (Nempel di Sebelah Kolom NO / 32px)
-                            else if (c === 1) {
-                                stickyStyle = `position: -webkit-sticky; position: sticky; left: ${col1Width}px; min-width: ${col2Width}px; max-width: ${col2Width}px; z-index: 35; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 4px 0 6px -1px rgba(0,0,0,0.18);`;
+                                // KOLOM 1: NO
+                                stickyStyle = `position: -webkit-sticky !important; position: sticky !important; left: 0px !important; min-width: ${col1Width}px !important; max-width: ${col1Width}px !important; z-index: 30 !important; background-color: ${cellColor} !important; background-clip: padding-box !important;`;
+                            } else if (c === 1) {
+                                // KOLOM 2: NAMA KARYAWAN
+                                stickyStyle = `position: -webkit-sticky !important; position: sticky !important; left: ${col1Width}px !important; min-width: ${col2Width}px !important; max-width: ${col2Width}px !important; z-index: 30 !important; background-color: ${cellColor} !important; background-clip: padding-box !important; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.2) !important;`;
                             }
 
                             html += `<td style="border: 1px solid #cbd5e1; padding: 3px 4px; text-align: center; ${stickyStyle}">${cellValue}</td>`;
@@ -2746,10 +2746,9 @@
 
                     html += '</table>';
 
-                    // RENDER LANGSUNG KE CONTAINER
-                    container.style.overflowX = 'auto';
-                    container.style.position = 'relative';
-                    container.style.webkitOverflowScrolling = 'touch';
+                    // NETRALKAN CONTAINER PEMBUNGKUS
+                    container.className = ""; 
+                    container.style.cssText = "width: 100%; overflow-x: auto !important; position: relative !important; -webkit-overflow-scrolling: touch;";
                     container.innerHTML = html;
                 })
                 .catch(error => {
