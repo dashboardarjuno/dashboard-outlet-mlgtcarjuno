@@ -22,20 +22,17 @@
                 extend: {
                     colors: {
                         brand: {
-                            red: '#DC2626', // Sedikit lebih cerah dari sebelumnya
+                            red: '#DC2626',
                             darkred: '#991B1B',
                             navy: '#0F172A',
-                            // Tambahkan warna abu-abu netral yang lebih hangat
                             coolgray: '#F1F5F9',
                             warmgray: '#E2E8F0'
                         }
                     },
                     fontFamily: {
-                        // Gunakan font yang lebih premium
                         sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
                         heading: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
-                    // Tambahkan sedikit bayangan untuk kedalaman
                     boxShadow: {
                         'soft-xl': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
                     }
@@ -43,6 +40,7 @@
             }
         }
     </script>
+
     <style>
         .gradient-banner {
             background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
@@ -115,87 +113,24 @@
             width: 6px;
             height: 6px;
         }
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda Dashboard Outlet - Mlg Tc Arjuno Partner</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            red: '#DC2626',
-                            darkred: '#991B1B',
-                            navy: '#0F172A',
-                            coolgray: '#F1F5F9',
-                            warmgray: '#E2E8F0'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'soft-xl': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-<style>
-        .gradient-banner {
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
         }
 
-        /* STATUS OUR TEAM */
-        @keyframes teamStatusBlinkRed {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
         }
 
-        @keyframes teamStatusBlinkGreen {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
-
-        .team-status-red { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
-        .team-status-green { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
-
-        .team-status-dot-red, .team-status-dot-green {
-            width: 6px; height: 6px; border-radius: 9999px; display: inline-block; flex-shrink: 0;
-        }
-
-        .team-status-dot-red {
-            background: #ef4444; animation: teamStatusBlinkRed 1s ease-in-out infinite;
-            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
-        }
-
-        .team-status-dot-green {
-            background: #10b981; animation: teamStatusBlinkGreen 1s ease-in-out infinite;
-            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* Memperhalus scroll di iOS */
-        .overflow-y-auto, .overflow-x-auto, .table-container {
+        .overflow-y-auto,
+        .overflow-x-auto,
+        .table-container {
             -webkit-overflow-scrolling: touch;
         }
 
@@ -203,40 +138,84 @@
         /* FIX PRESISI TABEL GOOGLE SHEETS / APPS SCRIPT              */
         /* ========================================================= */
 
-        /* 1. Izinkan container memotong scroll secara mulus */
-        #table-container, 
+        #table-container,
         #scheduleContainer {
             overflow-x: auto !important;
             position: relative !important;
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 2. Format tabel agar sticky tidak lepas */
         #scheduleContainer table {
             border-collapse: separate !important;
             border-spacing: 0 !important;
             width: max-content !important;
         }
 
-        /* 3. KUNCI KOLOM NAMA KARYAWAN (Kolom Pertama Data) */
         #scheduleContainer table tr td:first-child,
         #scheduleContainer table tr th:first-child {
             position: -webkit-sticky !important;
             position: sticky !important;
             left: 0px !important;
-            z-index: 40 !important;
+            z-index: 10 !important;
             background-color: #ffffff !important;
             background-clip: padding-box !important;
-            min-width: 120px !important;
-            max-width: 160px !important;
+            min-width: 20px !important;
+            max-width: 20px !important;
             white-space: nowrap !important;
             box-shadow: 3px 0 6px -1px rgba(0, 0, 0, 0.18) !important;
         }
 
-        /* 4. Menjaga baris berpola/warna khusus (Kasir/MO) */
         #scheduleContainer table tr[style*="background"] td:first-child,
         #scheduleContainer table tr[class*="bg-"] td:first-child {
             background-color: inherit !important;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        main,
+        main>section,
+        main>div,
+        #table-container,
+        #scheduleContainer {
+            min-width: 0;
+            max-width: 100%;
+        }
+
+        img,
+        iframe,
+        video,
+        canvas {
+            max-width: 100%;
+        }
+
+        #table-container {
+            overflow-x: hidden !important;
+        }
+
+        #table-container>div {
+            max-width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            header h1 {
+                max-width: 42vw;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            header #current-date,
+            header #current-time {
+                max-width: 42vw;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            #table-container {
+                padding: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -245,44 +224,44 @@
     class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
 
     <!-- HEADER & NAVBAR REVISI RESPONSIF -->
-<header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
-    <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
-        <!-- Kiri: Logo dan Judul -->
-        <div class="flex items-center gap-2.5 sm:gap-3.5">
-            <div
-                class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
-                <i class="fa-solid fa-store text-base sm:text-lg"></i>
+    <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
+        <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
+            <!-- Kiri: Logo dan Judul -->
+            <div class="flex items-center gap-2.5 sm:gap-3.5">
+                <div
+                    class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
+                    <i class="fa-solid fa-store text-base sm:text-lg"></i>
+                </div>
+                <!-- flex-col agar tersusun bertumpuk ke bawah -->
+                <div class="flex flex-col justify-center items-start">
+                    <!-- Baris 1: Nama Outlet (1 Baris) -->
+                    <h1
+                        class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
+                        MLG-TC-Arjuno</h1>
+
+                    <!-- Baris 2: Kode Outlet -->
+                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">Kode Outlet: <span
+                            class="text-brand-red font-bold">1415</span></p>
+
+                    <!-- Baris 3: Status Outlet (Rata Kiri Presisi Tanpa Padding Kiri) -->
+                    <div class="mt-0.5">
+                        <span id="outlet-status-container"
+                            class="text-[10px] sm:text-xs font-semibold !px-0 py-0 rounded-full whitespace-nowrap block text-left"></span>
+                    </div>
+                </div>
             </div>
-            <!-- flex-col agar tersusun bertumpuk ke bawah -->
-            <div class="flex flex-col justify-center items-start">
-                <!-- Baris 1: Nama Outlet (1 Baris) -->
-                <h1
-                    class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
-                    MLG-TC-Arjuno</h1>
-                
-                <!-- Baris 2: Kode Outlet -->
-                <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">Kode Outlet: <span
-                        class="text-brand-red font-bold">1415</span></p>
-                
-                <!-- Baris 3: Status Outlet (Rata Kiri Presisi Tanpa Padding Kiri) -->
-                <div class="mt-0.5">
-                    <span id="outlet-status-container"
-                        class="text-[10px] sm:text-xs font-semibold !px-0 py-0 rounded-full whitespace-nowrap block text-left"></span>
+
+            <!-- Kanan: Jam & Status -->
+            <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+                <div class="flex flex-col">
+                    <span id="current-date"
+                        class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
+                    <span id="current-time"
+                        class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
                 </div>
             </div>
         </div>
-
-        <!-- Kanan: Jam & Status -->
-        <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
-            <div class="flex flex-col">
-                <span id="current-date"
-                    class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
-                <span id="current-time"
-                    class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
-            </div>
-        </div>
-    </div>
-</header>
+    </header>
 
     <!-- MARQUEE ANNOUNCEMENT BANNER -->
     <div
@@ -310,276 +289,292 @@
     <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
         <!-- HERO BANNER REVISI RESPONSIF -->
-<section class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-4 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
-    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
-        <div class="space-y-2 sm:space-y-3">
-            <span class="inline-flex items-center gap-1.5 bg-white/10 text-amber-300 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full">
-                <i class="fa-solid fa-sparkles text-[10px]"></i> Pusat Informasi Operasional
-            </span>
-            <h2 class="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
-                Selamat Datang di Dashboard Outlet Internal
-            </h2>
-            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
-                Akses cepat untuk absensi harian, pengajuan libur, keuangan, dan database SOP standar Waroeng Steak Indonesia.
-            </p>
-        </div>
-
-        <!-- Video Container (Tinggi Pasti & Aman) -->
-        <div class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
-            <iframe id="motivationVideo" class="w-full h-full absolute inset-0" src=""
-                title="Motivasi Tim" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-            </iframe>
-        </div>
-    </div>
-</section>
-    </main>
-
-    <!-- GRID MENU PINTAS REVISI RESPONSIF -->
-    <section>
-        <h3 class="font-heading font-bold text-lg sm:text-xl text-slate-900 mb-4 sm:mb-5 flex items-center gap-2.5">
-            <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
-        </h3>
-
-        <!-- Grid Responsif: 2 kolom di HP, 4 di Tablet, 7 di Laptop -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-5">
-
-            <!-- Menu 1: Absensi Karyawan -->
-            <button onclick="openAbsensiModal()"
-                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
-                <div
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-brand-red flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-red-50 transition-all duration-300">
-                    <i class="fa-solid fa-user-clock"></i>
+        <section
+            class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-4 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
+                <div class="space-y-2 sm:space-y-3">
+                    <span
+                        class="inline-flex items-center gap-1.5 bg-white/10 text-amber-300 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-sparkles text-[10px]"></i> Pusat Informasi Operasional
+                    </span>
+                    <h2
+                        class="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
+                        Selamat Datang di Dashboard Outlet Internal
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
+                        Akses cepat untuk absensi harian, pengajuan libur, kas outlet, database karyawan, dan Sop/Soc PT Waroeng
+                        Steak Indonesia.
+                    </p>
                 </div>
-                <span
-                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Absensi
-                    Karyawan</span>
-                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Masuk / Pulang / Izin</span>
-            </button>
 
-            <!-- Menu 2: Pengajuan Off & Cuti -->
-            <button onclick="openOffCutiModal()"
-                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <!-- Video Container (Tinggi Pasti & Aman) -->
                 <div
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-purple-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-purple-50 transition-all duration-300">
-                    <i class="fa-solid fa-calendar-minus"></i>
-                </div>
-                <span
-                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Pengajuan
-                    Libur</span>
-                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Max 6 Hari / Bulan</span>
-            </button>
-
-            <!-- Menu 3: Kas Outlet -->
-            <button onclick="openKasModal()"
-                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
-                <div
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-emerald-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-emerald-50 transition-all duration-300">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-                <span
-                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Keuangan
-                    Kas</span>
-                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Catatan Kas & Saldo</span>
-            </button>
-
-            <!-- Menu 4: Manpower Planning -->
-            <a href="#section-shift"
-                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
-                <div
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-sky-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-sky-50 transition-all duration-300">
-                    <i class="fa-solid fa-calendar-days"></i>
-                </div>
-                <span
-                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Jadwal
-                    Tim</span>
-                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Shift Kerja</span>
-            </a>
-
-            <!-- Menu 5: SOP / SOC -->
-            <a href="#section-sop"
-                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
-                <div
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-amber-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-amber-50 transition-all duration-300">
-                    <i class="fa-solid fa-book-open"></i>
-                </div>
-                <span
-                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">SOP/SOC
-                    Outlet</span>
-                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Berkas Digital</span>
-            </a>
-
-            <!-- Menu 6: Our Team -->
-            <a href="#section-our-team"
-                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
-                <div
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-orange-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-orange-50 transition-all duration-300">
-                    <i class="fa-solid fa-people-roof"></i>
-                </div>
-                <span
-                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Profil
-                    Tim</span>
-                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Anggota & Struktur</span>
-            </a>
-
-            <!-- Menu 7: Database Karyawan -->
-            <a href="https://docs.google.com/spreadsheets/d/10_oZHz_yA3i2K6Xk-x_qAGyJDMxYvESE/edit?gid=2019967039#gid=2019967039"
-                target="_blank"
-                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center col-span-2 sm:col-span-1">
-                <div
-                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-indigo-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-indigo-50 transition-all duration-300">
-                    <i class="fa-solid fa-id-card"></i>
-                </div>
-                <span
-                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Data
-                    Karyawan</span>
-                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Link Google Drive</span>
-            </a>
-
-        </div>
-    </section>
-
-    <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
-            <div class="flex items-center gap-3">
-                <div
-                    class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0">
-                    <i class="fa-solid fa-calendar-days"></i>
-                </div>
-                <div>
-                    <h3 class="font-heading font-bold text-base text-slate-900">Matriks Jadwal Off & Cuti
-                        Tim</h3>
-                    <p class="text-xs text-slate-400">Monitoring libur seluruh karyawan</p>
+                    class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
+                    <iframe id="motivationVideo" class="w-full h-full absolute inset-0" src="" title="Motivasi Tim"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
+        </section>
 
-            <div class="flex items-center gap-2">
-                <input type="month" id="filter-bulan-matriks" onchange="loadDashboardMonthlyRekap()"
-                    class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
-                <button type="button" onclick="loadDashboardMonthlyRekap()"
-                    class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5 shrink-0 cursor-pointer">
-                    <i class="fa-solid fa-rotate text-purple-500"></i> Refresh
+        <!-- GRID MENU PINTAS REVISI RESPONSIF -->
+        <section>
+            <h3 class="font-heading font-bold text-lg sm:text-xl text-slate-900 mb-4 sm:mb-5 flex items-center gap-2.5">
+                <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
+            </h3>
+
+            <!-- Grid Responsif: 2 kolom di HP, 4 di Tablet, 7 di Laptop -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-5">
+
+                <!-- Menu 1: Absensi Karyawan -->
+                <button onclick="openAbsensiModal()"
+                    class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-brand-red flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-red-50 transition-all duration-300">
+                        <i class="fa-solid fa-user-clock"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Absensi
+                        Karyawan</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Masuk / Pulang /
+                        Izin</span>
                 </button>
-            </div>
-        </div>
 
-        <!-- KETERANGAN SIMBOL / LEGEND -->
-        <div
-            class="flex items-center gap-4 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-            <span class="flex items-center gap-1.5"><span
-                    class="w-5 h-5 bg-blue-100 text-blue-700 font-extrabold rounded flex items-center justify-center text-xs">x</span>
-                OFF (Hari 1 - 4)</span>
-            <span class="flex items-center gap-1.5"><span
-                    class="w-5 h-5 bg-purple-100 text-purple-700 font-extrabold rounded flex items-center justify-center text-xs">ct</span>
-                CUTI (Hari 5+)</span>
-            <span class="flex items-center gap-1.5"><span
-                    class="w-5 h-5 bg-white border border-slate-200 rounded flex items-center justify-center text-xs"></span>
-                Masuk Kerja</span>
-        </div>
-
-        <!-- TABEL MATRIKS VIEW -->
-        <div class="overflow-x-auto overflow-y-auto border border-slate-200 rounded-xl relative shadow-inner">
-            <table class="w-full text-left text-xs border-collapse">
-                <thead class="bg-slate-100 text-slate-700 sticky top-0 z-20 border-b border-slate-200"
-                    id="thead-matriks">
-                </thead>
-                <tbody id="tbody-dashboard-rekap" class="divide-y divide-slate-100 text-slate-700">
-                    <tr>
-                        <td colspan="32" class="text-center p-6 text-slate-400 font-medium">
-                            <i class="fa-solid fa-spinner animate-spin mr-2"></i> Memuat matriks jadwal
-                            libur...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- SECTION MANPOWER PLANNING (DENGAN FILTER & WARNA PLEK-KETIPLEK) -->
-    <section id="section-shift"
-        class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4 transition-all duration-300">
-        <!-- Header Section & Filter Tanggal -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 gap-3">
-            <div class="flex items-center gap-3">
-                <div
-                    class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-                    <i class="fa-solid fa-calendar-day"></i>
-                </div>
-                <div>
-                    <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Jadwal
-                        Operasional</h3>
-                    <p class="text-xs text-emerald-600 font-semibold">Pilih tanggal untuk melihat detail
-                        lembar
-                        kerja</p>
-                </div>
-            </div>
-
-            <!-- Bagian Filter & Tombol Fullscreen -->
-            <div class="flex flex-wrap items-center gap-2">
-                <input type="date" id="inputTanggal" value="2026-08-19"
-                    class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-medium bg-white text-slate-700">
-                <input type="text" id="inputOutlet" value="TC ARJUNO" readonly class="hidden">
-                <button onclick="loadSchedule()"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded-lg text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer">
-                    <i class="fa-solid fa-filter"></i> Tampilkan
+                <!-- Menu 2: Pengajuan Off & Cuti -->
+                <button onclick="openOffCutiModal()"
+                    class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-purple-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-purple-50 transition-all duration-300">
+                        <i class="fa-solid fa-calendar-minus"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Pengajuan
+                        Libur</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Max 6 Hari / Bulan</span>
                 </button>
-                <button onclick="toggleFullscreen()"
-                    class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5 cursor-pointer">
-                    <i id="fullscreen-icon" class="fa-solid fa-expand"></i> <span id="fullscreen-text">Fullscreen</span>
+
+                <!-- Menu 3: Kas Outlet -->
+                <button onclick="openKasModal()"
+                    class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-emerald-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-emerald-50 transition-all duration-300">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Keuangan
+                        Kas</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Catatan Kas & Saldo</span>
                 </button>
+
+                <!-- Menu 4: Manpower Planning -->
+                <a href="#section-shift"
+                    class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
+                    <div
+                        class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-sky-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-sky-50 transition-all duration-300">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Jadwal
+                        Tim</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Shift Kerja</span>
+                </a>
+
+                <!-- Menu 5: SOP / SOC -->
+                <a href="#section-sop"
+                    class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
+                    <div
+                        class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-amber-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-amber-50 transition-all duration-300">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">SOP/SOC
+                        Outlet</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Berkas Digital</span>
+                </a>
+
+                <!-- Menu 6: Our Team -->
+                <a href="#section-our-team"
+                    class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                    <div
+                        class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-orange-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-orange-50 transition-all duration-300">
+                        <i class="fa-solid fa-people-roof"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Profil
+                        Tim</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Anggota & Struktur</span>
+                </a>
+
+                <!-- Menu 7: Database Karyawan -->
+                <a href="https://docs.google.com/spreadsheets/d/10_oZHz_yA3i2K6Xk-x_qAGyJDMxYvESE/edit?gid=2019967039#gid=2019967039"
+                    target="_blank"
+                    class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center col-span-2 sm:col-span-1">
+                    <div
+                        class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-indigo-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-indigo-50 transition-all duration-300">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <span
+                        class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Data
+                        Karyawan</span>
+                    <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Link Google Drive</span>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0">
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-base text-slate-900">Matriks Jadwal Off & Cuti
+                            Tim</h3>
+                        <p class="text-xs text-slate-400">Monitoring libur seluruh karyawan</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <input type="month" id="filter-bulan-matriks" onchange="loadDashboardMonthlyRekap()"
+                        class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                    <button type="button" onclick="loadDashboardMonthlyRekap()"
+                        class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5 shrink-0 cursor-pointer">
+                        <i class="fa-solid fa-rotate text-purple-500"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- KETERANGAN SIMBOL / LEGEND -->
+            <div
+                class="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-blue-100 text-blue-700 font-extrabold rounded flex items-center justify-center text-xs">x</span>
+                    OFF (Hari 1 - 4)</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-purple-100 text-purple-700 font-extrabold rounded flex items-center justify-center text-xs">ct</span>
+                    CUTI (Hari 5+)</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-white border border-slate-200 rounded flex items-center justify-center text-xs"></span>
+                    Masuk Kerja</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-amber-100 text-amber-700 font-extrabold rounded flex items-center justify-center text-xs">S</span>
+                    Sabtu</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-red-100 text-red-700 font-extrabold rounded flex items-center justify-center text-xs">M</span>
+                    Minggu</span>
+                <span class="flex items-center gap-1.5"><span
+                        class="w-5 h-5 bg-rose-100 text-rose-700 font-extrabold rounded flex items-center justify-center text-xs">T</span>
+                    Tanggal Merah</span>
+            </div>
+
+            <!-- TABEL MATRIKS VIEW -->
+            <div class="overflow-x-auto overflow-y-auto border border-slate-200 rounded-xl relative shadow-inner">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead class="bg-slate-100 text-slate-700 sticky top-0 z-20 border-b border-slate-200"
+                        id="thead-matriks">
+                    </thead>
+                    <tbody id="tbody-dashboard-rekap" class="divide-y divide-slate-100 text-slate-700">
+                        <tr>
+                            <td colspan="32" class="text-center p-6 text-slate-400 font-medium">
+                                <i class="fa-solid fa-spinner animate-spin mr-2"></i> Memuat matriks jadwal
+                                libur...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Kotak Tabel Hasil Render yang Diperbarui -->
-        <div id="table-container"
-            class="rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all duration-300">
-            <!-- Kontainer pembatas dengan scroll horizontal yang fleksibel -->
-            <div style="width: 100%; max-width: 100%; overflow-x: auto; border-radius: 8px;">
-                <div id="scheduleContainer" class="w-full" style="min-width: max-content;">
-                    <p class="text-xs text-slate-400 text-center py-6">Silakan klik "Tampilkan" untuk memuat
-                        jadwal
-                        sesuai tanggal.</p>
+        <!-- SECTION MANPOWER PLANNING (DENGAN FILTER & WARNA PLEK-KETIPLEK) -->
+        <section id="section-shift"
+            class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4 transition-all duration-300">
+            <!-- Header Section & Filter Tanggal -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 gap-3">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Jadwal
+                            Operasional</h3>
+                        <p class="text-xs text-emerald-600 font-semibold">Pilih tanggal untuk melihat detail
+                            lembar
+                            kerja</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- SECTION OUR TEAM (UPDATED LAYOUT: CENTER & RESPONSIVE COMPACT WITH STATUS) -->
-    <section id="section-our-team" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
-            <div class="flex items-center gap-3">
-                <div
-                    class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-people-roof"></i>
-                </div>
-                <div>
-                    <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Struktur Tim
-                        Outlet</h3>
-                    <p class="text-xs text-slate-400">Waroeng Steak & Shake - Mlg Tc Arjuno</p>
+                <!-- Bagian Filter & Tombol Fullscreen -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <input type="date" id="inputTanggal" value="2026-08-19"
+                        class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-medium bg-white text-slate-700">
+                    <input type="text" id="inputOutlet" value="TC ARJUNO" readonly class="hidden">
+                    <button onclick="loadSchedule()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded-lg text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-filter"></i> Tampilkan
+                    </button>
+                    <button onclick="toggleFullscreen()"
+                        class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                        <i id="fullscreen-icon" class="fa-solid fa-expand"></i> <span
+                            id="fullscreen-text">Fullscreen</span>
+                    </button>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
-                <span id="team-counter-badge"
-                    class="text-xs font-semibold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 w-fit">
-                    <i class="fa-solid fa-users text-orange-500 mr-1"></i> Memuat Tim...
-                </span>
-                <button onclick="renderOurTeamSection()"
-                    class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition">
-                    <i class="fa-solid fa-rotate"></i>
-                </button>
-            </div>
-        </div>
 
-        <!-- CONTAINER DINAMIS STRUKTUR TIM (CENTERED & RESPONSIVE) -->
-        <div id="our-team-container" class="space-y-6 flex flex-col items-center w-full">
-            <div class="text-center py-8 text-slate-400">
-                <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
-                <p class="text-xs font-medium">Memuat struktur anggota tim...</p>
+            <!-- Kotak Tabel Hasil Render yang Diperbarui -->
+            <div id="table-container"
+                class="rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all duration-300">
+                <!-- Kontainer pembatas dengan scroll horizontal yang fleksibel -->
+                <div style="width: 100%; max-width: 100%; overflow-x: auto; border-radius: 8px;">
+                    <div id="scheduleContainer" class="w-full" style="min-width: max-content;">
+                        <p class="text-xs text-slate-400 text-center py-6">Silakan klik "Tampilkan" untuk memuat
+                            jadwal
+                            sesuai tanggal.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- SECTION OUR TEAM (UPDATED LAYOUT: CENTER & RESPONSIVE COMPACT WITH STATUS) -->
+        <section id="section-our-team"
+            class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-people-roof"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Struktur Tim
+                            Outlet</h3>
+                        <p class="text-xs text-slate-400">Waroeng Steak & Shake - Mlg Tc Arjuno</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span id="team-counter-badge"
+                        class="text-xs font-semibold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 w-fit">
+                        <i class="fa-solid fa-users text-orange-500 mr-1"></i> Memuat Tim...
+                    </span>
+                    <button onclick="renderOurTeamSection()"
+                        class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition">
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CONTAINER DINAMIS STRUKTUR TIM (CENTERED & RESPONSIVE) -->
+            <div id="our-team-container" class="space-y-6 flex flex-col items-center w-full">
+                <div class="text-center py-8 text-slate-400">
+                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
+                    <p class="text-xs font-medium">Memuat struktur anggota tim...</p>
+                </div>
+            </div>
+        </section>
 
     </main>
 
@@ -1734,6 +1729,50 @@
             }
         }
 
+        const nationalHolidayCache = {};
+        const nationalHolidayFallbacks = {
+            2026: {
+                '2026-08-25': 'Maulid Nabi Muhammad SAW'
+            }
+        };
+
+        async function loadNationalHolidays(year) {
+            if (nationalHolidayCache[year]) return nationalHolidayCache[year];
+
+            try {
+                const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/ID`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const holidays = await response.json();
+                nationalHolidayCache[year] = holidays.reduce((result, holiday) => {
+                    result[holiday.date] = holiday.localName || holiday.name || 'Hari Libur Nasional';
+                    return result;
+                }, {});
+                Object.assign(nationalHolidayCache[year], nationalHolidayFallbacks[year] || {});
+            } catch (err) {
+                console.warn(`Gagal memuat tanggal merah nasional ${year}:`, err);
+                nationalHolidayCache[year] = { ...(nationalHolidayFallbacks[year] || {}) };
+            }
+
+            return nationalHolidayCache[year];
+        }
+
+        function getCalendarDateInfo(year, month, day, nationalHolidays) {
+            const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const date = new Date(Date.UTC(year, month - 1, day));
+            const dayOfWeek = date.getUTCDay();
+            const holidayName = nationalHolidays[dateKey] || '';
+
+            return {
+                dateKey,
+                isSaturday: dayOfWeek === 6,
+                isSunday: dayOfWeek === 0,
+                isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
+                isNationalHoliday: Boolean(holidayName),
+                holidayName
+            };
+        }
+
         // FUNGSI UTAMA: MEMUAT MATRIKS JADWAL LIBUR
         async function loadDashboardMonthlyRekap() {
             const tbody = document.getElementById('tbody-dashboard-rekap');
@@ -1752,6 +1791,7 @@
             const month = parseInt(monthStr);
 
             const daysInMonth = new Date(year, month, 0).getDate();
+            const nationalHolidays = await loadNationalHolidays(year);
 
             // 1. Render Header Tanggal
             let theadHTML = `
@@ -1759,7 +1799,16 @@
         <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 min-w-[150px] max-w-[150px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs">Nama Karyawan</th>
 `;
             for (let d = 1; d <= daysInMonth; d++) {
-                theadHTML += `<th class="p-1 text-center font-bold min-w-[28px] w-[28px] border-r border-slate-200 text-slate-600 text-[11px] ${d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70'}">${d}</th>`;
+                const dateInfo = getCalendarDateInfo(year, month, d, nationalHolidays);
+                const headerClass = dateInfo.isNationalHoliday
+                    ? 'bg-red-100 text-red-700'
+                    : dateInfo.isSunday
+                        ? 'bg-red-100 text-red-700'
+                        : dateInfo.isSaturday
+                            ? 'bg-amber-100 text-amber-700'
+                            : (d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70');
+                const holidayTitle = dateInfo.isNationalHoliday ? ` title="${dateInfo.holidayName}"` : '';
+                theadHTML += `<th${holidayTitle} class="p-1 text-center font-bold min-w-[28px] w-[28px] border-r border-slate-200 text-[11px] ${headerClass}">${d}</th>`;
             }
             theadHTML += `</tr>`;
             thead.innerHTML = theadHTML;
@@ -1869,6 +1918,7 @@
                         const fullDateKey = `${year}-${monthPadded}-${dayPadded}`;
 
                         const matchData = lookupUserMonth[fullDateKey];
+                        const dateInfo = getCalendarDateInfo(year, month, d, nationalHolidays);
 
                         if (matchData) {
                             // Penentuan simbol: libur ke-1 s/d 4 = x (OFF), libur ke-5 dst = ct (CUTI)
@@ -1883,8 +1933,22 @@
                                 tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-blue-700 bg-blue-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
                             }
                         } else {
-                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: Masuk Kerja`;
-                            tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center border-r border-slate-100 text-slate-300"></td>`;
+                            const calendarLabel = dateInfo.isNationalHoliday
+                                ? `Tanggal Merah - ${dateInfo.holidayName}`
+                                : dateInfo.isSunday
+                                    ? 'Minggu'
+                                    : dateInfo.isSaturday
+                                        ? 'Sabtu'
+                                        : 'Masuk Kerja';
+                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${calendarLabel}`;
+                            const cellClass = dateInfo.isNationalHoliday
+                                ? 'bg-red-50 text-red-300'
+                                : dateInfo.isSunday
+                                    ? 'bg-red-50 text-red-300'
+                                    : dateInfo.isSaturday
+                                        ? 'bg-amber-50 text-amber-300'
+                                        : 'text-slate-300';
+                            tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center border-r border-slate-100 ${cellClass}"></td>`;
                         }
                     }
 
@@ -1911,6 +1975,10 @@
             const video = document.getElementById("webcam-video");
 
             try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('Kamera tidak didukung browser ini.');
+                }
+
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: "user",
@@ -2717,7 +2785,7 @@
                     const colors = result.colors;
 
                     // LEBAR KOLOM PRESISI DENGAN TABLE-LAYOUT FIXED
-                    const wCol0 = 24;  // Kolom 0 (NO) super slim = 24px
+                    const wCol0 = 20;  // Kolom 0 (NO) super slim = 20px
                     const wCol1 = 130; // Kolom 1 (NAMA) = 130px
 
                     let html = `<table class="border-collapse text-[9px] bg-white whitespace-nowrap" style="margin:0; padding:0; border-spacing:0; table-layout: fixed; width: max-content;">`;
@@ -2733,11 +2801,11 @@
                             // KOLOM 0: NO (SLIM & STICKY KIRI)
                             if (c === 0) {
                                 stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; width: ${wCol0}px; min-width: ${wCol0}px; max-width: ${wCol0}px; z-index: 10; background-color: ${cellColor}; background-clip: padding-box; padding: 2px 1px;`;
-                            } 
+                            }
                             // KOLOM 1: NAMA KARYAWAN (STICKY SEBELAH NO)
                             else if (c === 1) {
                                 stickyStyle = `position: -webkit-sticky; position: sticky; left: ${wCol0}px; width: ${wCol1}px; min-width: ${wCol1}px; max-width: ${wCol1}px; z-index: 10; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.18); padding: 2px 4px; text-align: left; overflow: hidden; text-overflow: ellipsis;`;
-                            } 
+                            }
                             // KOLOM LAINNYA (BEBAS SCROLL)
                             else {
                                 stickyStyle = `background-color: ${cellColor}; min-width: 40px; padding: 2px 3px;`;
