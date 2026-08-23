@@ -204,54 +204,57 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* FIX ULTIMATE: STICKY KOLOM NO & NAMA KARYAWAN */
-        #table-container, 
-        #scheduleContainer, 
-        #scheduleContainer > div {
-            overflow-x: auto !important;
-            position: relative !important;
-        }
+        <style>
+/* 1. Paksa semua container di dalam jadwal agar mengizinkan scroll & sticky */
+#table-container *, 
+#scheduleContainer * {
+    overflow: visible !important;
+}
 
-        #scheduleContainer table {
-            border-collapse: separate !important;
-            border-spacing: 0 !important;
-            width: 100% !important;
-        }
+#table-container, 
+#scheduleContainer, 
+div[style*="overflow"] {
+    overflow-x: auto !important;
+    position: relative !important;
+}
 
-        /* Kolom 1: NO */
-        #scheduleContainer table tr > th:first-child,
-        #scheduleContainer table tr > td:first-child,
-        #scheduleContainer table tr > th:nth-child(1),
-        #scheduleContainer table tr > td:nth-child(1) {
-            position: -webkit-sticky !important;
-            position: sticky !important;
-            left: 0px !important;
-            z-index: 40 !important;
-            background-color: #ffffff !important;
-            background-clip: padding-box !important;
-        }
+/* 2. Format tabel agar sticky berjalan sempurna di Mobile Chrome/Safari */
+#scheduleContainer table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    width: max-content !important;
+}
 
-        /* Kolom 2: NAMA KARYAWAN */
-        #scheduleContainer table tr > th:nth-child(2),
-        #scheduleContainer table tr > td:nth-child(2) {
-            position: -webkit-sticky !important;
-            position: sticky !important;
-            left: 32px !important;
-            z-index: 40 !important;
-            background-color: #ffffff !important;
-            background-clip: padding-box !important;
-            white-space: nowrap !important;
-            box-shadow: 4px 0 6px -2px rgba(0, 0, 0, 0.12) !important;
-        }
+/* 3. KUNCI KOLOM 1 (NO) */
+#scheduleContainer tr > td:nth-child(1),
+#scheduleContainer tr > th:nth-child(1) {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    left: 0px !important;
+    z-index: 50 !important;
+    background-color: #ffffff !important;
+    background-clip: padding-box !important;
+}
 
-        /* Menjaga warna baris khusus (seperti merah Kasir/MO) tetap aman */
-        #scheduleContainer table tr[class*="bg-"] td:nth-child(1),
-        #scheduleContainer table tr[class*="bg-"] td:nth-child(2),
-        #scheduleContainer table tr[style*="background"] td:nth-child(1),
-        #scheduleContainer table tr[style*="background"] td:nth-child(2) {
-            background-color: inherit !important;
-        }
-    </style>
+/* 4. KUNCI KOLOM 2 (NAMA KARYAWAN) */
+#scheduleContainer tr > td:nth-child(2),
+#scheduleContainer tr > th:nth-child(2) {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    left: 28px !important; /* Posisi rapat setelah kolom nomor */
+    z-index: 50 !important;
+    background-color: #ffffff !important;
+    background-clip: padding-box !important;
+    white-space: nowrap !important;
+    box-shadow: 3px 0 5px -2px rgba(0, 0, 0, 0.2) !important; /* Garis bayangan pembatas */
+}
+
+/* 5. Jaga latar belakang baris yang punya warna khusus (Kasir/MO) */
+#scheduleContainer tr[style*="background"] td:nth-child(1),
+#scheduleContainer tr[style*="background"] td:nth-child(2) {
+    background-color: inherit !important;
+}
+</style>
 </head>
 
 <body
