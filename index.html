@@ -2717,14 +2717,14 @@
                     const values = result.values;
                     const colors = result.colors;
 
-                    // Membuat elemen tabel HTML secara dinamis dengan ukuran mikro agar muat banyak kolom jam
-                    let html = '<div style="width: 100%; overflow: hidden;"><table class="w-full border-collapse text-[9px] bg-white whitespace-nowrap" style="table-layout: auto;">';
+                    // PERBAIKAN 1: Hapus overflow: hidden di pembungkus tabel agar sticky aktif
+                    let html = '<table class="w-full border-collapse text-[9px] bg-white whitespace-nowrap" style="table-layout: auto; border-spacing: 0;">';
 
-                    // Tiga kolom identitas tetap terlihat saat tabel digeser horizontal.
+                    // Pengaturan 3 Kolom Pertama yang Dikunci (Sticky)
                     const stickyColumns = [
-                        { left: '0px', width: '42px' },
-                        { left: '42px', width: '150px' },
-                        { left: '192px', width: '90px' }
+                        { left: '0px', width: '35px' },   // Kolom 1: NO
+                        { left: '35px', width: '130px' }, // Kolom 2: NAMA KARYAWAN
+                        { left: '165px', width: '70px' }  // Kolom 3: JABATAN
                     ];
 
                     for (let r = 0; r < values.length; r++) {
@@ -2734,11 +2734,12 @@
                             let cellColor = colors[r][c] ? colors[r][c] : '#ffffff'; // Mengambil warna asli dari GSheet
 
                             const stickyColumn = stickyColumns[c];
+                            
+                            // PERBAIKAN 2: Menaikkan z-index & menambahkan background-clip agar tidak tembus
                             const stickyStyle = stickyColumn
-                                ? `position: sticky; left: ${stickyColumn.left}; width: ${stickyColumn.width}; min-width: ${stickyColumn.width}; max-width: ${stickyColumn.width}; z-index: ${r === 0 ? 30 : 10}; box-shadow: 2px 0 4px rgba(15, 23, 42, 0.08);`
+                                ? `position: -webkit-sticky; position: sticky; left: ${stickyColumn.left}; min-width: ${stickyColumn.width}; max-width: ${stickyColumn.width}; z-index: ${r < 5 ? 50 : 40}; background-clip: padding-box; box-shadow: 2px 0 4px rgba(0, 0, 0, 0.15);`
                                 : '';
 
-                            // Di dalam loop baris dan kolom:
                             html += `<td style="background-color: ${cellColor}; border: 1px solid #cbd5e1; padding: 2px 3px; text-align: center; ${stickyStyle}">${cellValue}</td>`;
                         }
                         html += '</tr>';
@@ -2746,14 +2747,12 @@
 
                     html += '</table>';
 
-                    // Mengganti pembungkus agar pas di layar tanpa meluber ke kanan
+                    // PERBAIKAN 3: Memastikan scroll-x berjalan lancar
                     container.innerHTML = `
-    <div class="w-full overflow-x-auto" style="line-height: 1;">
-        <div style="width: 100%; max-width: 100%;">
-            ${html}
-        </div>
-    </div>
-`;
+                        <div class="w-full overflow-x-auto" style="line-height: 1; -webkit-overflow-scrolling: touch;">
+                            ${html}
+                        </div>
+                    `;
                 })
                 .catch(error => {
                     console.error("Gagal memuat jadwal:", error);
