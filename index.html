@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,123 +11,7 @@
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            red: '#DC2626', // Sedikit lebih cerah dari sebelumnya
-                            darkred: '#991B1B',
-                            navy: '#0F172A',
-                            // Tambahkan warna abu-abu netral yang lebih hangat
-                            coolgray: '#F1F5F9',
-                            warmgray: '#E2E8F0'
-                        }
-                    },
-                    fontFamily: {
-                        // Gunakan font yang lebih premium
-                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    // Tambahkan sedikit bayangan untuk kedalaman
-                    boxShadow: {
-                        'soft-xl': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .gradient-banner {
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
-        }
-
-        /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
-        @keyframes teamStatusBlinkRed {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.35;
-                transform: scale(0.88);
-            }
-        }
-
-        @keyframes teamStatusBlinkGreen {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.35;
-                transform: scale(0.88);
-            }
-        }
-
-        .team-status-red {
-            background: #fef2f2;
-            color: #dc2626;
-            border-color: #fecaca;
-        }
-
-        .team-status-green {
-            background: #ecfdf5;
-            color: #047857;
-            border-color: #a7f3d0;
-        }
-
-        .team-status-dot-red,
-        .team-status-dot-green {
-            width: 6px;
-            height: 6px;
-            border-radius: 9999px;
-            display: inline-block;
-            flex-shrink: 0;
-        }
-
-        .team-status-dot-red {
-            background: #ef4444;
-            animation: teamStatusBlinkRed 1s ease-in-out infinite;
-            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
-        }
-
-        .team-status-dot-green {
-            background: #10b981;
-            animation: teamStatusBlinkGreen 1s ease-in-out infinite;
-            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda Dashboard Outlet - Mlg Tc Arjuno Partner</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -154,13 +37,13 @@
             }
         }
     </script>
+
     <style>
-<style>
         .gradient-banner {
             background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
         }
 
-        /* STATUS OUR TEAM */
+        /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
         @keyframes teamStatusBlinkRed {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.35; transform: scale(0.88); }
@@ -179,12 +62,14 @@
         }
 
         .team-status-dot-red {
-            background: #ef4444; animation: teamStatusBlinkRed 1s ease-in-out infinite;
+            background: #ef4444;
+            animation: teamStatusBlinkRed 1s ease-in-out infinite;
             box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
         }
 
         .team-status-dot-green {
-            background: #10b981; animation: teamStatusBlinkGreen 1s ease-in-out infinite;
+            background: #10b981;
+            animation: teamStatusBlinkGreen 1s ease-in-out infinite;
             box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
         }
 
@@ -203,22 +88,18 @@
         /* FIX PRESISI TABEL GOOGLE SHEETS / APPS SCRIPT              */
         /* ========================================================= */
 
-        /* 1. Izinkan container memotong scroll secara mulus */
-        #table-container, 
-        #scheduleContainer {
+        #table-container, #scheduleContainer {
             overflow-x: auto !important;
             position: relative !important;
             -webkit-overflow-scrolling: touch;
         }
 
-        /* 2. Format tabel agar sticky tidak lepas */
         #scheduleContainer table {
             border-collapse: separate !important;
             border-spacing: 0 !important;
             width: max-content !important;
         }
 
-        /* 3. KUNCI KOLOM NAMA KARYAWAN (Kolom Pertama Data) */
         #scheduleContainer table tr td:first-child,
         #scheduleContainer table tr th:first-child {
             position: -webkit-sticky !important;
@@ -233,7 +114,6 @@
             box-shadow: 3px 0 6px -1px rgba(0, 0, 0, 0.18) !important;
         }
 
-        /* 4. Menjaga baris berpola/warna khusus (Kasir/MO) */
         #scheduleContainer table tr[style*="background"] td:first-child,
         #scheduleContainer table tr[class*="bg-"] td:first-child {
             background-color: inherit !important;
