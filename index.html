@@ -1730,6 +1730,11 @@
         }
 
         const nationalHolidayCache = {};
+        const nationalHolidayFallbacks = {
+            2026: {
+                '2026-08-25': 'Maulid Nabi Muhammad SAW'
+            }
+        };
 
         async function loadNationalHolidays(year) {
             if (nationalHolidayCache[year]) return nationalHolidayCache[year];
@@ -1743,9 +1748,10 @@
                     result[holiday.date] = holiday.localName || holiday.name || 'Hari Libur Nasional';
                     return result;
                 }, {});
+                Object.assign(nationalHolidayCache[year], nationalHolidayFallbacks[year] || {});
             } catch (err) {
                 console.warn(`Gagal memuat tanggal merah nasional ${year}:`, err);
-                nationalHolidayCache[year] = {};
+                nationalHolidayCache[year] = { ...(nationalHolidayFallbacks[year] || {}) };
             }
 
             return nationalHolidayCache[year];
