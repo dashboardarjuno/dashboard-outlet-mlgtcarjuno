@@ -194,67 +194,51 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* Mencegah Safari iPhone Auto-Zoom */
-        @media screen and (max-width: 768px) {
-            input, select, textarea { font-size: 16px !important; }
-        }
-
         /* Memperhalus scroll di iOS */
         .overflow-y-auto, .overflow-x-auto, .table-container {
             -webkit-overflow-scrolling: touch;
         }
 
-        <style>
-/* 1. Paksa semua container di dalam jadwal agar mengizinkan scroll & sticky */
-#table-container *, 
-#scheduleContainer * {
-    overflow: visible !important;
-}
+        /* ========================================================= */
+        /* FIX PRESISI TABEL GOOGLE SHEETS / APPS SCRIPT              */
+        /* ========================================================= */
 
-#table-container, 
-#scheduleContainer, 
-div[style*="overflow"] {
-    overflow-x: auto !important;
-    position: relative !important;
-}
+        /* 1. Izinkan container memotong scroll secara mulus */
+        #table-container, 
+        #scheduleContainer {
+            overflow-x: auto !important;
+            position: relative !important;
+            -webkit-overflow-scrolling: touch;
+        }
 
-/* 2. Format tabel agar sticky berjalan sempurna di Mobile Chrome/Safari */
-#scheduleContainer table {
-    border-collapse: separate !important;
-    border-spacing: 0 !important;
-    width: max-content !important;
-}
+        /* 2. Format tabel agar sticky tidak lepas */
+        #scheduleContainer table {
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            width: max-content !important;
+        }
 
-/* 3. KUNCI KOLOM 1 (NO) */
-#scheduleContainer tr > td:nth-child(1),
-#scheduleContainer tr > th:nth-child(1) {
-    position: -webkit-sticky !important;
-    position: sticky !important;
-    left: 0px !important;
-    z-index: 50 !important;
-    background-color: #ffffff !important;
-    background-clip: padding-box !important;
-}
+        /* 3. KUNCI KOLOM NAMA KARYAWAN (Kolom Pertama Data) */
+        #scheduleContainer table tr td:first-child,
+        #scheduleContainer table tr th:first-child {
+            position: -webkit-sticky !important;
+            position: sticky !important;
+            left: 0px !important;
+            z-index: 40 !important;
+            background-color: #ffffff !important;
+            background-clip: padding-box !important;
+            min-width: 120px !important;
+            max-width: 160px !important;
+            white-space: nowrap !important;
+            box-shadow: 3px 0 6px -1px rgba(0, 0, 0, 0.18) !important;
+        }
 
-/* 4. KUNCI KOLOM 2 (NAMA KARYAWAN) */
-#scheduleContainer tr > td:nth-child(2),
-#scheduleContainer tr > th:nth-child(2) {
-    position: -webkit-sticky !important;
-    position: sticky !important;
-    left: 28px !important; /* Posisi rapat setelah kolom nomor */
-    z-index: 50 !important;
-    background-color: #ffffff !important;
-    background-clip: padding-box !important;
-    white-space: nowrap !important;
-    box-shadow: 3px 0 5px -2px rgba(0, 0, 0, 0.2) !important; /* Garis bayangan pembatas */
-}
-
-/* 5. Jaga latar belakang baris yang punya warna khusus (Kasir/MO) */
-#scheduleContainer tr[style*="background"] td:nth-child(1),
-#scheduleContainer tr[style*="background"] td:nth-child(2) {
-    background-color: inherit !important;
-}
-</style>
+        /* 4. Menjaga baris berpola/warna khusus (Kasir/MO) */
+        #scheduleContainer table tr[style*="background"] td:first-child,
+        #scheduleContainer table tr[class*="bg-"] td:first-child {
+            background-color: inherit !important;
+        }
+    </style>
 </head>
 
 <body
