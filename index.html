@@ -2701,7 +2701,6 @@
 
             container.innerHTML = '<p class="text-xs text-slate-500 text-center py-6">Memuat lembar kerja dan warna...</p>';
 
-            // Menggunakan fetch ke Web App URL dengan parameter action getScheduleByFilter
             let url = GAS_WEB_APP_URL + `?action=getScheduleByFilter&date=${tanggal}&outlet=${encodeURIComponent(outlet)}`;
 
             fetch(url)
@@ -2717,42 +2716,41 @@
                     const values = result.values;
                     const colors = result.colors;
 
-                    // PERBAIKAN 1: Hapus overflow: hidden di pembungkus tabel agar sticky aktif
-                    let html = '<table class="w-full border-collapse text-[9px] bg-white whitespace-nowrap" style="table-layout: auto; border-spacing: 0;">';
+                    let html = '<table class="w-full border-collapse text-[9px] bg-white whitespace-nowrap" style="table-layout: fixed; border-spacing: 0;">';
 
-                    // Pengaturan 3 Kolom Pertama yang Dikunci (Sticky)
-                    const stickyColumns = [
-                        { left: '0px', width: '35px' },   // Kolom 1: NO
-                        { left: '35px', width: '130px' }, // Kolom 2: NAMA KARYAWAN
-                        { left: '165px', width: '70px' }  // Kolom 3: JABATAN
-                    ];
+                    // Lebar pasti untuk dikunci
+                    const col1Width = 32;  // Kolom 1 (NO) = 32px
+                    const col2Width = 140; // Kolom 2 (NAMA) = 140px
 
                     for (let r = 0; r < values.length; r++) {
                         html += '<tr>';
                         for (let c = 0; c < values[r].length; c++) {
                             let cellValue = values[r][c] !== null && values[r][c] !== undefined ? values[r][c] : '';
-                            let cellColor = colors[r][c] ? colors[r][c] : '#ffffff'; // Mengambil warna asli dari GSheet
+                            let cellColor = colors[r][c] ? colors[r][c] : '#ffffff';
 
-                            const stickyColumn = stickyColumns[c];
+                            let stickyStyle = '';
                             
-                            // PERBAIKAN 2: Menaikkan z-index & menambahkan background-clip agar tidak tembus
-                            const stickyStyle = stickyColumn
-                                ? `position: -webkit-sticky; position: sticky; left: ${stickyColumn.left}; min-width: ${stickyColumn.width}; max-width: ${stickyColumn.width}; z-index: ${r < 5 ? 50 : 40}; background-clip: padding-box; box-shadow: 2px 0 4px rgba(0, 0, 0, 0.15);`
-                                : '';
+                            // KOLOM 1: NO (Nempel di Paling Kiri / 0px)
+                            if (c === 0) {
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; min-width: ${col1Width}px; max-width: ${col1Width}px; z-index: 35; background-color: ${cellColor}; background-clip: padding-box;`;
+                            } 
+                            // KOLOM 2: NAMA KARYAWAN (Nempel di Sebelah Kolom NO / 32px)
+                            else if (c === 1) {
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: ${col1Width}px; min-width: ${col2Width}px; max-width: ${col2Width}px; z-index: 35; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 4px 0 6px -1px rgba(0,0,0,0.18);`;
+                            }
 
-                            html += `<td style="background-color: ${cellColor}; border: 1px solid #cbd5e1; padding: 2px 3px; text-align: center; ${stickyStyle}">${cellValue}</td>`;
+                            html += `<td style="border: 1px solid #cbd5e1; padding: 3px 4px; text-align: center; ${stickyStyle}">${cellValue}</td>`;
                         }
                         html += '</tr>';
                     }
 
                     html += '</table>';
 
-                    // PERBAIKAN 3: Memastikan scroll-x berjalan lancar
-                    container.innerHTML = `
-                        <div class="w-full overflow-x-auto" style="line-height: 1; -webkit-overflow-scrolling: touch;">
-                            ${html}
-                        </div>
-                    `;
+                    // RENDER LANGSUNG KE CONTAINER
+                    container.style.overflowX = 'auto';
+                    container.style.position = 'relative';
+                    container.style.webkitOverflowScrolling = 'touch';
+                    container.innerHTML = html;
                 })
                 .catch(error => {
                     console.error("Gagal memuat jadwal:", error);
