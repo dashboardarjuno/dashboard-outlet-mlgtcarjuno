@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,9 @@
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -45,20 +48,52 @@
 
         /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
         @keyframes teamStatusBlinkRed {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(0.88);
+            }
         }
 
         @keyframes teamStatusBlinkGreen {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(0.88);
+            }
         }
 
-        .team-status-red { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
-        .team-status-green { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+        .team-status-red {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
 
-        .team-status-dot-red, .team-status-dot-green {
-            width: 6px; height: 6px; border-radius: 9999px; display: inline-block; flex-shrink: 0;
+        .team-status-green {
+            background: #ecfdf5;
+            color: #047857;
+            border-color: #a7f3d0;
+        }
+
+        .team-status-dot-red,
+        .team-status-dot-green {
+            width: 6px;
+            height: 6px;
+            border-radius: 9999px;
+            display: inline-block;
+            flex-shrink: 0;
         }
 
         .team-status-dot-red {
@@ -74,13 +109,28 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
 
         /* Memperhalus scroll di iOS */
-        .overflow-y-auto, .overflow-x-auto, .table-container {
+        .overflow-y-auto,
+        .overflow-x-auto,
+        .table-container {
             -webkit-overflow-scrolling: touch;
         }
 
@@ -88,7 +138,8 @@
         /* FIX PRESISI TABEL GOOGLE SHEETS / APPS SCRIPT              */
         /* ========================================================= */
 
-        #table-container, #scheduleContainer {
+        #table-container,
+        #scheduleContainer {
             overflow-x: auto !important;
             position: relative !important;
             -webkit-overflow-scrolling: touch;
@@ -125,44 +176,44 @@
     class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
 
     <!-- HEADER & NAVBAR REVISI RESPONSIF -->
-<header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
-    <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
-        <!-- Kiri: Logo dan Judul -->
-        <div class="flex items-center gap-2.5 sm:gap-3.5">
-            <div
-                class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
-                <i class="fa-solid fa-store text-base sm:text-lg"></i>
+    <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
+        <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
+            <!-- Kiri: Logo dan Judul -->
+            <div class="flex items-center gap-2.5 sm:gap-3.5">
+                <div
+                    class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
+                    <i class="fa-solid fa-store text-base sm:text-lg"></i>
+                </div>
+                <!-- flex-col agar tersusun bertumpuk ke bawah -->
+                <div class="flex flex-col justify-center items-start">
+                    <!-- Baris 1: Nama Outlet (1 Baris) -->
+                    <h1
+                        class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
+                        MLG-TC-Arjuno</h1>
+
+                    <!-- Baris 2: Kode Outlet -->
+                    <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">Kode Outlet: <span
+                            class="text-brand-red font-bold">1415</span></p>
+
+                    <!-- Baris 3: Status Outlet (Rata Kiri Presisi Tanpa Padding Kiri) -->
+                    <div class="mt-0.5">
+                        <span id="outlet-status-container"
+                            class="text-[10px] sm:text-xs font-semibold !px-0 py-0 rounded-full whitespace-nowrap block text-left"></span>
+                    </div>
+                </div>
             </div>
-            <!-- flex-col agar tersusun bertumpuk ke bawah -->
-            <div class="flex flex-col justify-center items-start">
-                <!-- Baris 1: Nama Outlet (1 Baris) -->
-                <h1
-                    class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
-                    MLG-TC-Arjuno</h1>
-                
-                <!-- Baris 2: Kode Outlet -->
-                <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">Kode Outlet: <span
-                        class="text-brand-red font-bold">1415</span></p>
-                
-                <!-- Baris 3: Status Outlet (Rata Kiri Presisi Tanpa Padding Kiri) -->
-                <div class="mt-0.5">
-                    <span id="outlet-status-container"
-                        class="text-[10px] sm:text-xs font-semibold !px-0 py-0 rounded-full whitespace-nowrap block text-left"></span>
+
+            <!-- Kanan: Jam & Status -->
+            <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+                <div class="flex flex-col">
+                    <span id="current-date"
+                        class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
+                    <span id="current-time"
+                        class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
                 </div>
             </div>
         </div>
-
-        <!-- Kanan: Jam & Status -->
-        <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
-            <div class="flex flex-col">
-                <span id="current-date"
-                    class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
-                <span id="current-time"
-                    class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
-            </div>
-        </div>
-    </div>
-</header>
+    </header>
 
     <!-- MARQUEE ANNOUNCEMENT BANNER -->
     <div
@@ -190,31 +241,35 @@
     <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
         <!-- HERO BANNER REVISI RESPONSIF -->
-<section class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-4 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
-    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
-        <div class="space-y-2 sm:space-y-3">
-            <span class="inline-flex items-center gap-1.5 bg-white/10 text-amber-300 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full">
-                <i class="fa-solid fa-sparkles text-[10px]"></i> Pusat Informasi Operasional
-            </span>
-            <h2 class="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
-                Selamat Datang di Dashboard Outlet Internal
-            </h2>
-            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
-                Akses cepat untuk absensi harian, pengajuan libur, keuangan, dan database SOP standar Waroeng Steak Indonesia.
-            </p>
-        </div>
+        <section
+            class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-4 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
+                <div class="space-y-2 sm:space-y-3">
+                    <span
+                        class="inline-flex items-center gap-1.5 bg-white/10 text-amber-300 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-sparkles text-[10px]"></i> Pusat Informasi Operasional
+                    </span>
+                    <h2
+                        class="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
+                        Selamat Datang di Dashboard Outlet Internal
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
+                        Akses cepat untuk absensi harian, pengajuan libur, keuangan, dan database SOP standar Waroeng
+                        Steak Indonesia.
+                    </p>
+                </div>
 
-        <!-- Video Container (Tinggi Pasti & Aman) -->
-        <div class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
-            <iframe id="motivationVideo" class="w-full h-full absolute inset-0" src=""
-                title="Motivasi Tim" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-            </iframe>
-        </div>
-    </div>
-</section>
-    </main>
+                <!-- Video Container (Tinggi Pasti & Aman) -->
+                <div
+                    class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
+                    <iframe id="motivationVideo" class="w-full h-full absolute inset-0" src="" title="Motivasi Tim"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+        </section>
 
     <!-- GRID MENU PINTAS REVISI RESPONSIF -->
     <section>
@@ -2613,11 +2668,11 @@
                             // KOLOM 0: NO (SLIM & STICKY KIRI)
                             if (c === 0) {
                                 stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; width: ${wCol0}px; min-width: ${wCol0}px; max-width: ${wCol0}px; z-index: 10; background-color: ${cellColor}; background-clip: padding-box; padding: 2px 1px;`;
-                            } 
+                            }
                             // KOLOM 1: NAMA KARYAWAN (STICKY SEBELAH NO)
                             else if (c === 1) {
                                 stickyStyle = `position: -webkit-sticky; position: sticky; left: ${wCol0}px; width: ${wCol1}px; min-width: ${wCol1}px; max-width: ${wCol1}px; z-index: 10; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.18); padding: 2px 4px; text-align: left; overflow: hidden; text-overflow: ellipsis;`;
-                            } 
+                            }
                             // KOLOM LAINNYA (BEBAS SCROLL)
                             else {
                                 stickyStyle = `background-color: ${cellColor}; min-width: 40px; padding: 2px 3px;`;
