@@ -22,15 +22,22 @@
                 extend: {
                     colors: {
                         brand: {
-                            red: '#ED1C24',
-                            darkred: '#B91C1C',
+                            red: '#DC2626', // Sedikit lebih cerah dari sebelumnya
+                            darkred: '#991B1B',
                             navy: '#0F172A',
-                            slate: '#1E293B'
+                            // Tambahkan warna abu-abu netral yang lebih hangat
+                            coolgray: '#F1F5F9',
+                            warmgray: '#E2E8F0'
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                        // Gunakan font yang lebih premium
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    // Tambahkan sedikit bayangan untuk kedalaman
+                    boxShadow: {
+                        'soft-xl': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
                     }
                 }
             }
@@ -43,13 +50,31 @@
 
         /* STATUS OUR TEAM - MENGIKUTI MATRIKS OFF & CUTI */
         @keyframes teamStatusBlinkRed {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(0.88);
+            }
         }
 
         @keyframes teamStatusBlinkGreen {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.35; transform: scale(0.88); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(0.88);
+            }
         }
 
         .team-status-red {
@@ -90,18 +115,128 @@
             width: 6px;
             height: 6px;
         }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda Dashboard Outlet - Mlg Tc Arjuno Partner</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
 
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#DC2626',
+                            darkred: '#991B1B',
+                            navy: '#0F172A',
+                            coolgray: '#F1F5F9',
+                            warmgray: '#E2E8F0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft-xl': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+<style>
+        .gradient-banner {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #991B1B 100%);
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+        /* STATUS OUR TEAM */
+        @keyframes teamStatusBlinkRed {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.88); }
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
+        @keyframes teamStatusBlinkGreen {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.35; transform: scale(0.88); }
+        }
+
+        .team-status-red { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+        .team-status-green { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+
+        .team-status-dot-red, .team-status-dot-green {
+            width: 6px; height: 6px; border-radius: 9999px; display: inline-block; flex-shrink: 0;
+        }
+
+        .team-status-dot-red {
+            background: #ef4444; animation: teamStatusBlinkRed 1s ease-in-out infinite;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.12);
+        }
+
+        .team-status-dot-green {
+            background: #10b981; animation: teamStatusBlinkGreen 1s ease-in-out infinite;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.12);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Memperhalus scroll di iOS */
+        .overflow-y-auto, .overflow-x-auto, .table-container {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ========================================================= */
+        /* FIX PRESISI TABEL GOOGLE SHEETS / APPS SCRIPT              */
+        /* ========================================================= */
+
+        /* 1. Izinkan container memotong scroll secara mulus */
+        #table-container, 
+        #scheduleContainer {
+            overflow-x: auto !important;
+            position: relative !important;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 2. Format tabel agar sticky tidak lepas */
+        #scheduleContainer table {
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            width: max-content !important;
+        }
+
+        /* 3. KUNCI KOLOM NAMA KARYAWAN (Kolom Pertama Data) */
+        #scheduleContainer table tr td:first-child,
+        #scheduleContainer table tr th:first-child {
+            position: -webkit-sticky !important;
+            position: sticky !important;
+            left: 0px !important;
+            z-index: 40 !important;
+            background-color: #ffffff !important;
+            background-clip: padding-box !important;
+            min-width: 120px !important;
+            max-width: 160px !important;
+            white-space: nowrap !important;
+            box-shadow: 3px 0 6px -1px rgba(0, 0, 0, 0.18) !important;
+        }
+
+        /* 4. Menjaga baris berpola/warna khusus (Kasir/MO) */
+        #scheduleContainer table tr[style*="background"] td:first-child,
+        #scheduleContainer table tr[class*="bg-"] td:first-child {
+            background-color: inherit !important;
         }
     </style>
 </head>
@@ -109,289 +244,342 @@
 <body
     class="bg-slate-100 font-sans text-slate-800 antialiased min-h-screen flex flex-col selection:bg-red-500 selection:text-white">
 
-    <!-- HEADER & NAVBAR -->
-    <header class="bg-brand-navy text-white sticky top-0 z-40 shadow-lg border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div
-                    class="bg-brand-red text-white p-2 rounded-xl font-bold font-heading text-lg tracking-wider flex items-center gap-2 shadow-md">
-                    <i class="fa-solid fa-store"></i> <span class="hidden sm:inline">DASHBOARD</span>
-                </div>
-                <div>
-                    <h1 class="font-heading font-bold text-base leading-tight tracking-wide">MLG-TC-Arjuno</h1>
-                    <p class="text-xs text-slate-400">Kode Outlet: <span
-                            class="text-brand-red font-semibold">1415</span></p>
-                </div>
+    <!-- HEADER & NAVBAR REVISI RESPONSIF -->
+<header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
+    <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
+        <!-- Kiri: Logo dan Judul -->
+        <div class="flex items-center gap-2.5 sm:gap-3.5">
+            <div
+                class="bg-brand-red text-white w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-md shrink-0">
+                <i class="fa-solid fa-store text-base sm:text-lg"></i>
             </div>
-
-            <div class="flex items-center text-sm">
-                <div class="flex flex-col text-right">
-                    <span id="current-date" class="font-medium text-slate-200 text-xs sm:text-sm"></span>
-                    <!-- STATUS OUTLET OTOMATIS BERDASARKAN JAM OPERASIONAL -->
-                    <span id="outlet-status-container" class="text-xs font-semibold">
-                        <!-- Otomatis diisi oleh JS -->
-                    </span>
+            <!-- flex-col agar tersusun bertumpuk ke bawah -->
+            <div class="flex flex-col justify-center items-start">
+                <!-- Baris 1: Nama Outlet (1 Baris) -->
+                <h1
+                    class="font-heading font-extrabold text-sm sm:text-lg leading-tight tracking-tight text-brand-navy whitespace-nowrap">
+                    MLG-TC-Arjuno</h1>
+                
+                <!-- Baris 2: Kode Outlet -->
+                <p class="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">Kode Outlet: <span
+                        class="text-brand-red font-bold">1415</span></p>
+                
+                <!-- Baris 3: Status Outlet (Rata Kiri Presisi Tanpa Padding Kiri) -->
+                <div class="mt-0.5">
+                    <span id="outlet-status-container"
+                        class="text-[10px] sm:text-xs font-semibold !px-0 py-0 rounded-full whitespace-nowrap block text-left"></span>
                 </div>
             </div>
         </div>
-    </header>
+
+        <!-- Kanan: Jam & Status -->
+        <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+            <div class="flex flex-col">
+                <span id="current-date"
+                    class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
+                <span id="current-time"
+                    class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
+            </div>
+        </div>
+    </div>
+</header>
 
     <!-- MARQUEE ANNOUNCEMENT BANNER -->
-    <div class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-4 shadow-inner flex items-center">
-        <span
-            class="bg-white text-brand-red font-bold px-2 py-0.5 rounded-md text-xs uppercase mr-3 shrink-0 shadow-sm flex items-center gap-1">
-            <i class="fa-solid fa-bullhorn"></i> Info
-        </span>
-        <marquee behavior="scroll" direction="left" class="w-full font-medium">
-            📢 Maksimal pengajuan Off/Cuti 6 hari setiap bulan, Form hanya bisa diakses tgl 15 - 25 setiap bulannya dan
-            hanya untuk bulan berikutnya | ⚠️ Absensi Wajib Berada Dalam Radius Max 50m dari Outlet!
-        </marquee>
+    <div
+        class="bg-brand-red text-white text-xs sm:text-sm font-medium py-2 px-4 shadow-inner flex items-center justify-between gap-2">
+        <div class="flex items-center w-full overflow-hidden">
+            <span
+                class="bg-white text-brand-red font-bold px-2 py-0.5 rounded-md text-xs uppercase mr-3 shrink-0 shadow-sm flex items-center gap-1">
+                <i class="fa-solid fa-bullhorn"></i> Info
+            </span>
+            <div class="overflow-hidden w-full cursor-pointer" onclick="openInfoModal()">
+                <marquee id="bannerMarquee" behavior="scroll" direction="left" class="w-full font-medium">
+                    📢 Memuat informasi terbaru dari server...
+                </marquee>
+            </div>
+        </div>
+
+        <!-- Tombol Edit Khusus MO/Manager -->
+        <button id="btnEditBanner" onclick="openEditBannerModal()"
+            class="hidden bg-white/20 hover:bg-white/30 text-white text-xs font-bold py-1 px-2.5 rounded transition shrink-0 flex items-center gap-1">
+            <i class="fa-solid fa-pen-to-square"></i> <span class="hidden sm:inline">Edit</span>
+        </button>
     </div>
 
     <!-- MAIN CONTENT AREA -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+    <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        <!-- HERO BANNER -->
+        <!-- HERO BANNER REVISI RESPONSIF -->
+<section class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-4 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
+    <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
+        <div class="space-y-2 sm:space-y-3">
+            <span class="inline-flex items-center gap-1.5 bg-white/10 text-amber-300 text-[10px] sm:text-xs font-bold px-3 py-1 rounded-full">
+                <i class="fa-solid fa-sparkles text-[10px]"></i> Pusat Informasi Operasional
+            </span>
+            <h2 class="font-heading text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight tracking-tight">
+                Selamat Datang di Dashboard Outlet Internal
+            </h2>
+            <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
+                Akses cepat untuk absensi harian, pengajuan libur, keuangan, dan database SOP standar Waroeng Steak Indonesia.
+            </p>
+        </div>
+
+        <!-- Video Container (Tinggi Pasti & Aman) -->
+        <div class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
+            <iframe id="motivationVideo" class="w-full h-full absolute inset-0" src=""
+                title="Motivasi Tim" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <!-- GRID MENU PINTAS REVISI RESPONSIF -->
+    <section>
+        <h3 class="font-heading font-bold text-lg sm:text-xl text-slate-900 mb-4 sm:mb-5 flex items-center gap-2.5">
+            <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
+        </h3>
+
+        <!-- Grid Responsif: 2 kolom di HP, 4 di Tablet, 7 di Laptop -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-5">
+
+            <!-- Menu 1: Absensi Karyawan -->
+            <button onclick="openAbsensiModal()"
+                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-brand-red flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-red-50 transition-all duration-300">
+                    <i class="fa-solid fa-user-clock"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Absensi
+                    Karyawan</span>
+                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Masuk / Pulang / Izin</span>
+            </button>
+
+            <!-- Menu 2: Pengajuan Off & Cuti -->
+            <button onclick="openOffCutiModal()"
+                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-purple-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-purple-50 transition-all duration-300">
+                    <i class="fa-solid fa-calendar-minus"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Pengajuan
+                    Libur</span>
+                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Max 6 Hari / Bulan</span>
+            </button>
+
+            <!-- Menu 3: Kas Outlet -->
+            <button onclick="openKasModal()"
+                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-emerald-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-emerald-50 transition-all duration-300">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Keuangan
+                    Kas</span>
+                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Catatan Kas & Saldo</span>
+            </button>
+
+            <!-- Menu 4: Manpower Planning -->
+            <a href="#section-shift"
+                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
+                <div
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-sky-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-sky-50 transition-all duration-300">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Jadwal
+                    Tim</span>
+                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Shift Kerja</span>
+            </a>
+
+            <!-- Menu 5: SOP / SOC -->
+            <a href="#section-sop"
+                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center">
+                <div
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-amber-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-amber-50 transition-all duration-300">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">SOP/SOC
+                    Outlet</span>
+                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Berkas Digital</span>
+            </a>
+
+            <!-- Menu 6: Our Team -->
+            <a href="#section-our-team"
+                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center cursor-pointer">
+                <div
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-orange-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-orange-50 transition-all duration-300">
+                    <i class="fa-solid fa-people-roof"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Profil
+                    Tim</span>
+                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Anggota & Struktur</span>
+            </a>
+
+            <!-- Menu 7: Database Karyawan -->
+            <a href="https://docs.google.com/spreadsheets/d/10_oZHz_yA3i2K6Xk-x_qAGyJDMxYvESE/edit?gid=2019967039#gid=2019967039"
+                target="_blank"
+                class="bg-white p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-sm border border-slate-100 hover:border-brand-red hover:shadow-lg transition-all duration-300 text-center group flex flex-col items-center col-span-2 sm:col-span-1">
+                <div
+                    class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-slate-50 text-indigo-600 flex items-center justify-center text-xl sm:text-2xl mb-3 sm:mb-4 group-hover:scale-105 group-hover:bg-indigo-50 transition-all duration-300">
+                    <i class="fa-solid fa-id-card"></i>
+                </div>
+                <span
+                    class="font-heading font-bold text-xs sm:text-sm text-slate-900 group-hover:text-brand-red transition-colors">Data
+                    Karyawan</span>
+                <span class="text-[10px] sm:text-[11px] text-slate-500 font-medium mt-1">Link Google Drive</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-base text-slate-900">Matriks Jadwal Off & Cuti
+                        Tim</h3>
+                    <p class="text-xs text-slate-400">Monitoring libur seluruh karyawan</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input type="month" id="filter-bulan-matriks" onchange="loadDashboardMonthlyRekap()"
+                    class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                <button type="button" onclick="loadDashboardMonthlyRekap()"
+                    class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5 shrink-0 cursor-pointer">
+                    <i class="fa-solid fa-rotate text-purple-500"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- KETERANGAN SIMBOL / LEGEND -->
         <div
-            class="gradient-banner text-white rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden border border-slate-700/50">
-            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                <div class="lg:col-span-7 space-y-3">
-                    <span
-                        class="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-md text-slate-200 text-xs font-semibold px-3 py-1 rounded-full border border-white/20">
-                        <i class="fa-solid fa-sparkles text-amber-300"></i> Pusat Informasi Operasional
-                    </span>
-                    <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-white leading-tight">
-                        Selamat Datang di Dashboard Internal Outlet
-                    </h2>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-                        Akses cepat untuk absensi harian, pengajuan off & cuti karyawan, pencatatan kas, hingga SOP/SOC
-                        resmi PT Waroeng Steak Indonesia.
-                    </p>
+            class="flex items-center gap-4 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+            <span class="flex items-center gap-1.5"><span
+                    class="w-5 h-5 bg-blue-100 text-blue-700 font-extrabold rounded flex items-center justify-center text-xs">x</span>
+                OFF (Hari 1 - 4)</span>
+            <span class="flex items-center gap-1.5"><span
+                    class="w-5 h-5 bg-purple-100 text-purple-700 font-extrabold rounded flex items-center justify-center text-xs">ct</span>
+                CUTI (Hari 5+)</span>
+            <span class="flex items-center gap-1.5"><span
+                    class="w-5 h-5 bg-white border border-slate-200 rounded flex items-center justify-center text-xs"></span>
+                Masuk Kerja</span>
+        </div>
+
+        <!-- TABEL MATRIKS VIEW -->
+        <div class="overflow-x-auto overflow-y-auto border border-slate-200 rounded-xl relative shadow-inner">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead class="bg-slate-100 text-slate-700 sticky top-0 z-20 border-b border-slate-200"
+                    id="thead-matriks">
+                </thead>
+                <tbody id="tbody-dashboard-rekap" class="divide-y divide-slate-100 text-slate-700">
+                    <tr>
+                        <td colspan="32" class="text-center p-6 text-slate-400 font-medium">
+                            <i class="fa-solid fa-spinner animate-spin mr-2"></i> Memuat matriks jadwal
+                            libur...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- SECTION MANPOWER PLANNING (DENGAN FILTER & WARNA PLEK-KETIPLEK) -->
+    <section id="section-shift"
+        class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4 transition-all duration-300">
+        <!-- Header Section & Filter Tanggal -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-100 pb-4 gap-3">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-calendar-day"></i>
                 </div>
-                <div class="lg:col-span-5 w-full">
-                    <div
-                        class="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 bg-black/40">
-                        <video class="w-full h-full object-cover rounded-xl" autoplay loop muted playsinline controls
-                            preload="auto">
-                            <source src="./motivasi.mp4" type="video/mp4">
-                            Browser Anda tidak mendukung pemutar video.
-                        </video>
-                    </div>
+                <div>
+                    <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Jadwal
+                        Operasional</h3>
+                    <p class="text-xs text-emerald-600 font-semibold">Pilih tanggal untuk melihat detail
+                        lembar
+                        kerja</p>
                 </div>
+            </div>
+
+            <!-- Bagian Filter & Tombol Fullscreen -->
+            <div class="flex flex-wrap items-center gap-2">
+                <input type="date" id="inputTanggal" value="2026-08-19"
+                    class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs font-medium bg-white text-slate-700">
+                <input type="text" id="inputOutlet" value="TC ARJUNO" readonly class="hidden">
+                <button onclick="loadSchedule()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-1.5 rounded-lg text-xs transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-filter"></i> Tampilkan
+                </button>
+                <button onclick="toggleFullscreen()"
+                    class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                    <i id="fullscreen-icon" class="fa-solid fa-expand"></i> <span id="fullscreen-text">Fullscreen</span>
+                </button>
             </div>
         </div>
 
-        <!-- GRID MENU PINTAS OPERASIONAL -->
-        <div>
-            <h3 class="font-heading font-bold text-lg text-slate-900 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
-            </h3>
+        <!-- Kotak Tabel Hasil Render yang Diperbarui -->
+        <div id="table-container"
+            class="rounded-xl border border-slate-200 bg-slate-50 p-4 transition-all duration-300">
+            <!-- Kontainer pembatas dengan scroll horizontal yang fleksibel -->
+            <div style="width: 100%; max-width: 100%; overflow-x: auto; border-radius: 8px;">
+                <div id="scheduleContainer" class="w-full" style="min-width: max-content;">
+                    <p class="text-xs text-slate-400 text-center py-6">Silakan klik "Tampilkan" untuk memuat
+                        jadwal
+                        sesuai tanggal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-
-                <!-- Menu 1: Absensi -->
-                <button onclick="openAbsensiModal()"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-red-50 text-brand-red flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-user-clock"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Absensi
-                        Karyawan</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Masuk / Istirahat / Pulang</span>
+    <!-- SECTION OUR TEAM (UPDATED LAYOUT: CENTER & RESPONSIVE COMPACT WITH STATUS) -->
+    <section id="section-our-team" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
+                    <i class="fa-solid fa-people-roof"></i>
+                </div>
+                <div>
+                    <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Struktur Tim
+                        Outlet</h3>
+                    <p class="text-xs text-slate-400">Waroeng Steak & Shake - Mlg Tc Arjuno</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span id="team-counter-badge"
+                    class="text-xs font-semibold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 w-fit">
+                    <i class="fa-solid fa-users text-orange-500 mr-1"></i> Memuat Tim...
+                </span>
+                <button onclick="renderOurTeamSection()"
+                    class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition">
+                    <i class="fa-solid fa-rotate"></i>
                 </button>
-
-                <!-- Menu 2: Pengajuan OFF & Cuti -->
-                <button onclick="openOffCutiModal()"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-calendar-minus"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Pengajuan
-                        OFF & Cuti</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Max 6 Hari / Bulan</span>
-                </button>
-
-                <!-- Menu 3: Kas Outlet -->
-                <button onclick="openKasModal()"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Kas
-                        Outlet</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Catatan & Saldo</span>
-                </button>
-
-                <!-- Menu 4: Manpower Planning -->
-                <a href="#section-shift"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-calendar-days"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Manpower
-                        Planning</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Jadwal Shift Tim</span>
-                </a>
-
-                <!-- Menu 5: SOP / SOC -->
-                <a href="#section-sop"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-book-open"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">SOP/SOC
-                        Outlet</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Berkas Google Drive</span>
-                </a>
-
-                <!-- Menu 6: Our Team -->
-                <a href="#section-our-team"
-                    class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-red hover:shadow-md transition-all text-center group flex flex-col items-center cursor-pointer">
-                    <div
-                        class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-people-roof"></i>
-                    </div>
-                    <span
-                        class="font-heading font-bold text-sm text-slate-800 group-hover:text-brand-red transition-colors">Our
-                        Team</span>
-                    <span class="text-[11px] text-slate-400 mt-1">Struktur Tim</span>
-                </a>
-
             </div>
         </div>
 
-        <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0">
-                        <i class="fa-solid fa-calendar-days"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-heading font-bold text-base text-slate-900">Matriks Jadwal OFF & Cuti Tim</h3>
-                        <p class="text-xs text-slate-400">Monitoring libur seluruh karyawan dalam 1 bulan penuh</p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <input type="month" id="filter-bulan-matriks" onchange="loadDashboardMonthlyRekap()"
-                        class="text-xs bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1.5 font-semibold text-slate-700 focus:ring-2 focus:ring-purple-500 focus:outline-none">
-                    <button type="button" onclick="loadDashboardMonthlyRekap()"
-                        class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold px-3 py-1.5 rounded-lg border border-purple-200 transition flex items-center gap-1.5 shrink-0 cursor-pointer">
-                        <i class="fa-solid fa-rotate text-purple-500"></i> Refresh
-                    </button>
-                </div>
-            </div>
-
-            <!-- KETERANGAN SIMBOL / LEGEND -->
-            <div
-                class="flex items-center gap-4 text-xs font-semibold text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                <span class="flex items-center gap-1.5"><span
-                        class="w-5 h-5 bg-blue-100 text-blue-700 font-extrabold rounded flex items-center justify-center text-xs">x</span>
-                    OFF (Hari 1 - 4)</span>
-                <span class="flex items-center gap-1.5"><span
-                        class="w-5 h-5 bg-purple-100 text-purple-700 font-extrabold rounded flex items-center justify-center text-xs">ct</span>
-                    CUTI (Hari 5+)</span>
-                <span class="flex items-center gap-1.5"><span
-                        class="w-5 h-5 bg-white border border-slate-200 rounded flex items-center justify-center text-xs"></span>
-                    Masuk Kerja</span>
-            </div>
-
-            <!-- TABEL MATRIKS VIEW -->
-            <div
-                class="overflow-x-auto max-h-[420px] overflow-y-auto border border-slate-200 rounded-xl relative shadow-inner">
-                <table class="w-full text-left text-xs border-collapse">
-                    <thead class="bg-slate-100 text-slate-700 sticky top-0 z-20 border-b border-slate-200"
-                        id="thead-matriks">
-                    </thead>
-                    <tbody id="tbody-dashboard-rekap" class="divide-y divide-slate-100 text-slate-700">
-                        <tr>
-                            <td colspan="32" class="text-center p-6 text-slate-400 font-medium">
-                                <i class="fa-solid fa-spinner animate-spin mr-2"></i> Memuat matriks jadwal libur...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- CONTAINER DINAMIS STRUKTUR TIM (CENTERED & RESPONSIVE) -->
+        <div id="our-team-container" class="space-y-6 flex flex-col items-center w-full">
+            <div class="text-center py-8 text-slate-400">
+                <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
+                <p class="text-xs font-medium">Memuat struktur anggota tim...</p>
             </div>
         </div>
-
-        <!-- SECTION MANPOWER PLANNING (PENAMPIL JADWAL SHIFT) -->
-        <section id="section-shift" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-3">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-                        <i class="fa-solid fa-calendar-check"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Manpower Planning & Shift
-                            Kerja</h3>
-                        <p class="text-xs text-slate-400">Jadwal pembagian shift operasional tim Mlg Tc Arjuno</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <a id="btn-manpower-open" href="https://docs.google.com/spreadsheets" target="_blank"
-                        class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Fullscreen
-                    </a>
-                </div>
-            </div>
-
-            <!-- IFRAME CONTAINER MONITOR JADWAL MANPOWER -->
-            <div
-                class="hidden relative w-full rounded-xl overflow-hidden border border-slate-200 bg-slate-50 min-h-[500px] shadow-inner">
-                <iframe id="iframe-manpower"
-                    src="https://docs.google.com/spreadsheets/d/1riQSLGGEEj3M1RS9oho-Om_sLS4mc-82YwzHaxWpRxs/preview"
-                    class="w-full h-[520px] border-0 rounded-xl" loading="lazy"></iframe>
-            </div>
-        </section>
-
-        <!-- SECTION OUR TEAM (UPDATED LAYOUT: CENTER & RESPONSIVE COMPACT WITH STATUS) -->
-        <section id="section-our-team"
-            class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 gap-2">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-people-roof"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-heading font-bold text-base sm:text-lg text-slate-900">Struktur Organisasi
-                            Outlet (Our Team)</h3>
-                        <p class="text-xs text-slate-400">Tim Operasional Waroeng Steak & Shake - Mlg Tc Arjuno</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span id="team-counter-badge"
-                        class="text-xs font-semibold bg-orange-50 text-orange-700 px-3 py-1 rounded-full border border-orange-200 w-fit">
-                        <i class="fa-solid fa-users text-orange-500 mr-1"></i> Memuat Tim...
-                    </span>
-                    <button onclick="renderOurTeamSection()"
-                        class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-lg transition">
-                        <i class="fa-solid fa-rotate"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- CONTAINER DINAMIS STRUKTUR TIM (CENTERED & RESPONSIVE) -->
-            <div id="our-team-container" class="space-y-6 flex flex-col items-center w-full">
-                <div class="text-center py-8 text-slate-400">
-                    <i class="fa-solid fa-spinner animate-spin text-2xl mb-2"></i>
-                    <p class="text-xs font-medium">Memuat struktur anggota tim...</p>
-                </div>
-            </div>
-        </section>
+    </section>
 
     </main>
 
@@ -469,7 +657,7 @@
                 <!-- Pilihan 2: URL Foto External -->
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Atau Gunakan Link / URL Foto</label>
-                    <input type="url" id="edit-team-photo" placeholder="https://..."
+                    <input type="url" id="edit-team-photo" placeholder="Tempel link foto di sini"
                         oninput="handleFileOrUrlChange(event)"
                         class="w-full border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-orange-500 focus:outline-none">
                     <span class="text-[10px] text-slate-400 block mt-1">Kosongkan keduanya untuk kembali menggunakan
@@ -557,23 +745,14 @@
 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Nama Karyawan</label>
-                    <select id="select-nama" onchange="onNamaChange()"
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-800 font-medium focus:ring-2 focus:ring-brand-red focus:outline-none">
-                        <option value="">-- Memuat Data Karyawan... --</option>
-                    </select>
+                    <input type="text" id="input-nama" readonly placeholder="-- Otomatis terisi setelah Cek NIK --"
+                        class="w-full bg-slate-100 border border-slate-300 rounded-lg p-2.5 text-slate-600 font-medium cursor-not-allowed">
                 </div>
 
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Jabatan / Level</label>
-                    <select id="select-jabatan"
-                        class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-800 font-medium focus:ring-2 focus:ring-brand-red focus:outline-none">
-                        <option value="">-- Pilih Jabatan --</option>
-                        <option value="MO">MO</option>
-                        <option value="WMO 1">WMO 1</option>
-                        <option value="WMO 2">WMO 2</option>
-                        <option value="KASIR">KASIR</option>
-                        <option value="STAFF">STAFF</option>
-                    </select>
+                    <input type="text" id="input-jabatan" readonly placeholder="-- Otomatis terisi setelah Cek NIK --"
+                        class="w-full bg-slate-100 border border-slate-300 rounded-lg p-2.5 text-slate-600 font-medium cursor-not-allowed">
                 </div>
 
                 <!-- KAMERA SELFIE OPSIONAL -->
@@ -673,7 +852,7 @@
                         <i class="fa-solid fa-calendar-minus"></i>
                     </div>
                     <div>
-                        <h3 class="font-heading font-bold text-slate-900 text-base">Pengajuan OFF & Cuti</h3>
+                        <h3 class="font-heading font-bold text-slate-900 text-base">Pengajuan Off & Cuti</h3>
                         <p class="text-xs text-slate-400">Pilih hingga 6 tanggal (opsional)</p>
                     </div>
                 </div>
@@ -745,7 +924,7 @@
                     <ul class="list-disc list-inside space-y-0.5 text-slate-600">
                         <li>Pengajuan ke 1 - 4 bulan ini &rarr; Terhitung <b>OFF</b></li>
                         <li>Pengajuan ke 5 - 6 bulan ini &rarr; Terhitung <b>CUTI</b></li>
-                        <li>Kuota: Senin-Jumat max 4 org, Sabtu-Minggu & Tgl Merah max 1 org.</li>
+                        <li>Kuota: Senin-kamis max 4 org, Jumat 3 org, Sabtu-Minggu & Tgl Merah max 1 org.</li>
                     </ul>
                 </div>
 
@@ -869,6 +1048,15 @@
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS -->
     <script>
         const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwhkpiZMyC3UaM2TCYGK_JQFmcLhCYt_CBa5ncOC5dvXBuan26b5R5v7CHScG9tEVIu/exec";
+        // Helper parsing tanggal manual (Mencegah NaN / Invalid Date di iOS Safari)
+        function parseDateString(dateStr) {
+            if (!dateStr) return new Date();
+            const parts = dateStr.split('-');
+            if (parts.length === 3) {
+                return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+            }
+            return new Date(dateStr);
+        }
 
         // KOORDINAT OUTLET & RADIUS MAX (50 METER)
         const OUTLET_LOCATION = {
@@ -882,7 +1070,7 @@
         let tempEditPhotoBase64 = null; // Penampungan temporer data Base64 foto ter-upload
         let disabledDates = [];
         let todayAttendanceRecords = [];
-        let currentGPS = {lat: null, lng: null, distance: 0, valid: false};
+        let currentGPS = { lat: null, lng: null, distance: 0, valid: false };
         let photoBase64 = null;
         let mediaStream = null;
 
@@ -991,17 +1179,23 @@
 
             const raw = String(value).trim();
 
-            // Format utama yang digunakan Matriks: YYYY-MM-DD
-            const isoMatch = raw.match(/^(\\d{4}-\\d{2}-\\d{2})/);
+            // Fix Regex: Gunakan Single Backslash (\d)
+            const isoMatch = raw.match(/^(\d{4}-\d{2}-\d{2})/);
             if (isoMatch) return isoMatch[1];
 
-            // Antisipasi format DD/MM/YYYY atau DD-MM-YYYY
-            const dmyMatch = raw.match(/^(\\d{1,2})[\\/\\-](\\d{1,2})[\\/\\-](\\d{4})/);
+            const dmyMatch = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
             if (dmyMatch) {
                 return `${dmyMatch[3]}-${String(dmyMatch[2]).padStart(2, '0')}-${String(dmyMatch[1]).padStart(2, '0')}`;
             }
 
             return raw.substring(0, 10);
+        }
+
+        function getEmployeeScheduleKey(emp) {
+            const nikKey = (emp.nik || '').toString().trim().toUpperCase();
+            if (nikKey) return `NIK:${nikKey}`;
+            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+            return namaKey ? `NAME:${namaKey}` : '';
         }
 
         function updateTeamScheduleStatus(employeeDatesMap, year, month) {
@@ -1011,30 +1205,16 @@
             const todayYear = today.getFullYear();
             const todayMonth = today.getMonth() + 1;
             const todayDay = today.getDate();
-
-            // Status Our Team selalu menunjukkan kondisi HARI INI.
-            // Matriks tetap boleh dipilih bulan lain untuk monitoring.
-            if (todayYear !== year || todayMonth !== month) {
-                employeeList.forEach(emp => {
-                    const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-                    if (namaKey) {
-                        teamScheduleStatus[namaKey] = {
-                            status: 'AKTIF',
-                            index: 0
-                        };
-                    }
-                });
-                teamScheduleStatusReady = true;
-                return;
-            }
-
             const todayKey = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
 
+            // Status Our Team SELALU dihitung dari jadwal hari ini,
+            // tidak peduli filter matriks sedang menampilkan bulan apa.
             employeeList.forEach(emp => {
-                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-                if (!namaKey) return;
+                const scheduleKey = getEmployeeScheduleKey(emp);
+                if (!scheduleKey) return;
 
-                const entries = (employeeDatesMap[namaKey] || []).slice().sort((a, b) => {
+                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+                const entries = (employeeDatesMap[scheduleKey] || employeeDatesMap[`NAME:${namaKey}`] || []).slice().sort((a, b) => {
                     return normalizeMatrixDate(a.tgl).localeCompare(normalizeMatrixDate(b.tgl));
                 });
 
@@ -1043,12 +1223,12 @@
 
                 if (todayEntryIndex >= 0) {
                     const hariLiburKe = todayEntryIndex + 1;
-                    teamScheduleStatus[namaKey] = {
+                    teamScheduleStatus[scheduleKey] = {
                         status: hariLiburKe >= 5 ? 'CUTI' : 'OFF',
                         index: hariLiburKe
                     };
                 } else {
-                    teamScheduleStatus[namaKey] = {
+                    teamScheduleStatus[scheduleKey] = {
                         status: 'AKTIF',
                         index: 0
                     };
@@ -1059,7 +1239,7 @@
         }
 
         function getTeamScheduleStatus(emp) {
-            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+            const scheduleKey = getEmployeeScheduleKey(emp);
 
             if (!teamScheduleStatusReady) {
                 return {
@@ -1070,7 +1250,8 @@
                 };
             }
 
-            const data = teamScheduleStatus[namaKey] || { status: 'AKTIF', index: 0 };
+            // Fixed: Menggunakan scheduleKey (bukan namaKey)
+            const data = teamScheduleStatus[scheduleKey] || { status: 'AKTIF', index: 0 };
 
             if (data.status === 'OFF' || data.status === 'CUTI') {
                 return {
@@ -1089,22 +1270,13 @@
             };
         }
 
-        // Karyawan yang statusnya DIPERBANTUKAN tidak dihitung sebagai "Tim Aktif".
-        // Saat ini Fahreza Ahmad Dani adalah karyawan diperbantukan.
-        // Helper juga membaca beberapa nama field status bila backend kelak mengirimkannya.
-        const excludedFromActiveTeamNames = new Set([
-            'FAHREZA AHMAD DANI'
-        ]);
-
+        // Status DIPERBANTUKAN sekarang berasal dari data Karyawan melalui Code.gs.
+        // Tidak ada lagi pengecualian nama yang di-hard-code di HTML.
         function isDiperbantukanEmployee(emp) {
-            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-            if (excludedFromActiveTeamNames.has(namaKey)) return true;
-
             const statusFields = [
                 emp.status,
                 emp.statusKaryawan,
                 emp.status_karyawan,
-                emp.keterangan,
                 emp.keteranganStatus,
                 emp.penempatanStatus
             ];
@@ -1124,8 +1296,8 @@
                 // Jika Matriks belum selesai dimuat, jangan mengarang angka.
                 if (!teamScheduleStatusReady) return false;
 
-                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
-                const schedule = teamScheduleStatus[namaKey];
+                const scheduleKey = getEmployeeScheduleKey(emp);
+                const schedule = teamScheduleStatus[scheduleKey];
 
                 // Hanya yang benar-benar AKTIF hari ini yang dihitung.
                 return !schedule || schedule.status === 'AKTIF';
@@ -1174,13 +1346,13 @@
 
             // Grouping Berdasarkan Jabatan / Role
             const roleGroups = {
-                'MO': {title: 'Manager Outlet (MO)', colorBg: 'from-red-50 to-white', border: 'border-red-500/30 hover:border-brand-red', tagBg: 'bg-brand-red', dot: 'bg-brand-red', avatarBg: 'ED1C24'},
-                'WMO': {title: 'Wakil Manager Outlet (WMO)', colorBg: 'from-slate-100 to-white', border: 'border-slate-300 hover:border-slate-800', tagBg: 'bg-slate-800', dot: 'bg-slate-800', avatarBg: '1E293B'},
-                'KASIR': {title: 'Tim Kasir', colorBg: 'from-blue-50 to-white', border: 'border-blue-200 hover:border-blue-600', tagBg: 'bg-blue-600', dot: 'bg-blue-600', avatarBg: '2563EB'},
-                'STAFF': {title: 'Staff Operasional', colorBg: 'from-emerald-50 to-white', border: 'border-emerald-200 hover:border-emerald-600', tagBg: 'bg-emerald-600', dot: 'bg-emerald-600', avatarBg: '059669'}
+                'MO': { title: 'Manager Outlet (MO)', colorBg: 'from-red-50 to-white', border: 'border-red-500/30 hover:border-brand-red', tagBg: 'bg-brand-red', dot: 'bg-brand-red', avatarBg: 'ED1C24' },
+                'WMO': { title: 'Wakil Manager Outlet (WMO)', colorBg: 'from-slate-100 to-white', border: 'border-slate-300 hover:border-slate-800', tagBg: 'bg-slate-800', dot: 'bg-slate-800', avatarBg: '1E293B' },
+                'KASIR': { title: 'Tim Kasir', colorBg: 'from-blue-50 to-white', border: 'border-blue-200 hover:border-blue-600', tagBg: 'bg-blue-600', dot: 'bg-blue-600', avatarBg: '2563EB' },
+                'STAFF': { title: 'Staff Operasional', colorBg: 'from-emerald-50 to-white', border: 'border-emerald-200 hover:border-emerald-600', tagBg: 'bg-emerald-600', dot: 'bg-emerald-600', avatarBg: '059669' }
             };
 
-            const categorized = {'MO': [], 'WMO': [], 'KASIR': [], 'STAFF': []};
+            const categorized = { 'MO': [], 'WMO': [], 'KASIR': [], 'STAFF': [] };
 
             employeeList.forEach((emp, index) => {
                 let roleUpper = (emp.jabatan || 'STAFF').toString().trim().toUpperCase();
@@ -1191,7 +1363,7 @@
                 else if (roleUpper.includes('KASIR')) categoryKey = 'KASIR';
                 else categoryKey = 'STAFF';
 
-                categorized[categoryKey].push({...emp, index});
+                categorized[categoryKey].push({ ...emp, index });
             });
 
             let html = '';
@@ -1323,7 +1495,7 @@
                         canvas.width = width;
                         canvas.height = height;
 
-                        const ctx = canvas.getContext('2d', {alpha: false});
+                        const ctx = canvas.getContext('2d', { alpha: false });
                         ctx.drawImage(img, 0, 0, width, height);
 
                         const qualities = [0.82, 0.74, 0.66, 0.58, 0.50];
@@ -1427,7 +1599,7 @@
 
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
                         action: 'deleteTeamPhoto',
                         nik: nik
@@ -1465,6 +1637,9 @@
                 );
 
             } finally {
+                // Reset variabel temporary Base64 setelah hapus berhasil
+                tempEditPhotoBase64 = '';
+
                 if (deleteBtn) {
                     deleteBtn.disabled = false;
                     deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Hapus Foto';
@@ -1504,7 +1679,7 @@
 
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
 
@@ -1527,6 +1702,9 @@
                 console.error('Gagal menyimpan foto tim:', err);
                 showPopup('error', 'Gagal Menyimpan Foto', err.message || err.toString());
             } finally {
+                // Reset variabel temporary Base64 setelah selesai
+                tempEditPhotoBase64 = '';
+
                 if (btn) {
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Foto';
@@ -1534,63 +1712,27 @@
             }
         }
 
-        // Ambil semua foto tim dari Google Sheet/Google Drive.
+        // Ambil semua foto tim
         async function loadTeamPhotos() {
             try {
-                const response = await fetch(GAS_WEB_APP_URL + '?action=getTeamPhotos');
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getTeamPhotos");
                 const result = await response.json();
-
                 if (result && result.success && result.photos) {
                     customPhotoStore = {};
-
                     Object.keys(result.photos).forEach(function (nik) {
                         const cleanNik = nik.toString().trim().toUpperCase();
                         const url = result.photos[nik];
-
-                        if (cleanNik && url) {
-                            customPhotoStore[cleanNik] = url;
-                        }
+                        if (cleanNik && url) customPhotoStore[cleanNik] = url;
                     });
-
                     console.log("Foto Team dimuat:", Object.keys(customPhotoStore).length);
                 } else {
                     customPhotoStore = {};
-                    console.warn("Foto Team tidak tersedia:", result ? result.message : "response kosong");
                 }
             } catch (err) {
                 console.error('Gagal memuat foto tim dari server:', err);
                 customPhotoStore = {};
             }
         }
-
-        document.addEventListener("DOMContentLoaded", async function () {
-            const dateElement = document.getElementById("current-date");
-            if (dateElement) {
-                const now = new Date();
-                dateElement.textContent = now.toLocaleDateString('id-ID', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                });
-            }
-
-            updateOutletStatus();
-            setInterval(updateOutletStatus, 60000);
-
-            const now = new Date();
-            const filterBulanInput = document.getElementById("filter-bulan-matriks");
-            if (filterBulanInput && !filterBulanInput.value) {
-                const curY = now.getFullYear();
-                const curM = String(now.getMonth() + 1).padStart(2, '0');
-                filterBulanInput.value = `${curY}-${curM}`;
-            }
-
-            await loadTeamPhotos();
-            await loadInitialData();
-            loadDisabledDates();
-            loadDashboardMonthlyRekap();
-        });
 
         // FUNGSI UTAMA: MEMUAT MATRIKS JADWAL LIBUR
         async function loadDashboardMonthlyRekap() {
@@ -1611,12 +1753,13 @@
 
             const daysInMonth = new Date(year, month, 0).getDate();
 
+            // 1. Render Header Tanggal
             let theadHTML = `
-                <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-                    <th class="p-2.5 font-bold sticky left-0 bg-slate-100 z-30 min-w-[160px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200">Nama Karyawan</th>
-            `;
+    <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+        <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 min-w-[150px] max-w-[150px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs">Nama Karyawan</th>
+`;
             for (let d = 1; d <= daysInMonth; d++) {
-                theadHTML += `<th class="p-2 text-center font-bold min-w-[34px] w-[34px] border-r border-slate-200 text-slate-600 ${d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70'}">${d}</th>`;
+                theadHTML += `<th class="p-1 text-center font-bold min-w-[28px] w-[28px] border-r border-slate-200 text-slate-600 text-[11px] ${d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70'}">${d}</th>`;
             }
             theadHTML += `</tr>`;
             thead.innerHTML = theadHTML;
@@ -1624,28 +1767,39 @@
             tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Mengambil data matriks jadwal...</td></tr>`;
 
             try {
-                if (employeeList.length === 0) {
+                if (!employeeList || employeeList.length === 0) {
                     await loadInitialData();
                 }
 
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getMonthlyRekap");
+                const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
+                const response = await fetch(baseUrl + "?action=getMonthlyRekap");
                 const res = await response.json();
 
                 let rawList = [];
                 if (Array.isArray(res)) rawList = res;
                 else if (res && Array.isArray(res.data)) rawList = res.data;
                 else if (res && Array.isArray(res.rekap)) rawList = res.rekap;
-                else if (res && Array.isArray(res.records)) rawList = res.records;
 
                 const employeeDatesMap = {};
 
                 rawList.forEach(item => {
-                    let nama = (item.nama || item.Nama || item.NAMA || '').toString().trim().toUpperCase();
-                    let rawTgl = item.tanggal || item.Tanggal || item.dates || item.tgl || '';
-                    let keterangan = item.keterangan || item.Keterangan || item.alasan || item.Alasan || '';
+                    let nama = (item.nama || item.Nama || '').toString().trim().toUpperCase();
+                    let nik = (item.nik || item.NIK || '').toString().trim().toUpperCase();
+                    let rawTgl = item.tanggal || item.Tanggal || '';
+                    let keterangan = item.keterangan || item.Keterangan || '';
 
-                    if (!nama) return;
-                    if (!employeeDatesMap[nama]) employeeDatesMap[nama] = [];
+                    if (!nama && !nik) return;
+
+                    let matchedEmp = null;
+                    if (nik) matchedEmp = employeeList.find(e => (e.nik || e.NIK || '').toString().trim().toUpperCase() === nik);
+                    if (!matchedEmp && nama) matchedEmp = employeeList.find(e => (e.nama || e.Nama || '').toString().trim().toUpperCase() === nama);
+
+                    // Tentukan key pemetaan data internal
+                    const scheduleKey = matchedEmp
+                        ? getEmployeeScheduleKey(matchedEmp)
+                        : (nik ? `NIK:${nik}` : `NAME:${nama}`);
+
+                    if (!employeeDatesMap[scheduleKey]) employeeDatesMap[scheduleKey] = [];
 
                     let arrayTgl = [];
                     if (Array.isArray(rawTgl)) arrayTgl = rawTgl;
@@ -1655,8 +1809,11 @@
                     arrayTgl.forEach(t => {
                         let dateStr = String(t).trim();
                         if (dateStr) {
-                            if (!employeeDatesMap[nama].some(e => e.tgl === dateStr)) {
-                                employeeDatesMap[nama].push({
+                            // Normalisasi format YYYY-MM-DD
+                            if (dateStr.includes('T')) dateStr = dateStr.split('T')[0];
+
+                            if (!employeeDatesMap[scheduleKey].some(e => e.tgl === dateStr)) {
+                                employeeDatesMap[scheduleKey].push({
                                     tgl: dateStr,
                                     keterangan: keterangan
                                 });
@@ -1665,13 +1822,8 @@
                     });
                 });
 
-                let employeesToRender = employeeList.map(e => e.nama.trim().toUpperCase());
-
-                Object.keys(employeeDatesMap).forEach(namaKey => {
-                    if (!employeesToRender.includes(namaKey)) {
-                        employeesToRender.push(namaKey);
-                    }
-                });
+                // HANYA RENDER KARYAWAN DARI employeeList (Mencegah teks NIK:WSI... muncul sebagai baris nama)
+                const employeesToRender = employeeList.filter(e => e.nama || e.Nama);
 
                 if (employeesToRender.length === 0) {
                     tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
@@ -1679,13 +1831,23 @@
                 }
 
                 const namaBulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"][month - 1];
-
                 let tbodyHTML = "";
 
-                employeesToRender.forEach(empNama => {
-                    let userEntries = employeeDatesMap[empNama] || [];
+                employeesToRender.forEach(empObj => {
+                    const empNama = (empObj.nama || empObj.Nama || '').toString().trim().toUpperCase();
+                    const empScheduleKey = getEmployeeScheduleKey(empObj);
+
+                    // Ambil entri libur karyawan ini
+                    let userEntries = (employeeDatesMap[empScheduleKey] || employeeDatesMap[`NAME:${empNama}`] || []).slice();
+
+                    // FILTER KHUSUS BULAN DAN TAHUN YANG AKTIF SAJA
+                    const currentMonthPrefix = `${year}-${String(month).padStart(2, '0')}`;
+                    userEntries = userEntries.filter(entry => entry.tgl.startsWith(currentMonthPrefix));
+
+                    // Urutkan berdasarkan tanggal (1 - 31)
                     userEntries.sort((a, b) => a.tgl.localeCompare(b.tgl));
 
+                    // Petakan index libur bulan ini (Hari ke-1 s/d 4 = x, Hari ke-5+ = ct)
                     const lookupUserMonth = {};
                     let orderIndex = 1;
 
@@ -1697,9 +1859,9 @@
                     });
 
                     tbodyHTML += `
-                        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-                            <td class="p-2.5 font-bold text-slate-800 sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap">${empNama}</td>
-                    `;
+    <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+        <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap max-w-[150px] truncate">${empNama}</td>
+`;
 
                     for (let d = 1; d <= daysInMonth; d++) {
                         const dayPadded = String(d).padStart(2, '0');
@@ -1709,10 +1871,10 @@
                         const matchData = lookupUserMonth[fullDateKey];
 
                         if (matchData) {
+                            // Penentuan simbol: libur ke-1 s/d 4 = x (OFF), libur ke-5 dst = ct (CUTI)
                             const isCuti = matchData.index >= 5;
                             const symbol = isCuti ? 'ct' : 'x';
                             const labelJenis = isCuti ? 'CUTI' : 'OFF';
-
                             const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${labelJenis} (Libur Hari ke-${matchData.index}) - ${matchData.keterangan || 'Tanpa keterangan'}`;
 
                             if (isCuti) {
@@ -1731,15 +1893,13 @@
 
                 tbody.innerHTML = tbodyHTML;
 
-                // Sinkronkan status kartu Our Team dengan Matriks yang baru dimuat.
-                updateTeamScheduleStatus(employeeDatesMap, year, month);
-                renderOurTeamSection();
-                updateTeamActiveCounter();
+                // Sync status Our Team
+                if (typeof updateTeamScheduleStatus === 'function') updateTeamScheduleStatus(employeeDatesMap, year, month);
+                if (typeof renderOurTeamSection === 'function') renderOurTeamSection();
+                if (typeof updateTeamActiveCounter === 'function') updateTeamActiveCounter();
 
             } catch (err) {
                 console.error("Gagal memuat matriks rekap:", err);
-                teamScheduleStatusReady = false;
-                renderOurTeamSection();
                 tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
             }
         }
@@ -1754,8 +1914,8 @@
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: "user",
-                        width: {ideal: 640},
-                        height: {ideal: 480}
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
                     },
                     audio: false
                 });
@@ -1889,10 +2049,10 @@
             await loadTodayAttendance();
         }
 
-        function openOffCutiModal() {
+        async function openOffCutiModal() {
             openModal('modal-off-cuti');
-            if (employeeList.length === 0) loadInitialData();
-            loadDisabledDates();
+            if (employeeList.length === 0) await loadInitialData();
+            await loadDisabledDates();
         }
 
         function checkTanggalKuota(input) {
@@ -1909,12 +2069,18 @@
             e.preventDefault();
 
             const nama = document.getElementById("select-nama-off").value;
+            const selectedEmployee = employeeList.find(emp => (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase());
+            const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
             const inputs = document.querySelectorAll(".input-tgl-off");
             const keterangan = document.getElementById("input-keterangan-off").value.trim();
 
             const selectedDates = [];
             inputs.forEach(inp => {
-                if (inp.value) selectedDates.push(inp.value);
+                if (inp.value) {
+                    // Memastikan format ISO YYYY-MM-DD aman di Safari
+                    const cleanDate = normalizeMatrixDate(inp.value);
+                    if (cleanDate) selectedDates.push(cleanDate);
+                }
             });
 
             if (!nama || selectedDates.length === 0 || !keterangan) {
@@ -1928,6 +2094,7 @@
 
             const payload = {
                 action: "submitOffCuti",
+                nik: nik,
                 nama: nama,
                 dates: selectedDates,
                 keterangan: keterangan
@@ -1936,7 +2103,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
 
@@ -1962,33 +2129,56 @@
 
         // VERIFIKASI NIK
         function verifyNIK() {
-            const nikInput = document.getElementById("input-nik").value.trim().toUpperCase();
-            if (!nikInput) {
-                showPopup('warning', 'NIK Kosong', 'Masukkan NIK terlebih dahulu!');
-                return;
-            }
-            if (employeeList.length === 0) {
-                showPopup('info', 'Memuat Data', 'Data karyawan sedang dimuat. Coba sebentar lagi.');
-                return;
-            }
-            const found = employeeList.find(e => e.nik && e.nik.toString().toUpperCase() === nikInput);
-            if (found) {
-                document.getElementById("input-nik").value = found.nik;
-                document.getElementById("select-nama").value = found.nama;
-                document.getElementById("select-jabatan").value = found.jabatan || 'STAFF';
-                showPopup('success', 'NIK Ditemukan!', `Nama: ${found.nama} (${found.jabatan || 'STAFF'})`);
-            } else {
-                showPopup('error', 'NIK Tidak Ditemukan', `NIK "${nikInput}" tidak terdaftar!`);
-            }
-        }
+            // 1. Ambil elemen terlebih dahulu
+            const nikVal = document.getElementById('input-nik').value.trim().toUpperCase();
+            const namaInput = document.getElementById('input-nama');
+            const jabatanInput = document.getElementById('input-jabatan');
 
-        // OTOMATISASI SAAT NAMA DISELECT
-        function onNamaChange() {
-            const selectNama = document.getElementById("select-nama");
-            const selectedOpt = selectNama.options[selectNama.selectedIndex];
-            if (selectedOpt && selectedOpt.dataset && selectedOpt.dataset.nik) {
-                document.getElementById("input-nik").value = selectedOpt.dataset.nik;
-                document.getElementById("select-jabatan").value = selectedOpt.dataset.jabatan || 'STAFF';
+            // 2. CEK KEAMANAN ELEMEN (Tambahan Baru)
+            if (!namaInput || !jabatanInput) {
+                console.error("Elemen form input tidak ditemukan!");
+                return;
+            }
+
+            // 3. CEK KEAMANAN DATA (Tambahan Baru)
+            if (!employeeList || !Array.isArray(employeeList)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Data Belum Siap',
+                    text: 'Data karyawan sedang dimuat, mohon tunggu sebentar...'
+                });
+                return;
+            }
+
+            // 4. Lanjut ke kode lama Anda...
+            if (!nikVal) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Perhatian',
+                    text: 'Silahkan masukkan NIK karyawan terlebih dahulu!',
+                    confirmButtonColor: '#e11d48'
+                });
+                return;
+            }
+
+            if (!employeeList || employeeList.length === 0) {
+                alert("Data karyawan belum dimuat. Mohon tunggu sebentar atau refresh halaman.");
+                return;
+            }
+
+            // Cari karyawan berdasarkan NIK
+            const found = employeeList.find(e => {
+                const eNik = (e.nik || e.NIK || '').toString().trim().toUpperCase();
+                return eNik === nikVal;
+            });
+
+            if (found) {
+                namaInput.value = found.nama || found.Nama || '';
+                jabatanInput.value = found.jabatan || found.Jabatan || '';
+            } else {
+                namaInput.value = "";
+                jabatanInput.value = "";
+                alert("NIK tidak ditemukan di database! Pastikan NIK sudah terdaftar di sheet DATA KARYAWAN.");
             }
         }
 
@@ -2087,18 +2277,34 @@
             );
         }
 
-        // FUNGSI SUBMIT ABSENSI
+        // FUNGSI SUBMIT ABSENSI (VERSI AMAN DARI ERROR NULL)
         async function submitAbsensi(e) {
             e.preventDefault();
 
-            const nik = document.getElementById("input-nik").value.trim().toUpperCase();
-            const nama = document.getElementById("select-nama").value;
-            const jabatan = document.getElementById("select-jabatan").value;
+            const elNik = document.getElementById("input-nik");
+            const elNama = document.getElementById("input-nama");
+            const elJabatan = document.getElementById("input-jabatan");
+
+            // Validasi pencegahan jika elemen tidak ditemukan di DOM
+            if (!elNik || !elNama || !elJabatan) {
+                showPopup('warning', 'Kesalahan Sistem', 'Form absensi tidak lengkap. Silakan refresh halaman.');
+                return;
+            }
+
+            const nik = elNik.value.trim().toUpperCase();
+            const nama = elNama.value.trim();
+            const jabatan = elJabatan.value.trim();
+
             const tipeChecked = document.querySelector('input[name="tipe_absen"]:checked');
             const tipe = tipeChecked ? tipeChecked.value : null;
 
             if (!nik || !nama || !jabatan) {
-                showPopup('warning', 'Data Belum Lengkap', 'Harap lengkapi NIK, Nama, dan Jabatan!');
+                showPopup('warning', 'Data Belum Lengkap', 'Harap masukkan NIK dan lakukan Cek NIK terlebih dahulu!');
+                return;
+            }
+
+            if (!tipe) {
+                showPopup('warning', 'Pilih Tipe Absen', 'Harap pilih salah satu Tipe Absen (Masuk/Istirahat/Pulang)!');
                 return;
             }
 
@@ -2148,7 +2354,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
 
@@ -2175,7 +2381,7 @@
 
         // FORMAT RUPIAH HELPER
         function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0}).format(angka);
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
         }
 
         // BUKA MODAL KAS & LOAD DATA
@@ -2253,7 +2459,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify(payload)
                 });
 
@@ -2274,6 +2480,348 @@
                 btnSubmit.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi Kas`;
             }
         }
+
+        let currentActiveInfo = { title: "", content: "" };
+
+        // 1. Ambil & Langsung Jalankan Running Text dari Google Sheets
+        async function fetchBannerInfo() {
+            try {
+                const res = await fetch(`${GAS_WEB_APP_URL}?action=getBannerInfo`);
+                const data = await res.json();
+
+                const marqueeEl = document.getElementById('bannerMarquee');
+                if (data.status === "success" && marqueeEl) {
+                    currentActiveInfo = data;
+                    marqueeEl.innerHTML = `📢 <strong>${data.title}</strong>: ${data.content}`;
+                } else if (marqueeEl) {
+                    marqueeEl.innerText = "📢 Belum ada pengumuman terbaru saat ini.";
+                    currentActiveInfo = { title: "Pengumuman", content: "Belum ada informasi terbaru saat ini." };
+                }
+            } catch (err) {
+                console.error("Gagal memuat banner info:", err);
+            }
+        }
+
+        // 2. Pop-up Detail jika Running Text Diklik
+        function openInfoModal() {
+            if (!currentActiveInfo.title) return;
+            Swal.fire({
+                title: currentActiveInfo.title,
+                text: currentActiveInfo.content,
+                icon: 'info',
+                confirmButtonText: 'Tutup',
+                confirmButtonColor: '#0F172A'
+            });
+        }
+
+        // 3. Tampilkan Tombol Edit Hanya untuk User Role MO/Manager
+        function checkUserRoleForBanner(userRole) {
+            const allowedRoles = ["MO", "MANAGER", "MANAGER OUTLET"];
+            const btnEdit = document.getElementById('btnEditBanner');
+            if (btnEdit) {
+                if (allowedRoles.includes((userRole || "").toUpperCase().trim())) {
+                    btnEdit.classList.remove('hidden');
+                } else {
+                    btnEdit.classList.add('hidden');
+                }
+            }
+        }
+
+        // 4. Form Pop-up Input Info Baru (Khusus MO)
+        async function openEditBannerModal() {
+            const { value: formValues } = await Swal.fire({
+                title: 'Update Info Banner',
+                html:
+                    '<input id="swal-title" class="swal2-input" placeholder="Judul Info Singkat">' +
+                    '<textarea id="swal-content" class="swal2-textarea" placeholder="Isi Pengumuman / Pesan Berjalan..."></textarea>',
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Terbitkan',
+                preConfirm: () => {
+                    return {
+                        title: document.getElementById('swal-title').value,
+                        content: document.getElementById('swal-content').value
+                    }
+                }
+            });
+
+            if (formValues) {
+                if (!formValues.title || !formValues.content) {
+                    Swal.fire('Error', 'Judul dan Isi tidak boleh kosong!', 'error');
+                    return;
+                }
+
+                const currentUserRole = window.currentUser ? window.currentUser.role : "MO";
+
+                Swal.fire({
+                    title: 'Memperbarui Banner...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => Swal.showLoading()
+                });
+                try {
+                    const response = await fetch(GAS_WEB_APP_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        body: JSON.stringify({
+                            action: 'updateBannerInfo',
+                            title: formValues.title,
+                            content: formValues.content,
+                            userRole: currentUserRole
+                        })
+                    });
+
+                    const result = await response.json();
+                    Swal.close();
+
+                    if (result.status === 'success') {
+                        Swal.fire('Berhasil!', result.message, 'success');
+                        fetchBannerInfo();
+                    } else {
+                        Swal.fire('Gagal!', result.message, 'error');
+                    }
+                } catch (err) {
+                    Swal.close();
+                    Swal.fire('Error', 'Gagal terhubung ke server', 'error');
+                }
+            }
+        }
+
+        // 1. Fungsi Zoom / Fullscreen khusus section tabel
+        function toggleFullscreen() {
+            const section = document.getElementById('section-shift');
+            const container = document.getElementById('table-container');
+            const scheduleContainer = document.getElementById('scheduleContainer');
+            const icon = document.getElementById('fullscreen-icon');
+            const text = document.getElementById('fullscreen-text');
+
+            if (!document.fullscreenElement) {
+                // Request Fullscreen
+                const request = section.requestFullscreen || section.webkitRequestFullscreen || section.mozRequestFullScreen || section.msRequestFullscreen;
+                if (request) request.call(section);
+
+                // Ubah posisi section menjadi fixed layar penuh
+                section.classList.add("fixed", "inset-0", "z-50", "p-6", "bg-white", "overflow-y-auto");
+
+                // Atur container utama agar pas
+                container.style.width = "100%";
+                container.style.maxWidth = "100%";
+
+                // Bungkus scheduleContainer agar rapi di tengah layar penuh
+                if (scheduleContainer) {
+                    scheduleContainer.style.width = "100%";
+                    scheduleContainer.style.overflowX = "auto";
+                }
+
+                // Biarkan tabel aslinya berjalan normal tanpa dipaksa ubah sel-selnya
+                const table = container.querySelector('table');
+                if (table) {
+                    table.style.width = "auto"; // Kembali ke ukuran natural tabel agar tidak berantakan
+                }
+
+                icon.className = "fa-solid fa-compress";
+                text.innerText = "Tutup / Keluar";
+            } else {
+                exitFullscreenMode();
+            }
+        }
+
+        function exitFullscreenMode() {
+            const section = document.getElementById('section-shift');
+            const container = document.getElementById('table-container');
+            const scheduleContainer = document.getElementById('scheduleContainer');
+            const icon = document.getElementById('fullscreen-icon');
+            const text = document.getElementById('fullscreen-text');
+
+            if (document.fullscreenElement) {
+                if (document.exitFullscreen) document.exitFullscreen();
+                else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
+
+            // Hapus style fullscreen dari section
+            section.classList.remove("fixed", "inset-0", "z-50", "p-6", "bg-white", "overflow-y-auto");
+
+            // Kembalikan style normal
+            container.style.width = "";
+            container.style.maxWidth = "";
+
+            if (scheduleContainer) {
+                scheduleContainer.style.width = "100%";
+                scheduleContainer.style.overflowX = "";
+            }
+
+            const table = container.querySelector('table');
+            if (table) {
+                table.style.width = "";
+            }
+
+            icon.className = "fa-solid fa-expand";
+            text.innerText = "Fullscreen";
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) exitFullscreenMode();
+        });
+
+        document.addEventListener("DOMContentLoaded", async function () {
+            const dateElement = document.getElementById("current-date");
+            if (dateElement) {
+                const now = new Date();
+                dateElement.textContent = now.toLocaleDateString('id-ID', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+            }
+
+            if (typeof fetchBannerInfo === 'function') fetchBannerInfo();
+
+            updateOutletStatus();
+            setInterval(updateOutletStatus, 60000);
+
+            const now = new Date();
+            const filterBulanInput = document.getElementById("filter-bulan-matriks");
+            if (filterBulanInput && !filterBulanInput.value) {
+                const curY = now.getFullYear();
+                const curM = String(now.getMonth() + 1).padStart(2, '0');
+                filterBulanInput.value = `${curY}-${curM}`;
+            }
+
+            // Pemanggilan fungsi dijalankan secara berurutan:
+            await loadTeamPhotos();
+            await loadInitialData();
+            if (typeof loadDisabledDates === 'function') loadDisabledDates();
+            if (typeof loadDashboardMonthlyRekap === 'function') loadDashboardMonthlyRekap();
+
+        });
+
+        // === FUNGSI PEMANGGILAN JADWAL BERDASARKAN FILTER (PLEK-KETIPLEK WARNA GSHEET) ===
+        function loadSchedule() {
+            const tanggal = document.getElementById('inputTanggal').value;
+            const outlet = document.getElementById('inputOutlet').value;
+            const container = document.getElementById('scheduleContainer');
+
+            container.innerHTML = '<p class="text-xs text-slate-500 text-center py-6">Memuat lembar kerja dan warna...</p>';
+
+            let url = GAS_WEB_APP_URL + `?action=getScheduleByFilter&date=${tanggal}&outlet=${encodeURIComponent(outlet)}`;
+
+            fetch(url)
+                .then(res => res.json())
+                .then(res => {
+                    const result = res.data || res;
+
+                    if (!result.success) {
+                        container.innerHTML = `<p class="text-xs text-red-500 text-center py-6">${result.message || "Data tidak ditemukan."}</p>`;
+                        return;
+                    }
+
+                    const values = result.values;
+                    const colors = result.colors;
+
+                    // LEBAR KOLOM PRESISI DENGAN TABLE-LAYOUT FIXED
+                    const wCol0 = 24;  // Kolom 0 (NO) super slim = 24px
+                    const wCol1 = 130; // Kolom 1 (NAMA) = 130px
+
+                    let html = `<table class="border-collapse text-[9px] bg-white whitespace-nowrap" style="margin:0; padding:0; border-spacing:0; table-layout: fixed; width: max-content;">`;
+
+                    for (let r = 0; r < values.length; r++) {
+                        html += '<tr>';
+                        for (let c = 0; c < values[r].length; c++) {
+                            let cellValue = values[r][c] !== null && values[r][c] !== undefined ? values[r][c] : '';
+                            let cellColor = (colors && colors[r] && colors[r][c]) ? colors[r][c] : '#ffffff';
+
+                            let stickyStyle = '';
+
+                            // KOLOM 0: NO (SLIM & STICKY KIRI)
+                            if (c === 0) {
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: 0px; width: ${wCol0}px; min-width: ${wCol0}px; max-width: ${wCol0}px; z-index: 10; background-color: ${cellColor}; background-clip: padding-box; padding: 2px 1px;`;
+                            } 
+                            // KOLOM 1: NAMA KARYAWAN (STICKY SEBELAH NO)
+                            else if (c === 1) {
+                                stickyStyle = `position: -webkit-sticky; position: sticky; left: ${wCol0}px; width: ${wCol1}px; min-width: ${wCol1}px; max-width: ${wCol1}px; z-index: 10; background-color: ${cellColor}; background-clip: padding-box; box-shadow: 3px 0 5px -1px rgba(0,0,0,0.18); padding: 2px 4px; text-align: left; overflow: hidden; text-overflow: ellipsis;`;
+                            } 
+                            // KOLOM LAINNYA (BEBAS SCROLL)
+                            else {
+                                stickyStyle = `background-color: ${cellColor}; min-width: 40px; padding: 2px 3px;`;
+                            }
+
+                            html += `<td style="border: 1px solid #cbd5e1; text-align: center; ${stickyStyle}">${cellValue}</td>`;
+                        }
+                        html += '</tr>';
+                    }
+
+                    html += '</table>';
+
+                    // PERBAIKAN UTAMA: MENGUNCI STICKY AGAR TIDAK BOCOR KELUAR WADAH PADA SCROLL HALAMAN
+                    container.className = "";
+                    container.style.cssText = "width: 100%; overflow: auto !important; max-height: 75vh; position: relative !important; -webkit-overflow-scrolling: touch; border-radius: 8px;";
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error("Gagal memuat jadwal:", error);
+                    container.innerHTML = `<p class="text-xs text-red-500 text-center py-6">Gagal terhubung ke server.</p>`;
+                });
+        }
+
+        // Otomatis isi tanggal hari ini DAN muat data saat halaman pertama kali dibuka
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+
+            const inputTanggal = document.getElementById('inputTanggal');
+            if (inputTanggal) {
+                inputTanggal.value = formattedDate;
+            }
+
+            loadSchedule();
+
+        });
+
+        // ==========================================
+        // FUNGSI PEMUTAR VIDEO MOTIVASI OTOMATIS
+        // ==========================================
+        const motivationVideos = [
+            "V96hXqw2oU8",
+            "srkG0zqJZSw", // Merry Riana
+            "JAdTjHsOid0",
+            "oqRX02uhicc",
+            "q0GiWKl5aaI",
+            "hj9KRxnCc00",
+            "VirbuHEjmmY"  // Dihapus &t=94s agar URL embed valid
+        ];
+
+        function loadRandomMotivationVideo() {
+            const iframe = document.getElementById('motivationVideo');
+            if (!iframe) return;
+
+            const randomIndex = Math.floor(Math.random() * motivationVideos.length);
+            const selectedVideoId = motivationVideos[randomIndex];
+
+            // Tambahkan start=94 jika ingin video VirbuHEjmmY mulai dari detik ke-94
+            let extraParams = "";
+            if (selectedVideoId === "VirbuHEjmmY") {
+                extraParams = "&start=94";
+            }
+
+            const embedUrl = `https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&mute=1&loop=1&playlist=${selectedVideoId}${extraParams}`;
+            iframe.src = embedUrl;
+        }
+
+        // Tambahkan fungsi jam di sini
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const timeElement = document.getElementById("current-time");
+            if (timeElement) {
+                timeElement.textContent = timeStr;
+            }
+        }
+
+        // PENGGILAN FUNGSI SAAT HALAMAN DIMUAT
+        loadRandomMotivationVideo(); // <--- INI YANG TADI KURANG SEHINGGA VIDEO TIDAK MUNCUL
+        updateTime();
+        setInterval(updateTime, 60000);
     </script>
 </body>
 
