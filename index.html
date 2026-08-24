@@ -1738,18 +1738,18 @@ async function loadNationalHolidays(year) {
         const response = await fetch(`https://api-hari-libur.vercel.app/api?year=${year}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        const holidays = await response.json();
+        const resultJson = await response.json();
+        
+        // Ambil array dari dalam properti 'data' sesuai struktur API Vercel
+        const holidays = resultJson.data || [];
         
         nationalHolidayCache[year] = {};
         
-        // Loop untuk membaca berbagai kemungkinan format dari API Vercel
         holidays.forEach(holiday => {
-            // Menangkap berbagai kemungkinan nama key tanggal dari API
-            const dateStr = holiday.holiday_date || holiday.date;
-            const nameStr = holiday.holiday_name || holiday.name || holiday.localName || 'Hari Libur Nasional';
+            const dateStr = holiday.date; // Sesuai screenshot: "date"
+            const nameStr = holiday.description || 'Hari Libur Nasional'; // Sesuai screenshot: "description"
             
             if (dateStr) {
-                // Normalisasi format tanggal menjadi YYYY-MM-DD
                 const cleanDate = dateStr.split('T')[0];
                 nationalHolidayCache[year][cleanDate] = nameStr;
             }
