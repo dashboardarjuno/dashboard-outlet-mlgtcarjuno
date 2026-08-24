@@ -1735,23 +1735,26 @@ async function loadNationalHolidays(year) {
     if (nationalHolidayCache[year]) return nationalHolidayCache[year];
 
     try {
-        // Menggunakan API Hari Libur lokal yang bersumber dari SKB Menteri
         const response = await fetch(`https://api-hari-libur.vercel.app/api?year=${year}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const holidays = await response.json();
         
-        // Memetakan data dari API Vercel ke dalam bentuk objek cache
-        nationalHolidayCache[year] = holidays.reduce((result, holiday) => {
-            // Format API Vercel biasanya menggunakan property 'holiday_date' dan 'holiday_name' atau sejenisnya
+        nationalHolidayCache[year] = {};
+        
+        // Loop untuk membaca berbagai kemungkinan format dari API Vercel
+        holidays.forEach(holiday => {
+            // Menangkap berbagai kemungkinan nama key tanggal dari API
             const dateStr = holiday.holiday_date || holiday.date;
-            const nameStr = holiday.holiday_name || holiday.name || 'Hari Libur Nasional';
+            const nameStr = holiday.holiday_name || holiday.name || holiday.localName || 'Hari Libur Nasional';
             
             if (dateStr) {
-                result[dateStr] = nameStr;
+                // Normalisasi format tanggal menjadi YYYY-MM-DD
+                const cleanDate = dateStr.split('T')[0];
+                nationalHolidayCache[year][cleanDate] = nameStr;
             }
-            return result;
-        }, {});
+        });
+
     } catch (err) {
         console.warn(`Gagal memuat tanggal merah nasional ${year}:`, err);
         nationalHolidayCache[year] = {}; 
