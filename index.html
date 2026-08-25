@@ -302,7 +302,8 @@
                         Selamat Datang di Dashboard Outlet Internal
                     </h2>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
-                        Akses cepat untuk absensi harian, pengajuan libur, kas outlet, database karyawan, dan Sop/Soc PT Waroeng
+                        Akses cepat untuk absensi harian, pengajuan libur, kas outlet, database karyawan, dan Sop/Soc PT
+                        Waroeng
                         Steak Indonesia.
                     </p>
                 </div>
@@ -1731,53 +1732,58 @@
 
         const nationalHolidayCache = {};
 
-async function loadNationalHolidays(year) {
-    if (nationalHolidayCache[year]) return nationalHolidayCache[year];
+        async function loadNationalHolidays(year) {
+            if (nationalHolidayCache[year]) return nationalHolidayCache[year];
 
-    try {
-        const response = await fetch(`https://api-hari-libur.vercel.app/api?year=${year}`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            try {
+                // Menggunakan public CORS proxy agar lolos dari blokir CORS GitHub Pages
+                const targetUrl = `https://api-hari-libur.vercel.app/api?year=${year}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
 
-        const resultJson = await response.json();
-        
-        // Ambil array dari dalam properti 'data' sesuai struktur API Vercel
-        const holidays = resultJson.data || [];
-        
-        nationalHolidayCache[year] = {};
-        
-        holidays.forEach(holiday => {
-            const dateStr = holiday.date; // Sesuai struktur API: "date"
-            const nameStr = holiday.description || 'Hari Libur Nasional'; // Sesuai struktur API: "description"
-            
-            if (dateStr) {
-                const cleanDate = dateStr.split('T')[0];
-                nationalHolidayCache[year][cleanDate] = nameStr;
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const proxyData = await response.json();
+                const resultJson = JSON.parse(proxyData.contents);
+
+                // Ambil array dari dalam properti 'data'
+                const holidays = resultJson.data || [];
+
+                nationalHolidayCache[year] = {};
+
+                holidays.forEach(holiday => {
+                    const dateStr = holiday.date; // "2026-08-25"
+                    const nameStr = holiday.description || 'Hari Libur Nasional';
+
+                    if (dateStr) {
+                        const cleanDate = dateStr.split('T')[0];
+                        nationalHolidayCache[year][cleanDate] = nameStr;
+                    }
+                });
+
+            } catch (err) {
+                console.warn(`Gagal memuat tanggal merah nasional ${year}:`, err);
+                nationalHolidayCache[year] = {};
             }
-        });
 
-    } catch (err) {
-        console.warn(`Gagal memuat tanggal merah nasional ${year}:`, err);
-        nationalHolidayCache[year] = {}; 
-    }
+            return nationalHolidayCache[year];
+        }
 
-    return nationalHolidayCache[year];
-}
+        function getCalendarDateInfo(year, month, day, nationalHolidays) {
+            const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const date = new Date(Date.UTC(year, month - 1, day));
+            const dayOfWeek = date.getUTCDay();
+            const holidayName = nationalHolidays[dateKey] || '';
 
-function getCalendarDateInfo(year, month, day, nationalHolidays) {
-    const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const date = new Date(Date.UTC(year, month - 1, day));
-    const dayOfWeek = date.getUTCDay();
-    const holidayName = nationalHolidays[dateKey] || '';
-
-    return {
-        dateKey,
-        isSaturday: dayOfWeek === 6,
-        isSunday: dayOfWeek === 0,
-        isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
-        isNationalHoliday: Boolean(holidayName),
-        holidayName
-    };
-}
+            return {
+                dateKey,
+                isSaturday: dayOfWeek === 6,
+                isSunday: dayOfWeek === 0,
+                isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
+                isNationalHoliday: Boolean(holidayName),
+                holidayName
+            };
+        }
 
         // FUNGSI UTAMA: MEMUAT MATRIKS JADWAL LIBUR
         async function loadDashboardMonthlyRekap() {
