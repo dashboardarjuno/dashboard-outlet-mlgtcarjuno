@@ -1736,39 +1736,22 @@
             if (nationalHolidayCache[year]) return nationalHolidayCache[year];
 
             try {
-                // Menggunakan public CORS proxy agar lolos dari blokir CORS GitHub Pages
-                const targetUrl = `https://api-hari-libur.vercel.app/api?year=${year}`;
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                // Ganti dengan URL Web App Google Apps Script kamu yang aktif
+                const GAS_URL = "https://script.google.com/macros/s/AKfycbw.../exec";
+                const url = `${GAS_URL}?action=getHolidays&year=${year}`;
 
-                const response = await fetch(proxyUrl);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
-                const proxyData = await response.json();
-                const resultJson = JSON.parse(proxyData.contents);
-
-                // Ambil array dari dalam properti 'data'
-                const holidays = resultJson.data || [];
-
-                nationalHolidayCache[year] = {};
-
-                holidays.forEach(holiday => {
-                    const dateStr = holiday.date; // "2026-08-25"
-                    const nameStr = holiday.description || 'Hari Libur Nasional';
-
-                    if (dateStr) {
-                        const cleanDate = dateStr.split('T')[0];
-                        nationalHolidayCache[year][cleanDate] = nameStr;
-                    }
-                });
-
+                const data = await response.json();
+                nationalHolidayCache[year] = data || {};
             } catch (err) {
-                console.warn(`Gagal memuat tanggal merah nasional ${year}:`, err);
-                nationalHolidayCache[year] = {};
+                console.warn("Gagal memuat hari libur dari Google Sheet:", err);
+                nationalHolidayCache[year] = {}; // Fallback kosong agar fungsi lain tidak ikut error
             }
 
             return nationalHolidayCache[year];
         }
-
         function getCalendarDateInfo(year, month, day, nationalHolidays) {
             const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const date = new Date(Date.UTC(year, month - 1, day));
