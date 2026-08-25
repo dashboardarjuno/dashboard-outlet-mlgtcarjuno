@@ -302,7 +302,8 @@
                         Selamat Datang di Dashboard Outlet Internal
                     </h2>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-xl">
-                        Akses cepat untuk absensi harian, pengajuan libur, kas outlet, database karyawan, dan Sop/Soc PT Waroeng
+                        Akses cepat untuk absensi harian, pengajuan libur, kas outlet, database karyawan, dan Sop/Soc PT
+                        Waroeng
                         Steak Indonesia.
                     </p>
                 </div>
@@ -1065,7 +1066,7 @@
         let tempEditPhotoBase64 = null; // Penampungan temporer data Base64 foto ter-upload
         let disabledDates = [];
         let todayAttendanceRecords = [];
-        let currentGPS = { lat: null, lng: null, distance: 0, valid: false };
+        let currentGPS = {lat: null, lng: null, distance: 0, valid: false};
         let photoBase64 = null;
         let mediaStream = null;
 
@@ -1246,7 +1247,7 @@
             }
 
             // Fixed: Menggunakan scheduleKey (bukan namaKey)
-            const data = teamScheduleStatus[scheduleKey] || { status: 'AKTIF', index: 0 };
+            const data = teamScheduleStatus[scheduleKey] || {status: 'AKTIF', index: 0};
 
             if (data.status === 'OFF' || data.status === 'CUTI') {
                 return {
@@ -1341,13 +1342,13 @@
 
             // Grouping Berdasarkan Jabatan / Role
             const roleGroups = {
-                'MO': { title: 'Manager Outlet (MO)', colorBg: 'from-red-50 to-white', border: 'border-red-500/30 hover:border-brand-red', tagBg: 'bg-brand-red', dot: 'bg-brand-red', avatarBg: 'ED1C24' },
-                'WMO': { title: 'Wakil Manager Outlet (WMO)', colorBg: 'from-slate-100 to-white', border: 'border-slate-300 hover:border-slate-800', tagBg: 'bg-slate-800', dot: 'bg-slate-800', avatarBg: '1E293B' },
-                'KASIR': { title: 'Tim Kasir', colorBg: 'from-blue-50 to-white', border: 'border-blue-200 hover:border-blue-600', tagBg: 'bg-blue-600', dot: 'bg-blue-600', avatarBg: '2563EB' },
-                'STAFF': { title: 'Staff Operasional', colorBg: 'from-emerald-50 to-white', border: 'border-emerald-200 hover:border-emerald-600', tagBg: 'bg-emerald-600', dot: 'bg-emerald-600', avatarBg: '059669' }
+                'MO': {title: 'Manager Outlet (MO)', colorBg: 'from-red-50 to-white', border: 'border-red-500/30 hover:border-brand-red', tagBg: 'bg-brand-red', dot: 'bg-brand-red', avatarBg: 'ED1C24'},
+                'WMO': {title: 'Wakil Manager Outlet (WMO)', colorBg: 'from-slate-100 to-white', border: 'border-slate-300 hover:border-slate-800', tagBg: 'bg-slate-800', dot: 'bg-slate-800', avatarBg: '1E293B'},
+                'KASIR': {title: 'Tim Kasir', colorBg: 'from-blue-50 to-white', border: 'border-blue-200 hover:border-blue-600', tagBg: 'bg-blue-600', dot: 'bg-blue-600', avatarBg: '2563EB'},
+                'STAFF': {title: 'Staff Operasional', colorBg: 'from-emerald-50 to-white', border: 'border-emerald-200 hover:border-emerald-600', tagBg: 'bg-emerald-600', dot: 'bg-emerald-600', avatarBg: '059669'}
             };
 
-            const categorized = { 'MO': [], 'WMO': [], 'KASIR': [], 'STAFF': [] };
+            const categorized = {'MO': [], 'WMO': [], 'KASIR': [], 'STAFF': []};
 
             employeeList.forEach((emp, index) => {
                 let roleUpper = (emp.jabatan || 'STAFF').toString().trim().toUpperCase();
@@ -1358,7 +1359,7 @@
                 else if (roleUpper.includes('KASIR')) categoryKey = 'KASIR';
                 else categoryKey = 'STAFF';
 
-                categorized[categoryKey].push({ ...emp, index });
+                categorized[categoryKey].push({...emp, index});
             });
 
             let html = '';
@@ -1490,7 +1491,7 @@
                         canvas.width = width;
                         canvas.height = height;
 
-                        const ctx = canvas.getContext('2d', { alpha: false });
+                        const ctx = canvas.getContext('2d', {alpha: false});
                         ctx.drawImage(img, 0, 0, width, height);
 
                         const qualities = [0.82, 0.74, 0.66, 0.58, 0.50];
@@ -1594,7 +1595,7 @@
 
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
                     body: JSON.stringify({
                         action: 'deleteTeamPhoto',
                         nik: nik
@@ -1674,7 +1675,7 @@
 
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
                     body: JSON.stringify(payload)
                 });
 
@@ -1730,31 +1731,66 @@
         }
 
         const nationalHolidayCache = {};
-        const nationalHolidayFallbacks = {
-            2026: {
-                '2026-08-25': 'Maulid Nabi Muhammad SAW'
-            }
-        };
 
         async function loadNationalHolidays(year) {
             if (nationalHolidayCache[year]) return nationalHolidayCache[year];
 
-            try {
-                const response = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/ID`);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            let holidayMap = {};
 
-                const holidays = await response.json();
-                nationalHolidayCache[year] = holidays.reduce((result, holiday) => {
-                    result[holiday.date] = holiday.localName || holiday.name || 'Hari Libur Nasional';
-                    return result;
-                }, {});
-                Object.assign(nationalHolidayCache[year], nationalHolidayFallbacks[year] || {});
+            // --- LAPIS 1: Ambil dari Rekap GSheet (Sheet "Hari_Libur") ---
+            try {
+                const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
+                const responseGsheet = await fetch(baseUrl + `?action=getHolidays&year=${year}`);
+                const resultGsheet = await responseGsheet.json();
+
+                if (resultGsheet && Array.isArray(resultGsheet.data)) {
+                    resultGsheet.data.forEach(item => {
+                        if (item.date && item.name) {
+                            holidayMap[item.date] = item.name;
+                        }
+                    });
+                }
             } catch (err) {
-                console.warn(`Gagal memuat tanggal merah nasional ${year}:`, err);
-                nationalHolidayCache[year] = { ...(nationalHolidayFallbacks[year] || {}) };
+                // Lanjut ke lapis berikutnya jika GSheet gagal
             }
 
-            return nationalHolidayCache[year];
+            // --- LAPIS 2: Ambil dari API Vercel (Sinkron SKB 3 Menteri) ---
+            if (Object.keys(holidayMap).length === 0) {
+                try {
+                    const responseVercel = await fetch(`https://api-hari-libur.vercel.app/api?year=${year}`);
+                    if (responseVercel.ok) {
+                        const holidaysVercel = await responseVercel.json();
+                        holidaysVercel.forEach(holiday => {
+                            if (holiday.is_national_holiday && holiday.holiday_date) {
+                                holidayMap[holiday.holiday_date] = holiday.holiday_name || 'Hari Libur Nasional';
+                            }
+                        });
+                    }
+                } catch (err) {
+                    // Lanjut ke Nager.Date jika Vercel gagal
+                }
+            }
+
+            // --- LAPIS 3: Ambil dari Nager.Date (Cadangan Global) ---
+            if (Object.keys(holidayMap).length === 0) {
+                try {
+                    const responseNager = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/ID`);
+                    if (responseNager.ok) {
+                        const holidaysNager = await responseNager.json();
+                        holidaysNager.forEach(holiday => {
+                            if (holiday.date && (holiday.localName || holiday.name)) {
+                                holidayMap[holiday.date] = holiday.localName || holiday.name;
+                            }
+                        });
+                    }
+                } catch (err) {
+                    console.warn(`Semua sumber data libur untuk tahun ${year} gagal dimuat.`);
+                }
+            }
+
+            // Simpan ke cache agar efisien
+            nationalHolidayCache[year] = holidayMap;
+            return holidayMap;
         }
 
         function getCalendarDateInfo(year, month, day, nationalHolidays) {
@@ -1982,8 +2018,8 @@
                 mediaStream = await navigator.mediaDevices.getUserMedia({
                     video: {
                         facingMode: "user",
-                        width: { ideal: 640 },
-                        height: { ideal: 480 }
+                        width: {ideal: 640},
+                        height: {ideal: 480}
                     },
                     audio: false
                 });
@@ -2171,7 +2207,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    headers: {"Content-Type": "text/plain;charset=utf-8"},
                     body: JSON.stringify(payload)
                 });
 
@@ -2422,7 +2458,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    headers: {"Content-Type": "text/plain;charset=utf-8"},
                     body: JSON.stringify(payload)
                 });
 
@@ -2449,7 +2485,7 @@
 
         // FORMAT RUPIAH HELPER
         function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+            return new Intl.NumberFormat('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0}).format(angka);
         }
 
         // BUKA MODAL KAS & LOAD DATA
@@ -2527,7 +2563,7 @@
             try {
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    headers: {"Content-Type": "text/plain;charset=utf-8"},
                     body: JSON.stringify(payload)
                 });
 
@@ -2549,7 +2585,7 @@
             }
         }
 
-        let currentActiveInfo = { title: "", content: "" };
+        let currentActiveInfo = {title: "", content: ""};
 
         // 1. Ambil & Langsung Jalankan Running Text dari Google Sheets
         async function fetchBannerInfo() {
@@ -2563,7 +2599,7 @@
                     marqueeEl.innerHTML = `📢 <strong>${data.title}</strong>: ${data.content}`;
                 } else if (marqueeEl) {
                     marqueeEl.innerText = "📢 Belum ada pengumuman terbaru saat ini.";
-                    currentActiveInfo = { title: "Pengumuman", content: "Belum ada informasi terbaru saat ini." };
+                    currentActiveInfo = {title: "Pengumuman", content: "Belum ada informasi terbaru saat ini."};
                 }
             } catch (err) {
                 console.error("Gagal memuat banner info:", err);
@@ -2597,7 +2633,7 @@
 
         // 4. Form Pop-up Input Info Baru (Khusus MO)
         async function openEditBannerModal() {
-            const { value: formValues } = await Swal.fire({
+            const {value: formValues} = await Swal.fire({
                 title: 'Update Info Banner',
                 html:
                     '<input id="swal-title" class="swal2-input" placeholder="Judul Info Singkat">' +
@@ -2630,7 +2666,7 @@
                 try {
                     const response = await fetch(GAS_WEB_APP_URL, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                        headers: {'Content-Type': 'text/plain;charset=utf-8'},
                         body: JSON.stringify({
                             action: 'updateBannerInfo',
                             title: formValues.title,
@@ -2879,7 +2915,7 @@
         // Tambahkan fungsi jam di sini
         function updateTime() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            const timeStr = now.toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'});
             const timeElement = document.getElementById("current-time");
             if (timeElement) {
                 timeElement.textContent = timeStr;
