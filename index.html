@@ -1075,6 +1075,15 @@
         let teamScheduleStatus = {};
         let teamScheduleStatusReady = false;
 
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
         // FUNGSI CEK STATUS JAM OPERASIONAL OUTLET
         function updateOutletStatus() {
             const statusContainer = document.getElementById("outlet-status-container");
@@ -1857,7 +1866,7 @@
                 }
 
                 const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
-                const response = await fetch(baseUrl + "?action=getMonthlyRekap");
+                const response = await fetch(baseUrl + `?action=getMonthlyRekap&year=${year}&month=${month}`);
                 const res = await response.json();
 
                 let rawList = [];
@@ -2157,6 +2166,30 @@
             openModal('modal-off-cuti');
             if (employeeList.length === 0) await loadInitialData();
             await loadDisabledDates();
+            configureOffCutiDateInputs();
+        }
+
+        function getOffCutiTargetPeriod() {
+            const now = new Date();
+            const targetDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+            const year = targetDate.getFullYear();
+            const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+            const lastDay = new Date(year, targetDate.getMonth() + 1, 0).getDate();
+
+            return {
+                year,
+                month,
+                min: `${year}-${month}-01`,
+                max: `${year}-${month}-${String(lastDay).padStart(2, '0')}`
+            };
+        }
+
+        function configureOffCutiDateInputs() {
+            const period = getOffCutiTargetPeriod();
+            document.querySelectorAll('.input-tgl-off').forEach(function(input) {
+                input.min = period.min;
+                input.max = period.max;
+            });
         }
 
         function checkTanggalKuota(input) {
@@ -2171,6 +2204,12 @@
 
         async function submitOffCuti(e) {
             e.preventDefault();
+
+            const currentDay = new Date().getDate();
+            if (currentDay < 15 || currentDay > 25) {
+                showPopup('warning', 'Periode Pengajuan Ditutup', 'Pengajuan OFF/Cuti hanya dibuka tanggal 15 sampai 25 setiap bulan.');
+                return;
+            }
 
             const nama = document.getElementById("select-nama-off").value;
             const selectedEmployee = employeeList.find(emp => (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase());
@@ -2187,8 +2226,17 @@
                 }
             });
 
-            if (!nama || selectedDates.length === 0 || !keterangan) {
+            const period = getOffCutiTargetPeriod();
+            const uniqueDates = [...new Set(selectedDates)].sort();
+            const invalidPeriodDate = uniqueDates.find(date => date < period.min || date > period.max);
+
+            if (!nama || uniqueDates.length === 0 || !keterangan) {
                 showPopup('warning', 'Data Belum Lengkap', 'Pilih minimal 1 tanggal dan isi Keterangan Acara!');
+                return;
+            }
+
+            if (invalidPeriodDate) {
+                showPopup('warning', 'Tanggal Tidak Sesuai Periode', 'Tanggal libur hanya boleh dipilih untuk bulan berikutnya.');
                 return;
             }
 
@@ -2200,7 +2248,7 @@
                 action: "submitOffCuti",
                 nik: nik,
                 nama: nama,
-                dates: selectedDates,
+                dates: uniqueDates,
                 keterangan: keterangan
             };
 
@@ -2596,7 +2644,7 @@
                 const marqueeEl = document.getElementById('bannerMarquee');
                 if (data.status === "success" && marqueeEl) {
                     currentActiveInfo = data;
-                    marqueeEl.innerHTML = `📢 <strong>${data.title}</strong>: ${data.content}`;
+                    marqueeEl.innerHTML = `&#128226; <strong>${escapeHtml(data.title)}</strong>: ${escapeHtml(data.content)}`;
                 } else if (marqueeEl) {
                     marqueeEl.innerText = "📢 Belum ada pengumuman terbaru saat ini.";
                     currentActiveInfo = {title: "Pengumuman", content: "Belum ada informasi terbaru saat ini."};
