@@ -199,34 +199,49 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // ==========================================
 // FUNGSI PEMUTAR VIDEO MOTIVASI OTOMATIS
+// (sekarang diambil dari Google Sheet "VIDEO_MOTIVASI" via GAS, bukan hardcode lagi)
 // ==========================================
-const motivationVideos = [
-    "V96hXqw2oU8",
-    "srkG0zqJZSw", // Merry Riana
-    "JAdTjHsOid0",
-    "oqRX02uhicc",
-    "q0GiWKl5aaI",
-    "hj9KRxnCc00",
-    "VirbuHEjmmY"  // Dihapus &t=94s agar URL embed valid
+
+// Daftar cadangan (fallback) kalau fetch ke server gagal, biar video tetap muncul
+const fallbackMotivationVideos = [
+    { videoId: "V96hXqw2oU8", startSecond: 30 },
+    { videoId: "srkG0zqJZSw", startSecond: 30 },
+    { videoId: "VirbuHEjmmY", startSecond: 30 }
 ];
 
-        function loadRandomMotivationVideo() {
-            const iframe = document.getElementById('motivationVideo');
-            if (!iframe) return;
+function playMotivationVideo(selectedVideo) {
+    const iframe = document.getElementById('motivationVideo');
+    if (!iframe || !selectedVideo) return;
 
-            const randomIndex = Math.floor(Math.random() * motivationVideos.length);
-            const selectedVideoId = motivationVideos[randomIndex];
+    const vid = selectedVideo.videoId;
+    const start = selectedVideo.startSecond || 0;
+    const extraParams = start > 0 ? `&start=${start}` : "";
 
-            // Tambahkan start=94 jika ingin video VirbuHEjmmY mulai dari detik ke-94
-            let extraParams = "";
-            if (selectedVideoId === "VirbuHEjmmY") {
-                extraParams = "&start=94";
-            }
+    const embedUrl = `https://www.youtube.com/embed/${vid}?autoplay=1&mute=1&loop=1&playlist=${vid}${extraParams}`;
+    iframe.src = embedUrl;
+}
 
-            const embedUrl = `https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&mute=1&loop=1&playlist=${selectedVideoId}${extraParams}`;
-            iframe.src = embedUrl;
+async function loadRandomMotivationVideo() {
+    try {
+        const res = await fetch(`${GAS_WEB_APP_URL}?action=getMotivationVideos`);
+        const result = await res.json();
+
+        if (result.status === "success" && result.data && result.data.length > 0) {
+            const randomIndex = Math.floor(Math.random() * result.data.length);
+            playMotivationVideo(result.data[randomIndex]);
+        } else {
+            // Sheet kosong / belum diisi -> pakai cadangan lokal
+            const randomIndex = Math.floor(Math.random() * fallbackMotivationVideos.length);
+            playMotivationVideo(fallbackMotivationVideos[randomIndex]);
         }
+    } catch (err) {
+        console.error("Gagal memuat daftar video motivasi dari server:", err);
+        // Gagal fetch (misal offline) -> tetap tampilkan video dari cadangan lokal
+        const randomIndex = Math.floor(Math.random() * fallbackMotivationVideos.length);
+        playMotivationVideo(fallbackMotivationVideos[randomIndex]);
+    }
+}
 
 
 // PEMANGGILAN FUNGSI SAAT HALAMAN DIMUAT
-loadRandomMotivationVideo(); // <--- INI YANG TADI KURANG SEHINGGA VIDEO TIDAK MUNCUL
+loadRandomMotivationVideo();
