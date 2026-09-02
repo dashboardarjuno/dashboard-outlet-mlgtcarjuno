@@ -1,9 +1,3 @@
-// ==========================================================
-// THEME-SWITCHER.JS
-// Mengelola pilihan tampilan (Klasik / Modern) dari halaman.
-// Tidak menyentuh logic modul lain (absensi, kas, team, dsb).
-// ==========================================================
-
 (function () {
     var STORAGE_KEY = 'dashboardTheme'; // value: 'klasik' | 'modern'
 
