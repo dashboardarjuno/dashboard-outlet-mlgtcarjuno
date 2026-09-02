@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beranda Dashboard Outlet - Mlg Tc Arjuno Partner</title>
+    <!-- Set tema lebih awal supaya tidak ada flash tampilan salah saat reload -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('dashboardTheme') || 'klasik';
+                document.documentElement.setAttribute('data-theme', t);
+            } catch (e) { }
+        })();
+    </script>
     <!-- Tailwind CSS (hasil build statis, bukan CDN lagi) -->
     <link rel="stylesheet" href="css/tailwind.css">
     <!-- FontAwesome Icons -->
@@ -20,6 +29,8 @@
          (dipakai saat proses build, bukan lagi di sini) -->
 
     <link rel="stylesheet" href="css/style.css">
+    <!-- Tema alternatif "Modern & Fresh" (override, aktif via tombol switch) -->
+    <link rel="stylesheet" href="css/theme-modern.css">
 </head>
 
 <body
@@ -53,8 +64,17 @@
                 </div>
             </div>
 
-            <!-- Kanan: Jam & Status -->
+            <!-- Kanan: Switch Tema & Jam -->
             <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+                <!-- Tombol Ganti Tampilan (Klasik / Modern) -->
+                <div class="theme-switcher shrink-0" role="group" aria-label="Ganti tampilan">
+                    <button type="button" id="btn-theme-klasik" class="active">
+                        <i class="fa-solid fa-table-cells"></i><span class="label-text">Klasik</span>
+                    </button>
+                    <button type="button" id="btn-theme-modern">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i><span class="label-text">Modern</span>
+                    </button>
+                </div>
                 <div class="flex flex-col">
                     <span id="current-date"
                         class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
@@ -844,6 +864,7 @@
     </div>
 
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
+    <script src="js/theme-switcher.js"></script>
     <script src="js/core.js"></script>
     <script src="js/team.js"></script>
     <script src="js/absensi.js"></script>
