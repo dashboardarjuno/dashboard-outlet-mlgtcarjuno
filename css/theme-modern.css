@@ -1,12 +1,3 @@
-/* ==========================================================
-   THEME-MODERN.CSS
-   Tema alternatif "Modern & Fresh" — aktif saat <html data-theme="modern">
-   Tidak mengubah struktur HTML/ID/JS apapun, murni override tampilan
-   dari utility class Tailwind yang sudah ada (bg-white, rounded-2xl,
-   shadow-sm, bg-brand-red, dst) supaya konsisten ke SELURUH halaman
-   (header, menu, section, dan semua modal) tanpa duplikasi kode.
-   ========================================================== */
-
 html[data-theme="modern"] {
     --m-primary-1: #6366F1;
     /* indigo */
@@ -197,14 +188,14 @@ html[data-theme="modern"] main .grid.grid-cols-2 > button:hover {
 
 /* ---------- TOMBOL SOLID -> PILL GRADIENT ---------- */
 html[data-theme="modern"] button[type="submit"],
-html[data-theme="modern"] .bg-slate-900,
-html[data-theme="modern"] .bg-slate-800,
+html[data-theme="modern"] button.bg-slate-900,
+html[data-theme="modern"] button.bg-slate-800,
 html[data-theme="modern"] .hover\:bg-black:hover {
     border-radius: 999px !important;
 }
 
-html[data-theme="modern"] .bg-slate-900:not(.theme-switcher button):not(#outlet-status-container),
-html[data-theme="modern"] .bg-slate-800 {
+html[data-theme="modern"] button.bg-slate-900,
+html[data-theme="modern"] button.bg-slate-800 {
     background: linear-gradient(135deg, #1E293B, #0F172A) !important;
 }
 
