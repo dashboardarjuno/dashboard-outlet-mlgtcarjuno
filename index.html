@@ -38,7 +38,8 @@
 
     <!-- HEADER & NAVBAR REVISI RESPONSIF -->
     <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
-        <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
+        <div id="header-inner"
+            class="w-full max-w-full mx-auto px-3 sm:px-5 min-h-16 flex items-center justify-between flex-wrap gap-y-1.5">
             <!-- Kiri: Logo dan Judul -->
             <div class="flex items-center gap-2.5 sm:gap-3.5">
                 <div
@@ -64,9 +65,9 @@
                 </div>
             </div>
 
-            <!-- Kanan: Switch Tema & Jam -->
-            <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
-                <!-- Tombol Ganti Tampilan (Klasik / Modern) -->
+            <!-- Tombol Ganti Tampilan (Klasik / Modern) -->
+            <!-- Di HP: baris sendiri full-width di bawah (order-3). Di layar >=sm: sejajar di kanan seperti semula. -->
+            <div id="header-theme-switcher-wrap" class="order-3 w-full sm:order-none sm:w-auto flex justify-center sm:justify-start">
                 <div class="theme-switcher shrink-0" role="group" aria-label="Ganti tampilan">
                     <button type="button" id="btn-theme-klasik" class="active">
                         <i class="fa-solid fa-table-cells"></i><span class="label-text">Klasik</span>
@@ -75,9 +76,13 @@
                         <i class="fa-solid fa-wand-magic-sparkles"></i><span class="label-text">Modern</span>
                     </button>
                 </div>
-                <div class="flex flex-col">
+            </div>
+
+            <!-- Kanan: Jam -->
+            <div class="flex items-center text-xs sm:text-sm text-right min-w-0">
+                <div class="flex flex-col min-w-0">
                     <span id="current-date"
-                        class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
+                        class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"></span>
                     <span id="current-time"
                         class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
                 </div>
@@ -139,6 +144,13 @@
                         allowfullscreen>
                     </iframe>
                 </div>
+            </div>
+
+            <!-- Strip Fitur (khusus tampilan Modern) -->
+            <div class="hero-feature-strip relative z-10 hidden">
+                <div><i class="fa-solid fa-tower-broadcast"></i> Sinkron Real-time</div>
+                <div><i class="fa-solid fa-location-dot"></i> Absensi Ber-GPS</div>
+                <div><i class="fa-solid fa-shield-halved"></i> Data Ter-enkripsi</div>
             </div>
         </section>
 
@@ -862,6 +874,22 @@
 
         </div>
     </div>
+
+    <!-- Quick Access Dock (khusus tampilan Modern, mobile) -->
+    <nav id="modern-quick-dock" class="modern-quick-dock" aria-label="Akses cepat">
+        <button onclick="openAbsensiModal()">
+            <i class="fa-solid fa-user-clock"></i><span>Absensi</span>
+        </button>
+        <button onclick="openKasModal()">
+            <i class="fa-solid fa-wallet"></i><span>Kas</span>
+        </button>
+        <button onclick="openOffCutiModal()">
+            <i class="fa-solid fa-calendar-minus"></i><span>Libur</span>
+        </button>
+        <a href="#section-our-team">
+            <i class="fa-solid fa-people-roof"></i><span>Tim</span>
+        </a>
+    </nav>
 
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
     <script src="js/theme-switcher.js"></script>
