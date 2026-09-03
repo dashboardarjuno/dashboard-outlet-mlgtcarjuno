@@ -173,3 +173,76 @@
                 padding: 0.5rem;
             }
         }
+
+        /* Fallback manual untuk beberapa utility Tailwind yang dipakai di header
+           (dibuat manual karena proses build Tailwind tidak dijalankan ulang) */
+        .order-3 {
+            order: 3;
+        }
+
+        .min-h-16 {
+            min-height: 4rem;
+        }
+
+        .gap-y-1\.5 {
+            row-gap: 0.375rem;
+        }
+
+        @media (min-width: 640px) {
+            .sm\:order-none {
+                order: 0;
+            }
+
+            .sm\:w-auto {
+                width: auto;
+            }
+
+            .sm\:justify-start {
+                justify-content: flex-start;
+            }
+        }
+
+        /* ==========================================================
+           PERBAIKAN TAMPILAN TABEL UNTUK LAPTOP/DESKTOP (>=1024px)
+           Tampilan HP tidak diubah sama sekali.
+           ========================================================== */
+        @media (min-width: 1024px) {
+
+            /* Tabel Jadwal Operasional: font di-hardcode 9px oleh JS untuk semua ukuran layar,
+               di laptop jadi terlalu kecil. Kita perbesar khusus di layar lebar. */
+            #scheduleContainer table {
+                font-size: 13px !important;
+            }
+
+            #scheduleContainer td,
+            #scheduleContainer th {
+                padding: 6px 10px !important;
+            }
+
+            /* Matriks Jadwal Off & Cuti Tim: perbesar sedikit & lebarkan kolom tanggal
+               supaya tidak terasa sempit di layar lebar. */
+            #thead-matriks th {
+                font-size: 12.5px !important;
+                min-width: 34px !important;
+                width: 34px !important;
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+            }
+
+            #thead-matriks th:first-child,
+            #tbody-dashboard-rekap td:first-child {
+                min-width: 200px !important;
+                max-width: 200px !important;
+                font-size: 13px !important;
+            }
+
+            #tbody-dashboard-rekap td {
+                font-size: 12.5px !important;
+                padding-top: 6px !important;
+                padding-bottom: 6px !important;
+            }
+
+            #tbody-dashboard-rekap tr:hover td {
+                background-color: rgba(99, 102, 241, 0.05);
+            }
+        }
