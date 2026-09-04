@@ -1,433 +1,448 @@
-html[data-theme="modern"] {
-    --m-primary-1: #6366F1;
-    /* indigo */
-    --m-primary-2: #8B5CF6;
-    /* violet */
-    --m-accent-1: #10B981;
-    /* emerald */
-    --m-accent-2: #06B6D4;
-    /* cyan */
-    --m-bg: #F5F6FF;
-    --m-surface: #FFFFFF;
-    --m-text: #1E1B4B;
+:root {
+    --m-primary: #4f46e5;
+    --m-primary-2: #7c3aed;
+    --m-primary-soft: #eef2ff;
+    --m-cyan: #06b6d4;
+    --m-green: #10b981;
+    --m-amber: #f59e0b;
+    --m-red: #ef4444;
+    --m-bg: #f6f7fb;
+    --m-surface: #ffffff;
+    --m-surface-2: #f8fafc;
+    --m-line: #e8eaf2;
+    --m-text: #171a2b;
+    --m-muted: #71758a;
+    --m-sidebar: #111325;
+    --m-sidebar-muted: #8f93aa;
+    --m-radius: 22px;
+    --m-shadow: 0 12px 36px rgba(22, 25, 52, .08);
+    --m-sidebar-w: 252px;
+    --m-topbar-h: 82px;
 }
 
-/* ---------- LATAR BELAKANG HALAMAN ---------- */
-html[data-theme="modern"] body {
-    background:
-        radial-gradient(circle at 8% 0%, rgba(99, 102, 241, 0.10), transparent 40%),
-        radial-gradient(circle at 95% 15%, rgba(16, 185, 129, 0.10), transparent 45%),
-        radial-gradient(circle at 50% 100%, rgba(139, 92, 246, 0.08), transparent 50%),
-        var(--m-bg) !important;
-}
-
-/* ---------- HEADER (GLASS STICKY) ---------- */
-html[data-theme="modern"] header {
-    background: rgba(255, 255, 255, 0.75) !important;
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border-bottom: 1px solid rgba(99, 102, 241, 0.12) !important;
-    box-shadow: 0 8px 30px -12px rgba(79, 70, 229, 0.18) !important;
-}
-
-/* ---------- SWITCH TEMA (TOMBOL) ---------- */
+/* Theme switch tetap rapi di mode klasik */
 .theme-switcher {
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    background: #F1F5F9;
-    border: 1px solid #E2E8F0;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
     border-radius: 999px;
     padding: 3px;
 }
-
 .theme-switcher button {
-    border: none;
+    border: 0;
     background: transparent;
     font-size: 10px;
     font-weight: 700;
     padding: 5px 10px;
     border-radius: 999px;
     cursor: pointer;
-    color: #64748B;
+    color: #64748b;
     display: flex;
     align-items: center;
     gap: 4px;
-    transition: all .25s ease;
+    transition: .2s ease;
     white-space: nowrap;
 }
+.theme-switcher button.active { background:#0f172a; color:#fff; box-shadow:0 4px 10px rgba(15,23,42,.25); }
 
-.theme-switcher button.active {
-    background: #0F172A;
-    color: #fff;
-    box-shadow: 0 4px 10px -2px rgba(15, 23, 42, .35);
+#modern-app-shell,
+#modern-home { display:none; }
+
+/* ---------- APP FRAME ---------- */
+html[data-theme="modern"] { background: var(--m-bg); }
+html[data-theme="modern"] body {
+    background:
+        radial-gradient(circle at 80% -10%, rgba(124,58,237,.08), transparent 32%),
+        radial-gradient(circle at 30% 105%, rgba(6,182,212,.06), transparent 35%),
+        var(--m-bg) !important;
+    color: var(--m-text);
+    min-height:100dvh;
+    overflow-x:hidden;
 }
 
-html[data-theme="modern"] .theme-switcher {
-    background: rgba(99, 102, 241, 0.08);
-    border-color: rgba(99, 102, 241, 0.18);
+html[data-theme="modern"] body > header,
+html[data-theme="modern"] body > div.bg-brand-red,
+html[data-theme="modern"] body > footer { display:none !important; }
+
+html[data-theme="modern"] #modern-app-shell { display:block; }
+html[data-theme="modern"] #modern-home { display:block; }
+
+html[data-theme="modern"] main {
+    width:auto !important;
+    max-width:none !important;
+    margin:0 0 0 var(--m-sidebar-w) !important;
+    padding:calc(var(--m-topbar-h) + 26px) 30px 40px !important;
+    min-height:100dvh;
+    display:block;
 }
 
-html[data-theme="modern"] .theme-switcher button.active {
-    background: linear-gradient(135deg, var(--m-primary-1), var(--m-primary-2));
-    box-shadow: 0 4px 14px -3px rgba(99, 102, 241, .55);
+html[data-theme="modern"] main > * { display:none !important; }
+html[data-theme="modern"][data-modern-view="home"] #modern-home,
+html[data-theme="modern"][data-modern-view="schedule"] #section-shift,
+html[data-theme="modern"][data-modern-view="off-matrix"] #section-off-matrix,
+html[data-theme="modern"][data-modern-view="team"] #section-our-team { display:block !important; }
+
+html[data-theme="modern"] #classic-hero,
+html[data-theme="modern"] #classic-quick-menu { display:none !important; }
+
+/* ---------- SIDEBAR ---------- */
+html[data-theme="modern"] .modern-sidebar {
+    position:fixed;
+    inset:0 auto 0 0;
+    width:var(--m-sidebar-w);
+    z-index:60;
+    display:flex;
+    flex-direction:column;
+    padding:22px 15px 18px;
+    color:#fff;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(99,102,241,.28), transparent 28%),
+        linear-gradient(180deg, #15172b 0%, #10111f 100%);
+    border-right:1px solid rgba(255,255,255,.04);
+    box-shadow:12px 0 42px rgba(25,26,46,.08);
 }
 
-/* ---------- WARNA MEREK -> GRADASI FRESH ---------- */
-html[data-theme="modern"] .bg-brand-red {
-    background: linear-gradient(135deg, var(--m-primary-1), var(--m-primary-2)) !important;
+.modern-brand { display:flex; align-items:center; gap:12px; padding:4px 8px 24px; }
+.modern-brand-mark {
+    width:43px; height:43px; border-radius:15px; display:grid; place-items:center;
+    background:linear-gradient(135deg, #6366f1, #8b5cf6); color:#fff;
+    box-shadow:0 10px 24px rgba(99,102,241,.35); font-size:17px; flex:none;
 }
+.modern-brand-copy { min-width:0; display:flex; flex-direction:column; }
+.modern-brand-copy strong { font:800 15px/1.25 'Plus Jakarta Sans',sans-serif; letter-spacing:-.02em; }
+.modern-brand-copy span { margin-top:3px; color:#9296ad; font:600 10px/1.2 'Inter',sans-serif; letter-spacing:.04em; text-transform:uppercase; }
 
-html[data-theme="modern"] .text-brand-red {
-    color: var(--m-primary-1) !important;
+.modern-nav { display:flex; flex-direction:column; gap:4px; overflow:auto; scrollbar-width:none; padding:4px 0; }
+.modern-nav::-webkit-scrollbar { display:none; }
+.modern-nav-item {
+    width:100%; min-height:44px; padding:0 13px; border:0; border-radius:13px;
+    display:flex; align-items:center; gap:12px; text-align:left; cursor:pointer;
+    color:var(--m-sidebar-muted); background:transparent;
+    font:650 12px/1 'Plus Jakarta Sans',sans-serif;
+    transition:background .18s ease,color .18s ease,transform .18s ease;
 }
+a.modern-nav-item { text-decoration:none; }
+.modern-nav-item > i:first-child { width:19px; text-align:center; font-size:14px; }
+.modern-nav-item:hover { color:#fff; background:rgba(255,255,255,.065); }
+.modern-nav-item.active { color:#fff; background:linear-gradient(90deg, rgba(99,102,241,.24), rgba(124,58,237,.12)); box-shadow:inset 3px 0 #818cf8; }
+.modern-nav-item.active > i:first-child { color:#a5b4fc; }
+.modern-external { margin-left:auto; font-size:9px!important; opacity:.55; width:auto!important; }
+.modern-sidebar-bottom { margin-top:auto; padding-top:16px; border-top:1px solid rgba(255,255,255,.07); }
+.modern-theme-back { width:100%; height:40px; border:1px solid rgba(255,255,255,.08); border-radius:12px; background:rgba(255,255,255,.045); color:#b1b4c7; display:flex; align-items:center; gap:10px; padding:0 12px; font-size:11px; font-weight:700; cursor:pointer; }
+.modern-theme-back:hover { color:#fff; background:rgba(255,255,255,.08); }
+.modern-version { display:flex; align-items:center; gap:7px; color:#666b82; font-size:9px; font-weight:700; padding:12px 12px 0; text-transform:uppercase; letter-spacing:.08em; }
+.modern-status-dot { width:6px;height:6px;border-radius:999px;background:#34d399;box-shadow:0 0 0 4px rgba(52,211,153,.08); }
 
-html[data-theme="modern"] .border-brand-red,
-html[data-theme="modern"] .hover\:border-brand-red:hover {
-    border-color: var(--m-primary-1) !important;
+/* ---------- TOPBAR ---------- */
+html[data-theme="modern"] .modern-topbar {
+    position:fixed; top:0; right:0; left:var(--m-sidebar-w); height:var(--m-topbar-h); z-index:50;
+    display:flex; align-items:center; justify-content:space-between; gap:20px; padding:0 30px;
+    background:rgba(246,247,251,.84); backdrop-filter:blur(18px) saturate(150%); -webkit-backdrop-filter:blur(18px) saturate(150%);
+    border-bottom:1px solid rgba(221,224,236,.82);
 }
+.modern-topbar-copy { display:flex; flex-direction:column; min-width:0; }
+.modern-topbar-copy span { color:#8a8ea0; font:700 9px/1.2 'Inter',sans-serif; text-transform:uppercase; letter-spacing:.12em; }
+.modern-topbar-copy h2 { margin:4px 0 0; color:var(--m-text); font:800 21px/1.15 'Plus Jakarta Sans',sans-serif; letter-spacing:-.04em; }
+.modern-topbar-actions { display:flex; align-items:center; gap:10px; }
+.modern-icon-btn,.modern-profile { position:relative; width:40px; height:40px; display:grid; place-items:center; border:1px solid var(--m-line); border-radius:13px; color:#555a70; background:rgba(255,255,255,.88); cursor:pointer; box-shadow:0 4px 14px rgba(30,32,59,.04); }
+.modern-icon-btn:hover,.modern-profile:hover { color:var(--m-primary); border-color:#d9d8ff; }
+.modern-notify-dot { position:absolute; top:8px; right:9px; width:6px; height:6px; border-radius:50%; background:#f43f5e; border:1.5px solid #fff; }
+.modern-profile { color:#fff; border:0; background:linear-gradient(135deg,#4f46e5,#7c3aed); }
+.modern-clock { display:flex; flex-direction:column; align-items:flex-end; min-width:80px; padding:0 5px; }
+.modern-clock strong { color:#25283b; font:800 14px/1.15 'Plus Jakarta Sans',sans-serif; font-variant-numeric:tabular-nums; }
+.modern-clock span { color:#8c90a1; font:600 9px/1.25 'Inter',sans-serif; margin-top:3px; }
 
-html[data-theme="modern"] .group:hover .group-hover\:text-brand-red {
-    color: var(--m-primary-1) !important;
+/* ---------- HOME ---------- */
+html[data-theme="modern"] .modern-home { max-width:1280px; margin:0 auto; }
+.modern-welcome-card {
+    position:relative; min-height:270px; overflow:hidden; border-radius:30px; padding:38px 42px;
+    display:flex; align-items:center; justify-content:space-between; isolation:isolate;
+    color:#fff; background:
+        radial-gradient(circle at 82% 20%, rgba(34,211,238,.28), transparent 25%),
+        radial-gradient(circle at 75% 100%, rgba(167,139,250,.35), transparent 30%),
+        linear-gradient(120deg,#292663 0%,#4338ca 50%,#6d28d9 100%);
+    box-shadow:0 24px 60px rgba(67,56,202,.18);
 }
+.modern-welcome-card:after { content:""; position:absolute; inset:0; z-index:-1; opacity:.18; background-image:radial-gradient(rgba(255,255,255,.8) .65px,transparent .65px); background-size:18px 18px; mask-image:linear-gradient(90deg,transparent 15%,#000 70%); }
+.modern-welcome-content { max-width:640px; position:relative; z-index:2; }
+.modern-kicker { width:max-content; display:inline-flex; align-items:center; gap:8px; padding:7px 10px; border:1px solid rgba(255,255,255,.16); border-radius:999px; color:#dbeafe; background:rgba(255,255,255,.08); font-size:10px; font-weight:700; backdrop-filter:blur(8px); }
+.modern-live-dot { width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 4px rgba(52,211,153,.14); }
+.modern-kicker.is-closed .modern-live-dot { background:#fb7185; box-shadow:0 0 0 4px rgba(251,113,133,.14); }
+.modern-welcome-content h1 { margin:17px 0 12px; font:800 clamp(28px,3vw,44px)/1.08 'Plus Jakarta Sans',sans-serif; letter-spacing:-.055em; }
+.modern-welcome-content h1 span { color:#c4b5fd; }
+.modern-welcome-content p { margin:0; max-width:570px; color:#d8daf0; font:500 12px/1.7 'Inter',sans-serif; }
+.modern-primary-actions { display:flex; gap:10px; margin-top:24px; }
+.modern-primary-actions button { height:42px; border:1px solid rgba(255,255,255,.14); border-radius:13px; padding:0 15px; display:flex; align-items:center; gap:9px; color:#fff; background:rgba(255,255,255,.10); font:700 11px 'Plus Jakarta Sans',sans-serif; cursor:pointer; backdrop-filter:blur(8px); }
+.modern-primary-actions button:first-child { color:#39316c; background:#fff; border-color:#fff; }
+.modern-primary-actions button:hover { transform:translateY(-1px); }
+.modern-welcome-visual { position:relative; width:260px; height:220px; flex:none; display:grid; place-items:center; }
+.modern-visual-icon { width:90px;height:90px;border-radius:29px;display:grid;place-items:center;color:#fff;font-size:34px;background:linear-gradient(145deg,rgba(255,255,255,.25),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.24);box-shadow:0 22px 45px rgba(23,18,87,.25);backdrop-filter:blur(12px); }
+.modern-orbit { position:absolute;border:1px solid rgba(255,255,255,.17);border-radius:50%; }
+.orbit-a { width:170px;height:170px; }
+.orbit-b { width:230px;height:230px; }
 
-html[data-theme="modern"] .accent-brand-red {
-    accent-color: var(--m-primary-1) !important;
+.modern-home-grid { display:grid; grid-template-columns:1.25fr 1fr; gap:16px; margin-top:18px; }
+.modern-info-card { min-height:112px; display:grid; grid-template-columns:48px 1fr 22px; align-items:center; gap:14px; padding:20px; background:#fff; border:1px solid var(--m-line); border-radius:20px; box-shadow:0 8px 24px rgba(32,34,64,.045); cursor:pointer; transition:.18s ease; }
+.modern-info-card:hover { transform:translateY(-2px); border-color:#dadcff; box-shadow:var(--m-shadow); }
+.modern-card-icon { width:48px;height:48px;border-radius:15px;display:grid;place-items:center;color:#5b55d9;background:#f0f0ff;font-size:16px; }
+.modern-info-card:nth-child(2) .modern-card-icon { color:#0f9f86;background:#eafaf6; }
+.modern-info-card > div:nth-child(2) { min-width:0; display:flex; flex-direction:column; }
+.modern-info-card span { color:#9093a3;font:700 9px 'Inter',sans-serif;text-transform:uppercase;letter-spacing:.08em; }
+.modern-info-card strong { color:#282b3d;font:750 13px/1.35 'Plus Jakarta Sans',sans-serif;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
+.modern-info-card small { color:#9a9dad;font:500 10px 'Inter',sans-serif;margin-top:4px; }
+.modern-card-arrow { color:#b6b8c5;font-size:10px;justify-self:end; }
+
+.modern-section-title { display:flex;align-items:flex-end;justify-content:space-between;gap:15px;margin:30px 2px 13px; }
+.modern-section-title span { color:#9093a3;font:700 9px 'Inter',sans-serif;text-transform:uppercase;letter-spacing:.09em; }
+.modern-section-title h3 { margin:4px 0 0;color:#242739;font:800 17px 'Plus Jakarta Sans',sans-serif;letter-spacing:-.03em; }
+.modern-section-title small { color:#a1a4b2;font:600 9px 'Inter',sans-serif; }
+.modern-quick-actions { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px; }
+.modern-quick-actions button { min-width:0;min-height:134px;padding:18px;border:1px solid var(--m-line);border-radius:20px;background:#fff;text-align:left;display:flex;flex-direction:column;align-items:flex-start;cursor:pointer;box-shadow:0 8px 20px rgba(32,34,64,.035);transition:.18s ease; }
+.modern-quick-actions button:hover { transform:translateY(-3px);border-color:#d8dafb;box-shadow:var(--m-shadow); }
+.modern-quick-icon { width:42px;height:42px;border-radius:14px;display:grid;place-items:center;color:#514bcf;background:#f0f0ff;font-size:15px; }
+.modern-quick-actions button:nth-child(2) .modern-quick-icon { color:#9a56e7;background:#f7efff; }
+.modern-quick-actions button:nth-child(3) .modern-quick-icon { color:#0b9b73;background:#eaf9f4; }
+.modern-quick-actions button:nth-child(4) .modern-quick-icon { color:#e17a27;background:#fff4e9; }
+.modern-quick-actions strong { margin-top:15px;color:#2a2d40;font:750 12px 'Plus Jakarta Sans',sans-serif; }
+.modern-quick-actions small { margin-top:5px;color:#9a9dad;font:500 9px/1.4 'Inter',sans-serif; }
+
+/* ---------- EXISTING CONTENT AS MODERN PAGES ---------- */
+html[data-theme="modern"] #section-shift,
+html[data-theme="modern"] #section-off-matrix,
+html[data-theme="modern"] #section-our-team {
+    max-width:1280px;
+    margin:0 auto !important;
+    padding:22px !important;
+    border:1px solid var(--m-line) !important;
+    border-radius:24px !important;
+    background:#fff !important;
+    box-shadow:0 10px 34px rgba(31,34,61,.055) !important;
 }
-
-html[data-theme="modern"] .focus\:ring-brand-red:focus {
-    --tw-ring-color: var(--m-primary-1) !important;
+html[data-theme="modern"] #section-shift > div,
+html[data-theme="modern"] #section-our-team > div { box-shadow:none !important; border:0 !important; padding:0 !important; }
+html[data-theme="modern"] #section-shift h3,
+html[data-theme="modern"] #section-off-matrix h3,
+html[data-theme="modern"] #section-our-team h3 { color:#242739 !important; letter-spacing:-.025em; }
+html[data-theme="modern"] #section-shift input,
+html[data-theme="modern"] #section-shift select,
+html[data-theme="modern"] #section-off-matrix input,
+html[data-theme="modern"] #section-off-matrix select,
+html[data-theme="modern"] #section-our-team input,
+html[data-theme="modern"] #section-our-team select {
+    border-color:#e2e5ef !important;background:#f9fafc !important;border-radius:11px !important;min-height:36px;
 }
+html[data-theme="modern"] #section-shift table,
+html[data-theme="modern"] #section-off-matrix table { border-color:#eef0f5 !important; }
+html[data-theme="modern"] #section-shift thead,
+html[data-theme="modern"] #section-off-matrix thead { background:#f7f8fb !important; }
 
-html[data-theme="modern"] .text-brand-navy {
-    color: var(--m-text) !important;
+/* ---------- MODALS: fresh but no logic changes ---------- */
+html[data-theme="modern"] [id^="modal-"] > div,
+html[data-theme="modern"] .fixed.inset-0 > .bg-white {
+    border-radius:24px !important;
+    border:1px solid rgba(232,234,242,.9) !important;
+    box-shadow:0 28px 80px rgba(19,21,43,.24) !important;
 }
-
-html[data-theme="modern"] .bg-brand-navy {
-    background: linear-gradient(160deg, #1E1B4B 0%, #312E81 55%, #4338CA 100%) !important;
-}
-
-/* ---------- BANNER MARQUEE (PILL FRESH) ---------- */
-html[data-theme="modern"] .bg-brand-red.text-white.text-xs.sm\:text-sm {
-    background: linear-gradient(90deg, var(--m-primary-1), var(--m-primary-2)) !important;
-    border-radius: 0 0 18px 18px;
-    margin: 0 8px;
-    box-shadow: 0 10px 20px -8px rgba(99, 102, 241, .45);
-}
-
-/* ---------- KARTU / PERMUKAAN PUTIH (dipakai di section & modal) ---------- */
-html[data-theme="modern"] .bg-white {
-    background: var(--m-surface) !important;
-}
-
-html[data-theme="modern"] .rounded-2xl {
-    border-radius: 20px !important;
-}
-
-html[data-theme="modern"] .rounded-3xl {
-    border-radius: 26px !important;
-}
-
-html[data-theme="modern"] .border-slate-100,
-html[data-theme="modern"] .border-slate-200 {
-    border-color: rgba(99, 102, 241, 0.10) !important;
-}
-
-html[data-theme="modern"] .shadow-sm {
-    box-shadow: 0 10px 30px -14px rgba(79, 70, 229, 0.18) !important;
-}
-
-html[data-theme="modern"] .shadow-xl,
-html[data-theme="modern"] .shadow-2xl {
-    box-shadow: 0 25px 50px -18px rgba(79, 70, 229, 0.35) !important;
-}
-
-html[data-theme="modern"] .hover\:shadow-lg:hover {
-    box-shadow: 0 16px 34px -12px rgba(99, 102, 241, 0.35) !important;
-    transform: translateY(-3px);
-}
-
-/* ---------- HERO BANNER ---------- */
-html[data-theme="modern"] section.bg-slate-900 {
-    background: linear-gradient(150deg, #1E1B4B 0%, #4338CA 60%, #7C3AED 120%) !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
-    position: relative;
-    overflow: hidden;
-}
-
-html[data-theme="modern"] section.bg-slate-900::before {
-    content: "";
-    position: absolute;
-    inset: -40% -10% auto auto;
-    width: 320px;
-    height: 320px;
-    background: radial-gradient(circle, rgba(16, 185, 129, .45), transparent 70%);
-    filter: blur(10px);
-    pointer-events: none;
-}
-
-html[data-theme="modern"] section.bg-slate-900 .bg-white\/10 {
-    background: rgba(255, 255, 255, 0.16) !important;
-    backdrop-filter: blur(6px);
-}
-
-/* ---------- IKON CHIP DI MENU GRID ---------- */
-html[data-theme="modern"] .bg-slate-50 {
-    background: rgba(99, 102, 241, 0.06) !important;
-}
-
-html[data-theme="modern"] main .grid.grid-cols-2 > a,
-html[data-theme="modern"] main .grid.grid-cols-2 > button {
-    border-width: 1px;
-}
-
-html[data-theme="modern"] main .grid.grid-cols-2 > a:hover,
-html[data-theme="modern"] main .grid.grid-cols-2 > button:hover {
-    transform: translateY(-4px) scale(1.01);
-}
-
-/* ---------- TOMBOL SOLID -> PILL GRADIENT ---------- */
-html[data-theme="modern"] button[type="submit"],
-html[data-theme="modern"] button.bg-slate-900,
-html[data-theme="modern"] button.bg-slate-800,
-html[data-theme="modern"] .hover\:bg-black:hover {
-    border-radius: 999px !important;
-}
-
-html[data-theme="modern"] button.bg-slate-900,
-html[data-theme="modern"] button.bg-slate-800 {
-    background: linear-gradient(135deg, #1E293B, #0F172A) !important;
-}
-
-html[data-theme="modern"] .bg-purple-600,
-html[data-theme="modern"] .hover\:bg-purple-700:hover {
-    background: linear-gradient(135deg, #8B5CF6, #6366F1) !important;
-    border-radius: 999px !important;
-}
-
-html[data-theme="modern"] .bg-blue-600,
-html[data-theme="modern"] .hover\:bg-blue-700:hover {
-    background: linear-gradient(135deg, #06B6D4, #6366F1) !important;
-    border-radius: 999px !important;
-}
-
-html[data-theme="modern"] .bg-emerald-600,
-html[data-theme="modern"] .hover\:bg-emerald-700:hover {
-    background: linear-gradient(135deg, #10B981, #06B6D4) !important;
-    border-radius: 999px !important;
-}
-
-html[data-theme="modern"] button[type="submit"] {
-    letter-spacing: .01em;
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-html[data-theme="modern"] button[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 28px -10px rgba(99, 102, 241, .5);
-}
-
-/* ---------- INPUT & FORM FIELDS ---------- */
+html[data-theme="modern"] .fixed.inset-0.bg-slate-900\/60 { background:rgba(14,16,32,.62) !important;backdrop-filter:blur(5px); }
 html[data-theme="modern"] input,
 html[data-theme="modern"] select,
-html[data-theme="modern"] textarea {
-    border-radius: 14px !important;
-    border-color: #E2E8F0 !important;
-    background-color: #FAFAFF !important;
+html[data-theme="modern"] textarea { border-radius:12px !important; }
+html[data-theme="modern"] button[type="submit"] { border-radius:12px !important; }
+html[data-theme="modern"] .bg-brand-red { background:linear-gradient(135deg,#4f46e5,#7c3aed) !important; }
+html[data-theme="modern"] .text-brand-red { color:#514bcf !important; }
+html[data-theme="modern"] .border-brand-red { border-color:#6366f1 !important; }
+html[data-theme="modern"] .focus\:ring-brand-red:focus { --tw-ring-color:#6366f1 !important; }
+html[data-theme="modern"] .text-brand-navy { color:#242739 !important; }
+html[data-theme="modern"] .bg-brand-navy { background:#17192b !important; }
+html[data-theme="modern"] .bg-purple-600 { background:#6d5ce7 !important; }
+html[data-theme="modern"] .bg-blue-600 { background:#4f7cf4 !important; }
+html[data-theme="modern"] .bg-emerald-600 { background:#10a37f !important; }
+html[data-theme="modern"] .modern-swal { border-radius:24px; }
+
+/* ---------- BOTTOM NAV & MORE SHEET ---------- */
+.modern-bottom-nav,.modern-sheet { display:none; }
+
+/* ---------- RESPONSIVE TABLET ---------- */
+@media (max-width: 1024px) {
+    :root { --m-sidebar-w:84px; }
+    .modern-sidebar { padding-left:12px!important;padding-right:12px!important; }
+    .modern-brand { justify-content:center;padding-left:0;padding-right:0; }
+    .modern-brand-copy,.modern-nav-item span,.modern-sidebar-bottom span,.modern-external,.modern-version { display:none!important; }
+    .modern-nav-item { justify-content:center;padding:0; }
+    .modern-nav-item > i:first-child { width:auto; font-size:16px; }
+    .modern-theme-back { justify-content:center;padding:0; }
+    .modern-welcome-visual { width:220px; }
+    .modern-quick-actions { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
 
-html[data-theme="modern"] input:focus,
-html[data-theme="modern"] select:focus,
-html[data-theme="modern"] textarea:focus {
-    border-color: var(--m-primary-1) !important;
-}
-
-html[data-theme="modern"] label.has-\[\:checked\]\:border-brand-red:has(:checked) {
-    border-color: var(--m-primary-1) !important;
-    background-color: rgba(99, 102, 241, 0.07) !important;
-}
-
-/* ---------- MODAL OVERLAY ---------- */
-html[data-theme="modern"] .fixed.inset-0.bg-slate-900\/60 {
-    background: rgba(30, 27, 75, 0.55) !important;
-}
-
-/* ---------- FOOTER ---------- */
-html[data-theme="modern"] footer {
-    background: linear-gradient(160deg, #1E1B4B, #0F172A) !important;
-    border-top-color: rgba(255, 255, 255, 0.08) !important;
-}
-
-/* ---------- TABEL / MATRIKS ---------- */
-html[data-theme="modern"] thead.bg-slate-100,
-html[data-theme="modern"] .bg-slate-100 {
-    background: rgba(99, 102, 241, 0.08) !important;
-}
-
-/* ---------- SCROLLBAR HALUS (opsional, kosmetik) ---------- */
-html[data-theme="modern"] ::-webkit-scrollbar {
-    height: 8px;
-    width: 8px;
-}
-
-html[data-theme="modern"] ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--m-primary-1), var(--m-primary-2));
-    border-radius: 999px;
-}
-
-/* ---------- RESPONSIVE: sembunyikan label teks switch tema di layar kecil (HP) ---------- */
-@media (max-width: 639px) {
-    .theme-switcher button span.label-text {
-        display: none;
+/* ---------- RESPONSIVE MOBILE / iOS / ANDROID ---------- */
+@media (max-width: 720px) {
+    :root { --m-sidebar-w:0px; --m-topbar-h:68px; }
+    html[data-theme="modern"] body { padding-bottom:calc(72px + env(safe-area-inset-bottom, 0px)); }
+    html[data-theme="modern"] .modern-sidebar { display:none; }
+    html[data-theme="modern"] .modern-topbar {
+        left:0;height:var(--m-topbar-h);padding:0 16px;
+        padding-top:env(safe-area-inset-top, 0px);
+        background:rgba(246,247,251,.92);
+    }
+    .modern-topbar-copy span { font-size:8px; }
+    .modern-topbar-copy h2 { font-size:17px;margin-top:3px; }
+    .modern-clock { display:none; }
+    .modern-icon-btn,.modern-profile { width:36px;height:36px;border-radius:12px;font-size:12px; }
+    html[data-theme="modern"] main {
+        margin-left:0!important;
+        padding:calc(var(--m-topbar-h) + env(safe-area-inset-top, 0px) + 15px) 14px 22px!important;
     }
 
-    .theme-switcher button {
-        padding: 6px 8px;
+    html[data-theme="modern"] .modern-bottom-nav {
+        position:fixed;left:10px;right:10px;bottom:max(10px, env(safe-area-inset-bottom, 10px));z-index:70;
+        height:62px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:5px;
+        border:1px solid rgba(225,227,237,.95);border-radius:21px;background:rgba(255,255,255,.94);
+        backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%);
+        box-shadow:0 14px 38px rgba(25,27,52,.16);
     }
+    .modern-bottom-item { min-width:0;height:50px;border:0;border-radius:15px;background:transparent;color:#8c90a1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:9px;font-weight:700;cursor:pointer; }
+    .modern-bottom-item i { font-size:15px; }
+    .modern-bottom-item.active { color:#514bcf;background:#f0f0ff; }
+
+    .modern-welcome-card { min-height:242px;border-radius:24px;padding:26px 22px; }
+    .modern-welcome-content { max-width:100%; }
+    .modern-welcome-content h1 { font-size:29px;margin-top:15px; }
+    .modern-welcome-content p { font-size:11px;line-height:1.6; }
+    .modern-primary-actions { margin-top:20px; }
+    .modern-primary-actions button { height:40px;font-size:10px;padding:0 12px; }
+    .modern-welcome-visual { display:none; }
+    .modern-home-grid { grid-template-columns:1fr;gap:10px;margin-top:12px; }
+    .modern-info-card { min-height:98px;padding:16px;border-radius:18px;grid-template-columns:44px 1fr 18px;gap:12px; }
+    .modern-card-icon { width:44px;height:44px;border-radius:14px; }
+    .modern-section-title { margin-top:24px; }
+    .modern-section-title small { display:none; }
+    .modern-quick-actions { grid-template-columns:repeat(2,minmax(0,1fr));gap:10px; }
+    .modern-quick-actions button { min-height:125px;padding:15px;border-radius:18px; }
+
+    html[data-theme="modern"] #section-shift,
+    html[data-theme="modern"] #section-off-matrix,
+    html[data-theme="modern"] #section-our-team { padding:15px!important;border-radius:20px!important;overflow:hidden; }
+    html[data-theme="modern"] #section-shift .flex.flex-col.sm\:flex-row,
+    html[data-theme="modern"] #section-off-matrix .flex.flex-col.sm\:flex-row { gap:10px!important; }
+
+    html[data-theme="modern"] .modern-sheet { display:block;position:fixed;inset:0;z-index:90;pointer-events:none;visibility:hidden; }
+    html[data-theme="modern"] .modern-sheet.open { pointer-events:auto;visibility:visible; }
+    .modern-sheet-backdrop { position:absolute;inset:0;border:0;background:rgba(16,18,35,.45);opacity:0;transition:opacity .22s ease;backdrop-filter:blur(3px); }
+    .modern-sheet.open .modern-sheet-backdrop { opacity:1; }
+    .modern-sheet-panel { position:absolute;left:0;right:0;bottom:0;padding:10px 16px calc(18px + env(safe-area-inset-bottom, 0px));background:#fff;border-radius:28px 28px 0 0;transform:translateY(105%);transition:transform .26s cubic-bezier(.2,.8,.2,1);box-shadow:0 -18px 50px rgba(20,22,45,.18); }
+    .modern-sheet.open .modern-sheet-panel { transform:translateY(0); }
+    .modern-sheet-handle { width:38px;height:4px;border-radius:99px;background:#d8dae4;margin:0 auto 13px; }
+    .modern-sheet-head { display:flex;align-items:center;justify-content:space-between;margin-bottom:14px; }
+    .modern-sheet-head > div { display:flex;flex-direction:column; }
+    .modern-sheet-head span { color:#9699a8;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em; }
+    .modern-sheet-head strong { color:#26293c;font:800 16px 'Plus Jakarta Sans',sans-serif;margin-top:3px; }
+    .modern-sheet-close { width:35px;height:35px;border:0;border-radius:11px;background:#f5f6f9;color:#747789;cursor:pointer; }
+    .modern-more-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px; }
+    .modern-more-grid button,.modern-more-grid a { min-width:0;min-height:90px;padding:12px 7px;border:1px solid #eceef4;border-radius:17px;background:#fafbfc;color:#4a4e64;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;text-decoration:none;font:700 9px/1.3 'Plus Jakarta Sans',sans-serif;cursor:pointer; }
+    .modern-more-grid i { color:#5c57d8;font-size:17px; }
+    .modern-sheet-open { overflow:hidden!important; }
+
+    /* Modal aman dari notch/safe area */
+    html[data-theme="modern"] [id^="modal-"] { padding-top:max(12px,env(safe-area-inset-top,0px));padding-bottom:max(12px,env(safe-area-inset-bottom,0px)); }
 }
 
-/* ==========================================================
-   LAYOUT & FITUR BARU (bukan cuma ganti warna)
-   ========================================================== */
-
-/* ---------- STRIP FITUR DI HERO ---------- */
-html[data-theme="modern"] .hero-feature-strip {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+@media (max-width: 380px) {
+    .modern-welcome-content h1 { font-size:25px; }
+    .modern-primary-actions { gap:7px; }
+    .modern-primary-actions button { padding:0 10px; }
+    .modern-quick-actions { grid-template-columns:1fr 1fr; }
+    .modern-more-grid { gap:8px; }
 }
 
-html[data-theme="modern"] .hero-feature-strip div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 11px;
-    font-weight: 600;
+/* Touch & motion accessibility */
+@media (hover:none) { .modern-info-card:hover,.modern-quick-actions button:hover { transform:none; } }
+@media (prefers-reduced-motion: reduce) {
+    html[data-theme="modern"] *,html[data-theme="modern"] *::before,html[data-theme="modern"] *::after { scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important; }
 }
 
-@media (max-width: 640px) {
-    html[data-theme="modern"] .hero-feature-strip {
-        grid-template-columns: 1fr;
-    }
+@media (max-width:400px) { .theme-switcher button span.label-text { display:none; } }
+
+/* =========================================================
+   MODERN MODAL — CLEAN / INVISIBLE SCROLLBAR
+   Modal tetap dapat di-scroll, tetapi rail native Windows/Chrome
+   tidak mengganggu rounded card di sisi kanan.
+   ========================================================= */
+html[data-theme="modern"] [id^="modal-"] > .overflow-y-auto,
+html[data-theme="modern"] [id^="modal-"] > div[class*="overflow-y-auto"] {
+    scrollbar-width: none !important;          /* Firefox */
+    -ms-overflow-style: none !important;       /* Legacy Edge */
+    overscroll-behavior: contain;
 }
 
-/* ---------- MENU UTAMA JADI BENTO GRID (asimetris, bukan kotak rata) ---------- */
-@media (min-width: 640px) {
-    html[data-theme="modern"] main .grid.grid-cols-2.sm\:grid-cols-4 {
-        grid-auto-flow: dense;
-    }
-
-    html[data-theme="modern"] main .grid.grid-cols-2.sm\:grid-cols-4>*:first-child {
-        grid-column: span 2 / span 2;
-        grid-row: span 2 / span 2;
-        background: linear-gradient(160deg, var(--m-primary-1), var(--m-primary-2)) !important;
-        border-color: transparent !important;
-    }
-
-    html[data-theme="modern"] main .grid.grid-cols-2.sm\:grid-cols-4>*:first-child,
-    html[data-theme="modern"] main .grid.grid-cols-2.sm\:grid-cols-4>*:first-child span {
-        color: #fff !important;
-    }
-
-    html[data-theme="modern"] main .grid.grid-cols-2.sm\:grid-cols-4>*:first-child .bg-slate-50 {
-        background: rgba(255, 255, 255, 0.18) !important;
-        color: #fff !important;
-    }
-
-    html[data-theme="modern"] main .grid.grid-cols-2.sm\:grid-cols-4>*:nth-child(4) {
-        grid-column: span 2 / span 2;
-    }
+html[data-theme="modern"] [id^="modal-"] > .overflow-y-auto::-webkit-scrollbar,
+html[data-theme="modern"] [id^="modal-"] > div[class*="overflow-y-auto"]::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+    background: transparent !important;
 }
 
-/* Kartu menu: chip ikon jadi gradient lembut sesuai warna masing-masing, bukan flat abu-abu */
-html[data-theme="modern"] main .grid.grid-cols-2 .text-purple-600.bg-slate-50 {
-    background: linear-gradient(135deg, rgba(139, 92, 246, .15), rgba(99, 102, 241, .08)) !important;
+/* Scroll area kecil di dalam modal tetap diberi scrollbar tipis/floating */
+html[data-theme="modern"] [id^="modal-"] .max-h-40.overflow-y-auto {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(99,102,241,.28) transparent !important;
 }
 
-html[data-theme="modern"] main .grid.grid-cols-2 .text-emerald-600.bg-slate-50 {
-    background: linear-gradient(135deg, rgba(16, 185, 129, .18), rgba(6, 182, 212, .08)) !important;
+html[data-theme="modern"] [id^="modal-"] .max-h-40.overflow-y-auto::-webkit-scrollbar {
+    display: block !important;
+    width: 4px !important;
+    height: 4px !important;
 }
 
-html[data-theme="modern"] main .grid.grid-cols-2 .text-sky-600.bg-slate-50 {
-    background: linear-gradient(135deg, rgba(6, 182, 212, .18), rgba(99, 102, 241, .08)) !important;
+html[data-theme="modern"] [id^="modal-"] .max-h-40.overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent !important;
 }
 
-html[data-theme="modern"] main .grid.grid-cols-2 .text-amber-600.bg-slate-50 {
-    background: linear-gradient(135deg, rgba(245, 158, 11, .18), rgba(236, 72, 153, .08)) !important;
+html[data-theme="modern"] [id^="modal-"] .max-h-40.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(99,102,241,.28) !important;
+    border-radius: 999px !important;
 }
 
-html[data-theme="modern"] main .grid.grid-cols-2 .text-orange-600.bg-slate-50 {
-    background: linear-gradient(135deg, rgba(249, 115, 22, .18), rgba(236, 72, 153, .08)) !important;
+html[data-theme="modern"] [id^="modal-"] .max-h-40.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(99,102,241,.5) !important;
 }
 
-/* ---------- FITUR BARU: QUICK ACCESS DOCK (bottom bar, mobile) ---------- */
-.modern-quick-dock {
-    display: none;
+
+/* ArjunoHub — foto bangunan pada identitas sidebar Modern */
+html[data-theme="modern"] .modern-brand-mark {
+    overflow: hidden !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 8px 22px rgba(0,0,0,.18);
 }
 
-html[data-theme="modern"] .modern-quick-dock {
-    display: flex;
-    position: fixed;
-    left: 12px;
-    right: 12px;
-    bottom: 14px;
-    z-index: 50;
-    justify-content: space-around;
-    align-items: center;
-    background: rgba(15, 23, 42, 0.92);
-    backdrop-filter: blur(10px);
-    border-radius: 22px;
-    padding: 8px 4px;
-    box-shadow: 0 18px 40px -14px rgba(30, 27, 75, 0.55);
+html[data-theme="modern"] .modern-brand-photo {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: inherit;
 }
 
-html[data-theme="modern"] .modern-quick-dock button,
-html[data-theme="modern"] .modern-quick-dock a {
-    background: none;
-    border: none;
-    color: #CBD5E1;
-    font-size: 10px;
-    font-weight: 700;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    padding: 6px 10px;
-    border-radius: 14px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all .2s ease;
+
+/* === ArjunoHub photo inside Modern welcome hero === */
+html[data-theme="modern"] .modern-hero-brand-photo {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: inherit;
 }
 
-html[data-theme="modern"] .modern-quick-dock i {
-    font-size: 16px;
-}
-
-html[data-theme="modern"] .modern-quick-dock button:active,
-html[data-theme="modern"] .modern-quick-dock a:active {
-    background: linear-gradient(135deg, var(--m-primary-1), var(--m-primary-2));
-    color: #fff;
-    transform: scale(0.95);
-}
-
-/* Beri jarak bawah supaya konten terakhir tidak ketutup dock (mobile) */
-@media (max-width: 767px) {
-    html[data-theme="modern"] body {
-        padding-bottom: 78px;
-    }
-}
-
-/* Dock hanya untuk mobile/tablet kecil; di layar besar quick access sudah kelihatan di menu */
-@media (min-width: 768px) {
-    html[data-theme="modern"] .modern-quick-dock {
-        display: none;
-    }
-
-    html[data-theme="modern"] body {
-        padding-bottom: 0;
-    }
+/* Make the existing hero icon holder work as a clean photo frame */
+html[data-theme="modern"] .modern-hero-visual > *,
+html[data-theme="modern"] .modern-hero-icon,
+html[data-theme="modern"] .hero-icon {
+    overflow: hidden;
 }
