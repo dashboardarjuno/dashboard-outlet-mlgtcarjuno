@@ -11,6 +11,7 @@
             try {
                 var t = localStorage.getItem('dashboardTheme') || 'klasik';
                 document.documentElement.setAttribute('data-theme', t);
+                if (t === 'modern') document.documentElement.setAttribute('data-modern-view', 'home');
             } catch (e) { }
         })();
     </script>
@@ -38,8 +39,7 @@
 
     <!-- HEADER & NAVBAR REVISI RESPONSIF -->
     <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
-        <div id="header-inner"
-            class="w-full max-w-full mx-auto px-3 sm:px-5 min-h-16 flex items-center justify-between flex-wrap gap-y-1.5">
+        <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
             <!-- Kiri: Logo dan Judul -->
             <div class="flex items-center gap-2.5 sm:gap-3.5">
                 <div
@@ -65,9 +65,9 @@
                 </div>
             </div>
 
-            <!-- Tombol Ganti Tampilan (Klasik / Modern) -->
-            <!-- Di HP: baris sendiri full-width di bawah (order-3). Di layar >=sm: sejajar di kanan seperti semula. -->
-            <div id="header-theme-switcher-wrap" class="order-3 w-full sm:order-none sm:w-auto flex justify-center sm:justify-start">
+            <!-- Kanan: Switch Tema & Jam -->
+            <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+                <!-- Tombol Ganti Tampilan (Klasik / Modern) -->
                 <div class="theme-switcher shrink-0" role="group" aria-label="Ganti tampilan">
                     <button type="button" id="btn-theme-klasik" class="active">
                         <i class="fa-solid fa-table-cells"></i><span class="label-text">Klasik</span>
@@ -76,13 +76,9 @@
                         <i class="fa-solid fa-wand-magic-sparkles"></i><span class="label-text">Modern</span>
                     </button>
                 </div>
-            </div>
-
-            <!-- Kanan: Jam -->
-            <div class="flex items-center text-xs sm:text-sm text-right min-w-0">
-                <div class="flex flex-col min-w-0">
+                <div class="flex flex-col">
                     <span id="current-date"
-                        class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap overflow-hidden text-ellipsis"></span>
+                        class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
                     <span id="current-time"
                         class="text-[10px] sm:text-xs text-slate-500 font-medium whitespace-nowrap"></span>
                 </div>
@@ -112,11 +108,119 @@
         </button>
     </div>
 
+    <!-- MODERN APP SHELL: hanya aktif saat data-theme="modern" -->
+    <div id="modern-app-shell" aria-hidden="true">
+        <aside class="modern-sidebar" aria-label="Navigasi Modern">
+            <div class="modern-brand">
+                <div class="modern-brand-mark"><img src="assets/images/arjunohub-building.png" alt="ArjunoHub" class="modern-brand-photo"></div>
+                <div class="modern-brand-copy">
+                    <strong>MLG-TC-Arjuno</strong>
+                    <span>Outlet 1415</span>
+                </div>
+            </div>
+
+            <nav class="modern-nav" aria-label="Menu utama">
+                <button class="modern-nav-item active" data-modern-view="home"><i class="fa-solid fa-house"></i><span>Beranda</span></button>
+                <button class="modern-nav-item" data-modern-action="absensi"><i class="fa-solid fa-user-clock"></i><span>Absensi</span></button>
+                <button class="modern-nav-item" data-modern-view="schedule"><i class="fa-solid fa-calendar-days"></i><span>Jadwal Tim</span></button>
+                <button class="modern-nav-item" data-modern-action="off"><i class="fa-solid fa-calendar-minus"></i><span>Pengajuan Libur</span></button>
+                <button class="modern-nav-item" data-modern-view="off-matrix"><i class="fa-solid fa-calendar-check"></i><span>Matriks Libur</span></button>
+                <button class="modern-nav-item" data-modern-action="kas"><i class="fa-solid fa-wallet"></i><span>Kas Outlet</span></button>
+                <button class="modern-nav-item" data-modern-view="team"><i class="fa-solid fa-people-roof"></i><span>Our Team</span></button>
+                <button class="modern-nav-item" data-modern-action="sop"><i class="fa-solid fa-book-open"></i><span>SOP / SOC</span></button>
+                <a class="modern-nav-item" href="https://docs.google.com/spreadsheets/d/10_oZHz_yA3i2K6Xk-x_qAGyJDMxYvESE/edit?gid=2019967039#gid=2019967039" target="_blank" rel="noopener"><i class="fa-solid fa-id-card"></i><span>Data Karyawan</span><i class="fa-solid fa-arrow-up-right-from-square modern-external"></i></a>
+            </nav>
+
+            <div class="modern-sidebar-bottom">
+                <button class="modern-theme-back" data-modern-action="classic"><i class="fa-solid fa-table-cells"></i><span>Tampilan Klasik</span></button>
+                <div class="modern-version"><span class="modern-status-dot"></span> Modern UI</div>
+            </div>
+        </aside>
+
+        <header class="modern-topbar">
+            <div class="modern-topbar-copy">
+                <span id="modern-eyebrow">Dashboard Outlet</span>
+                <h2 id="modern-page-title">Beranda</h2>
+            </div>
+            <div class="modern-topbar-actions">
+                <button class="modern-icon-btn" data-modern-action="info" aria-label="Informasi"><i class="fa-solid fa-bullhorn"></i><span class="modern-notify-dot"></span></button>
+                <div class="modern-clock">
+                    <strong id="modern-current-time">--:--</strong>
+                    <span id="modern-current-date">--</span>
+                </div>
+                <button class="modern-profile" data-modern-view="team" aria-label="Buka profil tim"><i class="fa-solid fa-users"></i></button>
+            </div>
+        </header>
+
+        <nav class="modern-bottom-nav" aria-label="Navigasi bawah">
+            <button class="modern-bottom-item active" data-modern-view="home"><i class="fa-solid fa-house"></i><span>Home</span></button>
+            <button class="modern-bottom-item" data-modern-action="absensi"><i class="fa-solid fa-user-clock"></i><span>Absen</span></button>
+            <button class="modern-bottom-item" data-modern-view="schedule"><i class="fa-solid fa-calendar-days"></i><span>Jadwal</span></button>
+            <button class="modern-bottom-item" data-modern-view="team"><i class="fa-solid fa-users"></i><span>Tim</span></button>
+            <button class="modern-bottom-item" data-modern-action="more"><i class="fa-solid fa-grid-2"></i><span>Lainnya</span></button>
+        </nav>
+
+        <div id="modern-more-sheet" class="modern-sheet" aria-hidden="true">
+            <button class="modern-sheet-backdrop" data-modern-action="close-more" aria-label="Tutup menu"></button>
+            <div class="modern-sheet-panel">
+                <div class="modern-sheet-handle"></div>
+                <div class="modern-sheet-head"><div><span>Menu lainnya</span><strong>Akses operasional</strong></div><button class="modern-sheet-close" data-modern-action="close-more"><i class="fa-solid fa-xmark"></i></button></div>
+                <div class="modern-more-grid">
+                    <button data-modern-action="off"><i class="fa-solid fa-calendar-minus"></i><span>Pengajuan Libur</span></button>
+                    <button data-modern-view="off-matrix"><i class="fa-solid fa-calendar-check"></i><span>Matriks Libur</span></button>
+                    <button data-modern-action="kas"><i class="fa-solid fa-wallet"></i><span>Kas Outlet</span></button>
+                    <button data-modern-action="sop"><i class="fa-solid fa-book-open"></i><span>SOP / SOC</span></button>
+                    <a href="https://docs.google.com/spreadsheets/d/10_oZHz_yA3i2K6Xk-x_qAGyJDMxYvESE/edit?gid=2019967039#gid=2019967039" target="_blank" rel="noopener"><i class="fa-solid fa-id-card"></i><span>Data Karyawan</span></a>
+                    <button data-modern-action="classic"><i class="fa-solid fa-table-cells"></i><span>Mode Klasik</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MAIN CONTENT AREA -->
     <main class="flex-grow w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
+        <section id="modern-home" class="modern-home">
+            <div class="modern-welcome-card">
+                <div class="modern-welcome-content">
+                    <div class="modern-kicker"><span class="modern-live-dot"></span><span id="modern-outlet-state">Status outlet</span></div>
+                    <h1>Selamat datang di<br><span>Mlg Tc Arjuno Operations.</span></h1>
+                    <p>Satu ruang kerja untuk aktivitas outlet harian.</p>
+                    <div class="modern-primary-actions">
+                        <button data-modern-action="absensi"><i class="fa-solid fa-fingerprint"></i><span>Mulai Absensi</span></button>
+                        <button data-modern-view="schedule"><i class="fa-solid fa-calendar-day"></i><span>Lihat Jadwal</span></button>
+                    </div>
+                </div>
+                <div class="modern-welcome-visual" aria-hidden="true">
+                    <div class="modern-orbit orbit-a"></div><div class="modern-orbit orbit-b"></div>
+                    <div class="modern-visual-icon"><img src="assets/images/arjunohub-building.png" alt="ArjunoHub Outlet" class="modern-hero-brand-photo"></div>
+                </div>
+            </div>
+
+            <div class="modern-home-grid">
+                <article class="modern-info-card modern-announcement-card" data-modern-action="info" role="button" tabindex="0">
+                    <div class="modern-card-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    <div><span>Informasi Outlet</span><strong id="modern-banner-text">Memuat informasi terbaru...</strong><small>Klik untuk detail</small></div>
+                    <i class="fa-solid fa-chevron-right modern-card-arrow"></i>
+                </article>
+                <article class="modern-info-card" data-modern-view="off-matrix" role="button" tabindex="0">
+                    <div class="modern-card-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div><span>Monitoring Tim</span><strong>Matriks Off & Cuti</strong><small>Lihat jadwal libur bulanan</small></div>
+                    <i class="fa-solid fa-chevron-right modern-card-arrow"></i>
+                </article>
+            </div>
+
+            <div class="modern-section-title"><div><span>Akses cepat</span><h3></h3></div><small>Tap menu untuk membuka</small></div>
+            <div class="modern-quick-actions">
+                <button data-modern-action="absensi"><span class="modern-quick-icon"><i class="fa-solid fa-user-clock"></i></span><strong>Absensi</strong><small>Masuk · Pulang · Izin</small></button>
+                <button data-modern-action="off"><span class="modern-quick-icon"><i class="fa-solid fa-calendar-minus"></i></span><strong>Pengajuan Libur</strong><small>Off & cuti karyawan</small></button>
+                <button data-modern-action="kas"><span class="modern-quick-icon"><i class="fa-solid fa-wallet"></i></span><strong>Kas Outlet</strong><small>Catatan & saldo kas</small></button>
+                <button data-modern-view="team"><span class="modern-quick-icon"><i class="fa-solid fa-people-group"></i></span><strong>Our Team</strong><small>Profil & status tim</small></button>
+            </div>
+        </section>
+
         <!-- HERO BANNER REVISI RESPONSIF -->
-        <section
+        <section id="classic-hero"
             class="relative bg-slate-900 text-white rounded-2xl md:rounded-3xl p-4 sm:p-6 overflow-hidden border border-slate-700/50 shadow-xl">
             <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 items-center">
                 <div class="space-y-2 sm:space-y-3">
@@ -145,17 +249,10 @@
                     </iframe>
                 </div>
             </div>
-
-            <!-- Strip Fitur (khusus tampilan Modern) -->
-            <div class="hero-feature-strip relative z-10 hidden">
-                <div><i class="fa-solid fa-tower-broadcast"></i> Sinkron Real-time</div>
-                <div><i class="fa-solid fa-location-dot"></i> Absensi Ber-GPS</div>
-                <div><i class="fa-solid fa-shield-halved"></i> Data Ter-enkripsi</div>
-            </div>
         </section>
 
         <!-- GRID MENU PINTAS REVISI RESPONSIF -->
-        <section>
+        <section id="classic-quick-menu">
             <h3 class="font-heading font-bold text-lg sm:text-xl text-slate-900 mb-4 sm:mb-5 flex items-center gap-2.5">
                 <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
             </h3>
@@ -260,7 +357,7 @@
         </section>
 
         <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
+        <div id="section-off-matrix" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-3">
                 <div class="flex items-center gap-3">
                     <div
@@ -875,22 +972,6 @@
         </div>
     </div>
 
-    <!-- Quick Access Dock (khusus tampilan Modern, mobile) -->
-    <nav id="modern-quick-dock" class="modern-quick-dock" aria-label="Akses cepat">
-        <button onclick="openAbsensiModal()">
-            <i class="fa-solid fa-user-clock"></i><span>Absensi</span>
-        </button>
-        <button onclick="openKasModal()">
-            <i class="fa-solid fa-wallet"></i><span>Kas</span>
-        </button>
-        <button onclick="openOffCutiModal()">
-            <i class="fa-solid fa-calendar-minus"></i><span>Libur</span>
-        </button>
-        <a href="#section-our-team">
-            <i class="fa-solid fa-people-roof"></i><span>Tim</span>
-        </a>
-    </nav>
-
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
     <script src="js/theme-switcher.js"></script>
     <script src="js/core.js"></script>
@@ -901,6 +982,7 @@
     <script src="js/banner.js"></script>
     <script src="js/schedule.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/modern-app.js"></script>
 </body>
 
 </html>
