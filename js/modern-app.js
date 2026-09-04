@@ -175,3 +175,65 @@
         if (banner) new MutationObserver(syncBanner).observe(banner, { childList: true, subtree: true, characterData: true });
     });
 })();
+
+
+/* MOBILE_DATETIME_MIRROR */
+(function () {
+  function ensureModernMobileDateTime() {
+    if (document.documentElement.getAttribute('data-theme') !== 'modern') return;
+    if (window.innerWidth > 768) return;
+
+    var host =
+      document.querySelector('.modern-topbar-actions') ||
+      document.querySelector('.modern-topbar') ||
+      document.querySelector('.modern-header') ||
+      document.querySelector('.app-topbar');
+
+    if (!host) return;
+
+    var box = document.getElementById('modernMobileDateTime');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'modernMobileDateTime';
+      box.className = 'modern-datetime modern-mobile-datetime';
+      box.innerHTML = '<div class="modern-time"></div><div class="modern-date"></div>';
+      host.insertBefore(box, host.firstChild);
+    }
+
+    function update() {
+      var now = new Date();
+      var timeEl = box.querySelector('.modern-time');
+      var dateEl = box.querySelector('.modern-date');
+
+      if (timeEl) {
+        timeEl.textContent = now.toLocaleTimeString('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        }).replace('.', ':');
+      }
+
+      if (dateEl) {
+        dateEl.textContent = now.toLocaleDateString('id-ID', {
+          weekday: 'short',
+          day: '2-digit',
+          month: 'short'
+        });
+      }
+    }
+
+    update();
+    if (!window.__modernMobileClockTimer) {
+      window.__modernMobileClockTimer = setInterval(update, 30000);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', ensureModernMobileDateTime);
+  window.addEventListener('resize', ensureModernMobileDateTime);
+
+  var observer = new MutationObserver(ensureModernMobileDateTime);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
+})();
