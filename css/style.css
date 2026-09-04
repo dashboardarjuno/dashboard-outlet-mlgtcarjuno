@@ -246,3 +246,36 @@
                 background-color: rgba(99, 102, 241, 0.05);
             }
         }
+
+
+/* === Mobile date & time fix — Classic UI === */
+@media (max-width: 768px) {
+  html:not([data-theme="modern"]) #dateTime,
+  html:not([data-theme="modern"]) #datetime,
+  html:not([data-theme="modern"]) #currentDateTime,
+  html:not([data-theme="modern"]) .date-time,
+  html:not([data-theme="modern"]) .datetime,
+  html:not([data-theme="modern"]) .header-date,
+  html:not([data-theme="modern"]) .header-time {
+    max-width: 100% !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    line-height: 1.15 !important;
+  }
+
+  html:not([data-theme="modern"]) header,
+  html:not([data-theme="modern"]) .header,
+  html:not([data-theme="modern"]) .topbar,
+  html:not([data-theme="modern"]) .top-bar {
+    min-width: 0 !important;
+  }
+
+  html:not([data-theme="modern"]) .date-time,
+  html:not([data-theme="modern"]) .datetime,
+  html:not([data-theme="modern"]) .header-date,
+  html:not([data-theme="modern"]) .header-time {
+    font-size: 11px !important;
+  }
+}
