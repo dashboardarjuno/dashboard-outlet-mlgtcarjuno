@@ -446,3 +446,71 @@ html[data-theme="modern"] .modern-hero-icon,
 html[data-theme="modern"] .hero-icon {
     overflow: hidden;
 }
+
+
+/* === Mobile date & time — Modern UI === */
+@media (max-width: 768px) {
+  html[data-theme="modern"] #dateTime,
+  html[data-theme="modern"] #datetime,
+  html[data-theme="modern"] #currentDateTime,
+  html[data-theme="modern"] .date-time,
+  html[data-theme="modern"] .datetime,
+  html[data-theme="modern"] .header-date,
+  html[data-theme="modern"] .header-time,
+  html[data-theme="modern"] .modern-date,
+  html[data-theme="modern"] .modern-time,
+  html[data-theme="modern"] .modern-datetime {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  html[data-theme="modern"] .modern-datetime,
+  html[data-theme="modern"] .date-time,
+  html[data-theme="modern"] .datetime {
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    min-width: 72px !important;
+    max-width: 92px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+  }
+
+  html[data-theme="modern"] .modern-time,
+  html[data-theme="modern"] .header-time {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+  }
+
+  html[data-theme="modern"] .modern-date,
+  html[data-theme="modern"] .header-date {
+    font-size: 9px !important;
+    line-height: 1.15 !important;
+    opacity: .72 !important;
+    margin-top: 3px !important;
+  }
+
+  html[data-theme="modern"] .modern-topbar,
+  html[data-theme="modern"] .modern-header,
+  html[data-theme="modern"] .app-topbar {
+    overflow: visible !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  html[data-theme="modern"] .modern-mobile-datetime {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    margin-left: auto !important;
+    margin-right: 8px !important;
+    padding: 4px 6px !important;
+    border-radius: 10px !important;
+    background: rgba(255,255,255,.72) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
