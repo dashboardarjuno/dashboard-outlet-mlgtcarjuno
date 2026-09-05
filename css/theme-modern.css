@@ -514,3 +514,38 @@ html[data-theme="modern"] .hero-icon {
     -webkit-backdrop-filter: blur(10px);
   }
 }
+
+/* =========================================================
+   MOBILE MODAL FIX — prevent bottom navigation covering forms
+   ========================================================= */
+@media (max-width: 768px) {
+
+    /* Modal layer must always be above Modern bottom navigation (z-index 70) */
+    html[data-theme="modern"] [id^="modal-"] {
+        z-index: 120 !important;
+        padding-top: max(12px, env(safe-area-inset-top)) !important;
+        padding-right: 12px !important;
+        padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+        padding-left: 12px !important;
+    }
+
+    /* Long forms can scroll completely until the final action button */
+    html[data-theme="modern"] [id^="modal-"] > .overflow-y-auto,
+    html[data-theme="modern"] [id^="modal-"] > div[class*="overflow-y-auto"] {
+        max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+        overflow-y: auto !important;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+    }
+
+    /* On supported mobile browsers, hide bottom nav while any modal is open */
+    html[data-theme="modern"]:has([id^="modal-"]:not(.hidden)) .modern-bottom-nav {
+        display: none !important;
+    }
+
+    /* Keep the last form button comfortably above the phone safe area */
+    html[data-theme="modern"] [id^="modal-"] form > button[type="submit"]:last-child {
+        margin-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    }
+}
