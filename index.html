@@ -187,8 +187,9 @@
                     <h1>Selamat datang di<br><span>Mlg Tc Arjuno Operations.</span></h1>
                     <p>Satu ruang kerja untuk aktivitas outlet harian.</p>
                     <div class="modern-primary-actions">
-                        <button data-modern-action="absensi"><i class="fa-solid fa-fingerprint"></i><span>Mulai Absensi</span></button>
+                        <button data-modern-action="absensi" class="modern-action-absen"><i class="fa-solid fa-fingerprint"></i><span>Mulai Absensi</span></button>
                         <button data-modern-view="schedule"><i class="fa-solid fa-calendar-day"></i><span>Lihat Jadwal</span></button>
+                        <button data-modern-view="off-matrix"><i class="fa-solid fa-calendar-check"></i><span>Off & Cuti</span></button>
                     </div>
                 </div>
                 <div class="modern-welcome-visual" aria-hidden="true">
@@ -197,15 +198,14 @@
                 </div>
             </div>
 
-            <div class="modern-home-grid">
-                <article class="modern-info-card modern-announcement-card" data-modern-action="info" role="button" tabindex="0">
+            <div class="modern-home-grid modern-home-grid-info-only">
+                <article class="modern-info-card modern-announcement-card modern-info-full" data-modern-action="info" role="button" tabindex="0">
                     <div class="modern-card-icon"><i class="fa-solid fa-bullhorn"></i></div>
-                    <div><span>Informasi Outlet</span><strong id="modern-banner-text">Memuat informasi terbaru...</strong><small>Klik untuk detail</small></div>
-                    <i class="fa-solid fa-chevron-right modern-card-arrow"></i>
-                </article>
-                <article class="modern-info-card" data-modern-view="off-matrix" role="button" tabindex="0">
-                    <div class="modern-card-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div><span>Monitoring Tim</span><strong>Matriks Off & Cuti</strong><small>Lihat jadwal libur bulanan</small></div>
+                    <div class="modern-info-content">
+                        <span>Informasi Outlet</span>
+                        <strong id="modern-banner-text">Memuat informasi terbaru...</strong>
+                        <small>Klik untuk detail</small>
+                    </div>
                     <i class="fa-solid fa-chevron-right modern-card-arrow"></i>
                 </article>
             </div>
