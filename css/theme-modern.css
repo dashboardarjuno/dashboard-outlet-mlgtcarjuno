@@ -515,37 +515,86 @@ html[data-theme="modern"] .hero-icon {
   }
 }
 
-/* =========================================================
-   MOBILE MODAL FIX — prevent bottom navigation covering forms
-   ========================================================= */
+
+/* === HOME MATRIX + FULL INFO LAYOUT === */
+
+/* Hero quick actions: Absensi + Jadwal + Off/Cuti */
+html[data-theme="modern"] .modern-primary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+html[data-theme="modern"] .modern-primary-actions button {
+    min-width: 0;
+}
+
+/* Information Outlet now uses the full content width */
+html[data-theme="modern"] .modern-home-grid-info-only {
+    grid-template-columns: 1fr !important;
+}
+
+html[data-theme="modern"] .modern-info-full {
+    width: 100%;
+    min-height: 118px;
+}
+
+/* Let announcement text use multiple lines instead of ellipsis */
+html[data-theme="modern"] .modern-info-full .modern-info-content {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+html[data-theme="modern"] .modern-info-full #modern-banner-text {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    line-height: 1.45;
+    max-width: 100%;
+}
+
+/* Mobile: Absensi first row, Jadwal + Off/Cuti side-by-side */
 @media (max-width: 768px) {
+    html[data-theme="modern"] .modern-primary-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+        width: 100%;
+    }
 
-    /* Modal layer must always be above Modern bottom navigation (z-index 70) */
-    html[data-theme="modern"] [id^="modal-"] {
-        z-index: 120 !important;
-        padding-top: max(12px, env(safe-area-inset-top)) !important;
-        padding-right: 12px !important;
-        padding-bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    html[data-theme="modern"] .modern-primary-actions .modern-action-absen {
+        grid-column: 1 / -1;
+    }
+
+    html[data-theme="modern"] .modern-primary-actions button {
+        width: 100% !important;
+        justify-content: center;
+        min-height: 48px;
         padding-left: 12px !important;
+        padding-right: 12px !important;
     }
 
-    /* Long forms can scroll completely until the final action button */
-    html[data-theme="modern"] [id^="modal-"] > .overflow-y-auto,
-    html[data-theme="modern"] [id^="modal-"] > div[class*="overflow-y-auto"] {
-        max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
-        overflow-y: auto !important;
-        overscroll-behavior: contain;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: calc(28px + env(safe-area-inset-bottom)) !important;
+    html[data-theme="modern"] .modern-info-full {
+        min-height: 128px;
+        padding: 18px !important;
     }
 
-    /* On supported mobile browsers, hide bottom nav while any modal is open */
-    html[data-theme="modern"]:has([id^="modal-"]:not(.hidden)) .modern-bottom-nav {
-        display: none !important;
+    html[data-theme="modern"] .modern-info-full #modern-banner-text {
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+        font-size: 14px;
+        line-height: 1.45;
     }
+}
 
-    /* Keep the last form button comfortably above the phone safe area */
-    html[data-theme="modern"] [id^="modal-"] form > button[type="submit"]:last-child {
-        margin-bottom: max(10px, env(safe-area-inset-bottom)) !important;
+/* Very narrow phones */
+@media (max-width: 380px) {
+    html[data-theme="modern"] .modern-primary-actions button {
+        font-size: 11px !important;
     }
 }
