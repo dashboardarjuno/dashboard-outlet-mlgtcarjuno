@@ -598,3 +598,33 @@ html[data-theme="modern"] .modern-info-full #modern-banner-text {
         font-size: 11px !important;
     }
 }
+
+
+/* ==========================================================
+   FIX MOBILE MODAL — modal selalu di atas bottom navigation
+   ========================================================== */
+@media (max-width: 720px) {
+    html[data-theme="modern"] [id^="modal-"] {
+        z-index: 9999 !important;
+    }
+
+    html[data-theme="modern"] #modal-absensi {
+        padding:
+            max(10px, env(safe-area-inset-top, 0px))
+            10px
+            max(10px, env(safe-area-inset-bottom, 0px)) !important;
+        align-items: center !important;
+    }
+
+    html[data-theme="modern"] #modal-absensi > div {
+        max-height: calc(100dvh - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
+        overflow-y: auto !important;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    html[data-theme="modern"] .modern-bottom-nav {
+        z-index: 70 !important;
+    }
+}
