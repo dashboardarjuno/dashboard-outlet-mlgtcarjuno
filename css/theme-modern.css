@@ -628,3 +628,134 @@ html[data-theme="modern"] .modern-info-full #modern-banner-text {
         z-index: 70 !important;
     }
 }
+
+
+/* === INFO OUTLET RESPONSIVE AUTO HEIGHT FIX === */
+html[data-theme="modern"] .modern-home-grid-info-only {
+    display: block !important;
+}
+
+html[data-theme="modern"] .modern-info-full,
+html[data-theme="modern"] .modern-announcement-card {
+    width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
+    align-items: flex-start !important;
+    padding: 18px 20px !important;
+    gap: 14px !important;
+}
+
+html[data-theme="modern"] .modern-info-full .modern-card-icon,
+html[data-theme="modern"] .modern-announcement-card .modern-card-icon {
+    flex: 0 0 54px !important;
+    width: 54px !important;
+    height: 54px !important;
+    margin-top: 2px !important;
+}
+
+html[data-theme="modern"] .modern-info-full .modern-info-content,
+html[data-theme="modern"] .modern-announcement-card .modern-info-content,
+html[data-theme="modern"] .modern-announcement-card > div:nth-child(2) {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    width: auto !important;
+}
+
+html[data-theme="modern"] .modern-info-full .modern-info-content > span,
+html[data-theme="modern"] .modern-announcement-card > div:nth-child(2) > span {
+    display: block !important;
+    margin-bottom: 4px !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    letter-spacing: .08em !important;
+}
+
+html[data-theme="modern"] .modern-info-full #modern-banner-text {
+    display: -webkit-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 5 !important;
+    line-clamp: 5 !important;
+    font-size: 14px !important;
+    line-height: 1.38 !important;
+    font-weight: 700 !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+}
+
+html[data-theme="modern"] .modern-info-full .modern-info-content > small,
+html[data-theme="modern"] .modern-announcement-card > div:nth-child(2) > small {
+    display: block !important;
+    margin-top: 6px !important;
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+}
+
+html[data-theme="modern"] .modern-info-full .modern-card-arrow,
+html[data-theme="modern"] .modern-announcement-card .modern-card-arrow {
+    flex: 0 0 auto !important;
+    align-self: center !important;
+    margin-left: 4px !important;
+}
+
+@media (max-width: 720px) {
+    html[data-theme="modern"] .modern-info-full,
+    html[data-theme="modern"] .modern-announcement-card {
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 16px !important;
+        border-radius: 24px !important;
+        gap: 12px !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full .modern-card-icon,
+    html[data-theme="modern"] .modern-announcement-card .modern-card-icon {
+        flex-basis: 46px !important;
+        width: 46px !important;
+        height: 46px !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full #modern-banner-text {
+        font-size: 12.5px !important;
+        line-height: 1.38 !important;
+        -webkit-line-clamp: 6 !important;
+        line-clamp: 6 !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full .modern-info-content > span,
+    html[data-theme="modern"] .modern-announcement-card > div:nth-child(2) > span {
+        font-size: 10px !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full .modern-info-content > small,
+    html[data-theme="modern"] .modern-announcement-card > div:nth-child(2) > small {
+        font-size: 10px !important;
+        margin-top: 5px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    html[data-theme="modern"] .modern-info-full,
+    html[data-theme="modern"] .modern-announcement-card {
+        padding: 14px !important;
+        gap: 10px !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full .modern-card-icon,
+    html[data-theme="modern"] .modern-announcement-card .modern-card-icon {
+        flex-basis: 42px !important;
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full #modern-banner-text {
+        font-size: 12px !important;
+        -webkit-line-clamp: 7 !important;
+        line-clamp: 7 !important;
+    }
+}
