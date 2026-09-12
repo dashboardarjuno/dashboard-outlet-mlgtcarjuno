@@ -759,3 +759,30 @@ html[data-theme="modern"] .modern-announcement-card .modern-card-arrow {
         line-clamp: 7 !important;
     }
 }
+
+/* === SWEETALERT ABOVE ALL MODALS === */
+.swal2-container {
+    z-index: 20000 !important;
+}
+
+.swal2-popup {
+    position: relative !important;
+    z-index: 20001 !important;
+}
+
+.swal2-container.swal2-backdrop-show,
+.swal2-container.swal2-noanimation {
+    z-index: 20000 !important;
+}
+
+html[data-theme="modern"] .swal2-container {
+    padding: 16px !important;
+}
+
+@media (max-width: 720px) {
+    html[data-theme="modern"] .swal2-popup {
+        width: min(92vw, 360px) !important;
+        max-width: calc(100vw - 24px) !important;
+        border-radius: 20px !important;
+    }
+}
