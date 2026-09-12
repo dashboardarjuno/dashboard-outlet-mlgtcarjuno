@@ -130,7 +130,7 @@
             }
 
             if (!employeeList || employeeList.length === 0) {
-                alert("Data karyawan belum dimuat. Mohon tunggu sebentar atau refresh halaman.");
+                showPopup('warning', 'Data Belum Siap', 'Data karyawan belum dimuat. Mohon tunggu sebentar atau refresh halaman.');
                 return;
             }
 
@@ -146,7 +146,7 @@
             } else {
                 namaInput.value = "";
                 jabatanInput.value = "";
-                alert("NIK tidak ditemukan di database! Pastikan NIK sudah terdaftar di sheet DATA KARYAWAN.");
+                showPopup('error', 'NIK Tidak Ditemukan', 'Pastikan NIK sudah terdaftar di sheet DATA KARYAWAN.');
             }
         }
 
