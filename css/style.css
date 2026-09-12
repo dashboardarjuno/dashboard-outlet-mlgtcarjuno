@@ -376,3 +376,73 @@
     font-size: 9px !important;
   }
 }
+
+
+/* === Classic auth button keep-visible fix v2026.09.13.4 === */
+@media (max-width: 640px) {
+  html:not([data-theme="modern"]) .classic-header-inner {
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) auto !important;
+    align-items:center !important;
+    column-gap:8px !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right {
+    width:auto !important;
+    max-width:100% !important;
+    flex:none !important;
+    display:grid !important;
+    grid-template-columns:auto 36px !important;
+    grid-template-areas:
+      "theme logout"
+      "datetime datetime" !important;
+    align-items:center !important;
+    justify-items:end !important;
+    gap:4px 6px !important;
+    overflow:visible !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .theme-switcher {
+    grid-area:theme !important;
+    min-width:0 !important;
+    max-width:100% !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .classic-auth-logout {
+    grid-area:logout !important;
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    width:36px !important;
+    min-width:36px !important;
+    height:36px !important;
+    padding:0 !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-date-time {
+    grid-area:datetime !important;
+    width:100% !important;
+    margin:0 !important;
+    align-items:flex-end !important;
+    text-align:right !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .theme-switcher button {
+    padding-left:.4rem !important;
+    padding-right:.4rem !important;
+    font-size:10px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  html:not([data-theme="modern"]) .classic-header-right .theme-switcher .label-text {
+    display:none !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .theme-switcher button {
+    width:32px !important;
+    height:32px !important;
+    justify-content:center !important;
+    padding:0 !important;
+  }
+}
