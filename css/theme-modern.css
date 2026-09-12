@@ -786,3 +786,13 @@ html[data-theme="modern"] .swal2-container {
         border-radius: 20px !important;
     }
 }
+
+
+/* === GLOBAL NOTIFICATION LAYER — CLASSIC + MODERN === */
+.swal2-container {
+    z-index: 30000 !important;
+}
+.swal2-popup {
+    position: relative !important;
+    z-index: 30001 !important;
+}
