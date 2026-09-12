@@ -54,7 +54,7 @@
 
     <!-- HEADER & NAVBAR REVISI RESPONSIF -->
     <header class="bg-white text-brand-navy sticky top-0 z-40 shadow-soft-xl border-b border-slate-100">
-        <div class="w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
+        <div class="classic-header-inner w-full max-w-full mx-auto px-3 sm:px-5 h-16 flex items-center justify-between">
             <!-- Kiri: Logo dan Judul -->
             <div class="flex items-center gap-2.5 sm:gap-3.5">
                 <div
@@ -81,7 +81,7 @@
             </div>
 
             <!-- Kanan: Switch Tema & Jam -->
-            <div class="flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
+            <div class="classic-header-right flex items-center text-xs sm:text-sm gap-2 sm:gap-3 text-right">
                 <!-- Tombol Ganti Tampilan (Klasik / Modern) -->
                 <div class="theme-switcher shrink-0" role="group" aria-label="Ganti tampilan">
                     <button type="button" id="btn-theme-klasik" class="active">
@@ -92,7 +92,7 @@
                     </button>
                 </div>
                 <button type="button" data-auth-logout class="auth-user-btn shrink-0" aria-label="Keluar dari akun" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i></button>
-                <div class="flex flex-col">
+                <div class="classic-date-time flex flex-col">
                     <span id="current-date"
                         class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
                     <span id="current-time"
