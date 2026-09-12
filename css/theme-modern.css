@@ -796,3 +796,157 @@ html[data-theme="modern"] .swal2-container {
     position: relative !important;
     z-index: 30001 !important;
 }
+
+
+/* === Modern logout + Information Outlet layout fix v2026.09.13.4 === */
+
+/* Logout harus selalu tampak di topbar */
+html[data-theme="modern"] .modern-topbar-actions{
+    min-width:0 !important;
+    flex-shrink:0 !important;
+}
+html[data-theme="modern"] .modern-auth-logout{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:6px !important;
+    width:auto !important;
+    min-width:40px !important;
+    padding:0 11px !important;
+    color:#dc2626 !important;
+    border-color:#fecaca !important;
+    background:#fff !important;
+    position:relative !important;
+    z-index:6 !important;
+}
+html[data-theme="modern"] .modern-auth-logout:hover{
+    color:#b91c1c !important;
+    background:#fef2f2 !important;
+    border-color:#fca5a5 !important;
+}
+html[data-theme="modern"] .modern-auth-logout .auth-logout-label{
+    display:inline-block !important;
+    font:800 10px/1 'Plus Jakarta Sans',sans-serif !important;
+}
+
+/* Informasi outlet: satu alur normal, tinggi mengikuti isi */
+html[data-theme="modern"] .modern-home-grid-info-only{
+    display:block !important;
+    width:100% !important;
+}
+html[data-theme="modern"] .modern-info-full{
+    display:grid !important;
+    grid-template-columns:54px minmax(0,1fr) 18px !important;
+    grid-template-rows:auto !important;
+    align-items:start !important;
+    width:100% !important;
+    min-height:0 !important;
+    height:auto !important;
+    overflow:visible !important;
+}
+html[data-theme="modern"] .modern-info-full .modern-info-content{
+    display:block !important;
+    min-width:0 !important;
+    width:100% !important;
+    overflow:visible !important;
+}
+html[data-theme="modern"] .modern-info-full #modern-banner-text{
+    display:block !important;
+    width:100% !important;
+    max-width:none !important;
+    height:auto !important;
+    max-height:none !important;
+    margin:5px 0 0 !important;
+    white-space:normal !important;
+    overflow:visible !important;
+    text-overflow:clip !important;
+    -webkit-box-orient:initial !important;
+    -webkit-line-clamp:unset !important;
+    line-clamp:unset !important;
+    overflow-wrap:break-word !important;
+    word-break:normal !important;
+}
+html[data-theme="modern"] .modern-info-full .modern-info-content > small{
+    display:block !important;
+    position:static !important;
+    margin:8px 0 0 !important;
+    clear:both !important;
+}
+html[data-theme="modern"] .modern-info-full .modern-card-arrow{
+    align-self:center !important;
+}
+
+/* HP */
+@media (max-width:720px){
+    html[data-theme="modern"] .modern-topbar{
+        padding-left:14px !important;
+        padding-right:14px !important;
+    }
+
+    html[data-theme="modern"] .modern-topbar-actions{
+        gap:7px !important;
+    }
+
+    html[data-theme="modern"] .modern-auth-logout{
+        width:36px !important;
+        min-width:36px !important;
+        height:36px !important;
+        padding:0 !important;
+        border-radius:12px !important;
+    }
+
+    html[data-theme="modern"] .modern-auth-logout .auth-logout-label{
+        display:none !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full{
+        grid-template-columns:46px minmax(0,1fr) 16px !important;
+        gap:12px !important;
+        padding:17px 16px !important;
+        border-radius:24px !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full #modern-banner-text{
+        font-size:13px !important;
+        line-height:1.5 !important;
+        font-weight:700 !important;
+    }
+
+    html[data-theme="modern"] .modern-info-full .modern-info-content > small{
+        font-size:9.5px !important;
+        line-height:1.3 !important;
+        margin-top:7px !important;
+    }
+}
+
+/* HP sempit: prioritaskan Info + Logout + Profil, jam tetap tidak memakan ruang */
+@media (max-width:430px){
+    html[data-theme="modern"] .modern-topbar-actions{
+        gap:6px !important;
+    }
+
+    html[data-theme="modern"] .modern-clock{
+        display:none !important;
+    }
+
+    html[data-theme="modern"] .modern-icon-btn,
+    html[data-theme="modern"] .modern-profile{
+        flex:0 0 36px !important;
+    }
+}
+
+@media (max-width:360px){
+    html[data-theme="modern"] .modern-topbar-copy span{
+        font-size:7px !important;
+    }
+    html[data-theme="modern"] .modern-topbar-copy h2{
+        font-size:16px !important;
+    }
+    html[data-theme="modern"] .modern-info-full{
+        grid-template-columns:42px minmax(0,1fr) 14px !important;
+        gap:9px !important;
+        padding:15px 13px !important;
+    }
+}
