@@ -70,7 +70,7 @@
                 customClass: { popup: 'modern-swal' }
             });
         } else {
-            alert('SOP/SOC belum tersedia pada source code saat ini.');
+            if (typeof window.showPopup === 'function') window.showPopup('info', 'SOP / SOC', 'SOP/SOC belum tersedia pada source code saat ini.');
         }
     }
 
