@@ -279,3 +279,100 @@
     font-size: 11px !important;
   }
 }
+
+
+/* === Classic mobile header fix v2026.09.13.3 ===
+   Memberi ruang khusus tanggal/jam setelah tombol logout ditambahkan. */
+@media (max-width: 640px) {
+  html:not([data-theme="modern"]) .classic-header-inner {
+    height: auto !important;
+    min-height: 4.75rem !important;
+    padding-top: .45rem !important;
+    padding-bottom: .45rem !important;
+    align-items: center !important;
+    gap: .35rem !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-inner > div:first-child {
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right {
+    width: 54% !important;
+    min-width: 0 !important;
+    flex: 0 1 54% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    align-content: center !important;
+    column-gap: .35rem !important;
+    row-gap: .15rem !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .theme-switcher {
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .theme-switcher button {
+    padding-left: .45rem !important;
+    padding-right: .45rem !important;
+    gap: .25rem !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .auth-user-btn {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-date-time {
+    order: 3 !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-top: .05rem !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+  }
+
+  html:not([data-theme="modern"]) #current-date {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  html:not([data-theme="modern"]) #current-time {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  html:not([data-theme="modern"]) .classic-header-right {
+    width: 56% !important;
+    flex-basis: 56% !important;
+  }
+
+  html:not([data-theme="modern"]) .classic-header-right .theme-switcher button {
+    padding-left: .35rem !important;
+    padding-right: .35rem !important;
+    font-size: 11px !important;
+  }
+
+  html:not([data-theme="modern"]) #current-date {
+    font-size: 9px !important;
+  }
+}
