@@ -989,14 +989,13 @@
         </div>
     </div>
 
-    <!-- Firebase Authentication -->
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-    <script src="js/auth.js"></script>
-
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
     <script src="js/theme-switcher.js"></script>
     <script src="js/core.js"></script>
+    <!-- Firebase Authentication: dimuat setelah core agar endpoint/config siap -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="js/auth.js?v=2026.09.14.4"></script>
     <script src="js/team.js"></script>
     <script src="js/absensi.js"></script>
     <script src="js/off-cuti.js"></script>
