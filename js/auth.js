@@ -62,108 +62,38 @@
 
     const AUTH_API_TIMEOUT_MS = 12000;
 
-    function createRequestId() {
-        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
-            return window.crypto.randomUUID();
-        }
-        return 'auth-' + Date.now() + '-' + Math.random().toString(36).slice(2);
-    }
-
-    function isTrustedGoogleScriptOrigin(origin) {
-        try {
-            const host = new URL(origin).hostname;
-            return host === 'script.google.com' || host === 'script.googleusercontent.com' || host.endsWith('.googleusercontent.com');
-        } catch (e) {
-            return false;
-        }
-    }
-
-    function waitForBridgeResponse(requestId, cleanup) {
+    function authJsonp(action, params) {
         return new Promise((resolve, reject) => {
+            const callbackName = '__arjuno_auth_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+            const script = document.createElement('script');
             let settled = false;
-
-            const finish = (fn, value) => {
+            const cleanup = () => {
                 if (settled) return;
                 settled = true;
-                clearTimeout(timeoutId);
-                window.removeEventListener('message', onMessage);
-                try { cleanup(); } catch (e) {}
-                fn(value);
+                clearTimeout(timer);
+                try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+                script.remove();
             };
-
-            const onMessage = event => {
-                if (!isTrustedGoogleScriptOrigin(event.origin)) return;
-                const msg = event.data;
-                if (!msg || msg.channel !== 'arjunohub-auth' || msg.requestId !== requestId) return;
-                finish(resolve, msg.data);
-            };
-
-            const timeoutId = setTimeout(() => {
-                finish(reject, new Error('Pemeriksaan data melewati 12 detik. Silakan coba lagi.'));
-            }, AUTH_API_TIMEOUT_MS);
-
-            window.addEventListener('message', onMessage);
+            window[callbackName] = data => { cleanup(); resolve(data); };
+            const timer = setTimeout(() => { cleanup(); reject(new Error('Pemeriksaan data melewati 12 detik. Silakan coba lagi.')); }, AUTH_API_TIMEOUT_MS);
+            const url = new URL(apiUrl());
+            url.searchParams.set('action', action);
+            url.searchParams.set('callback', callbackName);
+            url.searchParams.set('_ts', Date.now());
+            Object.entries(params || {}).forEach(([key,value]) => url.searchParams.set(key, value == null ? '' : String(value)));
+            script.onerror = () => { cleanup(); reject(new Error('Gagal memuat API Google Apps Script.')); };
+            script.src = url.toString();
+            document.head.appendChild(script);
         });
     }
 
-    async function getAuthAction(action, params) {
-        const requestId = createRequestId();
-        const iframe = document.createElement('iframe');
-        iframe.hidden = true;
-        iframe.setAttribute('aria-hidden', 'true');
-        iframe.style.display = 'none';
-
-        const url = new URL(apiUrl());
-        url.searchParams.set('action', action);
-        url.searchParams.set('bridge', '1');
-        url.searchParams.set('requestId', requestId);
-        Object.entries(params || {}).forEach(([key, value]) => {
-            url.searchParams.set(key, value == null ? '' : String(value));
-        });
-        url.searchParams.set('_ts', Date.now().toString());
-
-        document.body.appendChild(iframe);
-        const responsePromise = waitForBridgeResponse(requestId, () => iframe.remove());
-        iframe.src = url.toString();
-        return responsePromise;
-    }
-
-    async function postAuthAction(payload) {
-        const requestId = createRequestId();
-        const iframe = document.createElement('iframe');
-        const frameName = 'arjunohub-auth-' + requestId.replace(/[^a-zA-Z0-9_-]/g, '');
-        iframe.name = frameName;
-        iframe.hidden = true;
-        iframe.setAttribute('aria-hidden', 'true');
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = apiUrl();
-        form.target = frameName;
-        form.style.display = 'none';
-
-        const fields = Object.assign({}, payload || {}, {
-            bridge: '1',
-            requestId: requestId
-        });
-
-        Object.entries(fields).forEach(([key, value]) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = value == null ? '' : String(value);
-            form.appendChild(input);
-        });
-
-        document.body.appendChild(form);
-        const responsePromise = waitForBridgeResponse(requestId, () => {
-            form.remove();
-            iframe.remove();
-        });
-        form.submit();
-        return responsePromise;
+    function getAuthAction(action, params) { return authJsonp(action, params); }
+    function postAuthAction(payload) {
+        const data = Object.assign({}, payload || {});
+        const action = data.action;
+        delete data.action;
+        // bindUser kecil dipanggil via JSONP/GET agar respons tidak diblokir CORS.
+        return authJsonp(action, data);
     }
 
     function finishApp(user, employee) {
