@@ -1,5 +1,5 @@
 {
-  "version": "2026.09.14.5",
-  "updatedAt": "2026-09-14T04:20:00+07:00",
-  "notes": "Auth Google↔NIK memakai iframe bridge Apps Script untuk menghindari request fetch lintas-domain yang macet di GitHub Pages."
+  "version": "2026.09.14.7",
+  "updatedAt": "2026-09-14T04:50:00+07:00",
+  "notes": "Auth check/binding dan request GET Apps Script memakai JSONP untuk menghindari CORS di GitHub Pages."
 }
