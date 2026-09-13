@@ -122,8 +122,7 @@ document.addEventListener('fullscreenchange', () => {
 
             let url = GAS_WEB_APP_URL + `?action=getScheduleByFilter&date=${tanggal}&outlet=${encodeURIComponent(outlet)}`;
 
-            fetch(url)
-                .then(res => res.json())
+            gasJsonp('getScheduleByFilter', { date: tanggal, outlet: outlet })
                 .then(res => {
                     const result = res.data || res;
 
@@ -223,8 +222,7 @@ function playMotivationVideo(selectedVideo) {
 
 async function loadRandomMotivationVideo() {
     try {
-        const res = await fetch(`${GAS_WEB_APP_URL}?action=getMotivationVideos`);
-        const result = await res.json();
+        const result = await gasJsonp('getMotivationVideos');
 
         if (result.status === "success" && result.data && result.data.length > 0) {
             const randomIndex = Math.floor(Math.random() * result.data.length);
