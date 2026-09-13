@@ -1,5 +1,5 @@
 {
-  "version": "2026.09.14.3",
+  "version": "2026.09.14.4",
   "updatedAt": "2026-09-14T03:40:00+07:00",
   "notes": "Auth checkUser memakai GET untuk menghindari loading lama pada redirect POST Apps Script."
 }
