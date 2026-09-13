@@ -10,6 +10,8 @@
         appId: "1:150477067410:web:3696539c27bffc4258024b"
     };
 
+    const AUTH_GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwhkpiZMyC3UaM2TCYGK_JQFmcLhCYt_CBa5ncOC5dvXBuan26b5R5v7CHScG9tEVIu/exec";
+
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error);
@@ -39,8 +41,23 @@
     }
 
     function apiUrl() {
-        if (typeof GAS_WEB_APP_URL !== 'undefined' && GAS_WEB_APP_URL) return GAS_WEB_APP_URL;
-        throw new Error('Endpoint Apps Script belum tersedia.');
+        return AUTH_GAS_WEB_APP_URL;
+    }
+
+    function showGateError(message) {
+        if (gate) gate.classList.remove('auth-hidden');
+        if (loginContent) loginContent.hidden = true;
+        if (gateState) {
+            gateState.hidden = false;
+            gateState.innerHTML =
+                '<div class="auth-gate-error" style="text-align:center;line-height:1.45">' +
+                '<div style="font-weight:700;color:#b91c1c;margin-bottom:6px">Verifikasi gagal</div>' +
+                '<div style="font-size:12px;color:#64748b;margin-bottom:10px">' + escapeHtml(message || 'Tidak dapat memeriksa data karyawan.') + '</div>' +
+                '<button type="button" id="auth-retry-check" style="border:0;border-radius:10px;padding:9px 14px;font-weight:700;cursor:pointer;background:#111827;color:white">Coba Lagi</button>' +
+                '</div>';
+            const retry = document.getElementById('auth-retry-check');
+            if (retry) retry.onclick = function () { if (auth.currentUser) verifyEmployee(auth.currentUser); };
+        }
     }
 
     const AUTH_API_TIMEOUT_MS = 10000;
@@ -202,16 +219,7 @@
             throw new Error((data && data.message) || 'Respons verifikasi akun tidak dikenali.');
         } catch (err) {
             console.error('Employee verification:', err);
-            if (window.Swal) {
-                const choice = await Swal.fire({
-                    icon: 'error', title: 'Verifikasi Gagal',
-                    text: err.message || 'Tidak dapat memeriksa data karyawan.',
-                    showCancelButton: true, confirmButtonText: 'Coba Lagi', cancelButtonText: 'Keluar',
-                    allowOutsideClick: false
-                });
-                if (choice.isConfirmed && auth.currentUser) return verifyEmployee(auth.currentUser);
-            }
-            await auth.signOut();
+            showGateError(err && err.message ? err.message : 'Tidak dapat memeriksa data karyawan.');
         }
     }
 
