@@ -60,78 +60,110 @@
         }
     }
 
-    const AUTH_API_TIMEOUT_MS = 10000;
+    const AUTH_API_TIMEOUT_MS = 12000;
 
-    async function postAuthAction(payload) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), AUTH_API_TIMEOUT_MS);
+    function createRequestId() {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            return window.crypto.randomUUID();
+        }
+        return 'auth-' + Date.now() + '-' + Math.random().toString(36).slice(2);
+    }
 
+    function isTrustedGoogleScriptOrigin(origin) {
         try {
-            const response = await fetch(apiUrl(), {
-                method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(payload),
-                signal: controller.signal,
-                cache: 'no-store'
-            });
-
-            if (!response.ok) {
-                throw new Error('Server tidak dapat dihubungi (' + response.status + ').');
-            }
-
-            const text = await response.text();
-            try {
-                return JSON.parse(text);
-            } catch (parseErr) {
-                throw new Error('Respons server bukan JSON yang valid. Pastikan deployment Apps Script sudah versi terbaru.');
-            }
-        } catch (err) {
-            if (err && err.name === 'AbortError') {
-                throw new Error('Pemeriksaan data melewati 10 detik. Cek deployment Apps Script lalu coba lagi.');
-            }
-            throw err;
-        } finally {
-            clearTimeout(timeoutId);
+            const host = new URL(origin).hostname;
+            return host === 'script.google.com' || host === 'script.googleusercontent.com' || host.endsWith('.googleusercontent.com');
+        } catch (e) {
+            return false;
         }
     }
 
+    function waitForBridgeResponse(requestId, cleanup) {
+        return new Promise((resolve, reject) => {
+            let settled = false;
+
+            const finish = (fn, value) => {
+                if (settled) return;
+                settled = true;
+                clearTimeout(timeoutId);
+                window.removeEventListener('message', onMessage);
+                try { cleanup(); } catch (e) {}
+                fn(value);
+            };
+
+            const onMessage = event => {
+                if (!isTrustedGoogleScriptOrigin(event.origin)) return;
+                const msg = event.data;
+                if (!msg || msg.channel !== 'arjunohub-auth' || msg.requestId !== requestId) return;
+                finish(resolve, msg.data);
+            };
+
+            const timeoutId = setTimeout(() => {
+                finish(reject, new Error('Pemeriksaan data melewati 12 detik. Silakan coba lagi.'));
+            }, AUTH_API_TIMEOUT_MS);
+
+            window.addEventListener('message', onMessage);
+        });
+    }
+
     async function getAuthAction(action, params) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), AUTH_API_TIMEOUT_MS);
+        const requestId = createRequestId();
+        const iframe = document.createElement('iframe');
+        iframe.hidden = true;
+        iframe.setAttribute('aria-hidden', 'true');
+        iframe.style.display = 'none';
 
-        try {
-            const url = new URL(apiUrl());
-            url.searchParams.set('action', action);
-            Object.entries(params || {}).forEach(([key, value]) => {
-                url.searchParams.set(key, value == null ? '' : String(value));
-            });
-            url.searchParams.set('_ts', Date.now().toString());
+        const url = new URL(apiUrl());
+        url.searchParams.set('action', action);
+        url.searchParams.set('bridge', '1');
+        url.searchParams.set('requestId', requestId);
+        Object.entries(params || {}).forEach(([key, value]) => {
+            url.searchParams.set(key, value == null ? '' : String(value));
+        });
+        url.searchParams.set('_ts', Date.now().toString());
 
-            const response = await fetch(url.toString(), {
-                method: 'GET',
-                signal: controller.signal,
-                cache: 'no-store',
-                redirect: 'follow'
-            });
+        document.body.appendChild(iframe);
+        const responsePromise = waitForBridgeResponse(requestId, () => iframe.remove());
+        iframe.src = url.toString();
+        return responsePromise;
+    }
 
-            if (!response.ok) {
-                throw new Error('Server tidak dapat dihubungi (' + response.status + ').');
-            }
+    async function postAuthAction(payload) {
+        const requestId = createRequestId();
+        const iframe = document.createElement('iframe');
+        const frameName = 'arjunohub-auth-' + requestId.replace(/[^a-zA-Z0-9_-]/g, '');
+        iframe.name = frameName;
+        iframe.hidden = true;
+        iframe.setAttribute('aria-hidden', 'true');
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
 
-            const text = await response.text();
-            try {
-                return JSON.parse(text);
-            } catch (parseErr) {
-                throw new Error('Respons server bukan JSON yang valid. Pastikan deployment Apps Script sudah versi terbaru.');
-            }
-        } catch (err) {
-            if (err && err.name === 'AbortError') {
-                throw new Error('Pemeriksaan data melewati 10 detik. Cek deployment Apps Script lalu coba lagi.');
-            }
-            throw err;
-        } finally {
-            clearTimeout(timeoutId);
-        }
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = apiUrl();
+        form.target = frameName;
+        form.style.display = 'none';
+
+        const fields = Object.assign({}, payload || {}, {
+            bridge: '1',
+            requestId: requestId
+        });
+
+        Object.entries(fields).forEach(([key, value]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = value == null ? '' : String(value);
+            form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        const responsePromise = waitForBridgeResponse(requestId, () => {
+            form.remove();
+            iframe.remove();
+        });
+        form.submit();
+        return responsePromise;
     }
 
     function finishApp(user, employee) {
