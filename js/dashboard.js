@@ -13,8 +13,7 @@ const nationalHolidayCache = {};
             // --- LAPIS 1: Ambil dari Rekap GSheet (Sheet "Hari_Libur") ---
             try {
                 const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
-                const responseGsheet = await fetch(baseUrl + `?action=getHolidays&year=${year}`);
-                const resultGsheet = await responseGsheet.json();
+                const resultGsheet = await gasJsonp('getHolidays', { year });
 
                 if (resultGsheet && Array.isArray(resultGsheet.data)) {
                     resultGsheet.data.forEach(item => {
@@ -129,8 +128,7 @@ const nationalHolidayCache = {};
                 }
 
                 const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
-                const response = await fetch(baseUrl + `?action=getMonthlyRekap&year=${year}&month=${month}`);
-                const res = await response.json();
+                const res = await gasJsonp('getMonthlyRekap', { year, month });
 
                 let rawList = [];
                 if (Array.isArray(res)) rawList = res;
@@ -281,8 +279,7 @@ const nationalHolidayCache = {};
             const selectNamaOff = document.getElementById("select-nama-off");
 
             try {
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getInitialData");
-                const res = await response.json();
+                const res = await gasJsonp('getInitialData');
 
                 if (res.success && res.employees && res.employees.length > 0) {
                     employeeList = res.employees;
@@ -319,8 +316,7 @@ const nationalHolidayCache = {};
 
         async function loadDisabledDates() {
             try {
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getDisabledDates");
-                const res = await response.json();
+                const res = await gasJsonp('getDisabledDates');
                 if (res.success && res.disabledDates) {
                     disabledDates = res.disabledDates;
                 }
