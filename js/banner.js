@@ -6,8 +6,7 @@ let currentActiveInfo = {title: "", content: ""};
 
         async function fetchBannerInfo() {
             try {
-                const res = await fetch(`${GAS_WEB_APP_URL}?action=getBannerInfo`);
-                const data = await res.json();
+                const data = await gasJsonp('getBannerInfo');
 
                 const marqueeEl = document.getElementById('bannerMarquee');
                 if (data.status === "success" && marqueeEl) {
