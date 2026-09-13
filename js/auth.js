@@ -43,14 +43,39 @@
         throw new Error('Endpoint Apps Script belum tersedia.');
     }
 
+    const AUTH_API_TIMEOUT_MS = 10000;
+
     async function postAuthAction(payload) {
-        const response = await fetch(apiUrl(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error('Server tidak dapat dihubungi (' + response.status + ').');
-        return response.json();
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), AUTH_API_TIMEOUT_MS);
+
+        try {
+            const response = await fetch(apiUrl(), {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload),
+                signal: controller.signal,
+                cache: 'no-store'
+            });
+
+            if (!response.ok) {
+                throw new Error('Server tidak dapat dihubungi (' + response.status + ').');
+            }
+
+            const text = await response.text();
+            try {
+                return JSON.parse(text);
+            } catch (parseErr) {
+                throw new Error('Respons server bukan JSON yang valid. Pastikan deployment Apps Script sudah versi terbaru.');
+            }
+        } catch (err) {
+            if (err && err.name === 'AbortError') {
+                throw new Error('Pemeriksaan data melewati 10 detik. Cek deployment Apps Script lalu coba lagi.');
+            }
+            throw err;
+        } finally {
+            clearTimeout(timeoutId);
+        }
     }
 
     function finishApp(user, employee) {
