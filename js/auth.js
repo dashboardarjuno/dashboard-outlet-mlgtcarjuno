@@ -78,6 +78,45 @@
         }
     }
 
+    async function getAuthAction(action, params) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), AUTH_API_TIMEOUT_MS);
+
+        try {
+            const url = new URL(apiUrl());
+            url.searchParams.set('action', action);
+            Object.entries(params || {}).forEach(([key, value]) => {
+                url.searchParams.set(key, value == null ? '' : String(value));
+            });
+            url.searchParams.set('_ts', Date.now().toString());
+
+            const response = await fetch(url.toString(), {
+                method: 'GET',
+                signal: controller.signal,
+                cache: 'no-store',
+                redirect: 'follow'
+            });
+
+            if (!response.ok) {
+                throw new Error('Server tidak dapat dihubungi (' + response.status + ').');
+            }
+
+            const text = await response.text();
+            try {
+                return JSON.parse(text);
+            } catch (parseErr) {
+                throw new Error('Respons server bukan JSON yang valid. Pastikan deployment Apps Script sudah versi terbaru.');
+            }
+        } catch (err) {
+            if (err && err.name === 'AbortError') {
+                throw new Error('Pemeriksaan data melewati 10 detik. Cek deployment Apps Script lalu coba lagi.');
+            }
+            throw err;
+        } finally {
+            clearTimeout(timeoutId);
+        }
+    }
+
     function finishApp(user, employee) {
         if (gate) gate.classList.add('auth-hidden');
         document.documentElement.classList.add('auth-ready');
@@ -151,7 +190,7 @@
     async function verifyEmployee(user) {
         setLoading('Memeriksa data karyawan...');
         try {
-            const data = await postAuthAction({ action: 'checkUser', email: user.email || '' });
+            const data = await getAuthAction('checkUser', { email: user.email || '' });
             if (data && data.success && (data.bound === true || data.code === 'BOUND')) {
                 finishApp(user, data.employee || data.user || data.data || null);
                 return;
