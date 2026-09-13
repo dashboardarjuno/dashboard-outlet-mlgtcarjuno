@@ -16,8 +16,7 @@
             tbody.innerHTML = '<tr><td colspan="3" class="text-center p-3 text-slate-400"><i class="fa-solid fa-spinner animate-spin"></i> Memuat data...</td></tr>';
 
             try {
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getKasData");
-                const res = await response.json();
+                const res = await gasJsonp('getKasData');
 
                 if (res.success) {
                     document.getElementById('display-saldo-kas').textContent = formatRupiah(res.saldo || 0);
