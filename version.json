@@ -1,5 +1,5 @@
 {
-  "version": "2026.09.14.4",
-  "updatedAt": "2026-09-14T03:40:00+07:00",
-  "notes": "Auth checkUser memakai GET untuk menghindari loading lama pada redirect POST Apps Script."
+  "version": "2026.09.14.5",
+  "updatedAt": "2026-09-14T04:20:00+07:00",
+  "notes": "Auth Google↔NIK memakai iframe bridge Apps Script untuk menghindari request fetch lintas-domain yang macet di GitHub Pages."
 }
