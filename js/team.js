@@ -534,8 +534,7 @@
 
         async function loadTeamPhotos() {
             try {
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getTeamPhotos");
-                const result = await response.json();
+                const result = await gasJsonp('getTeamPhotos');
                 if (result && result.success && result.photos) {
                     customPhotoStore = {};
                     Object.keys(result.photos).forEach(function (nik) {
