@@ -13,7 +13,8 @@ const nationalHolidayCache = {};
             // --- LAPIS 1: Ambil dari Rekap GSheet (Sheet "Hari_Libur") ---
             try {
                 const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
-                const resultGsheet = await gasJsonp('getHolidays', { year });
+                const responseGsheet = await fetch(baseUrl + `?action=getHolidays&year=${year}`);
+                const resultGsheet = await responseGsheet.json();
 
                 if (resultGsheet && Array.isArray(resultGsheet.data)) {
                     resultGsheet.data.forEach(item => {
@@ -128,7 +129,8 @@ const nationalHolidayCache = {};
                 }
 
                 const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
-                const res = await gasJsonp('getMonthlyRekap', { year, month });
+                const response = await fetch(baseUrl + `?action=getMonthlyRekap&year=${year}&month=${month}`);
+                const res = await response.json();
 
                 let rawList = [];
                 if (Array.isArray(res)) rawList = res;
@@ -274,49 +276,141 @@ const nationalHolidayCache = {};
             }
         }
 
-        async function loadInitialData() {
+        const EMPLOYEE_CACHE_KEY = 'arjunohub_employee_cache_v1';
+        const EMPLOYEE_CACHE_MAX_AGE = 6 * 60 * 60 * 1000; // 6 jam
+        let employeeLoadPromise = null;
+
+        function applyEmployeeData_(employees) {
+            if (!Array.isArray(employees) || employees.length === 0) return false;
+
+            employeeList = employees;
             const selectNama = document.getElementById("select-nama");
             const selectNamaOff = document.getElementById("select-nama-off");
+            let optionsAbsen = '<option value="">-- Pilih Nama Karyawan --</option>';
+            let optionsOff = '<option value="">-- Pilih Nama Karyawan --</option>';
 
+            employeeList.forEach(emp => {
+                const namaClean = emp.nama ? emp.nama.toString().trim() : '';
+                const nikClean = emp.nik ? emp.nik.toString().trim() : '';
+                const jabatanClean = emp.jabatan ? emp.jabatan.toString().trim() : 'STAFF';
+                if (!namaClean) return;
+                optionsAbsen += `<option value="${escapeHtml(namaClean)}" data-nik="${escapeHtml(nikClean)}" data-jabatan="${escapeHtml(jabatanClean)}">${escapeHtml(namaClean)} (${escapeHtml(nikClean)})</option>`;
+                optionsOff += `<option value="${escapeHtml(namaClean)}">${escapeHtml(namaClean)}</option>`;
+            });
+
+            if (selectNama) selectNama.innerHTML = optionsAbsen;
+            if (selectNamaOff) selectNamaOff.innerHTML = optionsOff;
+            if (typeof renderOurTeamSection === 'function') renderOurTeamSection();
+            return true;
+        }
+
+        function readEmployeeCache_() {
             try {
-                const res = await gasJsonp('getInitialData');
-
-                if (res.success && res.employees && res.employees.length > 0) {
-                    employeeList = res.employees;
-
-                    let optionsAbsen = '<option value="">-- Pilih Nama Karyawan --</option>';
-                    let optionsOff = '<option value="">-- Pilih Nama Karyawan --</option>';
-
-                    employeeList.forEach(emp => {
-                        const namaClean = emp.nama ? emp.nama.toString().trim() : '';
-                        const nikClean = emp.nik ? emp.nik.toString().trim() : '';
-                        const jabatanClean = emp.jabatan ? emp.jabatan.toString().trim() : 'STAFF';
-
-                        if (namaClean) {
-                            optionsAbsen += `<option value="${namaClean}" data-nik="${nikClean}" data-jabatan="${jabatanClean}">${namaClean} (${nikClean})</option>`;
-                            optionsOff += `<option value="${namaClean}">${namaClean}</option>`;
-                        }
-                    });
-
-                    if (selectNama) selectNama.innerHTML = optionsAbsen;
-                    if (selectNamaOff) selectNamaOff.innerHTML = optionsOff;
-
-                    // Render awal. Status akan disinkronkan lagi setelah Matriks selesai dimuat.
-                    renderOurTeamSection();
-                } else {
-                    if (selectNama) selectNama.innerHTML = '<option value="">⚠️ Data Karyawan Kosong!</option>';
-                    if (selectNamaOff) selectNamaOff.innerHTML = '<option value="">⚠️ Data Karyawan Kosong!</option>';
-                    renderOurTeamSection();
-                }
-            } catch (err) {
-                console.error("Gagal memuat data dari Apps Script:", err);
-                renderOurTeamSection();
+                const raw = localStorage.getItem(EMPLOYEE_CACHE_KEY);
+                if (!raw) return null;
+                const cache = JSON.parse(raw);
+                if (!cache || !Array.isArray(cache.employees) || !cache.savedAt) return null;
+                if (Date.now() - cache.savedAt > EMPLOYEE_CACHE_MAX_AGE) return null;
+                return cache.employees;
+            } catch (_) {
+                return null;
             }
+        }
+
+        function saveEmployeeCache_(employees) {
+            try {
+                localStorage.setItem(EMPLOYEE_CACHE_KEY, JSON.stringify({
+                    savedAt: Date.now(),
+                    employees: employees
+                }));
+            } catch (_) {}
+        }
+
+        function getInitialDataJsonp_() {
+            return new Promise((resolve, reject) => {
+                const callbackName = '__arjuno_employee_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+                const script = document.createElement('script');
+                let settled = false;
+                const cleanup = () => {
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                    try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+                };
+                const timer = setTimeout(() => {
+                    if (settled) return;
+                    settled = true;
+                    cleanup();
+                    reject(new Error('Data karyawan melewati batas waktu.'));
+                }, 12000);
+
+                window[callbackName] = (payload) => {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    resolve(payload);
+                };
+
+                script.onerror = () => {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    reject(new Error('Gagal memuat data karyawan dari Apps Script.'));
+                };
+
+                script.src = GAS_WEB_APP_URL + '?action=getInitialData&callback=' + encodeURIComponent(callbackName) + '&_ts=' + Date.now();
+                script.async = true;
+                document.head.appendChild(script);
+            });
+        }
+
+        async function loadInitialData(forceRefresh = false) {
+            // Tampilkan cache lebih dulu agar form Absensi siap seketika di HP.
+            if (!forceRefresh && employeeList.length === 0) {
+                const cached = readEmployeeCache_();
+                if (cached && applyEmployeeData_(cached)) {
+                    // Refresh senyap di belakang tanpa menahan UI.
+                    setTimeout(() => loadInitialData(true).catch(() => {}), 100);
+                    return true;
+                }
+            }
+
+            if (employeeLoadPromise) return employeeLoadPromise;
+
+            employeeLoadPromise = (async () => {
+                try {
+                    const res = await getInitialDataJsonp_();
+                    if (res && res.success && Array.isArray(res.employees) && res.employees.length > 0) {
+                        applyEmployeeData_(res.employees);
+                        saveEmployeeCache_(res.employees);
+                        return true;
+                    }
+                    console.warn('Data karyawan kosong / tidak valid:', res);
+                    return false;
+                } catch (err) {
+                    console.error('Gagal memuat data karyawan:', err);
+                    // Jika jaringan gagal tetapi cache pernah ada (meski sudah lama), gunakan sebagai fallback.
+                    try {
+                        const raw = localStorage.getItem(EMPLOYEE_CACHE_KEY);
+                        const stale = raw ? JSON.parse(raw) : null;
+                        if (stale && Array.isArray(stale.employees) && stale.employees.length > 0) {
+                            applyEmployeeData_(stale.employees);
+                            return true;
+                        }
+                    } catch (_) {}
+                    return false;
+                } finally {
+                    employeeLoadPromise = null;
+                }
+            })();
+
+            return employeeLoadPromise;
         }
 
         async function loadDisabledDates() {
             try {
-                const res = await gasJsonp('getDisabledDates');
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getDisabledDates");
+                const res = await response.json();
                 if (res.success && res.disabledDates) {
                     disabledDates = res.disabledDates;
                 }
