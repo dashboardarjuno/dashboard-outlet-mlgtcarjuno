@@ -79,7 +79,8 @@
 
         async function loadTodayAttendance() {
             try {
-                const res = await gasJsonp('getTodayAttendance');
+                const response = await fetch(GAS_WEB_APP_URL + "?action=getTodayAttendance");
+                const res = await response.json();
                 if (res.success && res.data) {
                     todayAttendanceRecords = res.data;
                 }
@@ -91,8 +92,17 @@
         async function openAbsensiModal() {
             openModal('modal-absensi');
             getGPSLocation();
-            if (employeeList.length === 0) await loadInitialData();
-            await loadTodayAttendance();
+
+            if (employeeList.length === 0) {
+                const ready = await loadInitialData();
+                if (!ready || employeeList.length === 0) {
+                    showPopup('warning', 'Data Belum Siap', 'Data karyawan belum berhasil dimuat. Cek koneksi lalu tekan Mulai Absensi kembali.');
+                    return;
+                }
+            }
+
+            // Rekap hari ini tidak boleh menahan pembukaan form Absensi.
+            loadTodayAttendance();
         }
 
         function verifyNIK() {
