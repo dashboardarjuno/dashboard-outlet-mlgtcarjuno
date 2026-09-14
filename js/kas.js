@@ -16,7 +16,7 @@
             tbody.innerHTML = '<tr><td colspan="3" class="text-center p-3 text-slate-400"><i class="fa-solid fa-spinner animate-spin"></i> Memuat data...</td></tr>';
 
             try {
-                const res = await gasJsonp('getKasData');
+                const res = await gasJsonp('getKasData', {}, {cacheMs: 30000});
 
                 if (res.success) {
                     document.getElementById('display-saldo-kas').textContent = formatRupiah(res.saldo || 0);
@@ -84,6 +84,7 @@
                 const result = await response.json();
 
                 if (result.success) {
+                    invalidateGasCache('getKasData');
                     showPopup('success', 'Transaksi Berhasil!', result.message, async function () {
                         document.getElementById("form-kas").reset();
                         await loadKasData();
@@ -98,4 +99,3 @@
                 btnSubmit.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi Kas`;
             }
         }
-
