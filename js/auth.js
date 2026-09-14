@@ -49,7 +49,7 @@
             const data = await gasJsonp('checkUser', {email: cleanEmail}, {cacheMs: 0, timeoutMs: 10000});
             if (data && data.success && data.bound === true && data.employee) return finishApp(cleanEmail, data.employee);
             const message = data && data.code === 'NEED_BINDING'
-                ? 'Email belum terdaftar. Isi email pada kolom E sheet DATA KARYAWAN.'
+                ? 'Email belum terdaftar. Hubungi Admin.'
                 : ((data && data.message) || 'Email tidak memiliki akses.');
             showLogin(message);
         } catch (err) {
