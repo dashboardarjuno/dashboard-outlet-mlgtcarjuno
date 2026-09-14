@@ -4,32 +4,6 @@
 
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwhkpiZMyC3UaM2TCYGK_JQFmcLhCYt_CBa5ncOC5dvXBuan26b5R5v7CHScG9tEVIu/exec";
 
-// GET helper untuk Google Apps Script dari GitHub Pages tanpa CORS (JSONP).
-function gasJsonp(action, params = {}, timeoutMs = 15000) {
-    return new Promise((resolve, reject) => {
-        const callbackName = '__arjuno_jsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-        const script = document.createElement('script');
-        const timer = setTimeout(() => cleanup(new Error('Koneksi API melewati batas waktu.')), timeoutMs);
-        function cleanup(error, data) {
-            clearTimeout(timer);
-            try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
-            script.remove();
-            error ? reject(error) : resolve(data);
-        }
-        window[callbackName] = data => cleanup(null, data);
-        const url = new URL(GAS_WEB_APP_URL);
-        url.searchParams.set('action', action);
-        url.searchParams.set('callback', callbackName);
-        url.searchParams.set('_ts', Date.now());
-        Object.entries(params || {}).forEach(([k,v]) => url.searchParams.set(k, v == null ? '' : String(v)));
-        script.onerror = () => cleanup(new Error('Gagal memuat API Google Apps Script.'));
-        script.src = url.toString();
-        document.head.appendChild(script);
-    });
-}
-window.gasJsonp = gasJsonp;
-
-
 // KOORDINAT OUTLET & RADIUS MAX (50 METER)
 const OUTLET_LOCATION = {
     lat: -7.97919,
@@ -159,11 +133,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         filterBulanInput.value = `${curY}-${curM}`;
     }
 
-    // Pemanggilan fungsi dijalankan secara berurutan:
-    await loadTeamPhotos();
-    await loadInitialData();
-    if (typeof loadDisabledDates === 'function') loadDisabledDates();
-    if (typeof loadDashboardMonthlyRekap === 'function') loadDashboardMonthlyRekap();
+    // PRIORITAS: data karyawan harus siap dulu untuk Absensi.
+    // Data berat lain dimuat setelahnya di background agar HP tidak menunggu Foto Team/Jadwal.
+    if (typeof loadInitialData === 'function') await loadInitialData();
+
+    setTimeout(() => {
+        if (typeof loadTeamPhotos === 'function') loadTeamPhotos();
+        if (typeof loadDisabledDates === 'function') loadDisabledDates();
+        if (typeof loadDashboardMonthlyRekap === 'function') loadDashboardMonthlyRekap();
+    }, 250);
 
 });
 
