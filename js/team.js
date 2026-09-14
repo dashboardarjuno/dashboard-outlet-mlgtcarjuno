@@ -27,12 +27,15 @@
         }
 
         function updateTeamScheduleStatus(employeeDatesMap, year, month) {
-            teamScheduleStatus = {};
-
             const today = new Date();
             const todayYear = today.getFullYear();
             const todayMonth = today.getMonth() + 1;
             const todayDay = today.getDate();
+            // Mengganti filter matriks ke bulan lain tidak boleh mengubah status
+            // Our Team hari ini menjadi semua AKTIF.
+            if (Number(year) !== todayYear || Number(month) !== todayMonth) return;
+
+            teamScheduleStatus = {};
             const todayKey = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
 
             // Status Our Team SELALU dihitung dari jadwal hari ini,
@@ -437,6 +440,8 @@
                     );
                 }
 
+                invalidateGasCache('getTeamPhotos');
+
                 delete customPhotoStore[nik];
 
                 closeModal('modal-edit-team');
@@ -509,6 +514,8 @@
                     throw new Error(result.message || 'Gagal menyimpan foto tim.');
                 }
 
+                invalidateGasCache('getTeamPhotos');
+
                 if (result.photoUrl) {
                     customPhotoStore[nik] = result.photoUrl;
                 } else {
@@ -534,7 +541,7 @@
 
         async function loadTeamPhotos() {
             try {
-                const result = await gasJsonp('getTeamPhotos');
+                const result = await gasJsonp('getTeamPhotos', {}, {cacheMs: 5 * 60 * 1000});
                 if (result && result.success && result.photos) {
                     customPhotoStore = {};
                     Object.keys(result.photos).forEach(function (nik) {
@@ -551,4 +558,3 @@
                 customPhotoStore = {};
             }
         }
-
