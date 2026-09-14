@@ -13,8 +13,7 @@ const nationalHolidayCache = {};
             // --- LAPIS 1: Ambil dari Rekap GSheet (Sheet "Hari_Libur") ---
             try {
                 const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
-                const responseGsheet = await fetch(baseUrl + `?action=getHolidays&year=${year}`);
-                const resultGsheet = await responseGsheet.json();
+                const resultGsheet = await gasJsonp('getHolidays', {year}, {cacheMs: 12 * 60 * 60 * 1000});
 
                 if (resultGsheet && Array.isArray(resultGsheet.data)) {
                     resultGsheet.data.forEach(item => {
@@ -128,9 +127,7 @@ const nationalHolidayCache = {};
                     await loadInitialData();
                 }
 
-                const baseUrl = typeof SCRIPT_URL !== 'undefined' ? SCRIPT_URL : GAS_WEB_APP_URL;
-                const response = await fetch(baseUrl + `?action=getMonthlyRekap&year=${year}&month=${month}`);
-                const res = await response.json();
+                const res = await gasJsonp('getMonthlyRekap', {year, month}, {cacheMs: 60000});
 
                 let rawList = [];
                 if (Array.isArray(res)) rawList = res;
@@ -409,8 +406,7 @@ const nationalHolidayCache = {};
 
         async function loadDisabledDates() {
             try {
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getDisabledDates");
-                const res = await response.json();
+                const res = await gasJsonp('getDisabledDates', {}, {cacheMs: 60000});
                 if (res.success && res.disabledDates) {
                     disabledDates = res.disabledDates;
                 }
@@ -418,4 +414,3 @@ const nationalHolidayCache = {};
                 console.error("Gagal memuat tanggal terblokir:", err);
             }
         }
-
