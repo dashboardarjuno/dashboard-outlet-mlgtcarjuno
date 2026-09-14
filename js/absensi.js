@@ -79,8 +79,7 @@
 
         async function loadTodayAttendance() {
             try {
-                const response = await fetch(GAS_WEB_APP_URL + "?action=getTodayAttendance");
-                const res = await response.json();
+                const res = await gasJsonp('getTodayAttendance', {}, {cacheMs: 15000});
                 if (res.success && res.data) {
                     todayAttendanceRecords = res.data;
                 }
@@ -336,6 +335,7 @@
                 const result = await response.json();
 
                 if (result.success) {
+                    invalidateGasCache('getTodayAttendance');
                     showPopup('success', 'Absensi Berhasil!', result.message, async function () {
                         if (typeof stopCamera === 'function') stopCamera();
                         closeModal("modal-absensi");
@@ -353,4 +353,3 @@
                 btnSubmit.innerHTML = `<span>Kirim Absensi Sekarang</span>`;
             }
         }
-
