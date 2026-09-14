@@ -102,6 +102,8 @@
                 const result = await response.json();
 
                 if (result.success) {
+                    invalidateGasCache('getDisabledDates');
+                    invalidateGasCache('getMonthlyRekap');
                     showPopup('success', 'Pengajuan Berhasil!', result.message, function () {
                         closeModal("modal-off-cuti");
                         document.getElementById("form-off-cuti").reset();
@@ -118,4 +120,3 @@
                 btnSubmit.innerHTML = `<span>Kirim Pengajuan Libur</span>`;
             }
         }
-
