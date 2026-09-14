@@ -1,79 +1,78 @@
 (function () {
     'use strict';
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCcjPOlK0wdRVrdwsTyn0eWsY0Y-SUiTn4",
-        authDomain: "arjunohub.firebaseapp.com",
-        projectId: "arjunohub",
-        storageBucket: "arjunohub.firebasestorage.app",
-        messagingSenderId: "150477067410",
-        appId: "1:150477067410:web:3696539c27bffc4258024b"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(console.error);
-
+    const AUTH_EMAIL_KEY = 'arjunohub_login_email_v2';
     const gate = document.getElementById('auth-gate');
-    const loginBtn = document.getElementById('auth-google-login');
+    const loginForm = document.getElementById('auth-email-form');
+    const emailInput = document.getElementById('auth-email-input');
+    const loginBtn = document.getElementById('auth-email-submit');
     const gateState = document.getElementById('auth-gate-state');
     const loginContent = document.getElementById('auth-login-content');
 
+    function escapeAuthHtml(value) {
+        return String(value == null ? '' : value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+    }
     function setLoading(message) {
+        gate && gate.classList.remove('auth-hidden');
         if (loginContent) loginContent.hidden = true;
         if (gateState) {
             gateState.hidden = false;
-            gateState.innerHTML = '<div class="auth-loading"><span class="auth-spinner"></span><span>' + (message || 'Memeriksa sesi...') + '</span></div>';
+            gateState.innerHTML = '<div class="auth-loading"><span class="auth-spinner"></span><span>' + escapeAuthHtml(message || 'Memeriksa email...') + '</span></div>';
         }
     }
-
-    function showLogin() {
-        if (gate) gate.classList.remove('auth-hidden');
-        if (gateState) gateState.hidden = true;
+    function showLogin(message) {
+        document.documentElement.classList.remove('auth-ready');
+        gate && gate.classList.remove('auth-hidden');
+        if (gateState) {
+            gateState.hidden = !message;
+            gateState.innerHTML = message ? '<div class="auth-gate-error" style="font-size:12px;color:#b91c1c;text-align:center">' + escapeAuthHtml(message) + '</div>' : '';
+        }
         if (loginContent) loginContent.hidden = false;
         if (loginBtn) loginBtn.disabled = false;
+        if (emailInput) emailInput.focus();
     }
-
-    function showApp(user) {
-        if (gate) gate.classList.add('auth-hidden');
+    function finishApp(email, employee) {
+        gate && gate.classList.add('auth-hidden');
         document.documentElement.classList.add('auth-ready');
-        document.documentElement.dataset.authUser = user.uid;
-        document.querySelectorAll('[data-auth-email]').forEach(el => el.textContent = user.email || '');
+        document.documentElement.dataset.authUser = email;
+        if (employee && employee.nik) document.documentElement.dataset.employeeNik = employee.nik;
+        document.querySelectorAll('[data-auth-email]').forEach(el => el.textContent = email);
+        window.dashboardAuth.employee = employee || null;
+        window.dashboardAuth.email = email;
+        localStorage.setItem(AUTH_EMAIL_KEY, email);
+        window.dispatchEvent(new CustomEvent('arjunohub:employee-ready', {detail: employee || null}));
     }
-
-    async function signInGoogle() {
-        if (!loginBtn) return;
-        loginBtn.disabled = true;
-        setLoading('Membuka Google Login...');
-        const provider = new firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
+    async function verifyEmail(email) {
+        const cleanEmail = String(email || '').trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) return showLogin('Format email belum benar.');
+        setLoading('Memeriksa email karyawan...');
         try {
-            await auth.signInWithPopup(provider);
+            const data = await gasJsonp('checkUser', {email: cleanEmail}, {cacheMs: 0, timeoutMs: 10000});
+            if (data && data.success && data.bound === true && data.employee) return finishApp(cleanEmail, data.employee);
+            const message = data && data.code === 'NEED_BINDING'
+                ? 'Email belum terdaftar. Isi email pada kolom E sheet DATA KARYAWAN.'
+                : ((data && data.message) || 'Email tidak memiliki akses.');
+            showLogin(message);
         } catch (err) {
-            console.error('Google sign-in:', err);
-            showLogin();
-            if (err.code !== 'auth/popup-closed-by-user') {
-                const msg = err.code === 'auth/unauthorized-domain'
-                    ? 'Domain website belum diizinkan di Firebase Authentication.'
-                    : (err.message || 'Google Login gagal. Silakan coba lagi.');
-                if (window.Swal) Swal.fire({icon:'error',title:'Login Gagal',text:msg,confirmButtonText:'OK'});
-            }
+            showLogin(err.message || 'Gagal terhubung ke server.');
         }
     }
-
-    async function signOutUser() {
-        const result = window.Swal ? await Swal.fire({
-            icon: 'question', title: 'Keluar dari Dashboard?', text: 'Sesi Google di Dashboard Arjuno akan diakhiri.',
-            showCancelButton: true, confirmButtonText: 'Ya, Keluar', cancelButtonText: 'Batal', confirmButtonColor: '#dc2626'
-        }) : { isConfirmed: true };
-        if (!result.isConfirmed) return;
-        await auth.signOut();
+    function signOutUser() {
+        localStorage.removeItem(AUTH_EMAIL_KEY);
+        window.dashboardAuth.employee = null;
+        window.dashboardAuth.email = '';
+        showLogin();
     }
 
-    window.dashboardAuth = { auth, signOut: signOutUser };
-    if (loginBtn) loginBtn.addEventListener('click', signInGoogle);
+    window.dashboardAuth = {employee: null, email: '', signOut: signOutUser};
+    loginForm && loginForm.addEventListener('submit', event => {
+        event.preventDefault();
+        if (loginBtn) loginBtn.disabled = true;
+        verifyEmail(emailInput ? emailInput.value : '');
+    });
     document.querySelectorAll('[data-auth-logout]').forEach(btn => btn.addEventListener('click', signOutUser));
-
-    setLoading('Memeriksa sesi...');
-    auth.onAuthStateChanged(user => user ? showApp(user) : showLogin());
+    const savedEmail = localStorage.getItem(AUTH_EMAIL_KEY);
+    if (savedEmail) {
+        if (emailInput) emailInput.value = savedEmail;
+        verifyEmail(savedEmail);
+    } else showLogin();
 })();
