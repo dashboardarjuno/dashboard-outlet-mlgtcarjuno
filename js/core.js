@@ -4,6 +4,66 @@
 
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwhkpiZMyC3UaM2TCYGK_JQFmcLhCYt_CBa5ncOC5dvXBuan26b5R5v7CHScG9tEVIu/exec";
 
+// Satu pintu untuk seluruh GET Apps Script. JSONP dipakai karena stabil untuk
+// website statis -> Apps Script, termasuk Chrome Android. Request identik
+// digabung agar enam modul tidak menembak server berkali-kali bersamaan.
+const gasPendingRequests = new Map();
+const gasMemoryCache = new Map();
+
+function gasJsonp(action, params = {}, options = {}) {
+    const timeoutMs = options.timeoutMs || 10000;
+    const cacheMs = options.cacheMs === undefined ? 30000 : options.cacheMs;
+    const query = new URLSearchParams({action, ...params});
+    const requestKey = query.toString();
+    const cached = gasMemoryCache.get(requestKey);
+
+    if (!options.force && cached && Date.now() - cached.savedAt < cacheMs) {
+        return Promise.resolve(cached.data);
+    }
+    if (!options.force && gasPendingRequests.has(requestKey)) {
+        return gasPendingRequests.get(requestKey);
+    }
+
+    const request = new Promise((resolve, reject) => {
+        const callbackName = '__arjunohub_api_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        const script = document.createElement('script');
+        let finished = false;
+
+        const cleanup = () => {
+            clearTimeout(timer);
+            if (script.parentNode) script.parentNode.removeChild(script);
+            try { delete window[callbackName]; } catch (_) { window[callbackName] = undefined; }
+        };
+        const finish = (fn, value) => {
+            if (finished) return;
+            finished = true;
+            cleanup();
+            fn(value);
+        };
+        const timer = setTimeout(() => finish(reject, new Error('Server melewati batas waktu. Silakan coba lagi.')), timeoutMs);
+
+        window[callbackName] = data => {
+            if (cacheMs > 0) gasMemoryCache.set(requestKey, {savedAt: Date.now(), data});
+            finish(resolve, data);
+        };
+        script.onerror = () => finish(reject, new Error('Gagal terhubung ke Google Apps Script.'));
+        query.set('callback', callbackName);
+        script.src = GAS_WEB_APP_URL + '?' + query.toString();
+        script.async = true;
+        document.head.appendChild(script);
+    }).finally(() => gasPendingRequests.delete(requestKey));
+
+    gasPendingRequests.set(requestKey, request);
+    return request;
+}
+
+window.gasJsonp = gasJsonp;
+window.invalidateGasCache = function (action) {
+    for (const key of gasMemoryCache.keys()) {
+        if (!action || key === 'action=' + action || key.startsWith('action=' + action + '&')) gasMemoryCache.delete(key);
+    }
+};
+
 // KOORDINAT OUTLET & RADIUS MAX (50 METER)
 const OUTLET_LOCATION = {
     lat: -7.97919,
@@ -111,7 +171,7 @@ let teamScheduleStatusReady = false;
 
 
 // Inisialisasi utama saat halaman dimuat: banner, status outlet, dan data awal
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
     const dateElement = document.getElementById("current-date");
     if (dateElement) {
         const now = new Date();
@@ -119,8 +179,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
         });
     }
-
-    if (typeof fetchBannerInfo === 'function') fetchBannerInfo();
 
     updateOutletStatus();
     setInterval(updateOutletStatus, 60000);
@@ -133,17 +191,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         filterBulanInput.value = `${curY}-${curM}`;
     }
 
-    // PRIORITAS: data karyawan harus siap dulu untuk Absensi.
-    // Data berat lain dimuat setelahnya di background agar HP tidak menunggu Foto Team/Jadwal.
-    if (typeof loadInitialData === 'function') await loadInitialData();
-
-    setTimeout(() => {
-        if (typeof loadTeamPhotos === 'function') loadTeamPhotos();
-        if (typeof loadDisabledDates === 'function') loadDisabledDates();
-        if (typeof loadDashboardMonthlyRekap === 'function') loadDashboardMonthlyRekap();
-    }, 250);
-
 });
+
+// Mulai mengambil data hanya setelah email berhasil diverifikasi. Data penting
+// jalan paralel; jadwal dan kas tetap lazy-load saat dibuka.
+window.addEventListener('arjunohub:employee-ready', function () {
+    if (typeof fetchBannerInfo === 'function') fetchBannerInfo();
+    Promise.allSettled([
+        typeof loadInitialData === 'function' ? loadInitialData() : Promise.resolve(),
+        typeof loadDisabledDates === 'function' ? loadDisabledDates() : Promise.resolve()
+    ]).then(() => {
+        if (typeof loadDashboardMonthlyRekap === 'function') loadDashboardMonthlyRekap();
+        if (typeof loadTeamPhotos === 'function') loadTeamPhotos().then(() => {
+            if (typeof renderOurTeamSection === 'function') renderOurTeamSection();
+        });
+    });
+}, {once: true});
 
 updateTime();
 setInterval(updateTime, 60000);
