@@ -46,8 +46,11 @@
             <p class="auth-subtitle">MLG-TC-Arjuno • Outlet 1415</p>
             <div id="auth-gate-state"><div class="auth-loading"><span class="auth-spinner"></span><span>Memeriksa sesi...</span></div></div>
             <div id="auth-login-content" hidden>
-                <button type="button" id="auth-google-login" class="auth-google-btn"><span class="auth-google-g">G</span><span>Masuk dengan Google</span></button>
-                <p class="auth-note">Gunakan akun Google Anda untuk mengakses Dashboard Arjuno.</p>
+                <form id="auth-email-form" style="display:grid;gap:10px">
+                    <input id="auth-email-input" type="email" autocomplete="email" required placeholder="Email karyawan" style="width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:12px;padding:12px 14px;font-size:14px">
+                    <button type="submit" id="auth-email-submit" class="auth-google-btn"><i class="fa-solid fa-envelope"></i><span>Masuk dengan Email</span></button>
+                </form>
+                <p class="auth-note">Gunakan email yang terdaftar di DATA KARYAWAN.</p>
             </div>
         </div>
     </div>
@@ -991,18 +994,16 @@
 
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
     <script src="js/theme-switcher.js"></script>
-    <script src="js/core.js?v=2026.09.14.10"></script>
+    <script src="js/core.js?v=2026.09.14.11"></script>
     <!-- Firebase Authentication: dimuat setelah core agar endpoint/config siap -->
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
-    <script src="js/auth.js?v=2026.09.14.9"></script>
-    <script src="js/team.js"></script>
-    <script src="js/absensi.js?v=2026.09.14.10"></script>
-    <script src="js/off-cuti.js"></script>
-    <script src="js/kas.js"></script>
+    <script src="js/auth.js?v=2026.09.14.11"></script>
+    <script src="js/team.js?v=2026.09.14.11"></script>
+    <script src="js/absensi.js?v=2026.09.14.11"></script>
+    <script src="js/off-cuti.js?v=2026.09.14.11"></script>
+    <script src="js/kas.js?v=2026.09.14.11"></script>
     <script src="js/banner.js"></script>
-    <script src="js/schedule.js"></script>
-    <script src="js/dashboard.js?v=2026.09.14.10"></script>
+    <script src="js/schedule.js?v=2026.09.14.11"></script>
+    <script src="js/dashboard.js?v=2026.09.14.11"></script>
     <script src="js/modern-app.js"></script>
     <script src="js/update-manager.js"></script>
 </body>
