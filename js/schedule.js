@@ -120,9 +120,7 @@ document.addEventListener('fullscreenchange', () => {
 
             container.innerHTML = '<p class="text-xs text-slate-500 text-center py-6">Memuat lembar kerja dan warna...</p>';
 
-            let url = GAS_WEB_APP_URL + `?action=getScheduleByFilter&date=${tanggal}&outlet=${encodeURIComponent(outlet)}`;
-
-            gasJsonp('getScheduleByFilter', { date: tanggal, outlet: outlet })
+            gasJsonp('getScheduleByFilter', { date: tanggal, outlet: outlet }, {cacheMs: 5 * 60 * 1000, timeoutMs: 15000})
                 .then(res => {
                     const result = res.data || res;
 
@@ -180,7 +178,8 @@ document.addEventListener('fullscreenchange', () => {
         }
 
 
-// Otomatis isi tanggal hari ini DAN muat data saat halaman pertama kali dibuka
+// Isi tanggal hari ini. Jadwal baru diambil saat menu dibuka supaya login dan
+// beranda tidak berebut koneksi dengan server.
 window.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -193,7 +192,6 @@ window.addEventListener('DOMContentLoaded', () => {
         inputTanggal.value = formattedDate;
     }
 
-    loadSchedule();
 });
 
 // ==========================================
@@ -241,5 +239,5 @@ async function loadRandomMotivationVideo() {
 }
 
 
-// PEMANGGILAN FUNGSI SAAT HALAMAN DIMUAT
-loadRandomMotivationVideo();
+// Video bukan data operasional kritis; tunda sampai aplikasi sudah siap.
+window.addEventListener('arjunohub:employee-ready', () => setTimeout(loadRandomMotivationVideo, 1500), {once:true});
