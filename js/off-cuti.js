@@ -19,6 +19,10 @@ async function loadOffCutiConfig(forceRefresh = false) {
 }
 
 async function openOffCutiModal() {
+    // Pasang batas tanggal secara sinkron sebelum modal terlihat. Ini penting
+    // pada koneksi lambat/iOS: Safari dapat membuka date picker segera setelah
+    // tap, sementara konfigurasi dari server masih dimuat.
+    configureOffCutiDateInputs();
     openModal('modal-off-cuti');
     if (employeeList.length === 0) await loadInitialData();
 
@@ -103,9 +107,27 @@ function bindOffCutiDateEvents() {
         if (input.dataset.offCutiBound === '1') return;
         input.dataset.offCutiBound = '1';
 
+        // Safari iPhone kadang menginisialisasi input date kosong dengan tanggal
+        // hari ini walaupun `min` berada di bulan berikutnya. Prime nilainya pada
+        // pointerdown (sebelum picker dibuka) supaya roda kalender mulai dari
+        // periode yang sah. Programmatic assignment tidak memicu event `change`.
+        const prepareNativeDatePicker = function() {
+            if (normalizeOffCutiDate(input.value)) return;
+            const period = getOffCutiTargetPeriod();
+            input.min = period.min;
+            input.max = period.max;
+            input.value = period.min;
+            input.dataset.pickerPrimed = '1';
+        };
+
+        input.addEventListener('pointerdown', prepareNativeDatePicker, {passive: true});
+        input.addEventListener('touchstart', prepareNativeDatePicker, {passive: true});
+        input.addEventListener('focus', prepareNativeDatePicker);
+
         // `change` fires after the native date picker commits its value.
         // Do not use `input` here: Safari/iOS may fire it while the picker is open.
         input.addEventListener('change', function() {
+            delete input.dataset.pickerPrimed;
             delete input.dataset.quotaChecked;
             checkTanggalKuota(input);
         });
