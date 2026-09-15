@@ -67,6 +67,7 @@ function getOffCutiTargetPeriod() {
 }
 
 function configureOffCutiDateInputs() {
+    bindOffCutiDateEvents();
     const period = getOffCutiTargetPeriod();
     const isOpen = !offCutiConfig || offCutiConfig.isOpen !== false;
 
@@ -79,24 +80,43 @@ function configureOffCutiDateInputs() {
 
     const btnSubmit = document.getElementById('btn-submit-off');
     if (btnSubmit) btnSubmit.disabled = !isOpen;
+
+    const namaSelect = document.getElementById('select-nama-off');
+    if (namaSelect && namaSelect.dataset.offCutiBound !== '1') {
+        namaSelect.dataset.offCutiBound = '1';
+        namaSelect.addEventListener('change', function() {
+            recheckPendingOffCutiDates();
+        });
+    }
+}
+
+function normalizeOffCutiDate(value) {
+    // input[type="date"] returns YYYY-MM-DD on modern browsers.
+    // Keep it as a plain calendar string: never parse through new Date(value),
+    // because Safari/WebKit can apply timezone conversions to ISO dates.
+    const clean = (value || '').toString().trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(clean) ? clean : '';
+}
+
+function bindOffCutiDateEvents() {
+    document.querySelectorAll('.input-tgl-off').forEach(function(input) {
+        if (input.dataset.offCutiBound === '1') return;
+        input.dataset.offCutiBound = '1';
+
+        // `change` fires after the native date picker commits its value.
+        // Do not use `input` here: Safari/iOS may fire it while the picker is open.
+        input.addEventListener('change', function() {
+            delete input.dataset.quotaChecked;
+            checkTanggalKuota(input);
+        });
+    });
 }
 
 async function checkTanggalKuota(input) {
-    const selectedDate = normalizeMatrixDate(input.value);
+    const selectedDate = normalizeOffCutiDate(input.value);
     if (!selectedDate) return;
 
-    const nama = document.getElementById('select-nama-off').value;
-    const selectedEmployee = employeeList.find(emp =>
-        (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase()
-    );
-    const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
-
-    if (!nama || !nik) {
-        input.value = '';
-        showPopup('warning', 'Pilih Nama Dulu', 'Pilih nama karyawan terlebih dahulu sebelum memilih tanggal OFF/Cuti.');
-        return;
-    }
-
+    // Local validations are safe to do after the picker has committed.
     const period = getOffCutiTargetPeriod();
     if (selectedDate < period.min || selectedDate > period.max) {
         input.value = '';
@@ -105,14 +125,36 @@ async function checkTanggalKuota(input) {
     }
 
     const sameDates = [...document.querySelectorAll('.input-tgl-off')]
-        .filter(el => el !== input && normalizeMatrixDate(el.value) === selectedDate);
+        .filter(el => el !== input && normalizeOffCutiDate(el.value) === selectedDate);
     if (sameDates.length > 0) {
         input.value = '';
         showPopup('warning', 'Tanggal Duplikat', 'Tanggal yang sama sudah dipilih pada kolom lain.');
         return;
     }
 
-    input.disabled = true;
+    const namaEl = document.getElementById('select-nama-off');
+    const nama = namaEl ? namaEl.value : '';
+    const selectedEmployee = employeeList.find(emp =>
+        (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase()
+    );
+    const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
+
+    // IMPORTANT for iPhone/Mac Safari:
+    // allow the user to choose a date even when the employee name has not been
+    // selected yet. Quota will be checked later (or during final submit).
+    // Previously the date was immediately cleared and a popup was shown.
+    if (!nama || !nik) {
+        input.dataset.quotaPending = '1';
+        return;
+    }
+
+    // Never disable a date input while Safari's native picker is settling.
+    // Use a request token so an older async response cannot overwrite a newer choice.
+    const requestToken = String(Date.now()) + Math.random().toString(36).slice(2);
+    input.dataset.quotaRequest = requestToken;
+    input.dataset.quotaChecking = '1';
+    delete input.dataset.quotaPending;
+
     try {
         const result = await gasJsonp('checkOffCutiDate', {
             nik: nik,
@@ -120,19 +162,33 @@ async function checkTanggalKuota(input) {
             date: selectedDate
         }, {cacheMs: 0});
 
+        if (input.dataset.quotaRequest !== requestToken || input.value !== selectedDate) return;
+
         if (!result || !result.success) {
             input.value = '';
+            delete input.dataset.quotaChecked;
             showPopup('warning', 'Tanggal Tidak Tersedia', result && result.message ? result.message : 'Kuota tanggal ini tidak tersedia.');
             return;
         }
 
-        // Lolos cek awal. Final check tetap dilakukan lagi saat tombol Kirim ditekan.
         input.dataset.quotaChecked = '1';
     } catch (err) {
-        input.value = '';
-        showPopup('error', 'Gagal Cek Kuota', 'Tidak dapat mengecek kuota tanggal. Silakan coba lagi.');
+        if (input.dataset.quotaRequest !== requestToken || input.value !== selectedDate) return;
+        // Keep the chosen date. Final submit still validates against the backend.
+        delete input.dataset.quotaChecked;
+        input.dataset.quotaPending = '1';
+        console.error('Gagal cek kuota OFF/Cuti:', err);
     } finally {
-        input.disabled = false;
+        if (input.dataset.quotaRequest === requestToken) {
+            delete input.dataset.quotaChecking;
+        }
+    }
+}
+
+async function recheckPendingOffCutiDates() {
+    const inputs = [...document.querySelectorAll('.input-tgl-off')];
+    for (const input of inputs) {
+        if (input.value) await checkTanggalKuota(input);
     }
 }
 
@@ -162,7 +218,7 @@ async function submitOffCuti(e) {
     const selectedDates = [];
     inputs.forEach(inp => {
         if (inp.value) {
-            const cleanDate = normalizeMatrixDate(inp.value);
+            const cleanDate = normalizeOffCutiDate(inp.value);
             if (cleanDate) selectedDates.push(cleanDate);
         }
     });
