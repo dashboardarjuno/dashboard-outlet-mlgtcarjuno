@@ -215,7 +215,18 @@
                     members.forEach(m => {
                         const customPhoto = customPhotoStore[m.nik] || m.photoUrl;
                         const avatarSrc = customPhoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=${groupConfig.avatarBg}&color=fff&size=128`;
-                        const sanitizedNama = m.nama.replace(/'/g, "\\'");
+                        // Escape untuk konten HTML biasa (nama, jabatan, nik, alt, src)
+                        const safeNama = escapeHtml(m.nama);
+                        const safeJabatan = escapeHtml(m.jabatan || groupKey);
+                        const safeNik = escapeHtml(m.nik);
+                        const safeAvatarSrc = escapeHtml(avatarSrc);
+                        // Escape khusus untuk argumen di dalam onclick="...('...')":
+                        // dulu escape tanda kutip untuk konteks string JS, baru escape HTML
+                        // untuk konteks atribut, supaya tidak bisa keluar dari keduanya.
+                        const escapeJsAttr = (value) => escapeHtml(String(value == null ? '' : value).replace(/\\/g, '\\\\').replace(/'/g, "\\'"));
+                        const sanitizedNama = escapeJsAttr(m.nama);
+                        const sanitizedJabatan = escapeJsAttr(m.jabatan || groupKey);
+                        const sanitizedNik = escapeJsAttr(m.nik);
                         const teamStatus = getTeamScheduleStatus(m);
                         const statusLabel = teamStatus.status === 'OFF'
                             ? `OFF${teamStatus.index ? ` (Hari ke-${teamStatus.index})` : ''}`
@@ -227,16 +238,16 @@
 
                         html += `
                             <div class="bg-gradient-to-b ${groupConfig.colorBg} border-2 ${groupConfig.border} rounded-2xl p-2.5 sm:p-4 shadow-sm hover:shadow-md transition relative group text-center flex flex-col items-center w-[145px] sm:w-[190px] shrink-0">
-                                <span class="absolute top-2 right-2 sm:top-3 sm:right-3 ${groupConfig.tagBg} text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full uppercase">${m.jabatan || groupKey}</span>
+                                <span class="absolute top-2 right-2 sm:top-3 sm:right-3 ${groupConfig.tagBg} text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full uppercase">${safeJabatan}</span>
                                 
                                 <div class="relative w-14 h-14 sm:w-20 sm:h-20 mb-2 sm:mb-3 mt-1 sm:mt-0">
-                                    <img id="team-img-${m.index}" src="${avatarSrc}" alt="${m.nama}" class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-white shadow-md">
-                                    <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${m.jabatan || groupKey}', '${m.nik}')" class="absolute bottom-0 right-0 bg-slate-900 text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transition shadow cursor-pointer" title="Edit Foto Profil">
+                                    <img id="team-img-${m.index}" src="${safeAvatarSrc}" alt="${safeNama}" class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-white shadow-md">
+                                    <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${sanitizedJabatan}', '${sanitizedNik}')" class="absolute bottom-0 right-0 bg-slate-900 text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transition shadow cursor-pointer" title="Edit Foto Profil">
                                         <i class="fa-solid fa-camera"></i>
                                     </button>
                                 </div>
                                 
-                                <h5 id="team-nama-${m.index}" class="font-heading font-bold text-xs sm:text-sm text-slate-900 line-clamp-1 w-full px-1">${m.nama}</h5>
+                                <h5 id="team-nama-${m.index}" class="font-heading font-bold text-xs sm:text-sm text-slate-900 line-clamp-1 w-full px-1">${safeNama}</h5>
                                 
                                 <!-- STATUS OTOMATIS DARI MATRIKS JADWAL OFF & CUTI -->
                                 <div class="mt-1 mb-1">
@@ -246,9 +257,9 @@
                                     </span>
                                 </div>
 
-                                <p id="team-nik-${m.index}" class="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate w-full">NIK: ${m.nik}</p>
+                                <p id="team-nik-${m.index}" class="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate w-full">NIK: ${safeNik}</p>
                                 
-                                <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${m.jabatan || groupKey}', '${m.nik}')" class="mt-2 sm:mt-3 text-[10px] sm:text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg px-2 sm:px-3 py-1 font-semibold transition w-full cursor-pointer flex items-center justify-center gap-1 shadow-xs">
+                                <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${sanitizedJabatan}', '${sanitizedNik}')" class="mt-2 sm:mt-3 text-[10px] sm:text-xs bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg px-2 sm:px-3 py-1 font-semibold transition w-full cursor-pointer flex items-center justify-center gap-1 shadow-xs">
                                     <i class="fa-solid fa-camera text-orange-500 text-[10px] sm:text-xs"></i> Edit Foto
                                 </button>
                             </div>

@@ -114,7 +114,7 @@ const nationalHolidayCache = {};
                         : dateInfo.isSaturday
                             ? 'bg-amber-100 text-amber-700'
                             : (d % 2 === 0 ? 'bg-slate-100' : 'bg-slate-50/70');
-                const holidayTitle = dateInfo.isNationalHoliday ? ` title="${dateInfo.holidayName}"` : '';
+                const holidayTitle = dateInfo.isNationalHoliday ? ` title="${escapeHtml(dateInfo.holidayName)}"` : '';
                 theadHTML += `<th${holidayTitle} class="p-1 text-center font-bold min-w-[28px] w-[28px] border-r border-slate-200 text-[11px] ${headerClass}">${d}</th>`;
             }
             theadHTML += `</tr>`;
@@ -214,7 +214,7 @@ const nationalHolidayCache = {};
 
                     tbodyHTML += `
     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-        <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap max-w-[150px] truncate">${empNama}</td>
+        <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap max-w-[150px] truncate">${escapeHtml(empNama)}</td>
 `;
 
                     for (let d = 1; d <= daysInMonth; d++) {
@@ -230,7 +230,7 @@ const nationalHolidayCache = {};
                             const isCuti = matchData.index >= 5;
                             const symbol = isCuti ? 'ct' : 'x';
                             const labelJenis = isCuti ? 'CUTI' : 'OFF';
-                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${labelJenis} (Libur Hari ke-${matchData.index}) - ${matchData.keterangan || 'Tanpa keterangan'}`;
+                            const titleTooltip = escapeHtml(`${empNama} - ${d} ${namaBulanIndo} ${year}: ${labelJenis} (Libur Hari ke-${matchData.index}) - ${matchData.keterangan || 'Tanpa keterangan'}`);
 
                             if (isCuti) {
                                 tbodyHTML += `<td title="${titleTooltip}" class="p-1 text-center font-extrabold text-purple-700 bg-purple-100/70 border-r border-slate-200 cursor-pointer select-none">${symbol}</td>`;
@@ -245,7 +245,7 @@ const nationalHolidayCache = {};
                                     : dateInfo.isSaturday
                                         ? 'Sabtu'
                                         : 'Masuk Kerja';
-                            const titleTooltip = `${empNama} - ${d} ${namaBulanIndo} ${year}: ${calendarLabel}`;
+                            const titleTooltip = escapeHtml(`${empNama} - ${d} ${namaBulanIndo} ${year}: ${calendarLabel}`);
                             const cellClass = dateInfo.isNationalHoliday
                                 ? 'bg-red-50 text-red-300'
                                 : dateInfo.isSunday

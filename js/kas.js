@@ -33,10 +33,10 @@
                             return `
                                 <tr class="hover:bg-slate-50">
                                     <td class="p-2">
-                                        <span class="font-medium text-slate-500 block text-[10px]">${item.waktu}</span>
-                                        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${badgeClass}">${item.tipe}</span>
+                                        <span class="font-medium text-slate-500 block text-[10px]">${escapeHtml(item.waktu)}</span>
+                                        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold border ${badgeClass}">${escapeHtml(item.tipe)}</span>
                                     </td>
-                                    <td class="p-2 font-medium text-slate-700">${item.keterangan}</td>
+                                    <td class="p-2 font-medium text-slate-700">${escapeHtml(item.keterangan)}</td>
                                     <td class="p-2 text-right font-bold ${colorClass}">${prefix} ${formatRupiah(item.nominal)}</td>
                                 </tr>
                             `;
