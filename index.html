@@ -15,16 +15,38 @@
             } catch (e) { }
         })();
     </script>
+    <!-- Preconnect: mulai koneksi ke domain eksternal lebih awal, paralel
+         dengan proses parsing HTML, supaya request berikutnya lebih cepat -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://script.google.com">
+
     <!-- Tailwind CSS (hasil build statis, bukan CDN lagi) -->
     <link rel="stylesheet" href="css/tailwind.css">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Google Fonts -->
+
+    <!-- FontAwesome Icons: dimuat async (preload + swap) supaya TIDAK
+         memblokir render awal halaman. Ikon akan muncul sesaat setelah CSS
+         utama, bukan menahan seluruh HTML sampai file ini selesai diunduh. -->
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        media="print" onload="this.media='all'; this.onload=null;">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </noscript>
+
+    <!-- Google Fonts: sama, dimuat async supaya tidak render-blocking -->
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap">
     <link
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
+        rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+    <noscript>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+            rel="stylesheet">
+    </noscript>
 
     <!-- Konfigurasi warna/font/shadow custom sekarang ada di tailwind.config.js
          (dipakai saat proses build, bukan lagi di sini) -->
@@ -114,9 +136,9 @@
                 <i class="fa-solid fa-bullhorn"></i> Info
             </span>
             <div class="overflow-hidden w-full cursor-pointer" onclick="openInfoModal()">
-                <marquee id="bannerMarquee" behavior="scroll" direction="left" class="w-full font-medium">
+                <div id="bannerMarquee" class="info-marquee w-full font-medium">
                     📢 Memuat informasi terbaru dari server...
-                </marquee>
+                </div>
             </div>
         </div>
 
@@ -987,6 +1009,11 @@
 
         </div>
     </div>
+
+    <!-- SweetAlert2: dipindah ke sini (dari <head>) supaya tidak lagi
+         memblokir render awal halaman. Dimuat sebelum script aplikasi
+         karena core.js/banner.js/absensi.js memakai window.Swal. -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
     <script src="js/theme-switcher.js"></script>
