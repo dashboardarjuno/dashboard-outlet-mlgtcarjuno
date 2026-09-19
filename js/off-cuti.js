@@ -5,6 +5,13 @@
 
 let offCutiConfig = null;
 
+// Guard anti klik-ganda / submit bersamaan. Dicek & dikunci secara SINKRON
+// di baris pertama submitOffCuti(), sebelum ada `await` apa pun. Ini penting
+// karena tanpa guard ini, dua klik cepat (atau double-tap di HP) bisa memicu
+// dua eksekusi submitOffCuti() yang berjalan bersamaan — keduanya lolos semua
+// validasi karena tombol submit baru ter-disable SETELAH await pertama selesai.
+let isSubmittingOffCuti = false;
+
 async function loadOffCutiConfig(forceRefresh = false) {
     try {
         const res = await gasJsonp('getOffCutiConfig', {}, {cacheMs: forceRefresh ? 0 : 30000});
@@ -214,91 +221,133 @@ async function recheckPendingOffCutiDates() {
     }
 }
 
+// Kirim payload pengajuan OFF/Cuti ke backend dan kembalikan hasil JSON-nya.
+// Dipisah jadi fungsi sendiri supaya bisa dipakai ulang untuk auto-retry
+// saat backend membalas SERVER_BUSY (lihat submitOffCuti di bawah).
+async function postOffCutiPayload(payload) {
+    const response = await fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain;charset=utf-8'},
+        body: JSON.stringify(payload)
+    });
+    return await response.json();
+}
+
 async function submitOffCuti(e) {
     e.preventDefault();
 
-    // Refresh konfigurasi agar perubahan tanggal buka/tutup di GSheet langsung dipakai.
-    const latestConfig = await loadOffCutiConfig(true);
-    if (latestConfig && !latestConfig.isOpen) {
-        showPopup(
-            'warning',
-            'Periode Pengajuan Ditutup',
-            `Pengajuan OFF/Cuti hanya dibuka tanggal ${latestConfig.startDay} sampai ${latestConfig.endDay} setiap bulan.`
-        );
-        configureOffCutiDateInputs();
-        return;
-    }
-
-    const nama = document.getElementById('select-nama-off').value;
-    const selectedEmployee = employeeList.find(emp =>
-        (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase()
-    );
-    const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
-    const inputs = document.querySelectorAll('.input-tgl-off');
-    const keterangan = document.getElementById('input-keterangan-off').value.trim();
-
-    const selectedDates = [];
-    inputs.forEach(inp => {
-        if (inp.value) {
-            const cleanDate = normalizeOffCutiDate(inp.value);
-            if (cleanDate) selectedDates.push(cleanDate);
-        }
-    });
-
-    const period = getOffCutiTargetPeriod();
-    const uniqueDates = [...new Set(selectedDates)].sort();
-    const invalidPeriodDate = uniqueDates.find(date => date < period.min || date > period.max);
-
-    if (!nama || !nik || uniqueDates.length === 0 || !keterangan) {
-        showPopup('warning', 'Data Belum Lengkap', 'Pilih nama, minimal 1 tanggal, dan isi keterangan acara.');
-        return;
-    }
-
-    if (invalidPeriodDate) {
-        showPopup('warning', 'Tanggal Tidak Sesuai Periode', 'Tanggal libur hanya boleh dipilih untuk bulan berikutnya.');
-        return;
-    }
-
+    // --- GUARD ANTI KLIK-GANDA / SUBMIT BERSAMAAN ---
+    // Dicek & dikunci di sini juga, SEBELUM baris `await` pertama di bawah.
+    // Kalau proses sebelumnya masih berjalan (isSubmittingOffCuti true) atau
+    // tombolnya sudah disabled, langsung berhenti — tidak boleh ada eksekusi
+    // kedua yang lolos masuk ke validasi/submit.
     const btnSubmit = document.getElementById('btn-submit-off');
-    btnSubmit.disabled = true;
-    btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Memproses...`;
-
-    const payload = {
-        action: 'submitOffCuti',
-        nik: nik,
-        nama: nama,
-        dates: uniqueDates,
-        keterangan: keterangan
-    };
+    if (isSubmittingOffCuti || (btnSubmit && btnSubmit.disabled)) {
+        return;
+    }
+    isSubmittingOffCuti = true;
+    if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Memproses...`;
+    }
 
     try {
-        const response = await fetch(GAS_WEB_APP_URL, {
-            method: 'POST',
-            headers: {'Content-Type': 'text/plain;charset=utf-8'},
-            body: JSON.stringify(payload)
+        // Refresh konfigurasi agar perubahan tanggal buka/tutup di GSheet langsung dipakai.
+        const latestConfig = await loadOffCutiConfig(true);
+        if (latestConfig && !latestConfig.isOpen) {
+            showPopup(
+                'warning',
+                'Periode Pengajuan Ditutup',
+                `Pengajuan OFF/Cuti hanya dibuka tanggal ${latestConfig.startDay} sampai ${latestConfig.endDay} setiap bulan.`
+            );
+            configureOffCutiDateInputs();
+            return;
+        }
+
+        const nama = document.getElementById('select-nama-off').value;
+        const selectedEmployee = employeeList.find(emp =>
+            (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase()
+        );
+        const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
+        const inputs = document.querySelectorAll('.input-tgl-off');
+        const keterangan = document.getElementById('input-keterangan-off').value.trim();
+
+        const selectedDates = [];
+        inputs.forEach(inp => {
+            if (inp.value) {
+                const cleanDate = normalizeOffCutiDate(inp.value);
+                if (cleanDate) selectedDates.push(cleanDate);
+            }
         });
 
-        const result = await response.json();
+        const period = getOffCutiTargetPeriod();
+        const uniqueDates = [...new Set(selectedDates)].sort();
+        const invalidPeriodDate = uniqueDates.find(date => date < period.min || date > period.max);
 
-        if (result.success) {
-            invalidateGasCache('getDisabledDates');
-            invalidateGasCache('getMonthlyRekap');
-            invalidateGasCache('getOffCutiConfig');
-            showPopup('success', 'Pengajuan Berhasil!', result.message, function () {
-                closeModal('modal-off-cuti');
-                document.getElementById('form-off-cuti').reset();
-                loadDisabledDates();
-                loadDashboardMonthlyRekap();
-            });
-        } else {
-            showPopup('error', 'Pengajuan Ditolak', result.message);
-            await loadDisabledDates();
+        if (!nama || !nik || uniqueDates.length === 0 || !keterangan) {
+            showPopup('warning', 'Data Belum Lengkap', 'Pilih nama, minimal 1 tanggal, dan isi keterangan acara.');
+            return;
         }
-    } catch (err) {
-        showPopup('error', 'Kesalahan Sistem', 'Terjadi kesalahan koneksi ke Google Sheet: ' + err.toString());
+
+        if (invalidPeriodDate) {
+            showPopup('warning', 'Tanggal Tidak Sesuai Periode', 'Tanggal libur hanya boleh dipilih untuk bulan berikutnya.');
+            return;
+        }
+
+        const payload = {
+            action: 'submitOffCuti',
+            nik: nik,
+            nama: nama,
+            dates: uniqueDates,
+            keterangan: keterangan
+        };
+
+        try {
+            let result = await postOffCutiPayload(payload);
+
+            // SERVER_BUSY: banyak karyawan lain sedang submit bersamaan dan
+            // backend lagi antre (LockService). Coba OTOMATIS sekali lagi
+            // setelah jeda singkat sebelum menampilkan apa pun ke user —
+            // supaya mereka tidak perlu klik ulang manual sendiri.
+            if (result && result.success === false && result.code === 'SERVER_BUSY') {
+                await new Promise(resolve => setTimeout(resolve, 2500));
+                result = await postOffCutiPayload(payload);
+            }
+
+            if (result.success) {
+                invalidateGasCache('getDisabledDates');
+                invalidateGasCache('getMonthlyRekap');
+                invalidateGasCache('getOffCutiConfig');
+                showPopup('success', 'Pengajuan Berhasil!', result.message, function () {
+                    closeModal('modal-off-cuti');
+                    document.getElementById('form-off-cuti').reset();
+                    loadDisabledDates();
+                    loadDashboardMonthlyRekap();
+                });
+            } else if (result.code === 'DUPLICATE_SUBMIT') {
+                // Pengajuan yang persis sama sudah lebih dulu berhasil disimpan
+                // (klik ganda/tab dobel). Ini bukan penolakan biasa, jadi
+                // tampilkan sebagai info, bukan error yang bikin khawatir.
+                showPopup('warning', 'Sudah Terkirim', result.message);
+                await loadDisabledDates();
+            } else if (result.code === 'SERVER_BUSY') {
+                showPopup('warning', 'Server Sedang Sibuk', result.message || 'Sistem sedang memproses banyak pengajuan sekaligus. Silakan coba lagi sebentar.');
+            } else {
+                showPopup('error', 'Pengajuan Ditolak', result.message);
+                await loadDisabledDates();
+            }
+        } catch (err) {
+            showPopup('error', 'Kesalahan Sistem', 'Terjadi kesalahan koneksi ke Google Sheet: ' + err.toString());
+        }
     } finally {
-        btnSubmit.disabled = false;
-        btnSubmit.innerHTML = `<span>Kirim Pengajuan Libur</span>`;
+        // Selalu lepas kunci & pulihkan tombol di SETIAP jalur keluar
+        // (validasi gagal, periode tutup, sukses, error, ataupun exception
+        // tak terduga) supaya tombol tidak macet ke-disable selamanya.
+        isSubmittingOffCuti = false;
+        if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = `<span>Kirim Pengajuan Libur</span>`;
+        }
         configureOffCutiDateInputs();
     }
 }
