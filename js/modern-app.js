@@ -86,6 +86,7 @@
             case 'absensi': closeMore(); if (typeof window.openAbsensiModal === 'function') window.openAbsensiModal(); break;
             case 'off': closeMore(); if (typeof window.openOffCutiModal === 'function') window.openOffCutiModal(); break;
             case 'kas': closeMore(); if (typeof window.openKasModal === 'function') window.openKasModal(); break;
+            case 'qsc': closeMore(); if (typeof window.openQscModal === 'function') window.openQscModal(); break;
             case 'info': closeMore(); if (typeof window.openInfoModal === 'function') window.openInfoModal(); break;
             case 'sop': showSopUnavailable(); break;
             case 'classic': switchClassic(); break;

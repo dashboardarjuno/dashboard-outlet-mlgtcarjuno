@@ -149,15 +149,23 @@ function qscOnPosisiChange() {
     const posSelect = document.getElementById('qsc-select-posisi');
     const pos = posSelect ? posSelect.value : '';
     qscSelectedPos = pos;
+    // Reset temuan HANYA saat posisi benar-benar diganti oleh user,
+    // bukan saat sekadar refresh tampilan (lihat qscRenderBody_).
     qscSpotFindings = {};
     qscKomplain = null;
+    qscRenderBody_();
+}
 
+// Render ulang isi checklist TANPA mereset state — dipakai oleh
+// qscToggleFinding/qscToggleKomplain supaya centang yang baru saja
+// ditandai tidak ikut terhapus balik.
+function qscRenderBody_() {
+    const pos = qscSelectedPos;
     const body = document.getElementById('qsc-body');
     if (!pos || !QSC_CONFIG[pos]) {
         body.innerHTML = '<p class="text-center text-slate-400 text-sm py-6">Pilih posisi operasional dulu di atas.</p>';
         return;
     }
-
     body.innerHTML = qscMode === 'self' ? qscRenderSelfCheckHtml_(pos) : qscRenderSpotCheckHtml_(pos);
 }
 
@@ -240,7 +248,7 @@ function qscToggleFinding(itemId, checked) {
     } else {
         delete qscSpotFindings[itemId];
     }
-    qscOnPosisiChange();
+    qscRenderBody_();
 }
 function qscUpdateFindingField(itemId, field, value) {
     if (!qscSpotFindings[itemId]) return;
@@ -255,7 +263,7 @@ function qscHandleFindingFoto(itemId, input) {
 }
 function qscToggleKomplain(checked) {
     qscKomplain = checked ? { catatan: '', foto: '' } : null;
-    qscOnPosisiChange();
+    qscRenderBody_();
 }
 function qscUpdateKomplainField(field, value) {
     if (!qscKomplain) return;
