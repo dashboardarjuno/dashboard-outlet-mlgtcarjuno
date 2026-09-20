@@ -175,7 +175,7 @@ function qscRenderSelfCheckHtml_(pos) {
         }
         html += `<label class="flex items-center justify-between gap-3 bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs sm:text-sm cursor-pointer hover:border-brand-red transition">
             <span class="text-slate-700">${escapeHtml(item.label)}${item.critical ? ' <span class="text-rose-500 font-bold">*Kritis</span>' : ''}${item.needsApproval ? ' <span class="text-amber-500">(perlu approval MO)</span>' : ''}</span>
-            <input type="checkbox" data-qsc-item="${item.id}" class="qsc-self-item w-5 h-5 accent-emerald-600 shrink-0" checked>
+            <input type="checkbox" data-qsc-item="${item.id}" class="qsc-self-item w-5 h-5 accent-emerald-600 shrink-0">
         </label>`;
     });
 
