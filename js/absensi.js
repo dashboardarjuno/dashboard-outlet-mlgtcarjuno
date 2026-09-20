@@ -342,6 +342,8 @@
                         document.getElementById("form-absensi").reset();
                         photoBase64 = null;
                         if (typeof loadTodayAttendance === 'function') await loadTodayAttendance();
+                        // BARU: prompt checklist QSC (hanya untuk CHECKIN/REST_OUT/CHECKOUT, ditangani di dalam qsc.js)
+                        if (typeof maybeShowQscSelfCheckPrompt === 'function') maybeShowQscSelfCheckPrompt(tipe, nik, nama);
                     });
                 } else {
                     showPopup('error', 'Absensi Gagal', result.message);
