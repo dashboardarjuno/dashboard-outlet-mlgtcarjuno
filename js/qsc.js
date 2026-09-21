@@ -337,6 +337,8 @@ async function submitQscSelfCheck() {
         const result = await response.json();
         if (result.success) {
             showPopup('success', 'Checklist QSC Tersimpan', result.message, () => closeModal('modal-qsc'));
+            invalidateGasCache('getQscTeamSummary');
+            qscInjectBadges_();
         } else {
             showPopup('error', 'Gagal Menyimpan', result.message || 'Terjadi kesalahan.');
         }
@@ -390,6 +392,7 @@ async function submitQscSpotCheck() {
         if (result.success) {
             invalidateGasCache('getQscTeamSummary');
             showPopup('success', 'Spot-Check Tersimpan', result.message, () => closeModal('modal-qsc'));
+            qscInjectBadges_();
         } else {
             showPopup('error', 'Gagal Menyimpan', result.message || 'Terjadi kesalahan.');
         }
@@ -480,6 +483,10 @@ async function qscCheckSpotCheckSchedule_() {
 }
 window.addEventListener('arjunohub:employee-ready', function () {
     setTimeout(qscCheckSpotCheckSchedule_, 1500);
+    // Auto-refresh badge QSC secara berkala tanpa perlu reload halaman —
+    // berguna kalau ada orang lain yang baru submit checklist sementara
+    // kartu tim ini sedang dibuka di perangkat lain.
+    setInterval(qscInjectBadges_, 90000);
 });
 
 // ==========================================================
