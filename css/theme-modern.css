@@ -950,3 +950,701 @@ html[data-theme="modern"] .modern-info-full .modern-card-arrow{
         padding:15px 13px !important;
     }
 }
+
+/* ==========================================================
+   MODERN RESPONSIVE UI LAYER v2026.09.22
+   CSS ONLY — logic/data/DOM action existing tetap digunakan.
+   ========================================================== */
+
+@media (min-width: 1025px) {
+  /* Desktop: main harus selalu mulai SETELAH sidebar.
+     Jangan center elemen <main> terhadap viewport karena akan masuk ke bawah sidebar. */
+  html[data-theme="modern"] body > main {
+    width: auto !important;
+    max-width: none !important;
+    margin-left: var(--m-sidebar-w) !important;
+    margin-right: 0 !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+    box-sizing: border-box !important;
+  }
+
+  html[data-theme="modern"] .modern-topbar {
+    padding-right: 30px !important;
+  }
+
+  html[data-theme="modern"] .modern-quick-actions {
+    align-items: stretch;
+  }
+
+  html[data-theme="modern"] .modern-quick-actions > * {
+    min-height: 118px;
+  }
+}
+
+@media (max-width: 720px) {
+  html[data-theme="modern"] body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html[data-theme="modern"] body > main {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  html[data-theme="modern"] .modern-topbar {
+    min-height: 60px !important;
+    padding-top: calc(8px + env(safe-area-inset-top, 0px)) !important;
+  }
+
+  html[data-theme="modern"] .modern-home {
+    gap: 12px !important;
+  }
+
+  html[data-theme="modern"] .modern-welcome-card,
+  html[data-theme="modern"] .modern-info-card {
+    border-radius: 20px !important;
+  }
+
+  html[data-theme="modern"] .modern-quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  html[data-theme="modern"] .modern-quick-actions > button,
+  html[data-theme="modern"] .modern-quick-actions > a {
+    min-width: 0 !important;
+    min-height: 116px !important;
+    border-radius: 18px !important;
+    padding: 14px 11px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Bottom nav existing: hanya diperkuat untuk touch + iPhone safe area */
+  html[data-theme="modern"] .modern-bottom-nav {
+    min-height: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+  }
+
+  html[data-theme="modern"] .modern-bottom-item {
+    min-width: 0 !important;
+    min-height: 54px !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  html[data-theme="modern"] .modern-sheet-panel {
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Native date/month control tetap native; tidak mengubah event/value */
+  html[data-theme="modern"] input[type="date"],
+  html[data-theme="modern"] input[type="month"] {
+    min-height: 42px;
+    font-size: 16px !important;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  html[data-theme="modern"] body > main {
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+  }
+
+  html[data-theme="modern"] .modern-quick-actions {
+    gap: 8px !important;
+  }
+
+  html[data-theme="modern"] .modern-quick-actions > button,
+  html[data-theme="modern"] .modern-quick-actions > a {
+    padding-left: 9px !important;
+    padding-right: 9px !important;
+  }
+}
+
+/* ==========================================================
+   VISUAL POLISH V2 — 2026.09.22
+   Presentation only. No DOM/JS/data/date-flow changes.
+   ========================================================== */
+@media (min-width:1025px){
+  html[data-theme="modern"] body > main{padding-left:34px!important;padding-right:34px!important;}
+  html[data-theme="modern"] .modern-home{max-width:1360px;}
+  html[data-theme="modern"] .modern-welcome-card{min-height:292px;border-radius:32px;padding:42px 46px;box-shadow:0 26px 70px rgba(67,56,202,.20);}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:46px;max-width:700px;}
+  html[data-theme="modern"] .modern-welcome-content p{font-size:13px;}
+  html[data-theme="modern"] .modern-primary-actions button{height:44px;padding:0 17px;}
+  html[data-theme="modern"] .modern-info-card{min-height:116px;border-radius:22px;}
+  html[data-theme="modern"] .modern-quick-actions{gap:16px;}
+  html[data-theme="modern"] .modern-quick-actions button{min-height:142px;border-radius:22px;padding:20px;}
+  html[data-theme="modern"] .modern-quick-actions button:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(37,40,80,.10);}
+}
+
+@media (max-width:720px){
+  html[data-theme="modern"] body > main{padding-left:14px!important;padding-right:14px!important;}
+  html[data-theme="modern"] .modern-welcome-card{padding:18px 16px!important;border-radius:22px!important;box-shadow:0 16px 36px rgba(67,56,202,.16);}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:27px!important;line-height:1.03!important;margin:13px 0 9px!important;letter-spacing:-.05em;}
+  html[data-theme="modern"] .modern-welcome-content p{font-size:11px!important;line-height:1.55!important;}
+  html[data-theme="modern"] .modern-kicker{font-size:9px;padding:6px 9px;}
+  html[data-theme="modern"] .modern-primary-actions{gap:8px!important;margin-top:16px!important;display:grid!important;grid-template-columns:1fr 1fr!important;}
+  html[data-theme="modern"] .modern-primary-actions button{width:100%!important;height:42px!important;justify-content:center!important;padding:0 8px!important;font-size:10px!important;}
+  html[data-theme="modern"] .modern-primary-actions button:first-child{grid-column:1/-1;}
+  html[data-theme="modern"] .modern-home-grid{gap:10px!important;margin-top:12px!important;}
+  html[data-theme="modern"] .modern-info-card{border-radius:18px!important;padding:14px!important;box-shadow:0 8px 22px rgba(32,34,64,.05);}
+  html[data-theme="modern"] .modern-section-title{margin:22px 2px 10px!important;}
+  html[data-theme="modern"] .modern-section-title h3{font-size:15px!important;}
+  html[data-theme="modern"] .modern-quick-actions > button{min-height:124px!important;padding:14px 12px!important;border-radius:18px!important;box-shadow:0 7px 20px rgba(32,34,64,.045);}
+  html[data-theme="modern"] .modern-quick-icon{width:40px!important;height:40px!important;border-radius:13px!important;}
+  html[data-theme="modern"] .modern-quick-actions strong{font-size:11px!important;margin-top:12px!important;}
+  html[data-theme="modern"] .modern-quick-actions small{font-size:8.5px!important;}
+  html[data-theme="modern"] .modern-bottom-nav{left:10px!important;right:10px!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;border-radius:18px!important;box-shadow:0 14px 40px rgba(31,35,68,.18)!important;}
+}
+
+/* ==========================================================
+   PREMIUM POLISH V2.1 — MODERN THEME — CSS ONLY
+   ========================================================== */
+html[data-theme="modern"] body{background:radial-gradient(circle at 82% 2%,rgba(124,58,237,.07),transparent 26%),#f6f7fb;}
+html[data-theme="modern"] .modern-sidebar{box-shadow:14px 0 42px rgba(20,22,48,.08);}
+html[data-theme="modern"] .modern-topbar{backdrop-filter:saturate(150%) blur(14px);-webkit-backdrop-filter:saturate(150%) blur(14px);background:rgba(248,249,253,.88)!important;border-bottom:1px solid rgba(128,134,168,.13)!important;}
+html[data-theme="modern"] .modern-welcome-card{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.16)!important;}
+html[data-theme="modern"] .modern-welcome-card:after{content:"";position:absolute;width:360px;height:360px;right:-110px;top:-180px;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none;}
+html[data-theme="modern"] .modern-info-card,
+html[data-theme="modern"] .modern-quick-actions > button,
+html[data-theme="modern"] .modern-quick-actions > a{border:1px solid rgba(125,130,160,.12)!important;background:rgba(255,255,255,.92)!important;}
+html[data-theme="modern"] .modern-info-card{box-shadow:0 12px 36px rgba(34,38,74,.06)!important;}
+html[data-theme="modern"] .modern-quick-actions > button,
+html[data-theme="modern"] .modern-quick-actions > a{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease!important;}
+html[data-theme="modern"] .modern-quick-actions > button:hover,
+html[data-theme="modern"] .modern-quick-actions > a:hover{border-color:rgba(99,102,241,.20)!important;box-shadow:0 18px 42px rgba(42,45,88,.10)!important;}
+html[data-theme="modern"] .modern-quick-icon{box-shadow:inset 0 0 0 1px rgba(255,255,255,.45);}
+html[data-theme="modern"] .modern-bottom-nav{background:rgba(255,255,255,.94)!important;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(112,118,150,.13)!important;}
+@media (max-width:720px){
+ html[data-theme="modern"] .modern-topbar{background:rgba(248,249,253,.93)!important;}
+ html[data-theme="modern"] .modern-welcome-card{box-shadow:0 18px 42px rgba(67,56,202,.19)!important;}
+ html[data-theme="modern"] .modern-info-card,
+ html[data-theme="modern"] .modern-quick-actions > button,
+ html[data-theme="modern"] .modern-quick-actions > a{box-shadow:0 9px 26px rgba(30,34,68,.065)!important;}
+}
+
+/* ==========================================================
+   V2.2 SIGNATURE UI — clearly visible visual redesign, CSS only
+   ========================================================== */
+html[data-theme="modern"]{--sig-purple:#6d4aff;--sig-indigo:#3f46d8;--sig-ink:#17192e;}
+@media (min-width:1025px){
+ html[data-theme="modern"] .modern-sidebar{width:264px!important;padding:24px 16px!important;background:linear-gradient(180deg,#15172d 0%,#101222 100%)!important;border-right:1px solid rgba(255,255,255,.06)!important;}
+ html[data-theme="modern"] .modern-brand{padding:10px 10px 22px!important;margin-bottom:6px!important;border-bottom:1px solid rgba(255,255,255,.07)!important;}
+ html[data-theme="modern"] .modern-nav{gap:7px!important;}
+ html[data-theme="modern"] .modern-nav-item{min-height:46px!important;border-radius:14px!important;padding:0 14px!important;transition:.2s ease!important;}
+ html[data-theme="modern"] .modern-nav-item.active{background:linear-gradient(135deg,rgba(109,74,255,.32),rgba(79,70,229,.16))!important;box-shadow:inset 3px 0 0 #8b7cff,0 8px 24px rgba(0,0,0,.10)!important;}
+ html[data-theme="modern"] .modern-topbar{left:264px!important;height:88px!important;padding:0 34px!important;}
+ html[data-theme="modern"] body>main{margin-left:264px!important;width:calc(100% - 264px)!important;padding-top:32px!important;}
+ html[data-theme="modern"] .modern-home{max-width:1420px!important;}
+ html[data-theme="modern"] .modern-welcome-card{min-height:330px!important;border-radius:34px!important;padding:48px 52px!important;background:radial-gradient(circle at 82% 28%,rgba(255,255,255,.16),transparent 18%),linear-gradient(125deg,#29277f 0%,#4844db 52%,#7c2cf0 100%)!important;box-shadow:0 28px 70px rgba(71,52,190,.24)!important;}
+ html[data-theme="modern"] .modern-welcome-content h1{font-size:50px!important;line-height:.98!important;letter-spacing:-.055em!important;max-width:760px!important;}
+ html[data-theme="modern"] .modern-welcome-content h1 span{color:#d9d1ff!important;}
+ html[data-theme="modern"] .modern-kicker{background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.18)!important;backdrop-filter:blur(10px);}
+ html[data-theme="modern"] .modern-welcome-visual{transform:scale(1.12);}
+ html[data-theme="modern"] .modern-visual-icon{box-shadow:0 18px 50px rgba(21,16,75,.30),0 0 0 10px rgba(255,255,255,.06)!important;}
+ html[data-theme="modern"] .modern-info-card{margin-top:18px!important;border-radius:24px!important;padding:20px 22px!important;background:linear-gradient(135deg,#fff,#fbfaff)!important;}
+ html[data-theme="modern"] .modern-card-icon{width:54px!important;height:54px!important;border-radius:17px!important;background:linear-gradient(135deg,#eeeaff,#f7f5ff)!important;box-shadow:inset 0 0 0 1px rgba(109,74,255,.08)!important;}
+ html[data-theme="modern"] .modern-section-title{margin-top:30px!important;}
+ html[data-theme="modern"] .modern-quick-actions{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:16px!important;}
+ html[data-theme="modern"] .modern-quick-actions>button{min-height:158px!important;border-radius:24px!important;text-align:left!important;align-items:flex-start!important;padding:22px!important;background:linear-gradient(145deg,#fff 0%,#fbfbff 100%)!important;}
+ html[data-theme="modern"] .modern-quick-icon{width:50px!important;height:50px!important;border-radius:16px!important;}
+}
+@media (max-width:720px){
+ html[data-theme="modern"] body{background:linear-gradient(180deg,#f8f8fd 0%,#f2f4fa 100%)!important;}
+ html[data-theme="modern"] .modern-topbar{height:66px!important;padding:0 14px!important;border-radius:0 0 18px 18px!important;box-shadow:0 7px 24px rgba(31,35,68,.06)!important;}
+ html[data-theme="modern"] body>main{padding:12px 12px 104px!important;}
+ html[data-theme="modern"] .modern-welcome-card{padding:20px 18px 18px!important;border-radius:24px!important;background:radial-gradient(circle at 86% 16%,rgba(255,255,255,.15),transparent 23%),linear-gradient(145deg,#29277f 0%,#4b46dc 55%,#7d2dec 100%)!important;box-shadow:0 20px 45px rgba(74,55,190,.23)!important;}
+ html[data-theme="modern"] .modern-welcome-card:before{content:"";position:absolute;right:-22px;bottom:-42px;width:130px;height:130px;border:1px solid rgba(255,255,255,.12);border-radius:50%;box-shadow:0 0 0 20px rgba(255,255,255,.035),0 0 0 40px rgba(255,255,255,.025);}
+ html[data-theme="modern"] .modern-welcome-content h1{font-size:29px!important;line-height:1!important;max-width:300px!important;}
+ html[data-theme="modern"] .modern-welcome-content h1 span{color:#d9d2ff!important;}
+ html[data-theme="modern"] .modern-primary-actions button{border-radius:13px!important;}
+ html[data-theme="modern"] .modern-info-card{border-radius:20px!important;padding:15px!important;background:#fff!important;}
+ html[data-theme="modern"] .modern-card-icon{width:43px!important;height:43px!important;border-radius:14px!important;background:#f0edff!important;}
+ html[data-theme="modern"] .modern-quick-actions{gap:10px!important;}
+ html[data-theme="modern"] .modern-quick-actions>button{min-height:132px!important;border-radius:20px!important;padding:15px!important;align-items:flex-start!important;text-align:left!important;background:linear-gradient(145deg,#fff,#fafaff)!important;}
+ html[data-theme="modern"] .modern-quick-icon{width:42px!important;height:42px!important;border-radius:14px!important;}
+ html[data-theme="modern"] .modern-bottom-nav{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;min-height:64px!important;border-radius:22px!important;box-shadow:0 18px 50px rgba(27,30,65,.22)!important;}
+ html[data-theme="modern"] .modern-bottom-item.active{background:#f0edff!important;border-radius:15px!important;color:#5b46e8!important;}
+}
+
+/* ==========================================================
+   V3 ADAPTIVE REDESIGN — MODERN — CSS ONLY
+   Desktop: editorial workspace / floating navigation
+   Mobile: native-app card stack / persistent tab bar
+   ========================================================== */
+html[data-theme="modern"]{--v3-bg:#f3f5f9;--v3-panel:#fff;--v3-text:#17192b;--v3-muted:#74798d;--v3-accent:#5b4ce6;--v3-line:#e7e9f1}
+html[data-theme="modern"] body{background:var(--v3-bg)!important;color:var(--v3-text)!important}
+@media (min-width:1025px){
+ html[data-theme="modern"] .modern-sidebar{width:248px!important;top:16px!important;bottom:16px!important;left:16px!important;height:auto!important;border-radius:24px!important;padding:18px 12px!important;background:rgba(20,22,39,.98)!important;box-shadow:0 24px 70px rgba(19,22,41,.18)!important;border:1px solid rgba(255,255,255,.07)!important}
+ html[data-theme="modern"] .modern-brand{padding:8px 8px 18px!important;margin-bottom:12px!important}
+ html[data-theme="modern"] .modern-brand-mark{width:44px!important;height:44px!important;border-radius:14px!important;overflow:hidden!important;box-shadow:0 8px 20px rgba(0,0,0,.22)!important}
+ html[data-theme="modern"] .modern-brand-copy strong{font-size:14px!important;letter-spacing:-.02em!important}
+ html[data-theme="modern"] .modern-nav{gap:4px!important}
+ html[data-theme="modern"] .modern-nav-item{min-height:43px!important;border-radius:12px!important;padding:0 12px!important;font-size:12px!important;color:#aeb3c7!important}
+ html[data-theme="modern"] .modern-nav-item i{width:22px!important;font-size:13px!important}
+ html[data-theme="modern"] .modern-nav-item.active{color:#fff!important;background:rgba(255,255,255,.105)!important;box-shadow:none!important}
+ html[data-theme="modern"] .modern-nav-item.active:before{content:"";width:3px;height:18px;border-radius:9px;background:#8b7cff;position:absolute;left:0}
+ html[data-theme="modern"] .modern-sidebar-bottom{padding:10px 4px 0!important}
+ html[data-theme="modern"] .modern-theme-back{border-radius:12px!important;background:rgba(255,255,255,.06)!important;border:1px solid rgba(255,255,255,.08)!important}
+ html[data-theme="modern"] .modern-topbar{left:280px!important;right:28px!important;top:16px!important;height:72px!important;border-radius:20px!important;padding:0 22px!important;background:rgba(255,255,255,.82)!important;border:1px solid rgba(255,255,255,.92)!important;box-shadow:0 10px 35px rgba(37,42,72,.07)!important}
+ html[data-theme="modern"] .modern-topbar-copy span{font-size:9px!important;letter-spacing:.14em!important}
+ html[data-theme="modern"] .modern-topbar-copy h2{font-size:21px!important;letter-spacing:-.035em!important}
+ html[data-theme="modern"] body>main{margin-left:280px!important;width:calc(100% - 280px)!important;padding:112px 28px 40px!important}
+ html[data-theme="modern"] .modern-home{max-width:none!important;display:grid!important;grid-template-columns:minmax(0,1.55fr) minmax(330px,.65fr)!important;grid-template-areas:"hero info" "hero title" "quick quick"!important;column-gap:20px!important;row-gap:16px!important}
+ html[data-theme="modern"] .modern-welcome-card{grid-area:hero!important;min-height:350px!important;padding:42px!important;border-radius:30px!important;background:linear-gradient(145deg,#20233e 0%,#2c2f55 48%,#5847d8 100%)!important;box-shadow:0 22px 55px rgba(36,39,75,.20)!important}
+ html[data-theme="modern"] .modern-welcome-card:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 30%,rgba(147,129,255,.36),transparent 23%),linear-gradient(90deg,transparent 60%,rgba(255,255,255,.03));pointer-events:none}
+ html[data-theme="modern"] .modern-welcome-content{position:relative;z-index:2;max-width:70%!important;align-self:center!important}
+ html[data-theme="modern"] .modern-welcome-content h1{font-size:47px!important;line-height:.98!important;letter-spacing:-.055em!important;margin:20px 0 14px!important}
+ html[data-theme="modern"] .modern-welcome-content h1 span{color:#c9c4ff!important}
+ html[data-theme="modern"] .modern-welcome-content p{font-size:13px!important;color:#d7daea!important}
+ html[data-theme="modern"] .modern-kicker{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.14)!important;border-radius:999px!important}
+ html[data-theme="modern"] .modern-primary-actions{margin-top:28px!important;gap:9px!important}
+ html[data-theme="modern"] .modern-primary-actions button{height:46px!important;border-radius:13px!important;padding:0 16px!important}
+ html[data-theme="modern"] .modern-welcome-visual{right:5%!important;transform:scale(.92)!important;opacity:.9!important}
+ html[data-theme="modern"] .modern-home-grid{grid-area:info!important;margin:0!important;display:block!important}
+ html[data-theme="modern"] .modern-info-card{height:100%!important;min-height:210px!important;border-radius:26px!important;padding:26px!important;display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;gap:14px!important;background:#fff!important;border:1px solid var(--v3-line)!important;box-shadow:0 12px 35px rgba(37,42,72,.055)!important}
+ html[data-theme="modern"] .modern-card-icon{width:48px!important;height:48px!important;border-radius:15px!important;flex:0 0 48px!important}
+ html[data-theme="modern"] .modern-info-content span{font-size:9px!important;letter-spacing:.13em!important}
+ html[data-theme="modern"] .modern-info-content strong{font-size:14px!important;line-height:1.5!important;margin-top:8px!important;display:block!important}
+ html[data-theme="modern"] .modern-card-arrow{position:absolute!important;right:22px!important;bottom:22px!important}
+ html[data-theme="modern"] .modern-section-title{grid-area:title!important;margin:0!important;align-self:end!important;padding:0 4px!important}
+ html[data-theme="modern"] .modern-section-title span{font-size:9px!important;letter-spacing:.15em!important}
+ html[data-theme="modern"] .modern-section-title:after{content:"Menu yang paling sering digunakan";display:block;font-size:13px;font-weight:700;color:#23263d;margin-top:5px}
+ html[data-theme="modern"] .modern-quick-actions{grid-area:quick!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:12px!important}
+ html[data-theme="modern"] .modern-quick-actions>button{min-height:138px!important;border-radius:22px!important;padding:18px!important;background:#fff!important;border:1px solid var(--v3-line)!important;box-shadow:0 8px 26px rgba(37,42,72,.045)!important;align-items:flex-start!important;text-align:left!important}
+ html[data-theme="modern"] .modern-quick-actions>button:hover{transform:translateY(-5px)!important;box-shadow:0 18px 38px rgba(37,42,72,.10)!important;border-color:#d8d5ff!important}
+ html[data-theme="modern"] .modern-quick-icon{width:44px!important;height:44px!important;border-radius:14px!important;margin-bottom:auto!important}
+ html[data-theme="modern"] .modern-quick-actions strong{font-size:13px!important;letter-spacing:-.015em!important}
+ html[data-theme="modern"] .modern-quick-actions small{font-size:10px!important;color:#8b90a3!important;margin-top:4px!important}
+}
+@media (max-width:720px){
+ html[data-theme="modern"] body{background:#f4f5f9!important}
+ html[data-theme="modern"] .modern-topbar{height:62px!important;border-radius:0!important;padding:calc(7px + env(safe-area-inset-top,0px)) 14px 7px!important;background:#f4f5f9!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important}
+ html[data-theme="modern"] .modern-topbar-copy span{font-size:7px!important;letter-spacing:.13em!important}
+ html[data-theme="modern"] .modern-topbar-copy h2{font-size:18px!important;letter-spacing:-.04em!important}
+ html[data-theme="modern"] .modern-icon-btn,html[data-theme="modern"] .modern-profile{width:36px!important;height:36px!important;border-radius:12px!important;background:#fff!important;border:1px solid #e8e9f0!important;box-shadow:0 4px 12px rgba(34,37,64,.05)!important}
+ html[data-theme="modern"] body>main{padding:8px 12px calc(96px + env(safe-area-inset-bottom,0px))!important}
+ html[data-theme="modern"] .modern-home{gap:12px!important}
+ html[data-theme="modern"] .modern-welcome-card{min-height:260px!important;padding:22px 18px!important;border-radius:26px!important;background:linear-gradient(155deg,#20233d 0%,#34335f 56%,#6550df 100%)!important;box-shadow:0 16px 36px rgba(43,45,91,.20)!important}
+ html[data-theme="modern"] .modern-welcome-card:after{width:190px!important;height:190px!important;right:-72px!important;top:-72px!important;background:rgba(255,255,255,.055)!important}
+ html[data-theme="modern"] .modern-welcome-content h1{font-size:31px!important;line-height:.98!important;letter-spacing:-.06em!important;margin:17px 0 10px!important;max-width:310px!important}
+ html[data-theme="modern"] .modern-welcome-content h1 span{color:#d1ccff!important}
+ html[data-theme="modern"] .modern-welcome-content p{font-size:11px!important;color:#d9dbea!important}
+ html[data-theme="modern"] .modern-primary-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;margin-top:19px!important}
+ html[data-theme="modern"] .modern-primary-actions button{height:42px!important;border-radius:13px!important;font-size:10px!important}
+ html[data-theme="modern"] .modern-primary-actions button:first-child{grid-column:1/-1!important;height:45px!important}
+ html[data-theme="modern"] .modern-info-card{min-height:112px!important;padding:16px!important;border-radius:20px!important;background:#fff!important;border:1px solid #e8e9f0!important;box-shadow:0 6px 20px rgba(34,37,64,.045)!important}
+ html[data-theme="modern"] .modern-section-title{margin:8px 2px 0!important}
+ html[data-theme="modern"] .modern-section-title span{font-size:8px!important;letter-spacing:.14em!important}
+ html[data-theme="modern"] .modern-section-title:after{content:"Akses cepat";font-size:17px;font-weight:800;letter-spacing:-.035em;color:#1c1f34;display:block;margin-top:3px}
+ html[data-theme="modern"] .modern-quick-actions{display:flex!important;overflow-x:auto!important;gap:10px!important;padding:2px 1px 8px!important;scroll-snap-type:x mandatory!important;scrollbar-width:none!important}
+ html[data-theme="modern"] .modern-quick-actions::-webkit-scrollbar{display:none!important}
+ html[data-theme="modern"] .modern-quick-actions>button{flex:0 0 142px!important;min-height:138px!important;border-radius:20px!important;padding:15px!important;scroll-snap-align:start!important;background:#fff!important;border:1px solid #e8e9f0!important;box-shadow:0 6px 18px rgba(34,37,64,.04)!important;align-items:flex-start!important;text-align:left!important}
+ html[data-theme="modern"] .modern-quick-icon{width:42px!important;height:42px!important;border-radius:13px!important;margin-bottom:auto!important}
+ html[data-theme="modern"] .modern-quick-actions strong{font-size:11px!important}
+ html[data-theme="modern"] .modern-quick-actions small{font-size:8.5px!important;line-height:1.35!important}
+ html[data-theme="modern"] .modern-bottom-nav{left:10px!important;right:10px!important;bottom:calc(8px + env(safe-area-inset-bottom,0px))!important;min-height:66px!important;padding:6px!important;border-radius:22px!important;background:rgba(24,26,45,.94)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 18px 42px rgba(24,26,45,.26)!important;backdrop-filter:blur(18px)!important}
+ html[data-theme="modern"] .modern-bottom-item{color:#9da2b6!important;border-radius:16px!important;min-height:52px!important}
+ html[data-theme="modern"] .modern-bottom-item.active{background:#fff!important;color:#5146d9!important;border-radius:16px!important}
+ html[data-theme="modern"] .modern-bottom-item span{font-size:8px!important}
+}
+
+/* ==========================================================
+   V4 FRESH ADAPTIVE — MODERN — CSS ONLY
+   Fresh indigo/cyan palette, desktop workspace, mobile 2-col grid.
+   No HTML / JS / data / API / event changes.
+   ========================================================== */
+html[data-theme="modern"]{--v4-bg:#f3f7fb;--v4-surface:#ffffff;--v4-ink:#14213d;--v4-muted:#718096;--v4-indigo:#4f46e5;--v4-cyan:#06b6d4;--v4-mint:#10b981;--v4-line:#e5ebf3}
+html[data-theme="modern"] body{background:radial-gradient(circle at 88% 0%,rgba(6,182,212,.10),transparent 24%),linear-gradient(180deg,#f7faff 0%,var(--v4-bg) 100%)!important;color:var(--v4-ink)!important;overflow-x:hidden!important}
+@media (min-width:1025px){
+ html[data-theme="modern"] .modern-sidebar{display:flex!important;flex-direction:column!important;overflow:hidden!important;background:linear-gradient(180deg,#14213d 0%,#172554 100%)!important}
+ html[data-theme="modern"] .modern-brand{flex:0 0 auto!important}
+ html[data-theme="modern"] .modern-nav{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;padding-right:3px!important;scrollbar-width:thin!important;scrollbar-color:rgba(255,255,255,.18) transparent!important}
+ html[data-theme="modern"] .modern-sidebar-bottom{flex:0 0 auto!important;background:linear-gradient(180deg,rgba(20,33,61,0),#172554 24%)!important;padding-top:12px!important}
+ html[data-theme="modern"] .modern-nav-item.active{background:linear-gradient(135deg,rgba(6,182,212,.20),rgba(79,70,229,.26))!important;box-shadow:inset 0 0 0 1px rgba(103,232,249,.12)!important}
+ html[data-theme="modern"] .modern-nav-item.active:before{background:#22d3ee!important}
+ html[data-theme="modern"] .modern-topbar{background:rgba(255,255,255,.88)!important;border-color:rgba(255,255,255,.95)!important;box-shadow:0 10px 35px rgba(37,62,98,.07)!important}
+ html[data-theme="modern"] .modern-welcome-card{background:radial-gradient(circle at 84% 24%,rgba(103,232,249,.24),transparent 23%),linear-gradient(130deg,#312e81 0%,#4f46e5 54%,#0891b2 118%)!important;box-shadow:0 24px 60px rgba(67,56,202,.20)!important}
+ html[data-theme="modern"] .modern-welcome-content h1 span{color:#cffafe!important}
+ html[data-theme="modern"] .modern-primary-actions button:first-child{color:#3730a3!important}
+ html[data-theme="modern"] .modern-info-card{background:linear-gradient(145deg,#fff 0%,#f5fdff 100%)!important;border-color:#dcecf2!important}
+ html[data-theme="modern"] .modern-card-icon{background:linear-gradient(135deg,#ecfeff,#eef2ff)!important;color:#4f46e5!important}
+ html[data-theme="modern"] .modern-quick-actions>button{background:linear-gradient(145deg,#fff,#f9fbff)!important;border-color:var(--v4-line)!important;position:relative!important;overflow:hidden!important}
+ html[data-theme="modern"] .modern-quick-actions>button:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(#4f46e5,#06b6d4);opacity:.8}
+ html[data-theme="modern"] .modern-quick-actions>button:hover{border-color:#c7d2fe!important;box-shadow:0 18px 42px rgba(79,70,229,.11)!important}
+}
+@media (max-width:720px){
+ html[data-theme="modern"] body{background:linear-gradient(180deg,#f8fbff 0%,#f1f6fb 100%)!important;overflow-x:hidden!important}
+ html[data-theme="modern"] .modern-topbar{background:rgba(248,251,255,.96)!important}
+ html[data-theme="modern"] body>main{width:100%!important;max-width:100vw!important;min-width:0!important;overflow-x:hidden!important;padding-left:12px!important;padding-right:12px!important}
+ html[data-theme="modern"] .modern-home,html[data-theme="modern"] .modern-home-grid,html[data-theme="modern"] .modern-info-card,html[data-theme="modern"] .modern-section-title,html[data-theme="modern"] .modern-quick-actions{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+ html[data-theme="modern"] .modern-welcome-card{width:100%!important;max-width:100%!important;min-width:0!important;min-height:242px!important;padding:20px 17px!important;border-radius:24px!important;background:radial-gradient(circle at 94% 10%,rgba(103,232,249,.24),transparent 25%),linear-gradient(145deg,#312e81 0%,#4f46e5 58%,#0891b2 120%)!important;box-shadow:0 16px 36px rgba(67,56,202,.18)!important}
+ html[data-theme="modern"] .modern-welcome-content{max-width:100%!important;min-width:0!important}
+ html[data-theme="modern"] .modern-welcome-content h1{font-size:28px!important;max-width:290px!important}
+ html[data-theme="modern"] .modern-welcome-content h1 span{color:#cffafe!important}
+ html[data-theme="modern"] .modern-home-grid{display:block!important}
+ html[data-theme="modern"] .modern-info-card{background:linear-gradient(145deg,#fff,#f5fdff)!important;border-color:#dcecf2!important}
+ html[data-theme="modern"] .modern-quick-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;overflow:visible!important;padding:0 0 8px!important;scroll-snap-type:none!important}
+ html[data-theme="modern"] .modern-quick-actions>button,html[data-theme="modern"] .modern-quick-actions>a{width:100%!important;min-width:0!important;max-width:100%!important;flex:none!important;min-height:122px!important;padding:14px!important;border-radius:18px!important;background:#fff!important;border:1px solid #e2eaf2!important;box-sizing:border-box!important;overflow:hidden!important}
+ html[data-theme="modern"] .modern-quick-actions>button:nth-child(3n+1) .modern-quick-icon{background:#eef2ff!important;color:#4f46e5!important}
+ html[data-theme="modern"] .modern-quick-actions>button:nth-child(3n+2) .modern-quick-icon{background:#ecfeff!important;color:#0891b2!important}
+ html[data-theme="modern"] .modern-quick-actions>button:nth-child(3n) .modern-quick-icon{background:#ecfdf5!important;color:#059669!important}
+ html[data-theme="modern"] .modern-bottom-nav{background:rgba(20,33,61,.95)!important;border-color:rgba(255,255,255,.10)!important}
+ html[data-theme="modern"] .modern-bottom-item.active{background:linear-gradient(135deg,#fff,#ecfeff)!important;color:#4338ca!important}
+}
+
+/* ==========================================================
+   V5 PRO LUXE — MODERN — VISUAL OVERRIDE ONLY
+   Structure, IDs, events and JS untouched.
+   ========================================================== */
+html[data-theme="modern"]{
+ --pro-bg:#eef3f8;--pro-surface:rgba(255,255,255,.82);--pro-navy:#0b1730;--pro-navy2:#13264a;
+ --pro-blue:#2563eb;--pro-cyan:#22d3ee;--pro-violet:#7c3aed;--pro-text:#101828;--pro-muted:#667085;
+ --pro-border:rgba(148,163,184,.22);--pro-shadow:0 24px 70px rgba(15,23,42,.10);
+}
+html[data-theme="modern"] body{background:radial-gradient(circle at 78% -8%,rgba(34,211,238,.14),transparent 28%),radial-gradient(circle at 20% 15%,rgba(124,58,237,.07),transparent 24%),#eef3f8!important}
+@media (min-width:1025px){
+ html[data-theme="modern"] .modern-sidebar{left:18px!important;top:18px!important;bottom:18px!important;width:252px!important;height:auto!important;border-radius:30px!important;background:linear-gradient(155deg,#0a142b 0%,#101f3f 58%,#14284e 100%)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 28px 70px rgba(7,16,34,.25)!important}
+ html[data-theme="modern"] .modern-brand{padding:24px 20px 19px!important;border-bottom:1px solid rgba(255,255,255,.08)!important}
+ html[data-theme="modern"] .modern-brand-mark{width:48px!important;height:48px!important;border-radius:16px!important;padding:2px!important;background:linear-gradient(135deg,rgba(34,211,238,.8),rgba(124,58,237,.75))!important;box-shadow:0 10px 28px rgba(34,211,238,.15)!important}
+ html[data-theme="modern"] .modern-brand-photo{border-radius:14px!important}
+ html[data-theme="modern"] .modern-brand-copy strong{font-size:15px!important;letter-spacing:-.02em!important;color:#fff!important}
+ html[data-theme="modern"] .modern-brand-copy span{color:#8fa4c8!important;letter-spacing:.08em!important}
+ html[data-theme="modern"] .modern-nav{padding:15px 12px!important}
+ html[data-theme="modern"] .modern-nav-item{min-height:48px!important;border-radius:15px!important;margin-bottom:5px!important;color:#aebbd2!important;gap:13px!important;padding:0 14px!important;font-weight:650!important}
+ html[data-theme="modern"] .modern-nav-item i:first-child{width:22px!important;height:22px!important;display:grid!important;place-items:center!important}
+ html[data-theme="modern"] .modern-nav-item:hover{background:rgba(255,255,255,.06)!important;color:#fff!important;transform:translateX(2px)!important}
+ html[data-theme="modern"] .modern-nav-item.active{background:linear-gradient(110deg,rgba(37,99,235,.26),rgba(34,211,238,.11))!important;color:#fff!important;box-shadow:inset 0 0 0 1px rgba(125,211,252,.13),0 8px 20px rgba(0,0,0,.08)!important}
+ html[data-theme="modern"] .modern-nav-item.active:before{width:3px!important;height:24px!important;border-radius:8px!important;background:linear-gradient(#67e8f9,#60a5fa)!important;box-shadow:0 0 16px rgba(34,211,238,.65)!important}
+ html[data-theme="modern"] .modern-theme-back{border-radius:15px!important;background:rgba(255,255,255,.055)!important;border:1px solid rgba(255,255,255,.08)!important;color:#c7d2e5!important}
+ html[data-theme="modern"] .modern-topbar{left:288px!important;right:24px!important;top:18px!important;height:76px!important;border-radius:24px!important;background:rgba(255,255,255,.80)!important;border:1px solid rgba(255,255,255,.85)!important;box-shadow:0 16px 45px rgba(30,41,59,.08)!important;backdrop-filter:blur(22px) saturate(140%)!important;padding:0 20px!important}
+ html[data-theme="modern"] .modern-topbar-copy h2{font-size:22px!important;letter-spacing:-.035em!important;color:#101828!important}
+ html[data-theme="modern"] .modern-topbar-copy span{color:#7b8aa4!important;letter-spacing:.13em!important}
+ html[data-theme="modern"] .modern-icon-btn,html[data-theme="modern"] .modern-profile{border-radius:15px!important;background:rgba(255,255,255,.82)!important;border:1px solid #e8edf5!important;box-shadow:0 5px 16px rgba(15,23,42,.05)!important}
+ html[data-theme="modern"] body>main{margin-left:288px!important;width:calc(100% - 288px)!important;padding:112px 34px 42px!important;max-width:none!important}
+ html[data-theme="modern"] .modern-home{max-width:1500px!important;margin:0 auto!important}
+ html[data-theme="modern"] .modern-welcome-card{min-height:350px!important;border-radius:34px!important;padding:48px 46px!important;background:radial-gradient(circle at 84% 22%,rgba(34,211,238,.24),transparent 22%),radial-gradient(circle at 67% 110%,rgba(124,58,237,.28),transparent 34%),linear-gradient(125deg,#0d1b38 0%,#172c58 44%,#2847a8 78%,#1c8da6 125%)!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:0 32px 80px rgba(25,54,120,.24)!important;overflow:hidden!important}
+ html[data-theme="modern"] .modern-welcome-card:before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,rgba(255,255,255,.06),transparent 36%);pointer-events:none}
+ html[data-theme="modern"] .modern-kicker{background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.13)!important;backdrop-filter:blur(10px)!important;padding:8px 12px!important;border-radius:999px!important}
+ html[data-theme="modern"] .modern-welcome-content h1{font-size:48px!important;line-height:1.02!important;letter-spacing:-.055em!important;max-width:700px!important;margin-top:20px!important;text-wrap:balance!important}
+ html[data-theme="modern"] .modern-welcome-content h1 span{background:linear-gradient(90deg,#dbeafe,#a5f3fc 65%,#c4b5fd)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+ html[data-theme="modern"] .modern-welcome-content p{font-size:15px!important;color:#c7d5e9!important;margin-top:16px!important}
+ html[data-theme="modern"] .modern-primary-actions{margin-top:30px!important;gap:10px!important}
+ html[data-theme="modern"] .modern-primary-actions button{height:48px!important;border-radius:15px!important;padding:0 18px!important;border:1px solid rgba(255,255,255,.15)!important;background:rgba(255,255,255,.10)!important;backdrop-filter:blur(10px)!important;box-shadow:none!important}
+ html[data-theme="modern"] .modern-primary-actions button:first-child{background:#fff!important;color:#17356f!important;border-color:#fff!important;box-shadow:0 12px 28px rgba(0,0,0,.14)!important}
+ html[data-theme="modern"] .modern-primary-actions button:hover{transform:translateY(-2px)!important;background:rgba(255,255,255,.17)!important}
+ html[data-theme="modern"] .modern-primary-actions button:first-child:hover{background:#f8fbff!important}
+ html[data-theme="modern"] .modern-welcome-visual{right:55px!important;transform:scale(1.18)!important}
+ html[data-theme="modern"] .modern-visual-icon{box-shadow:0 0 0 10px rgba(255,255,255,.05),0 28px 60px rgba(0,0,0,.25)!important}
+ html[data-theme="modern"] .modern-info-card{margin-top:18px!important;border-radius:24px!important;padding:20px 22px!important;background:rgba(255,255,255,.82)!important;border:1px solid rgba(255,255,255,.95)!important;box-shadow:0 14px 40px rgba(15,23,42,.07)!important;backdrop-filter:blur(18px)!important}
+ html[data-theme="modern"] .modern-card-icon{width:52px!important;height:52px!important;border-radius:16px!important;background:linear-gradient(135deg,#eef2ff,#ecfeff)!important;color:#3b5ccc!important;box-shadow:inset 0 0 0 1px rgba(99,102,241,.08)!important}
+ html[data-theme="modern"] .modern-section-title{margin-top:28px!important;margin-bottom:13px!important}
+ html[data-theme="modern"] .modern-section-title>div span{font-size:11px!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:#8794aa!important;font-weight:800!important}
+ html[data-theme="modern"] .modern-section-title small{color:#98a2b3!important}
+ html[data-theme="modern"] .modern-quick-actions{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:14px!important}
+ html[data-theme="modern"] .modern-quick-actions>button{min-height:152px!important;border-radius:24px!important;padding:20px!important;background:rgba(255,255,255,.88)!important;border:1px solid rgba(255,255,255,.95)!important;box-shadow:0 14px 38px rgba(15,23,42,.07)!important;backdrop-filter:blur(16px)!important;transition:.25s ease!important}
+ html[data-theme="modern"] .modern-quick-actions>button:before{left:20px!important;right:20px!important;top:auto!important;bottom:0!important;width:auto!important;height:3px!important;border-radius:10px 10px 0 0!important;background:linear-gradient(90deg,#2563eb,#22d3ee,#7c3aed)!important;opacity:.65!important}
+ html[data-theme="modern"] .modern-quick-actions>button:hover{transform:translateY(-6px)!important;box-shadow:0 24px 54px rgba(37,99,235,.13)!important;border-color:#dce6f5!important}
+ html[data-theme="modern"] .modern-quick-icon{width:48px!important;height:48px!important;border-radius:15px!important;margin-bottom:18px!important;background:linear-gradient(135deg,#eef4ff,#e8fbff)!important;color:#315bd8!important;box-shadow:inset 0 0 0 1px rgba(37,99,235,.08)!important}
+ html[data-theme="modern"] .modern-quick-actions strong{font-size:13px!important;color:#182230!important;letter-spacing:-.01em!important}
+ html[data-theme="modern"] .modern-quick-actions small{font-size:10px!important;color:#8793a7!important;line-height:1.45!important;margin-top:5px!important}
+}
+@media (max-width:720px){
+ html[data-theme="modern"] body{background:radial-gradient(circle at 100% 0%,rgba(34,211,238,.11),transparent 26%),#f2f6fa!important}
+ html[data-theme="modern"] .modern-topbar{height:70px!important;padding:10px 14px!important;background:rgba(247,250,253,.88)!important;backdrop-filter:blur(18px) saturate(150%)!important;border-bottom:1px solid rgba(148,163,184,.12)!important}
+ html[data-theme="modern"] .modern-topbar-copy h2{font-size:18px!important;letter-spacing:-.035em!important}
+ html[data-theme="modern"] body>main{padding:84px 12px 104px!important}
+ html[data-theme="modern"] .modern-welcome-card{min-height:274px!important;padding:22px 18px 18px!important;border-radius:28px!important;background:radial-gradient(circle at 93% 6%,rgba(34,211,238,.26),transparent 26%),radial-gradient(circle at 0% 110%,rgba(124,58,237,.30),transparent 40%),linear-gradient(145deg,#0e1b37 0%,#1a3270 62%,#2867b2 112%)!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:0 20px 46px rgba(30,64,175,.22)!important}
+ html[data-theme="modern"] .modern-kicker{padding:6px 9px!important;font-size:8px!important;background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.12)!important}
+ html[data-theme="modern"] .modern-welcome-content h1{font-size:29px!important;line-height:1.01!important;letter-spacing:-.055em!important;max-width:315px!important;margin-top:14px!important}
+ html[data-theme="modern"] .modern-welcome-content h1 span{background:linear-gradient(90deg,#dbeafe,#a5f3fc)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+ html[data-theme="modern"] .modern-welcome-content p{font-size:10px!important;color:#cbd7e9!important;margin-top:10px!important}
+ html[data-theme="modern"] .modern-primary-actions{display:grid!important;grid-template-columns:1.35fr 1fr 1fr!important;gap:7px!important;margin-top:20px!important}
+ html[data-theme="modern"] .modern-primary-actions button{height:43px!important;padding:0 8px!important;border-radius:13px!important;font-size:9px!important;background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.13)!important}
+ html[data-theme="modern"] .modern-primary-actions button:first-child{background:#fff!important;color:#17356f!important}
+ html[data-theme="modern"] .modern-info-card{margin-top:12px!important;padding:15px!important;border-radius:20px!important;background:rgba(255,255,255,.88)!important;border:1px solid rgba(255,255,255,.95)!important;box-shadow:0 12px 30px rgba(15,23,42,.07)!important}
+ html[data-theme="modern"] .modern-card-icon{width:42px!important;height:42px!important;border-radius:13px!important}
+ html[data-theme="modern"] .modern-info-content strong{font-size:10px!important;line-height:1.45!important}
+ html[data-theme="modern"] .modern-section-title{margin:20px 2px 10px!important}
+ html[data-theme="modern"] .modern-section-title>div span{font-size:8px!important;letter-spacing:.14em!important;text-transform:uppercase!important;font-weight:800!important;color:#8390a5!important}
+ html[data-theme="modern"] .modern-quick-actions{gap:9px!important}
+ html[data-theme="modern"] .modern-quick-actions>button,html[data-theme="modern"] .modern-quick-actions>a{min-height:116px!important;padding:13px!important;border-radius:20px!important;background:rgba(255,255,255,.90)!important;border:1px solid rgba(255,255,255,.96)!important;box-shadow:0 10px 26px rgba(15,23,42,.065)!important}
+ html[data-theme="modern"] .modern-quick-icon{width:39px!important;height:39px!important;border-radius:13px!important;margin-bottom:12px!important}
+ html[data-theme="modern"] .modern-quick-actions strong{font-size:10px!important}
+ html[data-theme="modern"] .modern-quick-actions small{font-size:7.5px!important;color:#8b97a9!important}
+ html[data-theme="modern"] .modern-bottom-nav{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px))!important;min-height:68px!important;border-radius:24px!important;padding:6px!important;background:rgba(10,20,43,.88)!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:0 20px 50px rgba(8,19,42,.28)!important;backdrop-filter:blur(22px) saturate(150%)!important}
+ html[data-theme="modern"] .modern-bottom-item{border-radius:18px!important;color:#9eacc4!important}
+ html[data-theme="modern"] .modern-bottom-item.active{background:linear-gradient(145deg,#fff,#eafcff)!important;color:#2452c7!important;box-shadow:0 8px 20px rgba(0,0,0,.16)!important}
+}
+
+/* =========================================================
+   V6 — MOBILE EXPERIENCE / PRO APP POLISH
+   Presentation-only. Existing data, IDs, events and JS untouched.
+   ========================================================= */
+@media (max-width:720px){
+  html[data-theme="modern"] body{background:linear-gradient(180deg,#f7f9fd 0%,#eef3f9 100%)!important;padding-bottom:94px!important}
+  html[data-theme="modern"] .modern-topbar{margin:8px 10px 0!important;width:calc(100% - 20px)!important;border-radius:20px!important;min-height:62px!important;padding:10px 12px!important;background:rgba(255,255,255,.88)!important;border:1px solid rgba(255,255,255,.96)!important;box-shadow:0 12px 35px rgba(15,23,42,.08)!important;backdrop-filter:blur(22px) saturate(145%)!important;-webkit-backdrop-filter:blur(22px) saturate(145%)!important}
+  html[data-theme="modern"] .modern-topbar-copy #modern-eyebrow{font-size:7px!important;letter-spacing:.16em!important;color:#8b98aa!important}
+  html[data-theme="modern"] .modern-topbar-copy h2{font-size:16px!important;letter-spacing:-.035em!important;color:#14213d!important}
+  html[data-theme="modern"] .modern-topbar-actions{gap:6px!important}
+  html[data-theme="modern"] .modern-clock{display:none!important}
+  html[data-theme="modern"] .modern-icon-btn,html[data-theme="modern"] .modern-profile{width:36px!important;height:36px!important;border-radius:12px!important;background:#fff!important;border:1px solid #e7edf5!important;box-shadow:0 5px 14px rgba(15,23,42,.055)!important}
+  html[data-theme="modern"] .modern-auth-logout{color:#ef4444!important}
+  html[data-theme="modern"] .modern-profile{background:linear-gradient(135deg,#4f46e5,#2563eb)!important;color:#fff!important;border:0!important}
+  html[data-theme="modern"] .modern-home{padding:12px 10px 10px!important;gap:12px!important}
+  html[data-theme="modern"] .modern-welcome-card{min-height:0!important;border-radius:26px!important;padding:22px 18px 18px!important;background:radial-gradient(circle at 88% 8%,rgba(103,232,249,.35),transparent 24%),radial-gradient(circle at 5% 95%,rgba(167,139,250,.28),transparent 30%),linear-gradient(140deg,#172554 0%,#4338ca 52%,#0891b2 125%)!important;box-shadow:0 22px 48px rgba(49,46,129,.24)!important;border:1px solid rgba(255,255,255,.12)!important;overflow:hidden!important}
+  html[data-theme="modern"] .modern-welcome-card:after{content:"";position:absolute;width:150px;height:150px;border:1px solid rgba(255,255,255,.10);border-radius:50%;right:-70px;top:-64px;box-shadow:0 0 0 22px rgba(255,255,255,.025),0 0 0 48px rgba(255,255,255,.018)}
+  html[data-theme="modern"] .modern-welcome-content{position:relative!important;z-index:2!important}
+  html[data-theme="modern"] .modern-kicker{width:max-content!important;padding:5px 9px!important;border-radius:999px!important;background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.12)!important;font-size:7px!important;letter-spacing:.04em!important}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:26px!important;line-height:.98!important;letter-spacing:-.055em!important;margin:13px 0 8px!important;max-width:285px!important}
+  html[data-theme="modern"] .modern-welcome-content p{font-size:9px!important;line-height:1.55!important;color:rgba(255,255,255,.76)!important;max-width:280px!important}
+  html[data-theme="modern"] .modern-welcome-visual{display:none!important}
+  html[data-theme="modern"] .modern-primary-actions{display:grid!important;grid-template-columns:1.35fr 1fr 1fr!important;gap:7px!important;margin-top:16px!important}
+  html[data-theme="modern"] .modern-primary-actions button{min-width:0!important;height:43px!important;border-radius:13px!important;padding:0 8px!important;font-size:8px!important;gap:5px!important;background:rgba(255,255,255,.10)!important;border:1px solid rgba(255,255,255,.13)!important;color:#fff!important;box-shadow:none!important}
+  html[data-theme="modern"] .modern-primary-actions button:first-child{background:#fff!important;color:#3730a3!important;border-color:#fff!important;box-shadow:0 9px 22px rgba(15,23,42,.13)!important}
+  html[data-theme="modern"] .modern-home-grid{gap:10px!important}
+  html[data-theme="modern"] .modern-info-card{border-radius:22px!important;padding:14px!important;background:rgba(255,255,255,.94)!important;border:1px solid rgba(255,255,255,.98)!important;box-shadow:0 12px 32px rgba(15,23,42,.07)!important}
+  html[data-theme="modern"] .modern-card-icon{width:38px!important;height:38px!important;border-radius:13px!important;background:linear-gradient(135deg,#eef2ff,#ecfeff)!important;box-shadow:inset 0 0 0 1px rgba(79,70,229,.05)!important}
+  html[data-theme="modern"] .modern-info-card h3,html[data-theme="modern"] .modern-info-card strong{font-size:10px!important}
+  html[data-theme="modern"] .modern-info-card p{font-size:8px!important;line-height:1.45!important}
+  html[data-theme="modern"] .modern-section-title{margin:4px 2px 0!important;align-items:end!important}
+  html[data-theme="modern"] .modern-section-title span{font-size:7px!important;letter-spacing:.14em!important;color:#9aa6b7!important}
+  html[data-theme="modern"] .modern-section-title strong{font-size:14px!important;color:#17233b!important;letter-spacing:-.025em!important}
+  html[data-theme="modern"] .modern-quick-actions{gap:9px!important}
+  html[data-theme="modern"] .modern-quick-actions>button,html[data-theme="modern"] .modern-quick-actions>a{min-height:112px!important;padding:13px!important;border-radius:21px!important;background:linear-gradient(145deg,#fff,#fbfdff)!important;border:1px solid #e8eef6!important;box-shadow:0 10px 25px rgba(15,23,42,.055)!important;position:relative!important}
+  html[data-theme="modern"] .modern-quick-actions>button:after{content:"›";position:absolute;right:12px;top:12px;color:#c2cad6;font-size:17px;font-weight:300}
+  html[data-theme="modern"] .modern-quick-icon{width:36px!important;height:36px!important;border-radius:12px!important;font-size:14px!important;box-shadow:0 5px 13px rgba(15,23,42,.045)!important}
+  html[data-theme="modern"] .modern-quick-actions strong{font-size:10px!important;margin-top:10px!important;color:#18243a!important}
+  html[data-theme="modern"] .modern-quick-actions small{font-size:7.5px!important;margin-top:3px!important;color:#929eae!important}
+  html[data-theme="modern"] .modern-bottom-nav{left:10px!important;right:10px!important;bottom:calc(9px + env(safe-area-inset-bottom,0px))!important;min-height:67px!important;padding:6px!important;border-radius:24px!important;background:rgba(12,22,44,.91)!important;border:1px solid rgba(255,255,255,.13)!important;box-shadow:0 22px 55px rgba(8,18,38,.34)!important;backdrop-filter:blur(24px) saturate(150%)!important;-webkit-backdrop-filter:blur(24px) saturate(150%)!important}
+  html[data-theme="modern"] .modern-bottom-item{border-radius:18px!important;min-width:0!important;transition:.2s ease!important}
+  html[data-theme="modern"] .modern-bottom-item i{font-size:13px!important}
+  html[data-theme="modern"] .modern-bottom-item span{font-size:7px!important;margin-top:3px!important}
+  html[data-theme="modern"] .modern-bottom-item.active{background:linear-gradient(135deg,#fff,#eef6ff)!important;color:#3730a3!important;box-shadow:0 7px 18px rgba(0,0,0,.15)!important}
+}
+
+/* =========================================================
+   V7 EXECUTIVE APP — PRESENTATION-ONLY REDESIGN
+   HTML / JS / IDs / events / APIs remain untouched.
+   ========================================================= */
+html[data-theme="modern"],html[data-theme="modern"] body,
+html[data-theme="modern"] button,html[data-theme="modern"] input,
+html[data-theme="modern"] select,html[data-theme="modern"] textarea{
+  font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+}
+html[data-theme="modern"] body{background:#f4f7fb!important;color:#13213a!important}
+
+@media (min-width:1025px){
+  html[data-theme="modern"] .modern-sidebar{left:20px!important;top:20px!important;bottom:20px!important;width:248px!important;border-radius:28px!important;background:linear-gradient(180deg,#08172d 0%,#0d2443 58%,#102c50 100%)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 28px 80px rgba(8,23,45,.22)!important;overflow:hidden!important}
+  html[data-theme="modern"] .modern-brand{padding:22px 18px 18px!important}
+  html[data-theme="modern"] .modern-brand-mark{width:46px!important;height:46px!important;border-radius:15px!important;background:#fff!important;padding:2px!important;box-shadow:0 10px 28px rgba(0,0,0,.18)!important}
+  html[data-theme="modern"] .modern-nav{padding:13px 11px 120px!important;overflow-y:auto!important;scrollbar-width:none!important}
+  html[data-theme="modern"] .modern-nav::-webkit-scrollbar{display:none!important}
+  html[data-theme="modern"] .modern-nav-item{min-height:46px!important;border-radius:14px!important;margin-bottom:4px!important;padding:0 13px!important;color:#a9bad0!important;font-size:12px!important;font-weight:650!important;transition:.2s ease!important}
+  html[data-theme="modern"] .modern-nav-item.active{background:linear-gradient(110deg,#1677ff 0%,#14b8a6 135%)!important;color:#fff!important;box-shadow:0 10px 24px rgba(22,119,255,.23)!important}
+  html[data-theme="modern"] .modern-nav-item.active:before{display:none!important}
+  html[data-theme="modern"] .modern-sidebar-bottom{background:linear-gradient(180deg,rgba(8,23,45,0),#0b1d36 28%)!important;padding-top:25px!important}
+  html[data-theme="modern"] .modern-topbar{left:288px!important;right:28px!important;top:20px!important;height:72px!important;border-radius:22px!important;background:rgba(255,255,255,.90)!important;border:1px solid rgba(214,225,239,.72)!important;box-shadow:0 12px 36px rgba(23,43,77,.07)!important;backdrop-filter:blur(22px)!important}
+  html[data-theme="modern"] .modern-topbar-copy span{font-size:9px!important;font-weight:800!important;letter-spacing:.16em!important;color:#8b9bb1!important}
+  html[data-theme="modern"] .modern-topbar-copy h2{font-size:21px!important;font-weight:800!important;letter-spacing:-.045em!important;color:#10213b!important}
+  html[data-theme="modern"] body>main{margin-left:288px!important;width:calc(100% - 288px)!important;padding:112px 34px 48px!important}
+  html[data-theme="modern"] .modern-home{max-width:1440px!important}
+  html[data-theme="modern"] .modern-welcome-card{min-height:322px!important;border-radius:32px!important;padding:42px 44px!important;background:radial-gradient(circle at 88% 20%,rgba(45,212,191,.30),transparent 20%),radial-gradient(circle at 72% 110%,rgba(59,130,246,.36),transparent 36%),linear-gradient(125deg,#071a33 0%,#103b67 53%,#087f8c 120%)!important;box-shadow:0 30px 70px rgba(12,55,94,.20)!important;border:1px solid rgba(255,255,255,.10)!important}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:46px!important;line-height:1.02!important;font-weight:800!important;letter-spacing:-.06em!important;max-width:720px!important}
+  html[data-theme="modern"] .modern-welcome-content h1 span{background:linear-gradient(90deg,#dffcff,#99f6e4 52%,#bfdbfe)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important}
+  html[data-theme="modern"] .modern-welcome-content p{font-size:14px!important;color:#bed3e7!important}
+  html[data-theme="modern"] .modern-kicker{background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.12)!important}
+  html[data-theme="modern"] .modern-primary-actions button{height:48px!important;border-radius:14px!important;font-weight:750!important}
+  html[data-theme="modern"] .modern-primary-actions button:first-child{background:#fff!important;color:#0d4770!important;box-shadow:0 12px 26px rgba(0,0,0,.14)!important}
+  html[data-theme="modern"] .modern-welcome-visual{right:52px!important;transform:scale(1.12)!important;opacity:.98!important}
+  html[data-theme="modern"] .modern-info-card{margin-top:16px!important;border-radius:22px!important;background:#fff!important;border:1px solid #e6edf5!important;box-shadow:0 10px 30px rgba(18,38,63,.055)!important;padding:18px 20px!important}
+  html[data-theme="modern"] .modern-card-icon{background:#eaf8f7!important;color:#0f8b83!important}
+  html[data-theme="modern"] .modern-section-title{margin-top:28px!important}
+  html[data-theme="modern"] .modern-section-title>div span{color:#74859b!important}
+  html[data-theme="modern"] .modern-quick-actions{grid-template-columns:1.25fr 1.25fr 1fr 1fr 1fr!important;gap:13px!important}
+  html[data-theme="modern"] .modern-quick-actions>button{min-height:148px!important;border-radius:22px!important;background:#fff!important;border:1px solid #e5edf6!important;box-shadow:0 10px 30px rgba(18,38,63,.055)!important;padding:20px!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease!important}
+  html[data-theme="modern"] .modern-quick-actions>button:first-child,html[data-theme="modern"] .modern-quick-actions>button:nth-child(2){background:linear-gradient(145deg,#ffffff,#f5fbff)!important;border-color:#dbe9f6!important}
+  html[data-theme="modern"] .modern-quick-actions>button:before{height:0!important}
+  html[data-theme="modern"] .modern-quick-actions>button:hover{transform:translateY(-5px)!important;box-shadow:0 20px 44px rgba(18,65,110,.11)!important;border-color:#cbdceb!important}
+  html[data-theme="modern"] .modern-quick-icon{background:linear-gradient(145deg,#eaf3ff,#e9fbf7)!important;color:#1769aa!important;border-radius:14px!important}
+}
+
+@media (max-width:720px){
+  html[data-theme="modern"] body{background:linear-gradient(180deg,#f7fafc 0%,#eef4f8 100%)!important;overflow-x:hidden!important}
+  html[data-theme="modern"] .modern-topbar{height:66px!important;padding:9px 13px!important;background:rgba(250,252,254,.94)!important;border-bottom:1px solid #e8eef5!important;backdrop-filter:blur(20px)!important}
+  html[data-theme="modern"] .modern-topbar-copy span{font-size:7px!important;letter-spacing:.15em!important;font-weight:800!important}
+  html[data-theme="modern"] .modern-topbar-copy h2{font-size:17px!important;font-weight:800!important;letter-spacing:-.045em!important}
+  html[data-theme="modern"] .modern-clock{display:none!important}
+  html[data-theme="modern"] .modern-icon-btn,html[data-theme="modern"] .modern-profile{width:36px!important;height:36px!important;border-radius:12px!important;background:#fff!important;border:1px solid #e6edf5!important;box-shadow:0 5px 14px rgba(16,34,58,.05)!important}
+  html[data-theme="modern"] body>main{padding:78px 10px 106px!important;overflow-x:hidden!important}
+  html[data-theme="modern"] .modern-home{width:100%!important;max-width:100%!important;overflow:hidden!important}
+  html[data-theme="modern"] .modern-welcome-card{min-height:246px!important;border-radius:25px!important;padding:19px 17px 16px!important;background:radial-gradient(circle at 92% 5%,rgba(45,212,191,.26),transparent 25%),radial-gradient(circle at 0% 110%,rgba(59,130,246,.25),transparent 38%),linear-gradient(145deg,#071a33 0%,#103a64 62%,#0c7380 120%)!important;box-shadow:0 18px 42px rgba(12,55,94,.20)!important;overflow:hidden!important}
+  html[data-theme="modern"] .modern-welcome-content{position:relative!important;z-index:3!important;max-width:100%!important}
+  html[data-theme="modern"] .modern-kicker{font-size:7px!important;padding:5px 8px!important;border-radius:999px!important}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:27px!important;line-height:1.01!important;letter-spacing:-.055em!important;margin-top:13px!important;max-width:300px!important;text-wrap:balance!important}
+  html[data-theme="modern"] .modern-welcome-content p{font-size:9px!important;line-height:1.45!important;margin-top:9px!important;color:#c2d7e7!important}
+  html[data-theme="modern"] .modern-welcome-visual{display:none!important}
+  html[data-theme="modern"] .modern-primary-actions{display:grid!important;grid-template-columns:1.25fr 1fr 1fr!important;gap:6px!important;margin-top:16px!important;width:100%!important}
+  html[data-theme="modern"] .modern-primary-actions button{height:39px!important;min-width:0!important;padding:0 8px!important;border-radius:12px!important;font-size:8px!important;gap:5px!important;white-space:nowrap!important}
+  html[data-theme="modern"] .modern-primary-actions button i{font-size:10px!important}
+  html[data-theme="modern"] .modern-info-card{margin-top:9px!important;border-radius:18px!important;padding:13px!important;min-height:72px!important;background:#fff!important;border:1px solid #e6edf5!important;box-shadow:0 8px 24px rgba(18,38,63,.055)!important}
+  html[data-theme="modern"] .modern-card-icon{width:38px!important;height:38px!important;border-radius:12px!important;background:#eaf8f7!important;color:#0d8c83!important}
+  html[data-theme="modern"] .modern-info-content span{font-size:8px!important;font-weight:800!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:#8493a7!important}
+  html[data-theme="modern"] .modern-info-content strong{font-size:10px!important;line-height:1.35!important;color:#172a43!important}
+  html[data-theme="modern"] .modern-info-content small{font-size:7px!important}
+  html[data-theme="modern"] .modern-section-title{margin:18px 2px 9px!important}
+  html[data-theme="modern"] .modern-section-title>div span{font-size:8px!important;font-weight:800!important;letter-spacing:.13em!important;color:#718198!important}
+  html[data-theme="modern"] .modern-section-title small{font-size:7px!important}
+  html[data-theme="modern"] .modern-quick-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;width:100%!important;overflow:visible!important}
+  html[data-theme="modern"] .modern-quick-actions>button{min-width:0!important;width:100%!important;min-height:112px!important;border-radius:19px!important;padding:13px!important;background:#fff!important;border:1px solid #e3ebf4!important;box-shadow:0 8px 22px rgba(18,38,63,.05)!important;text-align:left!important;align-items:flex-start!important;position:relative!important;overflow:hidden!important}
+  html[data-theme="modern"] .modern-quick-actions>button:first-child{background:linear-gradient(145deg,#0e3154,#0d6f78)!important;border-color:transparent!important;box-shadow:0 13px 28px rgba(13,80,100,.18)!important}
+  html[data-theme="modern"] .modern-quick-actions>button:first-child strong,html[data-theme="modern"] .modern-quick-actions>button:first-child small{color:#fff!important}
+  html[data-theme="modern"] .modern-quick-actions>button:nth-child(2){background:linear-gradient(145deg,#f0f7ff,#edfafa)!important;border-color:#d9eaf1!important}
+  html[data-theme="modern"] .modern-quick-icon{width:38px!important;height:38px!important;border-radius:12px!important;margin-bottom:12px!important;background:#eef6fb!important;color:#176ba0!important}
+  html[data-theme="modern"] .modern-quick-actions>button:first-child .modern-quick-icon{background:rgba(255,255,255,.14)!important;color:#fff!important}
+  html[data-theme="modern"] .modern-quick-actions strong{font-size:10px!important;font-weight:800!important;color:#17283e!important}
+  html[data-theme="modern"] .modern-quick-actions small{font-size:7px!important;line-height:1.4!important;color:#8390a2!important}
+  html[data-theme="modern"] .modern-bottom-nav{left:10px!important;right:10px!important;bottom:max(9px,env(safe-area-inset-bottom))!important;width:auto!important;height:64px!important;border-radius:22px!important;padding:6px!important;background:rgba(7,24,43,.94)!important;border:1px solid rgba(255,255,255,.09)!important;box-shadow:0 18px 42px rgba(7,24,43,.27)!important;backdrop-filter:blur(22px)!important}
+  html[data-theme="modern"] .modern-bottom-item{height:52px!important;border-radius:16px!important;color:#8fa6bd!important;gap:3px!important;font-size:7px!important;font-weight:700!important}
+  html[data-theme="modern"] .modern-bottom-item i{font-size:15px!important}
+  html[data-theme="modern"] .modern-bottom-item.active{background:#fff!important;color:#0c3857!important;box-shadow:0 8px 18px rgba(0,0,0,.18)!important}
+  html[data-theme="modern"] .modern-sheet-panel{border-radius:28px 28px 0 0!important;background:#f9fbfd!important}
+  html[data-theme="modern"] .modern-more-grid>button,html[data-theme="modern"] .modern-more-grid>a{border-radius:18px!important;background:#fff!important;border:1px solid #e5edf5!important;box-shadow:0 7px 18px rgba(18,38,63,.05)!important}
+}
+
+/* =========================================================
+   V7.1 DESKTOP SIDEBAR HEIGHT FIX
+   Presentation only: keep every existing menu accessible on short screens.
+   ========================================================= */
+@media (min-width:1025px){
+  html[data-theme="modern"] .modern-sidebar{
+    display:flex!important;
+    flex-direction:column!important;
+    overflow:hidden!important;
+  }
+  html[data-theme="modern"] .modern-brand{
+    flex:0 0 auto!important;
+  }
+  html[data-theme="modern"] .modern-nav{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    padding:13px 11px 12px!important;
+    overscroll-behavior:contain!important;
+    scrollbar-width:thin!important;
+    scrollbar-color:rgba(255,255,255,.22) transparent!important;
+  }
+  html[data-theme="modern"] .modern-nav::-webkit-scrollbar{display:block!important;width:4px!important}
+  html[data-theme="modern"] .modern-nav::-webkit-scrollbar-track{background:transparent!important}
+  html[data-theme="modern"] .modern-nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.20)!important;border-radius:999px!important}
+  html[data-theme="modern"] .modern-sidebar-bottom{
+    flex:0 0 auto!important;
+    margin-top:0!important;
+    padding:10px 4px 2px!important;
+    background:#0b1d36!important;
+    border-top:1px solid rgba(255,255,255,.08)!important;
+    position:relative!important;
+    z-index:2!important;
+  }
+}
+
+/* Short laptop displays: slightly tighten navigation without changing content. */
+@media (min-width:1025px) and (max-height:820px){
+  html[data-theme="modern"] .modern-brand{padding:14px 18px 12px!important}
+  html[data-theme="modern"] .modern-brand-mark{width:44px!important;height:44px!important}
+  html[data-theme="modern"] .modern-nav{padding-top:8px!important;padding-bottom:8px!important}
+  html[data-theme="modern"] .modern-nav-item{min-height:42px!important;margin-bottom:2px!important}
+  html[data-theme="modern"] .modern-sidebar-bottom{padding-top:8px!important}
+}
+
+/* =========================================================
+   V7.2 FINAL POLISH — responsive sidebar + UI refinement
+   CSS-only. No HTML/JS/data/API/business-logic changes.
+   ========================================================= */
+@media (min-width:1025px){
+  html[data-theme="modern"] .modern-sidebar{
+    width:252px!important;
+    left:16px!important;
+    top:16px!important;
+    bottom:16px!important;
+    height:auto!important;
+  }
+  html[data-theme="modern"] .modern-topbar{left:288px!important}
+  html[data-theme="modern"] body>main{margin-left:288px!important;width:calc(100% - 288px)!important}
+}
+
+/* Keep full text navigation on normal laptop widths, even when DevTools reduces space. */
+@media (min-width:1025px) and (max-width:1280px){
+  html[data-theme="modern"] .modern-sidebar{width:224px!important;left:12px!important}
+  html[data-theme="modern"] .modern-topbar{left:250px!important;right:18px!important}
+  html[data-theme="modern"] body>main{margin-left:250px!important;width:calc(100% - 250px)!important;padding-left:22px!important;padding-right:22px!important}
+  html[data-theme="modern"] .modern-brand{padding-left:14px!important;padding-right:14px!important}
+  html[data-theme="modern"] .modern-brand-copy strong{font-size:14px!important}
+  html[data-theme="modern"] .modern-nav-item{font-size:11px!important;padding-left:11px!important;padding-right:11px!important}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:39px!important}
+}
+
+/* Only collapse to icon rail on genuinely narrow desktop/tablet landscape. */
+@media (min-width:769px) and (max-width:1024px){
+  html[data-theme="modern"] .modern-sidebar{width:84px!important}
+  html[data-theme="modern"] .modern-topbar{left:84px!important}
+  html[data-theme="modern"] body>main{margin-left:84px!important;width:calc(100% - 84px)!important}
+}
+
+/* Mobile finishing: slightly more readable type/touch density without changing structure. */
+@media (max-width:720px){
+  html[data-theme="modern"] .modern-welcome-content p{font-size:9.5px!important}
+  html[data-theme="modern"] .modern-primary-actions button{min-height:42px!important}
+  html[data-theme="modern"] .modern-info-content strong{font-size:10.5px!important}
+  html[data-theme="modern"] .modern-quick-actions strong{font-size:10.5px!important}
+  html[data-theme="modern"] .modern-bottom-item{min-width:44px!important;min-height:44px!important}
+}
+
+/* =========================================================
+   V7.3 ADAPTIVE TABLET — 3-state layout
+   Desktop >1100 | Tablet 769-1100 | Mobile <=768
+   Presentation only.
+   ========================================================= */
+@media (min-width:1025px) and (max-width:1100px){
+  html[data-theme="modern"] .modern-sidebar{width:196px!important;left:10px!important;top:10px!important;bottom:10px!important}
+  html[data-theme="modern"] .modern-topbar{left:220px!important;right:12px!important;top:10px!important}
+  html[data-theme="modern"] body>main{margin-left:220px!important;width:calc(100% - 220px)!important;padding-left:16px!important;padding-right:16px!important}
+  html[data-theme="modern"] .modern-brand{padding:12px!important}
+  html[data-theme="modern"] .modern-brand-mark{width:40px!important;height:40px!important}
+  html[data-theme="modern"] .modern-brand-copy strong{font-size:12px!important}
+  html[data-theme="modern"] .modern-brand-copy span{font-size:8px!important}
+  html[data-theme="modern"] .modern-nav{padding:8px!important}
+  html[data-theme="modern"] .modern-nav-item{min-height:40px!important;font-size:10px!important;padding:8px 9px!important}
+  html[data-theme="modern"] .modern-welcome{min-height:286px!important;border-radius:26px!important}
+  html[data-theme="modern"] .modern-welcome-content{padding:30px!important}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:34px!important;max-width:560px!important}
+  html[data-theme="modern"] .modern-welcome-content p{font-size:11px!important}
+  html[data-theme="modern"] .modern-primary-actions{margin-top:24px!important;gap:8px!important}
+  html[data-theme="modern"] .modern-primary-actions button{min-height:42px!important;padding:0 15px!important}
+}
+
+@media (min-width:769px) and (max-width:1024px){
+  html[data-theme="modern"] .modern-sidebar{width:76px!important;left:8px!important;top:8px!important;bottom:8px!important;border-radius:22px!important}
+  html[data-theme="modern"] .modern-topbar{left:96px!important;right:10px!important;top:8px!important;border-radius:20px!important}
+  html[data-theme="modern"] body>main{margin-left:96px!important;width:calc(100% - 96px)!important;padding:88px 12px 24px!important}
+  html[data-theme="modern"] .modern-brand-copy,html[data-theme="modern"] .modern-nav-item span:not(.material-symbols-rounded),html[data-theme="modern"] .modern-sidebar-bottom span:not(.material-symbols-rounded){display:none!important}
+  html[data-theme="modern"] .modern-brand{justify-content:center!important;padding:12px 6px!important}
+  html[data-theme="modern"] .modern-brand-mark{width:42px!important;height:42px!important}
+  html[data-theme="modern"] .modern-nav{padding:8px 6px!important}
+  html[data-theme="modern"] .modern-nav-item{justify-content:center!important;padding:0!important;min-height:44px!important;border-radius:13px!important}
+  html[data-theme="modern"] .modern-sidebar-bottom{padding:8px 6px!important}
+  html[data-theme="modern"] .modern-welcome{min-height:250px!important;border-radius:24px!important}
+  html[data-theme="modern"] .modern-welcome-content{padding:26px!important}
+  html[data-theme="modern"] .modern-welcome-content h1{font-size:31px!important;line-height:1.02!important;max-width:520px!important}
+  html[data-theme="modern"] .modern-welcome-content p{font-size:10.5px!important}
+  html[data-theme="modern"] .modern-primary-actions{margin-top:20px!important;gap:7px!important;flex-wrap:wrap!important}
+  html[data-theme="modern"] .modern-primary-actions button{min-height:40px!important;padding:0 13px!important;font-size:9.5px!important}
+  html[data-theme="modern"] .modern-info-card{border-radius:22px!important}
+}
