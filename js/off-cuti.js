@@ -136,9 +136,38 @@ function bindOffCutiDateEvents() {
         input.addEventListener('change', function() {
             delete input.dataset.pickerPrimed;
             delete input.dataset.quotaChecked;
-            checkTanggalKuota(input);
+            clearOffCutiInvalid(input);
+
+            // Safari iOS/macOS bisa memicu `change` berulang saat roda tanggal
+            // digulir. Tunda pengecekan sampai nilai stabil, dan jangan pernah
+            // menolak/menghapus tanggal secara instan.
+            clearTimeout(input._offCutiTimer);
+            input._offCutiTimer = setTimeout(function() {
+                checkTanggalKuota(input);
+            }, 700);
         });
     });
+}
+
+function setOffCutiInvalid(input, message) {
+    input.dataset.quotaInvalid = '1';
+    input.dataset.quotaMessage = message;
+    input.classList.add('border-red-500');
+    let note = input.parentNode.querySelector('.off-cuti-msg');
+    if (!note) {
+        note = document.createElement('p');
+        note.className = 'off-cuti-msg text-xs text-red-600 mt-1';
+        input.insertAdjacentElement('afterend', note);
+    }
+    note.textContent = message;
+}
+
+function clearOffCutiInvalid(input) {
+    delete input.dataset.quotaInvalid;
+    delete input.dataset.quotaMessage;
+    input.classList.remove('border-red-500');
+    const note = input.parentNode && input.parentNode.querySelector('.off-cuti-msg');
+    if (note) note.remove();
 }
 
 async function checkTanggalKuota(input) {
@@ -148,16 +177,14 @@ async function checkTanggalKuota(input) {
     // Local validations are safe to do after the picker has committed.
     const period = getOffCutiTargetPeriod();
     if (selectedDate < period.min || selectedDate > period.max) {
-        input.value = '';
-        showPopup('warning', 'Tanggal Tidak Sesuai', 'Tanggal OFF/Cuti hanya boleh dipilih untuk bulan berikutnya.');
+        setOffCutiInvalid(input, 'Tanggal OFF/Cuti hanya boleh dipilih untuk bulan berikutnya.');
         return;
     }
 
     const sameDates = [...document.querySelectorAll('.input-tgl-off')]
         .filter(el => el !== input && normalizeOffCutiDate(el.value) === selectedDate);
     if (sameDates.length > 0) {
-        input.value = '';
-        showPopup('warning', 'Tanggal Duplikat', 'Tanggal yang sama sudah dipilih pada kolom lain.');
+        setOffCutiInvalid(input, 'Tanggal yang sama sudah dipilih pada kolom lain.');
         return;
     }
 
@@ -194,12 +221,12 @@ async function checkTanggalKuota(input) {
         if (input.dataset.quotaRequest !== requestToken || input.value !== selectedDate) return;
 
         if (!result || !result.success) {
-            input.value = '';
             delete input.dataset.quotaChecked;
-            showPopup('warning', 'Tanggal Tidak Tersedia', result && result.message ? result.message : 'Kuota tanggal ini tidak tersedia.');
+            setOffCutiInvalid(input, result && result.message ? result.message : 'Kuota tanggal ini tidak tersedia.');
             return;
         }
 
+        clearOffCutiInvalid(input);
         input.dataset.quotaChecked = '1';
     } catch (err) {
         if (input.dataset.quotaRequest !== requestToken || input.value !== selectedDate) return;
@@ -279,6 +306,25 @@ async function submitOffCuti(e) {
                 if (cleanDate) selectedDates.push(cleanDate);
             }
         });
+
+        const invalidInputs = [...inputs].filter(inp => inp.value && inp.dataset.quotaInvalid === '1');
+        if (invalidInputs.length > 0) {
+            const detail = invalidInputs
+                .map(inp => `${normalizeOffCutiDate(inp.value)}: ${inp.dataset.quotaMessage || 'tidak tersedia'}`)
+                .join(' | ');
+            showPopup('warning', 'Ada Tanggal Tidak Tersedia', 'Ganti tanggal berikut sebelum mengirim: ' + detail);
+            return;
+        }
+
+        // Tanggal awal yang diisi otomatis oleh picker iOS/Mac dan belum pernah
+        // dikonfirmasi lewat `change`: minta konfirmasi supaya tidak terkirim tanpa sengaja.
+        const unconfirmed = [...inputs].filter(inp => inp.value && inp.dataset.pickerPrimed === '1');
+        if (unconfirmed.length > 0) {
+            const list = unconfirmed.map(inp => normalizeOffCutiDate(inp.value)).join(', ');
+            if (!window.confirm('Tanggal ' + list + ' terisi otomatis oleh kalender. Tetap ajukan tanggal ini?')) {
+                return;
+            }
+        }
 
         const period = getOffCutiTargetPeriod();
         const uniqueDates = [...new Set(selectedDates)].sort();
