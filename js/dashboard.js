@@ -104,7 +104,7 @@ const nationalHolidayCache = {};
             let theadHTML = `
     <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
         <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 min-w-[150px] max-w-[150px] border-r border-slate-200 text-xs">Nama Karyawan</th>
-        <th class="py-1.5 px-2 font-bold sticky left-[150px] bg-slate-100 z-30 min-w-[90px] max-w-[90px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs text-center">Sisa Cuti</th>
+        <th class="py-1.5 px-2 font-bold sticky bg-slate-100 z-30 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs text-center" style="left:150px;min-width:90px;max-width:90px">Sisa Cuti</th>
 `;
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateInfo = getCalendarDateInfo(year, month, d, nationalHolidays);
@@ -234,7 +234,7 @@ const nationalHolidayCache = {};
                     tbodyHTML += `
     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
         <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 border-r border-slate-200 whitespace-nowrap max-w-[150px] truncate">${escapeHtml(empNama)}</td>
-        <td title="${escapeHtml(sisaCutiTitle)}" class="py-1.5 px-2 text-xs sticky left-[150px] bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-center cursor-default">${sisaCutiHTML}</td>
+        <td title="${escapeHtml(sisaCutiTitle)}" class="py-1.5 px-2 text-xs sticky bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-center cursor-default" style="left:150px;min-width:90px;max-width:90px">${sisaCutiHTML}</td>
 `;
 
                     for (let d = 1; d <= daysInMonth; d++) {
