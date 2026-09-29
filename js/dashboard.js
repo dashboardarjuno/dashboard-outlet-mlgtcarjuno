@@ -103,7 +103,8 @@ const nationalHolidayCache = {};
             // 1. Render Header Tanggal
             let theadHTML = `
     <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-        <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 min-w-[150px] max-w-[150px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs">Nama Karyawan</th>
+        <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 min-w-[150px] max-w-[150px] border-r border-slate-200 text-xs">Nama Karyawan</th>
+        <th class="py-1.5 px-2 font-bold sticky left-[150px] bg-slate-100 z-30 min-w-[90px] max-w-[90px] shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs text-center">Sisa Cuti</th>
 `;
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateInfo = getCalendarDateInfo(year, month, d, nationalHolidays);
@@ -120,14 +121,18 @@ const nationalHolidayCache = {};
             theadHTML += `</tr>`;
             thead.innerHTML = theadHTML;
 
-            tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Mengambil data matriks jadwal...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="${daysInMonth + 2}" class="text-center p-6 text-slate-400 font-medium"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Mengambil data matriks jadwal...</td></tr>`;
 
             try {
                 if (!employeeList || employeeList.length === 0) {
                     await loadInitialData();
                 }
 
-                const res = await gasJsonp('getMonthlyRekap', {year, month}, {cacheMs: 60000});
+                const [res, sisaCutiRes] = await Promise.all([
+                    gasJsonp('getMonthlyRekap', {year, month}, {cacheMs: 60000}),
+                    gasJsonp('getSisaCutiTahun', {year}, {cacheMs: 60000}).catch(() => null)
+                ]);
+                const sisaCutiMap = (sisaCutiRes && sisaCutiRes.success && sisaCutiRes.data) ? sisaCutiRes.data : {};
 
                 let rawList = [];
                 if (Array.isArray(res)) rawList = res;
@@ -180,7 +185,7 @@ const nationalHolidayCache = {};
                 const employeesToRender = employeeList.filter(e => e.nama || e.Nama);
 
                 if (employeesToRender.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="${daysInMonth + 2}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
                     return;
                 }
 
@@ -212,9 +217,24 @@ const nationalHolidayCache = {};
                         };
                     });
 
+                    const empNikForCuti = (empObj.nik || empObj.NIK || '').toString().trim();
+                    const sisaCutiInfo = sisaCutiMap[empNikForCuti];
+                    let sisaCutiHTML;
+                    let sisaCutiTitle;
+                    if (!sisaCutiInfo || sisaCutiInfo.jatah === null || sisaCutiInfo.jatah === undefined) {
+                        sisaCutiHTML = '<span class="text-slate-300">-</span>';
+                        sisaCutiTitle = 'Jatah cuti tahun ini belum diatur admin.';
+                    } else {
+                        const sisaVal = sisaCutiInfo.sisa;
+                        const sisaColor = sisaVal < 0 ? 'text-red-600' : (sisaVal <= 2 ? 'text-amber-600' : 'text-emerald-600');
+                        sisaCutiHTML = `<span class="font-bold ${sisaColor}">${sisaVal}</span>`;
+                        sisaCutiTitle = `Jatah ${sisaCutiInfo.jatah} hari - Terpakai ${sisaCutiInfo.terpakai} hari = Sisa ${sisaVal} hari (tahun ${year})`;
+                    }
+
                     tbodyHTML += `
     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-        <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap max-w-[150px] truncate">${escapeHtml(empNama)}</td>
+        <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 border-r border-slate-200 whitespace-nowrap max-w-[150px] truncate">${escapeHtml(empNama)}</td>
+        <td title="${escapeHtml(sisaCutiTitle)}" class="py-1.5 px-2 text-xs sticky left-[150px] bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-center cursor-default">${sisaCutiHTML}</td>
 `;
 
                     for (let d = 1; d <= daysInMonth; d++) {
@@ -269,7 +289,7 @@ const nationalHolidayCache = {};
 
             } catch (err) {
                 console.error("Gagal memuat matriks rekap:", err);
-                tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${daysInMonth + 2}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
             }
         }
 
