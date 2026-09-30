@@ -55,6 +55,11 @@
     <!-- Tema alternatif "Modern & Fresh" (override, aktif via tombol switch) -->
     <link rel="stylesheet" href="css/theme-modern.css">
     <link rel="stylesheet" href="css/auth.css">
+    <style>
+        .auth-profile-menu-item:hover { background: #f1f5f9; }
+        .auth-profile-trigger { transition: opacity .15s; }
+        .auth-profile-trigger:hover { opacity: 0.85; }
+    </style>
 </head>
 
 <body
@@ -115,7 +120,24 @@
                         <i class="fa-solid fa-wand-magic-sparkles"></i><span class="label-text">Modern</span>
                     </button>
                 </div>
-                <button type="button" data-auth-logout class="auth-user-btn classic-auth-logout shrink-0" aria-label="Keluar dari akun" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i><span class="auth-logout-label">Keluar</span></button>
+                <!-- Foto profil = tombol akun. Klik -> buka menu (Profil Tim + Keluar) -->
+                <div class="auth-profile-wrap" style="position:relative;flex-shrink:0">
+                    <button type="button" class="auth-profile-trigger" aria-label="Menu akun" title="Akun saya" style="display:flex;align-items:center;padding:0;border:none;background:transparent;cursor:pointer">
+                        <img data-auth-avatar alt="Foto profil" style="width:32px;height:32px;border-radius:9999px;object-fit:cover;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
+                    </button>
+                    <div class="auth-profile-menu" style="display:none;position:absolute;top:calc(100% + 10px);right:0;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:70;text-align:left">
+                        <div style="padding:6px 8px 10px;border-bottom:1px solid #f1f5f9;margin-bottom:6px">
+                            <div data-auth-name style="font-size:13px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">-</div>
+                            <div data-auth-jabatan style="font-size:11px;color:#64748b;font-weight:500;margin-top:2px">-</div>
+                        </div>
+                        <a href="#section-our-team" data-modern-view="team" class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;text-decoration:none;color:#1e293b;font-size:12.5px;font-weight:600">
+                            <i class="fa-solid fa-people-roof" style="width:16px;color:#64748b"></i>Profil Tim
+                        </a>
+                        <button type="button" data-auth-logout class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;background:transparent;border:none;width:100%;text-align:left;cursor:pointer;color:#dc2626;font-size:12.5px;font-weight:600">
+                            <i class="fa-solid fa-right-from-bracket" style="width:16px"></i>Keluar
+                        </button>
+                    </div>
+                </div>
                 <div class="classic-date-time flex flex-col">
                     <span id="current-date"
                         class="font-semibold text-brand-navy text-xs sm:text-sm tracking-tight whitespace-nowrap"></span>
@@ -173,6 +195,13 @@
             </nav>
 
             <div class="modern-sidebar-bottom">
+                <a href="#section-our-team" data-modern-view="team" class="modern-profile-card" title="Buka profil tim" style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;text-decoration:none;color:inherit;margin-bottom:8px">
+                    <img data-auth-avatar alt="Foto profil" style="width:36px;height:36px;border-radius:9999px;object-fit:cover;border:2px solid rgba(255,255,255,0.4);flex-shrink:0;background:rgba(255,255,255,0.15)">
+                    <span style="display:flex;flex-direction:column;min-width:0">
+                        <strong data-auth-name style="font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px">-</strong>
+                        <span data-auth-jabatan style="font-size:11px;opacity:0.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px">-</span>
+                    </span>
+                </a>
                 <button class="modern-theme-back" data-modern-action="classic"><i class="fa-solid fa-table-cells"></i><span>Tampilan Klasik</span></button>
                 <div class="modern-version"><span class="modern-status-dot"></span> Modern UI</div>
             </div>
@@ -189,8 +218,23 @@
                     <strong id="modern-current-time">--:--</strong>
                     <span id="modern-current-date">--</span>
                 </div>
-                <button type="button" class="modern-icon-btn modern-auth-logout" data-auth-logout aria-label="Keluar dari akun" title="Keluar"><i class="fa-solid fa-right-from-bracket"></i><span class="auth-logout-label">Keluar</span></button>
-                <button class="modern-profile" data-modern-view="team" aria-label="Buka profil tim"><i class="fa-solid fa-users"></i></button>
+                <div class="auth-profile-wrap" style="position:relative;flex-shrink:0">
+                    <button type="button" class="modern-icon-btn auth-profile-trigger" aria-label="Menu akun" title="Akun saya">
+                        <img data-auth-avatar alt="Foto profil" style="width:26px;height:26px;border-radius:9999px;object-fit:cover">
+                    </button>
+                    <div class="auth-profile-menu" style="display:none;position:absolute;top:calc(100% + 10px);right:0;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:70;text-align:left">
+                        <div style="padding:6px 8px 10px;border-bottom:1px solid #f1f5f9;margin-bottom:6px">
+                            <div data-auth-name style="font-size:13px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">-</div>
+                            <div data-auth-jabatan style="font-size:11px;color:#64748b;font-weight:500;margin-top:2px">-</div>
+                        </div>
+                        <a href="#section-our-team" data-modern-view="team" class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;text-decoration:none;color:#1e293b;font-size:12.5px;font-weight:600">
+                            <i class="fa-solid fa-people-roof" style="width:16px;color:#64748b"></i>Profil Tim
+                        </a>
+                        <button type="button" data-auth-logout class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;background:transparent;border:none;width:100%;text-align:left;cursor:pointer;color:#dc2626;font-size:12.5px;font-weight:600">
+                            <i class="fa-solid fa-right-from-bracket" style="width:16px"></i>Keluar
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -1094,9 +1138,9 @@
 
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
     <script src="js/theme-switcher.js"></script>
-    <script src="js/core.js?v=2026.09.14.11"></script>
+    <script src="js/core.js?v=2026.09.30.1"></script>
     <!-- Firebase Authentication: dimuat setelah core agar endpoint/config siap -->
-    <script src="js/auth.js?v=2026.09.14.11"></script>
+    <script src="js/auth.js?v=2026.09.30.1"></script>
     <script src="js/team.js?v=2026.09.14.11"></script>
     <script src="js/absensi.js?v=2026.09.14.11"></script>
     <script src="js/off-cuti.js?v=2026.09.16.2"></script>

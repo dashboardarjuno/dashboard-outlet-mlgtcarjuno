@@ -204,6 +204,7 @@ window.addEventListener('arjunohub:employee-ready', function () {
         if (typeof loadDashboardMonthlyRekap === 'function') loadDashboardMonthlyRekap();
         if (typeof loadTeamPhotos === 'function') loadTeamPhotos().then(() => {
             if (typeof renderOurTeamSection === 'function') renderOurTeamSection();
+            if (typeof renderAuthProfile === 'function') renderAuthProfile();
         });
     });
 }, {once: true});
