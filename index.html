@@ -60,6 +60,39 @@
         .auth-profile-trigger { transition: opacity .15s; }
         .auth-profile-trigger:hover { opacity: 0.85; }
     </style>
+    <style id="auth-profile-force-style">
+        /* Penguat prioritas tinggi: pastikan area foto profil selalu bisa
+           diklik, apa pun aturan CSS lama lain yang mungkin masih menimpa
+           area ini di layar sempit. Diletakkan paling akhir supaya menang
+           di urutan cascade untuk specificity+!important yang setara. */
+        html body .classic-header-right .auth-profile-wrap.classic-auth-logout {
+            position: relative !important;
+            overflow: visible !important;
+            pointer-events: auto !important;
+            z-index: 55 !important;
+            cursor: pointer !important;
+        }
+        html body .classic-header-right .auth-profile-wrap.classic-auth-logout .auth-profile-trigger {
+            position: relative !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            height: 100% !important;
+            min-width: 32px !important;
+            min-height: 32px !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            z-index: 56 !important;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+        }
+        html body .classic-header-right .auth-profile-wrap.classic-auth-logout .auth-profile-trigger img {
+            pointer-events: none !important;
+        }
+        html body .classic-header-right .auth-profile-menu {
+            z-index: 90 !important;
+        }
+    </style>
 </head>
 
 <body
