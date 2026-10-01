@@ -104,6 +104,10 @@
         showLogin();
     }
 
+    document.querySelectorAll('.auth-profile-menu').forEach(function (menu) {
+        document.body.appendChild(menu);
+    });
+
     function closeAllProfileMenus() {
         document.querySelectorAll('.auth-profile-menu').forEach(function (menu) {
             menu.style.display = 'none';
@@ -137,7 +141,8 @@
             e.preventDefault();
             e.stopPropagation();
             const wrap = trigger.closest('.auth-profile-wrap');
-            const menu = wrap && wrap.querySelector('.auth-profile-menu');
+            const menuId = wrap && wrap.getAttribute('data-menu-id');
+            const menu = menuId && document.getElementById(menuId);
             if (!menu) return;
             const willOpen = menu.style.display !== 'block';
             closeAllProfileMenus();
@@ -154,7 +159,7 @@
             closeAllProfileMenus();
             return;
         }
-        if (!e.target.closest('.auth-profile-wrap')) closeAllProfileMenus();
+        if (!e.target.closest('.auth-profile-wrap') && !e.target.closest('.auth-profile-menu')) closeAllProfileMenus();
     });
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeAllProfileMenus();

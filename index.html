@@ -154,11 +154,11 @@
                     </button>
                 </div>
                 <!-- Foto profil = tombol akun. Klik -> buka menu (Profil Tim + Keluar) -->
-                <div class="auth-profile-wrap classic-auth-logout" style="position:relative;flex-shrink:0">
+                <div class="auth-profile-wrap classic-auth-logout" data-menu-id="auth-profile-menu-classic" style="position:relative;flex-shrink:0">
                     <button type="button" class="auth-profile-trigger" aria-label="Menu akun" title="Akun saya" style="display:flex;align-items:center;padding:0;border:none;background:transparent;cursor:pointer">
                         <img data-auth-avatar alt="Foto profil" style="width:32px;height:32px;border-radius:9999px;object-fit:cover;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
                     </button>
-                    <div class="auth-profile-menu" style="display:none;position:fixed;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:999999;text-align:left">
+                    <div id="auth-profile-menu-classic" class="auth-profile-menu" style="display:none;position:fixed;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:999999;text-align:left">
                         <div style="padding:6px 8px 10px;border-bottom:1px solid #f1f5f9;margin-bottom:6px">
                             <div data-auth-name style="font-size:13px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">-</div>
                             <div data-auth-jabatan style="font-size:11px;color:#64748b;font-weight:500;margin-top:2px">-</div>
@@ -251,11 +251,11 @@
                     <strong id="modern-current-time">--:--</strong>
                     <span id="modern-current-date">--</span>
                 </div>
-                <div class="auth-profile-wrap" style="position:relative;flex-shrink:0">
+                <div class="auth-profile-wrap" data-menu-id="auth-profile-menu-modern" style="position:relative;flex-shrink:0">
                     <button type="button" class="modern-icon-btn auth-profile-trigger" aria-label="Menu akun" title="Akun saya">
                         <img data-auth-avatar alt="Foto profil" style="width:26px;height:26px;border-radius:9999px;object-fit:cover">
                     </button>
-                    <div class="auth-profile-menu" style="display:none;position:fixed;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:999999;text-align:left">
+                    <div id="auth-profile-menu-modern" class="auth-profile-menu" style="display:none;position:fixed;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:999999;text-align:left">
                         <div style="padding:6px 8px 10px;border-bottom:1px solid #f1f5f9;margin-bottom:6px">
                             <div data-auth-name style="font-size:13px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">-</div>
                             <div data-auth-jabatan style="font-size:11px;color:#64748b;font-weight:500;margin-top:2px">-</div>
