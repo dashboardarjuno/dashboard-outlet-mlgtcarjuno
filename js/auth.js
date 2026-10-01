@@ -109,6 +109,28 @@
             menu.style.display = 'none';
         });
     }
+    function positionProfileMenu(trigger, menu) {
+        // Menu dipasang position:fixed (lepas dari header), jadi posisinya
+        // dihitung manual dari lokasi tombol saat ini di layar -- supaya
+        // tidak pernah terkurung/tertutup stacking context elemen lain.
+        const rect = trigger.getBoundingClientRect();
+        const margin = 8;
+        menu.style.display = 'block'; // perlu ditampilkan dulu biar offsetWidth terbaca
+        const menuWidth = menu.offsetWidth || 200;
+        let left = rect.right - menuWidth;
+        if (left < margin) left = margin;
+        const maxLeft = window.innerWidth - menuWidth - margin;
+        if (left > maxLeft) left = Math.max(margin, maxLeft);
+        let top = rect.bottom + 10;
+        const menuHeight = menu.offsetHeight || 0;
+        if (top + menuHeight > window.innerHeight - margin) {
+            // Tidak cukup ruang di bawah -> buka ke atas tombol saja.
+            top = Math.max(margin, rect.top - menuHeight - 10);
+        }
+        menu.style.left = left + 'px';
+        menu.style.top = top + 'px';
+    }
+
     document.addEventListener('click', function (e) {
         const trigger = e.target.closest('.auth-profile-trigger');
         if (trigger) {
@@ -119,7 +141,11 @@
             if (!menu) return;
             const willOpen = menu.style.display !== 'block';
             closeAllProfileMenus();
-            menu.style.display = willOpen ? 'block' : 'none';
+            if (willOpen) {
+                positionProfileMenu(trigger, menu);
+            } else {
+                menu.style.display = 'none';
+            }
             return;
         }
         if (e.target.closest('.auth-profile-menu-item')) {
@@ -133,6 +159,8 @@
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeAllProfileMenus();
     });
+    window.addEventListener('scroll', function () { closeAllProfileMenus(); }, true);
+    window.addEventListener('resize', function () { closeAllProfileMenus(); });
 
     window.dashboardAuth = {employee: null, email: '', signOut: signOutUser};
     loginForm && loginForm.addEventListener('submit', event => {
