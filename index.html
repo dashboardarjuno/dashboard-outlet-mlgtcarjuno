@@ -101,6 +101,23 @@
                 justify-content: flex-end !important;
             }
             html:not([data-theme="modern"]) #classic-compact-datetime { display: flex !important; }
+            /* Kolom kedua grid header (dulu dikunci 36px, pas untuk avatar
+               saja) sekarang perlu memuat tanggal+jam+avatar -> lebarnya
+               menyesuaikan konten, bukan dikunci 36px lagi. */
+            html:not([data-theme="modern"]) .classic-header-right {
+                grid-template-columns: auto auto !important;
+            }
+            /* Bebaskan ruang dengan membuat tombol Klasik/Modern jadi
+               ikon saja (tanpa teks) di lebar ini. */
+            html:not([data-theme="modern"]) .classic-header-right .theme-switcher .label-text {
+                display: none !important;
+            }
+            html:not([data-theme="modern"]) .classic-header-right .theme-switcher button {
+                width: 30px !important;
+                height: 30px !important;
+                padding: 0 !important;
+                justify-content: center !important;
+            }
         }
     </style>
 </head>
