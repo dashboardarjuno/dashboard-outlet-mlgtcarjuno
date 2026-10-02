@@ -92,6 +92,9 @@
         html body .classic-header-right .auth-profile-menu {
             z-index: 90 !important;
         }
+        @media (max-width: 720px) {
+            html:not([data-theme="modern"]) #classic-compact-time { display: inline-block !important; }
+        }
     </style>
 </head>
 
@@ -153,6 +156,8 @@
                         <i class="fa-solid fa-wand-magic-sparkles"></i><span class="label-text">Modern</span>
                     </button>
                 </div>
+                <!-- Jam ringkas, cuma tampil di layar sempit (lihat #auth-profile-force-style) -->
+                <span id="classic-compact-time" style="display:none;font-size:11px;font-weight:700;color:#1e293b;white-space:nowrap;flex-shrink:0">--:--</span>
                 <!-- Foto profil = tombol akun. Klik -> buka menu (Profil Tim + Keluar) -->
                 <div class="auth-profile-wrap classic-auth-logout" data-menu-id="auth-profile-menu-classic" style="position:relative;flex-shrink:0">
                     <button type="button" class="auth-profile-trigger" aria-label="Menu akun" title="Akun saya" style="display:flex;align-items:center;padding:0;border:none;background:transparent;cursor:pointer">

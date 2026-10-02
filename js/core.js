@@ -167,6 +167,11 @@ let teamScheduleStatusReady = false;
             if (timeElement) {
                 timeElement.textContent = timeStr;
             }
+            // Jam ringkas di sebelah foto profil (header Klasik, layar sempit)
+            const compactTimeEl = document.getElementById("classic-compact-time");
+            if (compactTimeEl) {
+                compactTimeEl.textContent = timeStr;
+            }
         }
 
 
