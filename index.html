@@ -93,7 +93,14 @@
             z-index: 90 !important;
         }
         @media (max-width: 720px) {
-            html:not([data-theme="modern"]) #classic-compact-time { display: inline-block !important; }
+            html:not([data-theme="modern"]) .classic-header-right .auth-profile-wrap.classic-auth-logout {
+                width: auto !important;
+                min-width: auto !important;
+                height: auto !important;
+                padding: 2px 4px !important;
+                justify-content: flex-end !important;
+            }
+            html:not([data-theme="modern"]) #classic-compact-datetime { display: flex !important; }
         }
     </style>
 </head>
@@ -156,10 +163,13 @@
                         <i class="fa-solid fa-wand-magic-sparkles"></i><span class="label-text">Modern</span>
                     </button>
                 </div>
-                <!-- Jam ringkas, cuma tampil di layar sempit (lihat #auth-profile-force-style) -->
-                <span id="classic-compact-time" style="display:none;font-size:11px;font-weight:700;color:#1e293b;white-space:nowrap;flex-shrink:0">--:--</span>
                 <!-- Foto profil = tombol akun. Klik -> buka menu (Profil Tim + Keluar) -->
                 <div class="auth-profile-wrap classic-auth-logout" data-menu-id="auth-profile-menu-classic" style="position:relative;flex-shrink:0">
+                    <!-- Tanggal+jam ringkas, cuma tampil di layar sempit (lihat #auth-profile-force-style) -->
+                    <span id="classic-compact-datetime" style="display:none;flex-direction:column;align-items:flex-end;line-height:1.2;flex-shrink:0;margin-right:6px;text-align:right">
+                        <span id="classic-compact-date" style="font-size:9.5px;font-weight:700;color:#1e293b;white-space:nowrap">-</span>
+                        <span id="classic-compact-time" style="font-size:9.5px;color:#64748b;font-weight:600;white-space:nowrap">--:--</span>
+                    </span>
                     <button type="button" class="auth-profile-trigger" aria-label="Menu akun" title="Akun saya" style="display:flex;align-items:center;padding:0;border:none;background:transparent;cursor:pointer">
                         <img data-auth-avatar alt="Foto profil" style="width:32px;height:32px;border-radius:9999px;object-fit:cover;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,0.08)">
                     </button>
@@ -195,7 +205,7 @@
                 <i class="fa-solid fa-bullhorn"></i> Info
             </span>
             <div class="overflow-hidden w-full cursor-pointer" onclick="openInfoModal()">
-                <div id="bannerMarquee" class="info-marquee w-full font-medium">
+                <div id="bannerMarquee" class="info-marquee font-medium">
                     📢 Memuat informasi terbaru dari server...
                 </div>
             </div>

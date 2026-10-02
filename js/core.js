@@ -184,6 +184,14 @@ document.addEventListener("DOMContentLoaded", function () {
             weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
         });
     }
+    // Tanggal format pendek (di sebelah foto profil, header Klasik layar sempit)
+    const compactDateEl = document.getElementById("classic-compact-date");
+    if (compactDateEl) {
+        const now = new Date();
+        compactDateEl.textContent = now.toLocaleDateString('id-ID', {
+            weekday: 'short', day: 'numeric', month: 'short'
+        });
+    }
 
     updateOutletStatus();
     setInterval(updateOutletStatus, 60000);
