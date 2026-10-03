@@ -75,13 +75,7 @@
             };
 
             try {
-                const response = await fetch(GAS_WEB_APP_URL, {
-                    method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
+                const result = await gasPost(payload);
 
                 if (result.success) {
                     invalidateGasCache('getKasData');

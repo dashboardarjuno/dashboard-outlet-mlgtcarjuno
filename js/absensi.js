@@ -118,22 +118,13 @@
 
             // 3. CEK KEAMANAN DATA (Tambahan Baru)
             if (!employeeList || !Array.isArray(employeeList)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Data Belum Siap',
-                    text: 'Data karyawan sedang dimuat, mohon tunggu sebentar...'
-                });
+                showPopup('error', 'Data Belum Siap', 'Data karyawan sedang dimuat, mohon tunggu sebentar...');
                 return;
             }
 
             // 4. Lanjut ke kode lama Anda...
             if (!nikVal) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Perhatian',
-                    text: 'Silahkan masukkan NIK karyawan terlebih dahulu!',
-                    confirmButtonColor: '#e11d48'
-                });
+                showPopup('warning', 'Perhatian', 'Silahkan masukkan NIK karyawan terlebih dahulu!');
                 return;
             }
 
@@ -143,10 +134,7 @@
             }
 
             // Cari karyawan berdasarkan NIK
-            const found = employeeList.find(e => {
-                const eNik = (e.nik || e.NIK || '').toString().trim().toUpperCase();
-                return eNik === nikVal;
-            });
+            const found = findEmployeeByNik(nikVal);
 
             if (found) {
                 namaInput.value = found.nama || found.Nama || '';
@@ -326,13 +314,7 @@
             };
 
             try {
-                const response = await fetch(GAS_WEB_APP_URL, {
-                    method: "POST",
-                    headers: {"Content-Type": "text/plain;charset=utf-8"},
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
+                const result = await gasPost(payload);
 
                 if (result.success) {
                     invalidateGasCache('getTodayAttendance');

@@ -13,16 +13,16 @@
 
             const dmyMatch = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
             if (dmyMatch) {
-                return `${dmyMatch[3]}-${String(dmyMatch[2]).padStart(2, '0')}-${String(dmyMatch[1]).padStart(2, '0')}`;
+                return formatYMD(dmyMatch[3], dmyMatch[2], dmyMatch[1]);
             }
 
             return raw.substring(0, 10);
         }
 
         function getEmployeeScheduleKey(emp) {
-            const nikKey = (emp.nik || '').toString().trim().toUpperCase();
+            const nikKey = normKey(emp.nik);
             if (nikKey) return `NIK:${nikKey}`;
-            const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+            const namaKey = normKey(emp.nama);
             return namaKey ? `NAME:${namaKey}` : '';
         }
 
@@ -36,7 +36,7 @@
             if (Number(year) !== todayYear || Number(month) !== todayMonth) return;
 
             teamScheduleStatus = {};
-            const todayKey = `${todayYear}-${String(todayMonth).padStart(2, '0')}-${String(todayDay).padStart(2, '0')}`;
+            const todayKey = formatYMD(todayYear, todayMonth, todayDay);
 
             // Status Our Team SELALU dihitung dari jadwal hari ini,
             // tidak peduli filter matriks sedang menampilkan bulan apa.
@@ -44,7 +44,7 @@
                 const scheduleKey = getEmployeeScheduleKey(emp);
                 if (!scheduleKey) return;
 
-                const namaKey = (emp.nama || '').toString().trim().toUpperCase();
+                const namaKey = normKey(emp.nama);
                 const entries = (employeeDatesMap[scheduleKey] || employeeDatesMap[`NAME:${namaKey}`] || []).slice().sort((a, b) => {
                     return normalizeMatrixDate(a.tgl).localeCompare(normalizeMatrixDate(b.tgl));
                 });
@@ -432,16 +432,10 @@
 
                 if (saveBtn) saveBtn.disabled = true;
 
-                const response = await fetch(GAS_WEB_APP_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                    body: JSON.stringify({
-                        action: 'deleteTeamPhoto',
-                        nik: nik
-                    })
+                const result = await gasPost({
+                    action: 'deleteTeamPhoto',
+                    nik: nik
                 });
-
-                const result = await response.json();
 
                 if (!result || !result.success) {
                     throw new Error(
@@ -513,13 +507,7 @@
                     btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Menyimpan ke Server...';
                 }
 
-                const response = await fetch(GAS_WEB_APP_URL, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
+                const result = await gasPost(payload);
 
                 if (!result.success) {
                     throw new Error(result.message || 'Gagal menyimpan foto tim.');

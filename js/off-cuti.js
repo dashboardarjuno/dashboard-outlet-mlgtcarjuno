@@ -190,9 +190,7 @@ async function checkTanggalKuota(input) {
 
     const namaEl = document.getElementById('select-nama-off');
     const nama = namaEl ? namaEl.value : '';
-    const selectedEmployee = employeeList.find(emp =>
-        (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase()
-    );
+    const selectedEmployee = findEmployeeByNama(nama);
     const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
 
     // IMPORTANT for iPhone/Mac Safari:
@@ -252,12 +250,7 @@ async function recheckPendingOffCutiDates() {
 // Dipisah jadi fungsi sendiri supaya bisa dipakai ulang untuk auto-retry
 // saat backend membalas SERVER_BUSY (lihat submitOffCuti di bawah).
 async function postOffCutiPayload(payload) {
-    const response = await fetch(GAS_WEB_APP_URL, {
-        method: 'POST',
-        headers: {'Content-Type': 'text/plain;charset=utf-8'},
-        body: JSON.stringify(payload)
-    });
-    return await response.json();
+    return await gasPost(payload);
 }
 
 async function submitOffCuti(e) {
@@ -292,9 +285,7 @@ async function submitOffCuti(e) {
         }
 
         const nama = document.getElementById('select-nama-off').value;
-        const selectedEmployee = employeeList.find(emp =>
-            (emp.nama || '').toString().trim().toUpperCase() === nama.toString().trim().toUpperCase()
-        );
+        const selectedEmployee = findEmployeeByNama(nama);
         const nik = selectedEmployee ? (selectedEmployee.nik || '').toString().trim() : '';
         const inputs = document.querySelectorAll('.input-tgl-off');
         const keterangan = document.getElementById('input-keterangan-off').value.trim();

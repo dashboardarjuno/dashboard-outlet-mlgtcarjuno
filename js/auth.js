@@ -44,7 +44,7 @@
     function renderAuthProfile() {
         const employee = window.dashboardAuth && window.dashboardAuth.employee;
         if (!employee) return;
-        const nik = (employee.nik || '').toString().trim().toUpperCase();
+        const nik = normKey(employee.nik);
         const nama = employee.nama || window.dashboardAuth.email || 'Karyawan';
         const jabatan = employee.jabatan || '-';
         // customPhotoStore diisi oleh js/team.js (loadTeamPhotos), variabel

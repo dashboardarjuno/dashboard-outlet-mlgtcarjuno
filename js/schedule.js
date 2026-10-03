@@ -36,14 +36,26 @@
             }
         }
 
-        function toggleFullscreen() {
-            const section = document.getElementById('section-shift');
-            const container = document.getElementById('table-container');
-            const scheduleContainer = document.getElementById('scheduleContainer');
-            const icon = document.getElementById('fullscreen-icon');
-            const text = document.getElementById('fullscreen-text');
+        // Elemen yang dipakai bersama oleh mode masuk & keluar fullscreen.
+        function getFullscreenEls() {
+            return {
+                section: document.getElementById('section-shift'),
+                container: document.getElementById('table-container'),
+                scheduleContainer: document.getElementById('scheduleContainer'),
+                icon: document.getElementById('fullscreen-icon'),
+                text: document.getElementById('fullscreen-text')
+            };
+        }
 
-            if (!document.fullscreenElement) {
+        function toggleFullscreen() {
+            const { section, container, scheduleContainer, icon, text } = getFullscreenEls();
+
+            // iPhone Safari tidak punya Fullscreen API untuk elemen biasa, sehingga
+            // document.fullscreenElement tidak pernah terisi. Class "fixed" dipakai
+            // sebagai penanda mode layar penuh supaya klik kedua tetap bisa keluar.
+            const isActive = !!document.fullscreenElement || section.classList.contains('fixed');
+
+            if (!isActive) {
                 // Request Fullscreen
                 const request = section.requestFullscreen || section.webkitRequestFullscreen || section.mozRequestFullScreen || section.msRequestFullscreen;
                 if (request) request.call(section);
@@ -75,11 +87,7 @@
         }
 
         function exitFullscreenMode() {
-            const section = document.getElementById('section-shift');
-            const container = document.getElementById('table-container');
-            const scheduleContainer = document.getElementById('scheduleContainer');
-            const icon = document.getElementById('fullscreen-icon');
-            const text = document.getElementById('fullscreen-text');
+            const { section, container, scheduleContainer, icon, text } = getFullscreenEls();
 
             if (document.fullscreenElement) {
                 if (document.exitFullscreen) document.exitFullscreen();
@@ -182,10 +190,7 @@ document.addEventListener('fullscreenchange', () => {
 // beranda tidak berebut koneksi dengan server.
 window.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate = formatYMD(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
     const inputTanggal = document.getElementById('inputTanggal');
     if (inputTanggal) {
@@ -206,6 +211,10 @@ const fallbackMotivationVideos = [
     { videoId: "VirbuHEjmmY", startSecond: 30 }
 ];
 
+function pickRandom(list) {
+    return list[Math.floor(Math.random() * list.length)];
+}
+
 function playMotivationVideo(selectedVideo) {
     const iframe = document.getElementById('motivationVideo');
     if (!iframe || !selectedVideo) return;
@@ -223,18 +232,15 @@ async function loadRandomMotivationVideo() {
         const result = await gasJsonp('getMotivationVideos');
 
         if (result.status === "success" && result.data && result.data.length > 0) {
-            const randomIndex = Math.floor(Math.random() * result.data.length);
-            playMotivationVideo(result.data[randomIndex]);
+            playMotivationVideo(pickRandom(result.data));
         } else {
             // Sheet kosong / belum diisi -> pakai cadangan lokal
-            const randomIndex = Math.floor(Math.random() * fallbackMotivationVideos.length);
-            playMotivationVideo(fallbackMotivationVideos[randomIndex]);
+            playMotivationVideo(pickRandom(fallbackMotivationVideos));
         }
     } catch (err) {
         console.error("Gagal memuat daftar video motivasi dari server:", err);
         // Gagal fetch (misal offline) -> tetap tampilkan video dari cadangan lokal
-        const randomIndex = Math.floor(Math.random() * fallbackMotivationVideos.length);
-        playMotivationVideo(fallbackMotivationVideos[randomIndex]);
+        playMotivationVideo(pickRandom(fallbackMotivationVideos));
     }
 }
 

@@ -76,18 +76,12 @@ let currentActiveInfo = {title: "", content: ""};
                     didOpen: () => Swal.showLoading()
                 });
                 try {
-                    const response = await fetch(GAS_WEB_APP_URL, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'text/plain;charset=utf-8'},
-                        body: JSON.stringify({
-                            action: 'updateBannerInfo',
-                            title: formValues.title,
-                            content: formValues.content,
-                            userRole: currentUserRole
-                        })
+                    const result = await gasPost({
+                        action: 'updateBannerInfo',
+                        title: formValues.title,
+                        content: formValues.content,
+                        userRole: currentUserRole
                     });
-
-                    const result = await response.json();
                     Swal.close();
 
                     if (result.status === 'success') {

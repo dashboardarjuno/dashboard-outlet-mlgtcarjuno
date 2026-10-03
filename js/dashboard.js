@@ -66,7 +66,7 @@ const nationalHolidayCache = {};
         }
 
         function getCalendarDateInfo(year, month, day, nationalHolidays) {
-            const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dateKey = formatYMD(year, month, day);
             const date = new Date(Date.UTC(year, month - 1, day));
             const dayOfWeek = date.getUTCDay();
             const holidayName = nationalHolidays[dateKey] || '';
@@ -142,16 +142,16 @@ const nationalHolidayCache = {};
                 const employeeDatesMap = {};
 
                 rawList.forEach(item => {
-                    let nama = (item.nama || item.Nama || '').toString().trim().toUpperCase();
-                    let nik = (item.nik || item.NIK || '').toString().trim().toUpperCase();
+                    let nama = normKey(item.nama || item.Nama);
+                    let nik = normKey(item.nik || item.NIK);
                     let rawTgl = item.tanggal || item.Tanggal || '';
                     let keterangan = item.keterangan || item.Keterangan || '';
 
                     if (!nama && !nik) return;
 
                     let matchedEmp = null;
-                    if (nik) matchedEmp = employeeList.find(e => (e.nik || e.NIK || '').toString().trim().toUpperCase() === nik);
-                    if (!matchedEmp && nama) matchedEmp = employeeList.find(e => (e.nama || e.Nama || '').toString().trim().toUpperCase() === nama);
+                    if (nik) matchedEmp = findEmployeeByNik(nik);
+                    if (!matchedEmp && nama) matchedEmp = findEmployeeByNama(nama);
 
                     // Tentukan key pemetaan data internal
                     const scheduleKey = matchedEmp

@@ -64,6 +64,51 @@ window.invalidateGasCache = function (action) {
     }
 };
 
+// POST ke Apps Script (satu pintu, sama seperti gasJsonp untuk GET).
+// Content-Type text/plain sengaja dipakai agar tidak memicu preflight CORS.
+async function gasPost(payload) {
+    const response = await fetch(GAS_WEB_APP_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain;charset=utf-8'},
+        body: JSON.stringify(payload)
+    });
+    return await response.json();
+}
+window.gasPost = gasPost;
+
+// Normalisasi kunci pencocokan (NIK / nama / jabatan): string, trim, HURUF BESAR.
+function normKey(value) {
+    return (value === null || value === undefined ? '' : value).toString().trim().toUpperCase();
+}
+
+// Cari karyawan di employeeList. Mendukung properti huruf kecil maupun kapital
+// (nik/NIK, nama/Nama) karena data dari server bisa bervariasi.
+function findEmployeeByNik(nik) {
+    const key = normKey(nik);
+    if (!key) return null;
+    return employeeList.find(e => normKey(e.nik || e.NIK) === key) || null;
+}
+
+function findEmployeeByNama(nama) {
+    const key = normKey(nama);
+    if (!key) return null;
+    return employeeList.find(e => normKey(e.nama || e.Nama) === key) || null;
+}
+
+// Format tanggal kalender YYYY-MM-DD dari angka (tanpa Date -> aman dari timezone/Safari).
+function formatYMD(year, month, day) {
+    return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+}
+
+// Jam "HH:mm" dan tanggal singkat ("Sab, 03 Okt") versi id-ID untuk tampilan modern.
+function formatClockId(date) {
+    return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':');
+}
+
+function formatShortDateId(date) {
+    return date.toLocaleDateString('id-ID', { weekday: 'short', day: '2-digit', month: 'short' });
+}
+
 // KOORDINAT OUTLET & RADIUS MAX (50 METER)
 const OUTLET_LOCATION = {
     lat: -7.97919,

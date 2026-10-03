@@ -329,12 +329,7 @@ async function submitQscSelfCheck() {
     };
 
     try {
-        const response = await fetch(GAS_WEB_APP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-        });
-        const result = await response.json();
+        const result = await gasPost(payload);
         if (result.success) {
             showPopup('success', 'Checklist QSC Tersimpan', result.message, () => closeModal('modal-qsc'));
             invalidateGasCache('getQscTeamSummary');
@@ -383,12 +378,7 @@ async function submitQscSpotCheck() {
     };
 
     try {
-        const response = await fetch(GAS_WEB_APP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(payload)
-        });
-        const result = await response.json();
+        const result = await gasPost(payload);
         if (result.success) {
             invalidateGasCache('getQscTeamSummary');
             showPopup('success', 'Spot-Check Tersimpan', result.message, () => closeModal('modal-qsc'));

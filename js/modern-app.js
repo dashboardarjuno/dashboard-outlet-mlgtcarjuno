@@ -82,12 +82,22 @@
     }
 
     function invokeAction(action) {
+        // Aksi yang membuka modal: tutup sheet "Lainnya", lalu panggil fungsi global-nya.
+        var modalOpeners = {
+            absensi: 'openAbsensiModal',
+            off: 'openOffCutiModal',
+            kas: 'openKasModal',
+            qsc: 'openQscModal',
+            info: 'openInfoModal'
+        };
+        if (modalOpeners[action]) {
+            closeMore();
+            var opener = window[modalOpeners[action]];
+            if (typeof opener === 'function') opener();
+            return;
+        }
+
         switch (action) {
-            case 'absensi': closeMore(); if (typeof window.openAbsensiModal === 'function') window.openAbsensiModal(); break;
-            case 'off': closeMore(); if (typeof window.openOffCutiModal === 'function') window.openOffCutiModal(); break;
-            case 'kas': closeMore(); if (typeof window.openKasModal === 'function') window.openKasModal(); break;
-            case 'qsc': closeMore(); if (typeof window.openQscModal === 'function') window.openQscModal(); break;
-            case 'info': closeMore(); if (typeof window.openInfoModal === 'function') window.openInfoModal(); break;
             case 'sop': showSopUnavailable(); break;
             case 'classic': switchClassic(); break;
             case 'more': openMore(); break;
@@ -99,8 +109,8 @@
         var now = new Date();
         var time = document.getElementById('modern-current-time');
         var date = document.getElementById('modern-current-date');
-        if (time) time.textContent = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false }).replace('.', ':');
-        if (date) date.textContent = now.toLocaleDateString('id-ID', { weekday: 'short', day: '2-digit', month: 'short' });
+        if (time) time.textContent = formatClockId(now);
+        if (date) date.textContent = formatShortDateId(now);
     }
 
     function syncOutletStatus() {
@@ -206,21 +216,8 @@
       var timeEl = box.querySelector('.modern-time');
       var dateEl = box.querySelector('.modern-date');
 
-      if (timeEl) {
-        timeEl.textContent = now.toLocaleTimeString('id-ID', {
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false
-        }).replace('.', ':');
-      }
-
-      if (dateEl) {
-        dateEl.textContent = now.toLocaleDateString('id-ID', {
-          weekday: 'short',
-          day: '2-digit',
-          month: 'short'
-        });
-      }
+      if (timeEl) timeEl.textContent = formatClockId(now);
+      if (dateEl) dateEl.textContent = formatShortDateId(now);
     }
 
     update();
