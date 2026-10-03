@@ -1,0 +1,486 @@
+/* ==========================================================================
+   CLASSIC POLISH — Rapi, modern, profesional (CSS ONLY)
+   --------------------------------------------------------------------------
+   - Hanya aktif di tampilan KLASIK: semua aturan di-scope ke
+     html:not([data-theme="modern"]) -> tampilan Modern tidak tersentuh.
+   - Tidak mengubah HTML / JS / struktur yang ada. Dimuat PALING AKHIR
+     (setelah style.css, theme-modern.css, auth.css) supaya menang di cascade.
+   - Mau dimatikan? Cukup hapus <link> css/classic-polish.css di index.html.
+   ========================================================================== */
+
+html:not([data-theme="modern"]) {
+  --cp-red: #e5242a;
+  --cp-red-dark: #b91c22;
+  --cp-ink: #0f172a;
+  --cp-text: #334155;
+  --cp-muted: #64748b;
+  --cp-line: #e8ecf2;
+  --cp-bg: #f4f6fa;
+  --cp-card: #ffffff;
+  --cp-radius: 20px;
+  --cp-radius-sm: 12px;
+  --cp-shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 4px 14px rgba(15, 23, 42, .04);
+  --cp-shadow-md: 0 2px 4px rgba(15, 23, 42, .04), 0 12px 32px rgba(15, 23, 42, .07);
+  --cp-shadow-lg: 0 4px 8px rgba(15, 23, 42, .05), 0 22px 48px rgba(15, 23, 42, .12);
+  --cp-ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+/* ---------- Dasar halaman ---------- */
+html:not([data-theme="modern"]) body {
+  background: var(--cp-bg) !important;
+  color: var(--cp-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html:not([data-theme="modern"]) body > main {
+  width: 100%;
+  max-width: 1480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Fokus keyboard yang jelas & konsisten */
+html:not([data-theme="modern"]) body :is(button, a, input, select):focus-visible {
+  outline: 2px solid var(--cp-red) !important;
+  outline-offset: 2px !important;
+}
+
+/* ---------- Header ---------- */
+html:not([data-theme="modern"]) body > header {
+  background: rgba(255, 255, 255, .88) !important;
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  border-bottom: 1px solid var(--cp-line) !important;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .02), 0 8px 24px rgba(15, 23, 42, .04) !important;
+}
+
+html:not([data-theme="modern"]) body .classic-brand-mark {
+  border-radius: 14px !important;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, .06), 0 6px 14px rgba(15, 23, 42, .12) !important;
+}
+
+html:not([data-theme="modern"]) body .classic-header-inner h1 {
+  color: var(--cp-ink) !important;
+  letter-spacing: -.02em !important;
+}
+
+/* Tombol ganti tampilan Klasik / Modern */
+html:not([data-theme="modern"]) body .theme-switcher {
+  background: #eef1f6 !important;
+  border: 1px solid var(--cp-line) !important;
+  border-radius: 999px !important;
+  padding: 3px !important;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, .05) !important;
+}
+
+html:not([data-theme="modern"]) body .theme-switcher button {
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  transition: background .2s var(--cp-ease), color .2s var(--cp-ease), box-shadow .2s var(--cp-ease) !important;
+}
+
+html:not([data-theme="modern"]) body .theme-switcher button.active {
+  background: var(--cp-ink) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, .22) !important;
+}
+
+html:not([data-theme="modern"]) body .theme-switcher button:not(.active):hover {
+  background: rgba(15, 23, 42, .06) !important;
+}
+
+html:not([data-theme="modern"]) body .classic-header-right [data-auth-avatar] {
+  border: 2px solid #fff !important;
+  box-shadow: 0 0 0 1px var(--cp-line), 0 4px 10px rgba(15, 23, 42, .12) !important;
+}
+
+html:not([data-theme="modern"]) body .classic-date-time #current-date {
+  color: var(--cp-ink) !important;
+  font-weight: 700 !important;
+}
+
+html:not([data-theme="modern"]) body .classic-date-time #current-time {
+  color: var(--cp-muted) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Banner info (marquee) ---------- */
+html:not([data-theme="modern"]) body > header + div {
+  background: linear-gradient(90deg, #c81e24 0%, var(--cp-red) 55%, #ef4a4f 100%) !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, .06);
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+
+html:not([data-theme="modern"]) body > header + div > div:first-child > span:first-child {
+  background: rgba(255, 255, 255, .96) !important;
+  border-radius: 999px !important;
+  padding: 3px 11px !important;
+  letter-spacing: .06em;
+  font-size: 10.5px !important;
+}
+
+/* ---------- Hero ---------- */
+html:not([data-theme="modern"]) body #classic-hero {
+  border-radius: 28px !important;
+  box-shadow: var(--cp-shadow-lg) !important;
+}
+
+html:not([data-theme="modern"]) body #classic-hero h2 {
+  text-wrap: balance;
+}
+
+html:not([data-theme="modern"]) body #classic-hero p {
+  text-wrap: pretty;
+}
+
+/* ---------- Modul Utama Outlet ---------- */
+html:not([data-theme="modern"]) body #classic-quick-menu > h3 {
+  color: var(--cp-ink) !important;
+  font-weight: 800 !important;
+  position: relative;
+  padding-left: 14px;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 15%;
+  bottom: 15%;
+  width: 4px;
+  border-radius: 4px;
+  background: var(--cp-red);
+}
+
+/* 8 modul -> tidak ada kartu yatim di baris kedua */
+@media (min-width: 1280px) {
+  html:not([data-theme="modern"]) body #classic-quick-menu > div {
+    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1279px) {
+  html:not([data-theme="modern"]) body #classic-quick-menu > div {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+  }
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) {
+  position: relative;
+  min-height: 0 !important;
+  height: 100%;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  text-align: center !important;
+  background: var(--cp-card) !important;
+  border: 1px solid var(--cp-line) !important;
+  border-radius: var(--cp-radius) !important;
+  box-shadow: var(--cp-shadow-sm) !important;
+  padding: 20px 12px 18px !important;
+  transition: transform .25s var(--cp-ease), box-shadow .25s var(--cp-ease), border-color .25s var(--cp-ease) !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a):hover {
+  transform: translateY(-4px) !important;
+  box-shadow: var(--cp-shadow-md) !important;
+  border-color: rgba(229, 36, 42, .28) !important;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a):active {
+  transform: translateY(-1px) scale(.985) !important;
+}
+
+/* Ubin ikon */
+html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > div {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 16px !important;
+  margin-bottom: 14px !important;
+  background: #f3f5f9 !important;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .04) !important;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a):hover > div {
+  transform: scale(1.06);
+}
+
+/* Judul & subjudul kartu */
+html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > span:nth-of-type(1) {
+  color: var(--cp-ink) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -.01em;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > span:nth-of-type(2) {
+  color: var(--cp-muted) !important;
+  line-height: 1.35 !important;
+  margin-top: 5px !important;
+  text-wrap: balance;
+}
+
+/* Kartu pertama (Absensi) tetap jadi kartu utama berwarna merah */
+html:not([data-theme="modern"]) body #classic-quick-menu > div > button:first-child {
+  background: linear-gradient(150deg, #a3162f 0%, #c92a3b 100%) !important;
+  border-color: transparent !important;
+  box-shadow: 0 12px 28px rgba(163, 22, 47, .26) !important;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > button:first-child > span:nth-of-type(2) {
+  color: rgba(255, 255, 255, .78) !important;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > button:first-child > div {
+  background: rgba(255, 255, 255, .16) !important;
+  color: #fff !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .18) !important;
+}
+
+html:not([data-theme="modern"]) body #classic-quick-menu > div > button:first-child:hover {
+  border-color: transparent !important;
+  box-shadow: 0 18px 38px rgba(163, 22, 47, .34) !important;
+}
+
+/* ---------- Kartu seksi (Matriks, Jadwal, Struktur Tim) ---------- */
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) {
+  background: var(--cp-card) !important;
+  border: 1px solid var(--cp-line) !important;
+  border-radius: 24px !important;
+  box-shadow: var(--cp-shadow-sm) !important;
+  padding: 22px !important;
+}
+
+@media (min-width: 640px) {
+  html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) {
+    padding: 26px 28px !important;
+  }
+}
+
+/* Header tiap seksi */
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) > div:first-child {
+  border-bottom: 1px solid var(--cp-line) !important;
+  padding-bottom: 16px !important;
+}
+
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) h3 {
+  color: var(--cp-ink) !important;
+  font-weight: 800 !important;
+  letter-spacing: -.02em !important;
+}
+
+/* Ubin ikon di header seksi: ukuran seragam */
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) > div:first-child > div:first-child > div:first-child {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  font-size: 18px !important;
+}
+
+/* ---------- Kontrol form (tanggal, bulan, dsb.) ---------- */
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift) :is(input[type="date"], input[type="month"]) {
+  height: 38px;
+  background: #fff !important;
+  border: 1px solid #d5dbe5 !important;
+  border-radius: 10px !important;
+  padding: 0 12px !important;
+  color: var(--cp-ink) !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04) !important;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift) :is(input[type="date"], input[type="month"]):focus {
+  border-color: var(--cp-red) !important;
+  box-shadow: 0 0 0 3px rgba(229, 36, 42, .14) !important;
+  outline: none !important;
+}
+
+/* ---------- Tombol aksi di seksi ---------- */
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) button {
+  min-height: 38px;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: .005em;
+  transition: transform .15s var(--cp-ease), box-shadow .2s var(--cp-ease), background-color .2s ease, border-color .2s ease !important;
+}
+
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) button:hover {
+  transform: translateY(-1px);
+}
+
+html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) button:active {
+  transform: translateY(0) scale(.98);
+}
+
+html:not([data-theme="modern"]) body #section-shift button.bg-blue-600 {
+  background: linear-gradient(180deg, #3b82f6, #2563eb) !important;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, .28) !important;
+}
+
+html:not([data-theme="modern"]) body #section-shift button.bg-emerald-600 {
+  background: linear-gradient(180deg, #10b981, #059669) !important;
+  box-shadow: 0 6px 14px rgba(5, 150, 105, .26) !important;
+}
+
+/* ---------- Legend matriks ---------- */
+html:not([data-theme="modern"]) body #section-off-matrix > div:nth-of-type(2) {
+  background: #f8fafc !important;
+  border: 1px solid var(--cp-line) !important;
+  border-radius: 14px !important;
+  padding: 12px 14px !important;
+  gap: 10px 18px !important;
+}
+
+/* ---------- Tabel (matriks & jadwal) ---------- */
+html:not([data-theme="modern"]) body #section-off-matrix .overflow-x-auto {
+  border: 1px solid var(--cp-line) !important;
+  border-radius: 16px !important;
+  box-shadow: none !important;
+  background: #fff;
+}
+
+html:not([data-theme="modern"]) body #thead-matriks {
+  background: #f1f4f9 !important;
+}
+
+html:not([data-theme="modern"]) body #thead-matriks th {
+  color: #475569 !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-bottom: 1px solid #dfe5ee !important;
+}
+
+html:not([data-theme="modern"]) body #tbody-dashboard-rekap tr:nth-child(even) td:not([class*="bg-"]) {
+  background-color: #fafbfd;
+}
+
+html:not([data-theme="modern"]) body #tbody-dashboard-rekap tr:hover td:not([class*="bg-"]) {
+  background-color: #f1f5fb;
+}
+
+html:not([data-theme="modern"]) body #tbody-dashboard-rekap td {
+  border-color: #eef1f6 !important;
+}
+
+html:not([data-theme="modern"]) body #table-container {
+  background: #f8fafc !important;
+  border: 1px solid var(--cp-line) !important;
+  border-radius: 16px !important;
+}
+
+html:not([data-theme="modern"]) body #scheduleContainer table {
+  border-radius: 12px;
+}
+
+/* Scrollbar tipis & halus di area tabel */
+html:not([data-theme="modern"]) body :is(#section-off-matrix .overflow-x-auto, #table-container > div) {
+  scrollbar-width: thin;
+  scrollbar-color: #c3cbd8 transparent;
+}
+
+html:not([data-theme="modern"]) body :is(#section-off-matrix .overflow-x-auto, #table-container > div)::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+html:not([data-theme="modern"]) body :is(#section-off-matrix .overflow-x-auto, #table-container > div)::-webkit-scrollbar-thumb {
+  background: #c3cbd8;
+  border-radius: 8px;
+}
+
+/* ---------- Footer ---------- */
+html:not([data-theme="modern"]) body > footer {
+  background: linear-gradient(180deg, #111a2e, #0b1324) !important;
+  border-top: 0 !important;
+  margin-top: 28px !important;
+}
+
+html:not([data-theme="modern"]) body > footer .max-w-7xl {
+  max-width: 1480px;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 639px) {
+  html:not([data-theme="modern"]) body > main {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    padding-top: 16px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero {
+    border-radius: 22px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) {
+    padding: 16px 10px 14px !important;
+    border-radius: 18px !important;
+  }
+
+  /* Kartu menu mobile: gaya tile app (rata kiri) dengan teks yang terbaca
+     (sebelumnya judul 9.5px & subjudul 7px -> terlalu kecil). */
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) {
+    align-items: flex-start !important;
+    text-align: left !important;
+    min-height: 118px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > div {
+    width: 44px !important;
+    height: 44px !important;
+    margin-bottom: 12px !important;
+    align-self: flex-start !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > span {
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > span:nth-of-type(1) {
+    font-size: 13px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > span:nth-of-type(2) {
+    font-size: 10.5px !important;
+  }
+
+  html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) {
+    border-radius: 20px !important;
+    padding: 18px 16px !important;
+  }
+
+  /* Filter & tombol di seksi: tersusun rapi, lebar penuh */
+  html:not([data-theme="modern"]) body #section-shift > div:first-child > div:last-child,
+  html:not([data-theme="modern"]) body #section-off-matrix > div:first-child > div:last-child {
+    width: 100%;
+  }
+
+  html:not([data-theme="modern"]) body #section-shift > div:first-child > div:last-child input[type="date"],
+  html:not([data-theme="modern"]) body #section-off-matrix > div:first-child > div:last-child input[type="month"] {
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+
+  html:not([data-theme="modern"]) body #section-shift > div:first-child > div:last-child button {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+/* ---------- Aksesibilitas gerak ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-theme="modern"]) body *,
+  html:not([data-theme="modern"]) body *::before,
+  html:not([data-theme="modern"]) body *::after {
+    transition-duration: .01ms !important;
+  }
+}
