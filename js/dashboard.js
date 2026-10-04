@@ -83,6 +83,8 @@ const nationalHolidayCache = {};
 
         // Menyimpan rekap off Sabtu/Minggu/tgl merah (Jan-Des) hasil getRekapHariLiburTahun.
         let rekapHariLiburTahun = { year: null, ok: false, data: {} };
+        // Sisa cuti tahunan per NIK (hasil getSisaCutiTahun), ditampilkan di modal yang sama.
+        let sisaCutiTahunData = { year: null, ok: false, data: {} };
 
         function openRekapKaryawan(nik, nama) {
             const info = rekapHariLiburTahun.ok ? (rekapHariLiburTahun.data[(nik || '').toString().trim()] || null) : null;
@@ -102,6 +104,27 @@ const nationalHolidayCache = {};
                 setText('rekap-karyawan-minggu', `${info ? info.minggu : 0} hari`);
                 setText('rekap-karyawan-merah', `${info ? info.merah : 0} hari`);
                 setText('rekap-karyawan-note', 'Detail tanggal dan bulan ada di rekap GSheet.');
+            }
+
+            // Sisa cuti (dulu kolom tersendiri di matriks)
+            const nikKey = (nik || '').toString().trim();
+            const sc = sisaCutiTahunData.ok ? sisaCutiTahunData.data[nikKey] : null;
+            const scEl = document.getElementById('rekap-karyawan-sisa');
+            const scDetail = document.getElementById('rekap-karyawan-sisa-detail');
+            if (scEl) {
+                scEl.className = 'font-extrabold';
+                scEl.style.color = '';
+                if (!sisaCutiTahunData.ok) {
+                    scEl.textContent = '-';
+                    if (scDetail) scDetail.textContent = 'Data sisa cuti belum bisa diambil.';
+                } else if (!sc || sc.jatah === null || sc.jatah === undefined) {
+                    scEl.textContent = '-';
+                    if (scDetail) scDetail.textContent = 'Jatah cuti tahun ini belum diatur admin.';
+                } else {
+                    scEl.textContent = `${sc.sisa} hari`;
+                    scEl.style.color = sc.sisa < 0 ? '#dc2626' : (sc.sisa <= 2 ? '#d97706' : '#059669');
+                    if (scDetail) scDetail.textContent = `Jatah ${sc.jatah} - terpakai ${sc.terpakai}`;
+                }
             }
             openModal('modal-rekap-karyawan');
         }
@@ -128,8 +151,7 @@ const nationalHolidayCache = {};
             // 1. Render Header Tanggal
             let theadHTML = `
     <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-        <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 border-r border-slate-200 text-xs" style="width:110px;min-width:110px;max-width:110px">Nama Karyawan</th>
-        <th class="py-1.5 px-2 font-bold sticky bg-slate-100 z-30 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs text-center" style="left:110px;width:60px;min-width:60px;max-width:60px">Sisa Cuti</th>
+        <th class="py-1.5 px-2 font-bold sticky left-0 bg-slate-100 z-30 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-xs" style="width:110px;min-width:110px;max-width:110px">Nama Karyawan</th>
 `;
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateInfo = getCalendarDateInfo(year, month, d, nationalHolidays);
@@ -146,7 +168,7 @@ const nationalHolidayCache = {};
             theadHTML += `</tr>`;
             thead.innerHTML = theadHTML;
 
-            tbody.innerHTML = `<tr><td colspan="${daysInMonth + 2}" class="text-center p-6 text-slate-400 font-medium"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Mengambil data matriks jadwal...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium"><i class="fa-solid fa-spinner animate-spin mr-2"></i> Mengambil data matriks jadwal...</td></tr>`;
 
             try {
                 if (!employeeList || employeeList.length === 0) {
@@ -160,6 +182,11 @@ const nationalHolidayCache = {};
                 ]);
                 const sisaCutiMap = (sisaCutiRes && sisaCutiRes.success && sisaCutiRes.data) ? sisaCutiRes.data : {};
                 // Rekap off Sabtu/Minggu/tgl merah setahun, dibaca saat nama karyawan diklik.
+                sisaCutiTahunData = {
+                    year: year,
+                    ok: !!(sisaCutiRes && sisaCutiRes.success && sisaCutiRes.data),
+                    data: sisaCutiMap
+                };
                 rekapHariLiburTahun = {
                     year: year,
                     ok: !!(rekapLiburRes && rekapLiburRes.success && rekapLiburRes.data),
@@ -217,7 +244,7 @@ const nationalHolidayCache = {};
                 const employeesToRender = employeeList.filter(e => e.nama || e.Nama);
 
                 if (employeesToRender.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="${daysInMonth + 2}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-slate-400 font-medium">Belum ada data karyawan terdaftar.</td></tr>`;
                     return;
                 }
 
@@ -250,23 +277,10 @@ const nationalHolidayCache = {};
                     });
 
                     const empNikForCuti = (empObj.nik || empObj.NIK || '').toString().trim();
-                    const sisaCutiInfo = sisaCutiMap[empNikForCuti];
-                    let sisaCutiHTML;
-                    let sisaCutiTitle;
-                    if (!sisaCutiInfo || sisaCutiInfo.jatah === null || sisaCutiInfo.jatah === undefined) {
-                        sisaCutiHTML = '<span class="text-slate-300">-</span>';
-                        sisaCutiTitle = 'Jatah cuti tahun ini belum diatur admin.';
-                    } else {
-                        const sisaVal = sisaCutiInfo.sisa;
-                        const sisaColor = sisaVal < 0 ? 'text-red-600' : (sisaVal <= 2 ? 'text-amber-600' : 'text-emerald-600');
-                        sisaCutiHTML = `<span class="font-bold ${sisaColor}">${sisaVal}</span>`;
-                        sisaCutiTitle = `Jatah ${sisaCutiInfo.jatah} hari - Terpakai ${sisaCutiInfo.terpakai} hari = Sisa ${sisaVal} hari (tahun ${year})`;
-                    }
 
                     tbodyHTML += `
     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-        <td data-nik="${escapeHtml(empNikForCuti)}" data-nama="${escapeHtml(empNama)}" onclick="openRekapKaryawan(this.dataset.nik, this.dataset.nama)" title="Klik untuk melihat rekap off Sabtu, Minggu, dan tanggal merah" class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white cursor-pointer z-10 border-r border-slate-200 whitespace-nowrap truncate" style="width:110px;min-width:110px;max-width:110px;text-decoration:underline dotted;text-decoration-color:#a78bfa;text-underline-offset:3px">${escapeHtml(empNama)}</td>
-        <td title="${escapeHtml(sisaCutiTitle)}" class="py-1.5 px-2 text-xs sticky bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-center cursor-default" style="left:110px;width:60px;min-width:60px;max-width:60px">${sisaCutiHTML}</td>
+        <td data-nik="${escapeHtml(empNikForCuti)}" data-nama="${escapeHtml(empNama)}" onclick="openRekapKaryawan(this.dataset.nik, this.dataset.nama)" title="Klik untuk melihat sisa cuti dan rekap off Sabtu, Minggu, tanggal merah" class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white cursor-pointer z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 whitespace-nowrap truncate" style="width:110px;min-width:110px;max-width:110px;text-decoration:underline dotted;text-decoration-color:#a78bfa;text-underline-offset:3px">${escapeHtml(empNama)}</td>
 `;
 
                     for (let d = 1; d <= daysInMonth; d++) {
@@ -321,7 +335,7 @@ const nationalHolidayCache = {};
 
             } catch (err) {
                 console.error("Gagal memuat matriks rekap:", err);
-                tbody.innerHTML = `<tr><td colspan="${daysInMonth + 2}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${daysInMonth + 1}" class="text-center p-6 text-red-500 font-medium">Gagal memuat data matriks. Pastikan koneksi terhubung.</td></tr>`;
             }
         }
 

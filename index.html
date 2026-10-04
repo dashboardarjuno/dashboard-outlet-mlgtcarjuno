@@ -565,8 +565,7 @@
                 </div>
                 <div id="legend-matriks-info" class="text-slate-500 font-normal" style="display:none;margin-top:6px;padding-top:6px;border-top:1px solid #e2e8f0;font-size:11px;line-height:1.4;">
                     <p style="margin:0 0 4px;">Kotak kosong = masuk kerja.</p>
-                    <p style="margin:0 0 4px;">Kolom "Sisa Cuti" = jatah cuti tahunan dikurangi cuti terpakai tahun ini.</p>
-                    <p style="margin:0;">Klik nama karyawan untuk melihat rekap off Sabtu, Minggu, dan tanggal merah (Jan - Des).</p>
+                    <p style="margin:0;">Klik nama karyawan untuk melihat sisa cuti (jatah tahunan dikurangi cuti terpakai) dan rekap off Sabtu, Minggu, serta tanggal merah (Jan - Des).</p>
                 </div>
             </div>
 
@@ -941,7 +940,7 @@
             </button>
             <div class="pr-8 border-b pb-3">
                 <p id="rekap-karyawan-nama" class="font-bold text-slate-800 text-sm truncate">-</p>
-                <p id="rekap-karyawan-tahun" class="text-xs text-slate-400">Rekap off Januari - Desember</p>
+                <p id="rekap-karyawan-tahun" class="text-xs text-slate-400">Sisa cuti dan rekap off Januari - Desember</p>
             </div>
             <div class="space-y-2 text-sm">
                 <div class="flex items-center justify-between bg-amber-50 text-amber-700 rounded-lg px-3 py-2">
@@ -956,6 +955,13 @@
                     <span class="font-semibold">Tgl merah</span>
                     <span id="rekap-karyawan-merah" class="font-extrabold">-</span>
                 </div>
+            </div>
+            <div class="flex items-center justify-between bg-emerald-50 rounded-lg px-3 py-2 text-sm">
+                <div>
+                    <span class="font-semibold text-slate-700">Sisa cuti</span>
+                    <p id="rekap-karyawan-sisa-detail" class="text-[11px] text-slate-400 leading-tight" style="margin:0">-</p>
+                </div>
+                <span id="rekap-karyawan-sisa" class="font-extrabold">-</span>
             </div>
             <p id="rekap-karyawan-note" class="text-[11px] text-slate-400 leading-tight">Detail tanggal dan bulan ada di rekap GSheet.</p>
         </div>
