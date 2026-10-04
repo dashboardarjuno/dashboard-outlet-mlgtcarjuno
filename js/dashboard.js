@@ -81,6 +81,31 @@ const nationalHolidayCache = {};
             };
         }
 
+        // Menyimpan rekap off Sabtu/Minggu/tgl merah (Jan-Des) hasil getRekapHariLiburTahun.
+        let rekapHariLiburTahun = { year: null, ok: false, data: {} };
+
+        function openRekapKaryawan(nik, nama) {
+            const info = rekapHariLiburTahun.ok ? (rekapHariLiburTahun.data[(nik || '').toString().trim()] || null) : null;
+            const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
+
+            setText('rekap-karyawan-nama', nama || '-');
+            setText('rekap-karyawan-tahun', `Rekap off Januari - Desember ${rekapHariLiburTahun.year || ''}`.trim());
+
+            if (!rekapHariLiburTahun.ok) {
+                setText('rekap-karyawan-sabtu', '-');
+                setText('rekap-karyawan-minggu', '-');
+                setText('rekap-karyawan-merah', '-');
+                setText('rekap-karyawan-note', 'Data rekap belum bisa diambil. Coba klik Refresh lalu buka lagi.');
+            } else {
+                // Karyawan yang belum pernah off di tahun itu tidak ada di data = 0 hari.
+                setText('rekap-karyawan-sabtu', `${info ? info.sabtu : 0} hari`);
+                setText('rekap-karyawan-minggu', `${info ? info.minggu : 0} hari`);
+                setText('rekap-karyawan-merah', `${info ? info.merah : 0} hari`);
+                setText('rekap-karyawan-note', 'Detail tanggal dan bulan ada di rekap GSheet.');
+            }
+            openModal('modal-rekap-karyawan');
+        }
+
         async function loadDashboardMonthlyRekap() {
             const tbody = document.getElementById('tbody-dashboard-rekap');
             const thead = document.getElementById('thead-matriks');
@@ -128,11 +153,18 @@ const nationalHolidayCache = {};
                     await loadInitialData();
                 }
 
-                const [res, sisaCutiRes] = await Promise.all([
+                const [res, sisaCutiRes, rekapLiburRes] = await Promise.all([
                     gasJsonp('getMonthlyRekap', {year, month}, {cacheMs: 60000}),
-                    gasJsonp('getSisaCutiTahun', {year}, {cacheMs: 60000}).catch(() => null)
+                    gasJsonp('getSisaCutiTahun', {year}, {cacheMs: 60000}).catch(() => null),
+                    gasJsonp('getRekapHariLiburTahun', {year}, {cacheMs: 60000}).catch(() => null)
                 ]);
                 const sisaCutiMap = (sisaCutiRes && sisaCutiRes.success && sisaCutiRes.data) ? sisaCutiRes.data : {};
+                // Rekap off Sabtu/Minggu/tgl merah setahun, dibaca saat nama karyawan diklik.
+                rekapHariLiburTahun = {
+                    year: year,
+                    ok: !!(rekapLiburRes && rekapLiburRes.success && rekapLiburRes.data),
+                    data: (rekapLiburRes && rekapLiburRes.success && rekapLiburRes.data) ? rekapLiburRes.data : {}
+                };
 
                 let rawList = [];
                 if (Array.isArray(res)) rawList = res;
@@ -233,7 +265,7 @@ const nationalHolidayCache = {};
 
                     tbodyHTML += `
     <tr class="hover:bg-slate-50 transition border-b border-slate-100">
-        <td class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white z-10 border-r border-slate-200 whitespace-nowrap truncate" style="width:110px;min-width:110px;max-width:110px">${escapeHtml(empNama)}</td>
+        <td data-nik="${escapeHtml(empNikForCuti)}" data-nama="${escapeHtml(empNama)}" onclick="openRekapKaryawan(this.dataset.nik, this.dataset.nama)" title="Klik untuk melihat rekap off Sabtu, Minggu, dan tanggal merah" class="py-1.5 px-2 font-semibold text-slate-800 text-xs sticky left-0 bg-white cursor-pointer z-10 border-r border-slate-200 whitespace-nowrap truncate" style="width:110px;min-width:110px;max-width:110px;text-decoration:underline dotted;text-decoration-color:#a78bfa;text-underline-offset:3px">${escapeHtml(empNama)}</td>
         <td title="${escapeHtml(sisaCutiTitle)}" class="py-1.5 px-2 text-xs sticky bg-white z-10 shadow-[2px_0_5px_rgba(0,0,0,0.05)] border-r border-slate-200 text-center cursor-default" style="left:110px;width:60px;min-width:60px;max-width:60px">${sisaCutiHTML}</td>
 `;
 

@@ -571,6 +571,7 @@
                         class="w-5 h-5 bg-rose-100 text-rose-700 font-extrabold rounded flex items-center justify-center text-xs">T</span>
                     Tanggal Merah</span>
                 <span class="flex items-center gap-1.5 text-slate-500 font-normal">Kolom "Sisa Cuti" = jatah cuti tahunan dikurangi cuti terpakai tahun ini</span>
+                <span class="flex items-center gap-1.5 text-slate-500 font-normal">Klik nama karyawan untuk melihat rekap off Sabtu, Minggu, dan tanggal merah (Jan - Des)</span>
             </div>
 
             <!-- TABEL MATRIKS VIEW -->
@@ -933,6 +934,37 @@
     </div>
 
     <!-- MODAL FORM PENGAJUAN OFF & CUTI -->
+    <!-- MODAL REKAP OFF HARI LIBUR PER KARYAWAN (klik nama di matriks) -->
+    <div id="modal-rekap-karyawan"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
+        onclick="if (event.target === this) closeModal('modal-rekap-karyawan')">
+        <div class="bg-white rounded-2xl max-w-xs w-full p-5 space-y-3 shadow-2xl relative">
+            <button type="button" onclick="closeModal('modal-rekap-karyawan')"
+                class="absolute top-3 right-3 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="pr-8 border-b pb-3">
+                <p id="rekap-karyawan-nama" class="font-bold text-slate-800 text-sm truncate">-</p>
+                <p id="rekap-karyawan-tahun" class="text-xs text-slate-400">Rekap off Januari - Desember</p>
+            </div>
+            <div class="space-y-2 text-sm">
+                <div class="flex items-center justify-between bg-amber-50 text-amber-700 rounded-lg px-3 py-2">
+                    <span class="font-semibold">Sabtu</span>
+                    <span id="rekap-karyawan-sabtu" class="font-extrabold">-</span>
+                </div>
+                <div class="flex items-center justify-between bg-red-50 text-red-700 rounded-lg px-3 py-2">
+                    <span class="font-semibold">Minggu</span>
+                    <span id="rekap-karyawan-minggu" class="font-extrabold">-</span>
+                </div>
+                <div class="flex items-center justify-between bg-rose-50 text-rose-700 rounded-lg px-3 py-2">
+                    <span class="font-semibold">Tgl merah</span>
+                    <span id="rekap-karyawan-merah" class="font-extrabold">-</span>
+                </div>
+            </div>
+            <p id="rekap-karyawan-note" class="text-[11px] text-slate-400 leading-tight">Detail tanggal dan bulan ada di rekap GSheet.</p>
+        </div>
+    </div>
+
     <div id="modal-off-cuti"
         class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div
