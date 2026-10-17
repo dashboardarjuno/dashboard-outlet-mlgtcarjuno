@@ -205,39 +205,35 @@ let teamScheduleStatusReady = false;
             if (id === 'modal-absensi') stopCamera();
         }
 
-        function updateTime() {
+        // SATU-SATUNYA pembaruan tanggal & jam: header klasik (lebar + ringkas) dan
+        // header modern (desktop + salinan mobile). Elemen yang tidak ada dilewati.
+        function updateClocks() {
             const now = new Date();
+            const set = function (sel, text) {
+                const el = document.querySelector(sel);
+                if (el) el.textContent = text;
+            };
             const timeStr = now.toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'});
-            const timeElement = document.getElementById("current-time");
-            if (timeElement) {
-                timeElement.textContent = timeStr;
-            }
-            // Jam ringkas di sebelah foto profil (header Klasik, layar sempit)
-            const compactTimeEl = document.getElementById("classic-compact-time");
-            if (compactTimeEl) {
-                compactTimeEl.textContent = timeStr;
-            }
+            const dateLong = now.toLocaleDateString('id-ID', {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+            const dateCompact = now.toLocaleDateString('id-ID', {weekday: 'short', day: 'numeric', month: 'short'});
+
+            set('#current-date', dateLong);
+            set('#current-time', timeStr);
+            set('#classic-compact-date', dateCompact);
+            set('#classic-compact-time', timeStr);
+
+            const clock = formatClockId(now);
+            const dateShort = formatShortDateId(now);
+            set('#modern-current-time', clock);
+            set('#modern-current-date', dateShort);
+            set('#modernMobileDateTime .modern-time', clock);
+            set('#modernMobileDateTime .modern-date', dateShort);
         }
+        window.updateClocks = updateClocks;
 
 
 // Inisialisasi utama saat halaman dimuat: banner, status outlet, dan data awal
 document.addEventListener("DOMContentLoaded", function () {
-    const dateElement = document.getElementById("current-date");
-    if (dateElement) {
-        const now = new Date();
-        dateElement.textContent = now.toLocaleDateString('id-ID', {
-            weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-        });
-    }
-    // Tanggal format pendek (di sebelah foto profil, header Klasik layar sempit)
-    const compactDateEl = document.getElementById("classic-compact-date");
-    if (compactDateEl) {
-        const now = new Date();
-        compactDateEl.textContent = now.toLocaleDateString('id-ID', {
-            weekday: 'short', day: 'numeric', month: 'short'
-        });
-    }
-
     updateOutletStatus();
     setInterval(updateOutletStatus, 60000);
 
@@ -267,5 +263,5 @@ window.addEventListener('arjunohub:employee-ready', function () {
     });
 }, {once: true});
 
-updateTime();
-setInterval(updateTime, 60000);
+updateClocks();
+setInterval(updateClocks, 30000);

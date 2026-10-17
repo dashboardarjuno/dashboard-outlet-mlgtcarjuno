@@ -105,14 +105,6 @@
         }
     }
 
-    function syncClock() {
-        var now = new Date();
-        var time = document.getElementById('modern-current-time');
-        var date = document.getElementById('modern-current-date');
-        if (time) time.textContent = formatClockId(now);
-        if (date) date.textContent = formatShortDateId(now);
-    }
-
     function syncOutletStatus() {
         var source = document.getElementById('outlet-status-container');
         var target = document.getElementById('modern-outlet-state');
@@ -129,6 +121,19 @@
         if (source && target) target.textContent = (source.textContent || '').trim() || 'Informasi outlet terbaru';
     }
 
+    // Salinan tanggal+jam di topbar modern untuk layar HP (diisi oleh updateClocks di core.js).
+    function ensureModernMobileDateTime() {
+        if (!isModern() || window.innerWidth > 768) return;
+        var host = qs('.modern-topbar-actions') || qs('.modern-topbar') || qs('.modern-header') || qs('.app-topbar');
+        if (!host || document.getElementById('modernMobileDateTime')) return;
+        var box = document.createElement('div');
+        box.id = 'modernMobileDateTime';
+        box.className = 'modern-datetime modern-mobile-datetime';
+        box.innerHTML = '<div class="modern-time"></div><div class="modern-date"></div>';
+        host.insertBefore(box, host.firstChild);
+        if (typeof window.updateClocks === 'function') window.updateClocks();
+    }
+
     function applyThemeState() {
         var shell = document.getElementById('modern-app-shell');
         if (shell) shell.setAttribute('aria-hidden', isModern() ? 'false' : 'true');
@@ -142,6 +147,7 @@
             html.removeAttribute('data-modern-view');
             closeMore();
         }
+        ensureModernMobileDateTime();
     }
 
     document.addEventListener('click', function (e) {
@@ -173,9 +179,9 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        syncClock();
-        setInterval(syncClock, 30000);
+        if (typeof window.updateClocks === 'function') window.updateClocks();
         applyThemeState();
+        window.addEventListener('resize', ensureModernMobileDateTime);
 
         var observer = new MutationObserver(function () { applyThemeState(); });
         observer.observe(html, { attributes: true, attributeFilter: ['data-theme'] });
@@ -187,51 +193,3 @@
     });
 })();
 
-
-/* MOBILE_DATETIME_MIRROR */
-(function () {
-  function ensureModernMobileDateTime() {
-    if (document.documentElement.getAttribute('data-theme') !== 'modern') return;
-    if (window.innerWidth > 768) return;
-
-    var host =
-      document.querySelector('.modern-topbar-actions') ||
-      document.querySelector('.modern-topbar') ||
-      document.querySelector('.modern-header') ||
-      document.querySelector('.app-topbar');
-
-    if (!host) return;
-
-    var box = document.getElementById('modernMobileDateTime');
-    if (!box) {
-      box = document.createElement('div');
-      box.id = 'modernMobileDateTime';
-      box.className = 'modern-datetime modern-mobile-datetime';
-      box.innerHTML = '<div class="modern-time"></div><div class="modern-date"></div>';
-      host.insertBefore(box, host.firstChild);
-    }
-
-    function update() {
-      var now = new Date();
-      var timeEl = box.querySelector('.modern-time');
-      var dateEl = box.querySelector('.modern-date');
-
-      if (timeEl) timeEl.textContent = formatClockId(now);
-      if (dateEl) dateEl.textContent = formatShortDateId(now);
-    }
-
-    update();
-    if (!window.__modernMobileClockTimer) {
-      window.__modernMobileClockTimer = setInterval(update, 30000);
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', ensureModernMobileDateTime);
-  window.addEventListener('resize', ensureModernMobileDateTime);
-
-  var observer = new MutationObserver(ensureModernMobileDateTime);
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-theme']
-  });
-})();
