@@ -57,11 +57,6 @@
     <link rel="stylesheet" href="css/auth.css">
     <!-- Polesan tampilan KLASIK saja (scoped, CSS only). Hapus baris ini untuk mematikan. -->
     <link rel="stylesheet" href="css/classic-polish.css">
-    <style>
-        .auth-profile-menu-item:hover { background: #f1f5f9; }
-        .auth-profile-trigger { transition: opacity .15s; }
-        .auth-profile-trigger:hover { opacity: 0.85; }
-    </style>
     <style id="auth-profile-force-style">
         /* Penguat prioritas tinggi: pastikan area foto profil selalu bisa
            diklik, apa pun aturan CSS lama lain yang mungkin masih menimpa
@@ -94,47 +89,6 @@
         html body .classic-header-right .auth-profile-menu {
             z-index: 90 !important;
         }
-        /* Nama + jabatan di samping foto profil (mode klasik, layar lebar) */
-        html:not([data-theme="modern"]) .classic-profile-text {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            min-width: 0;
-            margin-left: 8px;
-            line-height: 1.2;
-            text-align: left;
-        }
-        html:not([data-theme="modern"]) .classic-profile-text strong {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #1e293b;
-            max-width: 150px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        html:not([data-theme="modern"]) .classic-profile-text span {
-            font-size: 10.5px;
-            font-weight: 600;
-            color: #64748b;
-            max-width: 150px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        @media (max-width: 720px) {
-            /* HP: nama + jabatan tetap tampil, versi ringkas supaya header muat */
-            html:not([data-theme="modern"]) .classic-profile-text { margin-left: 6px; }
-            html:not([data-theme="modern"]) .classic-profile-text strong { font-size: 10.5px; max-width: 72px; }
-            html:not([data-theme="modern"]) .classic-profile-text span { font-size: 9px; max-width: 72px; }
-        }
-        @media (max-width: 520px) {
-            /* HP kecil: tanggal+jam ringkas digantikan nama+jabatan supaya nama outlet tidak terpotong.
-               (Jam tetap ada di layar lain / di mode modern.) */
-            html:not([data-theme="modern"]) body #classic-compact-datetime { display: none !important; }
-            html:not([data-theme="modern"]) .classic-profile-text strong { max-width: 78px; }
-            html:not([data-theme="modern"]) .classic-profile-text span { max-width: 78px; }
-        }
         @media (max-width: 720px) {
             html:not([data-theme="modern"]) .classic-header-right .auth-profile-wrap.classic-auth-logout {
                 width: auto !important;
@@ -161,6 +115,40 @@
                 padding: 0 !important;
                 justify-content: center !important;
             }
+        }
+        /* Nama + jabatan di samping foto profil (mode klasik).
+           Sengaja ditaruh SETELAH blok 720px di atas supaya menang lewat urutan,
+           tanpa perlu menambah specificity. */
+        html:not([data-theme="modern"]) .classic-profile-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-width: 0;
+            margin-left: 8px;
+            line-height: 1.2;
+            text-align: left;
+        }
+        html:not([data-theme="modern"]) .classic-profile-text strong,
+        html:not([data-theme="modern"]) .classic-profile-text span {
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        html:not([data-theme="modern"]) .classic-profile-text strong { font-size: 12.5px; font-weight: 700; color: #1e293b; }
+        html:not([data-theme="modern"]) .classic-profile-text span   { font-size: 10.5px; font-weight: 600; color: #64748b; }
+        @media (max-width: 720px) {
+            html:not([data-theme="modern"]) .classic-profile-text { margin-left: 6px; }
+            html:not([data-theme="modern"]) .classic-profile-text strong,
+            html:not([data-theme="modern"]) .classic-profile-text span { max-width: 72px; }
+            html:not([data-theme="modern"]) .classic-profile-text strong { font-size: 10.5px; }
+            html:not([data-theme="modern"]) .classic-profile-text span   { font-size: 9px; }
+        }
+        @media (max-width: 520px) {
+            /* HP kecil: tanggal+jam ringkas digantikan nama+jabatan supaya nama outlet tidak terpotong */
+            html:not([data-theme="modern"]) #classic-compact-datetime { display: none !important; }
+            html:not([data-theme="modern"]) .classic-profile-text strong,
+            html:not([data-theme="modern"]) .classic-profile-text span { max-width: 78px; }
         }
     </style>
 </head>
@@ -238,16 +226,16 @@
                             <span data-auth-jabatan>-</span>
                         </span>
                     </button>
-                    <div id="auth-profile-menu-classic" class="auth-profile-menu" style="display:none;position:fixed;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:999999;text-align:left">
-                        <div style="padding:6px 8px 10px;border-bottom:1px solid #f1f5f9;margin-bottom:6px">
-                            <div data-auth-name style="font-size:13px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">-</div>
-                            <div data-auth-jabatan style="font-size:11px;color:#64748b;font-weight:500;margin-top:2px">-</div>
+                    <div id="auth-profile-menu-classic" class="auth-profile-menu" style="display:none">
+                        <div class="auth-profile-menu-head">
+                            <div data-auth-name class="auth-profile-menu-name">-</div>
+                            <div data-auth-jabatan class="auth-profile-menu-role">-</div>
                         </div>
-                        <a href="#section-our-team" data-modern-view="team" class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;text-decoration:none;color:#1e293b;font-size:12.5px;font-weight:600">
-                            <i class="fa-solid fa-people-roof" style="width:16px;color:#64748b"></i>Profil Tim
+                        <a href="#section-our-team" data-modern-view="team" class="auth-profile-menu-item">
+                            <i class="fa-solid fa-people-roof"></i>Profil Tim
                         </a>
-                        <button type="button" data-auth-logout class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;background:transparent;border:none;width:100%;text-align:left;cursor:pointer;color:#dc2626;font-size:12.5px;font-weight:600">
-                            <i class="fa-solid fa-right-from-bracket" style="width:16px"></i>Keluar
+                        <button type="button" data-auth-logout class="auth-profile-menu-item is-danger">
+                            <i class="fa-solid fa-right-from-bracket"></i>Keluar
                         </button>
                     </div>
                 </div>
@@ -335,16 +323,16 @@
                     <button type="button" class="modern-icon-btn auth-profile-trigger" aria-label="Menu akun" title="Akun saya">
                         <img data-auth-avatar alt="Foto profil" style="width:26px;height:26px;border-radius:9999px;object-fit:cover">
                     </button>
-                    <div id="auth-profile-menu-modern" class="auth-profile-menu" style="display:none;position:fixed;min-width:200px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,0.16);padding:10px;z-index:999999;text-align:left">
-                        <div style="padding:6px 8px 10px;border-bottom:1px solid #f1f5f9;margin-bottom:6px">
-                            <div data-auth-name style="font-size:13px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">-</div>
-                            <div data-auth-jabatan style="font-size:11px;color:#64748b;font-weight:500;margin-top:2px">-</div>
+                    <div id="auth-profile-menu-modern" class="auth-profile-menu" style="display:none">
+                        <div class="auth-profile-menu-head">
+                            <div data-auth-name class="auth-profile-menu-name">-</div>
+                            <div data-auth-jabatan class="auth-profile-menu-role">-</div>
                         </div>
-                        <a href="#section-our-team" data-modern-view="team" class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;text-decoration:none;color:#1e293b;font-size:12.5px;font-weight:600">
-                            <i class="fa-solid fa-people-roof" style="width:16px;color:#64748b"></i>Profil Tim
+                        <a href="#section-our-team" data-modern-view="team" class="auth-profile-menu-item">
+                            <i class="fa-solid fa-people-roof"></i>Profil Tim
                         </a>
-                        <button type="button" data-auth-logout class="auth-profile-menu-item" style="display:flex;align-items:center;gap:8px;padding:9px 8px;border-radius:10px;background:transparent;border:none;width:100%;text-align:left;cursor:pointer;color:#dc2626;font-size:12.5px;font-weight:600">
-                            <i class="fa-solid fa-right-from-bracket" style="width:16px"></i>Keluar
+                        <button type="button" data-auth-logout class="auth-profile-menu-item is-danger">
+                            <i class="fa-solid fa-right-from-bracket"></i>Keluar
                         </button>
                     </div>
                 </div>

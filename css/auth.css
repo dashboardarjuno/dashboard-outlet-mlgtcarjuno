@@ -40,3 +40,15 @@
 
 /* === NIK binding v2026.09.14.1 === */
 .auth-bind-email{margin:4px 0 14px;padding:12px 14px;border-radius:12px;background:#f8fafc;color:#64748b;font-size:12px;line-height:1.55}.auth-bind-email strong{color:#0f172a;font-size:13px}.auth-bind-help{margin-bottom:8px;color:#64748b;font-size:12px}.auth-bind-confirm{line-height:1.7;color:#475569}.auth-bind-confirm strong{font-size:17px;color:#0f172a}
+
+/* === Menu akun (dropdown foto profil) — dipakai mode klasik & modern === */
+.auth-profile-trigger{transition:opacity .15s}
+.auth-profile-trigger:hover{opacity:.85}
+.auth-profile-menu{position:fixed;min-width:200px;background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 14px 32px rgba(15,23,42,.16);padding:10px;z-index:999999;text-align:left}
+.auth-profile-menu-head{padding:6px 8px 10px;border-bottom:1px solid #f1f5f9;margin-bottom:6px}
+.auth-profile-menu-name{font-size:13px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.auth-profile-menu-role{font-size:11px;font-weight:500;color:#64748b;margin-top:2px}
+.auth-profile-menu-item{display:flex;align-items:center;gap:8px;width:100%;padding:9px 8px;border:none;border-radius:10px;background:transparent;text-align:left;text-decoration:none;cursor:pointer;color:#1e293b;font-size:12.5px;font-weight:600}
+.auth-profile-menu-item:hover{background:#f1f5f9}
+.auth-profile-menu-item i{width:16px;color:#64748b}
+.auth-profile-menu-item.is-danger,.auth-profile-menu-item.is-danger i{color:#dc2626}
