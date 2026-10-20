@@ -17,8 +17,8 @@ html:not([data-theme="modern"]) {
   --cp-line: #e8ecf2;
   --cp-bg: #f4f6fa;
   --cp-card: #ffffff;
-  --cp-radius: 20px;
-  --cp-radius-sm: 12px;
+  --cp-radius: 14px;
+  --cp-radius-sm: 10px;
   --cp-shadow-sm: 0 1px 2px rgba(15, 23, 42, .04), 0 4px 14px rgba(15, 23, 42, .04);
   --cp-shadow-md: 0 2px 4px rgba(15, 23, 42, .04), 0 12px 32px rgba(15, 23, 42, .07);
   --cp-shadow-lg: 0 4px 8px rgba(15, 23, 42, .05), 0 22px 48px rgba(15, 23, 42, .12);
@@ -251,7 +251,7 @@ html:not([data-theme="modern"]) body #classic-quick-menu > div > button:first-ch
 html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) {
   background: var(--cp-card) !important;
   border: 1px solid var(--cp-line) !important;
-  border-radius: 24px !important;
+  border-radius: 16px !important;
   box-shadow: var(--cp-shadow-sm) !important;
   padding: 22px !important;
 }
@@ -304,7 +304,7 @@ html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift) :i
 
 /* ---------- Tombol aksi di seksi ---------- */
 html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) button {
-  min-height: 38px;
+  min-height: 44px;
   border-radius: 10px !important;
   font-weight: 700 !important;
   letter-spacing: .005em;
@@ -450,11 +450,11 @@ html:not([data-theme="modern"]) body > footer .max-w-7xl {
   }
 
   html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > span:nth-of-type(2) {
-    font-size: 10.5px !important;
+    font-size: 12px !important;
   }
 
   html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team) {
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     padding: 18px 16px !important;
   }
 
@@ -482,5 +482,20 @@ html:not([data-theme="modern"]) body > footer .max-w-7xl {
   html:not([data-theme="modern"]) body *::before,
   html:not([data-theme="modern"]) body *::after {
     transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  html:not([data-theme="modern"]) body :is(button, a, input, select):focus-visible {
+    outline: 2px solid Highlight !important;
+  }
+
+  html:not([data-theme="modern"]) body :is(#section-off-matrix, #section-shift, #section-our-team),
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) {
+    border: 1px solid CanvasText !important;
+    box-shadow: none !important;
   }
 }
