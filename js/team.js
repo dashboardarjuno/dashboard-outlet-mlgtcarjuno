@@ -244,9 +244,6 @@
                                     <button type="button" id="team-photo-preview-trigger-${m.index}" onclick="openTeamPhotoPreview(${m.index})" onkeydown="if(event.key==='Escape') closeTeamPhotoPreview()" aria-label="Perbesar foto ${safeNama}" title="Perbesar foto" class="w-full h-full rounded-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
                                         <img id="team-img-${m.index}" src="${safeAvatarSrc}" alt="${safeNama}" class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-white shadow-md">
                                     </button>
-                                    <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${sanitizedJabatan}', '${sanitizedNik}')" class="absolute bottom-0 right-0 bg-slate-900 text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transition shadow cursor-pointer" title="Edit Foto Profil">
-                                        <i class="fa-solid fa-camera"></i>
-                                    </button>
                                 </div>
                                 
                                 <h5 id="team-nama-${m.index}" class="font-heading font-bold text-xs sm:text-sm text-slate-900 line-clamp-1 w-full px-1">${safeNama}</h5>
