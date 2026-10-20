@@ -740,7 +740,6 @@ html:not([data-theme="modern"]){--classic-red:#e5242a;--classic-ink:#101827;}
 html:not([data-theme="modern"]){--v3c-red:#e3272d;--v3c-ink:#131722;--v3c-bg:#f4f6f8;--v3c-line:#e6e9ee}
 html:not([data-theme="modern"]) body{background:var(--v3c-bg)!important}
 @media (min-width:1025px){
- html:not([data-theme="modern"]) .classic-header-inner{min-height:78px!important;padding:0 34px!important;background:rgba(255,255,255,.94)!important;border-bottom:1px solid #eceef2!important}
  html:not([data-theme="modern"]) main{padding:34px 38px 48px!important;max-width:1500px!important;margin-left:auto!important;margin-right:auto!important}
  html:not([data-theme="modern"]) #classic-hero{min-height:410px!important;padding:34px!important;border-radius:32px!important;background:linear-gradient(125deg,#151a26 0%,#101522 58%,#25202a 100%)!important;border:0!important;box-shadow:0 24px 60px rgba(17,22,34,.18)!important}
  html:not([data-theme="modern"]) #classic-hero:before{content:"";position:absolute;width:420px;height:420px;left:-160px;bottom:-280px;border-radius:50%;background:rgba(227,39,45,.20);filter:blur(2px)}
@@ -865,18 +864,6 @@ html:not([data-theme="modern"]) .classic-info-bar{background:linear-gradient(90d
 .classic-brand-photo{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important}
 @media (max-width:720px){
   html:not([data-theme="modern"]) body{background:linear-gradient(180deg,#f7f9fc 0%,#eef3f8 100%)!important;padding-bottom:18px!important}
-  html:not([data-theme="modern"]) header{margin:8px 9px 0!important;border-radius:20px!important;overflow:hidden!important;border:1px solid rgba(255,255,255,.95)!important;box-shadow:0 12px 34px rgba(15,23,42,.08)!important;background:rgba(255,255,255,.92)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important}
-  html:not([data-theme="modern"]) .classic-header-inner{height:66px!important;padding:0 11px!important}
-  html:not([data-theme="modern"]) .classic-brand-mark{width:38px!important;height:38px!important;border-radius:12px!important}
-  html:not([data-theme="modern"]) .classic-header-inner h1{font-size:12px!important;letter-spacing:-.025em!important}
-  html:not([data-theme="modern"]) .classic-header-inner p{font-size:8px!important}
-  html:not([data-theme="modern"]) .classic-header-right{gap:5px!important}
-  html:not([data-theme="modern"]) .classic-date-time{display:none!important}
-  html:not([data-theme="modern"]) .classic-auth-logout{width:34px!important;height:34px!important;border-radius:11px!important;padding:0!important;justify-content:center!important}
-  html:not([data-theme="modern"]) .classic-auth-logout .auth-logout-label{display:none!important}
-  html:not([data-theme="modern"]) #theme-switcher{border-radius:12px!important;padding:3px!important;background:#f1f5f9!important}
-  html:not([data-theme="modern"]) #theme-switcher button{font-size:0!important;width:31px!important;height:29px!important;padding:0!important;border-radius:9px!important}
-  html:not([data-theme="modern"]) #theme-switcher button i{font-size:11px!important;margin:0!important}
   html:not([data-theme="modern"]) #info-banner{margin:7px 9px 0!important;border-radius:14px!important;padding:7px 10px!important;min-height:34px!important;background:linear-gradient(90deg,#e11d48,#f43f5e)!important;box-shadow:0 8px 20px rgba(225,29,72,.15)!important;overflow:hidden!important}
   html:not([data-theme="modern"]) main{padding:10px 9px 26px!important;gap:13px!important}
   html:not([data-theme="modern"]) #classic-hero{border-radius:25px!important;padding:18px!important;background:radial-gradient(circle at 90% 10%,rgba(251,191,36,.17),transparent 26%),linear-gradient(145deg,#101827 0%,#17233b 62%,#202b46 100%)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 20px 45px rgba(15,23,42,.19)!important}
@@ -907,8 +894,6 @@ html:not([data-theme="modern"]) body{background:#f6f5f2!important;color:#172033!
 html:not([data-theme="modern"]) .font-heading{font-family:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
 
 @media (min-width:1025px){
-  html:not([data-theme="modern"]) header{background:rgba(255,255,255,.94)!important;border-bottom:1px solid #ebe8e2!important;box-shadow:0 8px 30px rgba(32,31,28,.045)!important;backdrop-filter:blur(18px)!important}
-  html:not([data-theme="modern"]) .classic-brand-mark{width:44px!important;height:44px!important;border-radius:14px!important;background:#fff!important;border:1px solid #ebe7df!important;box-shadow:0 8px 20px rgba(34,31,27,.08)!important}
   html:not([data-theme="modern"]) #info-banner{background:linear-gradient(90deg,#9f1830,#c62d3d 56%,#c95c39)!important;box-shadow:0 8px 24px rgba(159,24,48,.13)!important}
   html:not([data-theme="modern"]) main{max-width:1540px!important;margin:0 auto!important;padding-top:28px!important}
   html:not([data-theme="modern"]) #classic-hero{border-radius:32px!important;padding:36px!important;background:radial-gradient(circle at 87% 16%,rgba(222,168,72,.18),transparent 24%),radial-gradient(circle at 0% 100%,rgba(185,32,54,.20),transparent 38%),linear-gradient(140deg,#161b26 0%,#222d3c 62%,#34404c 100%)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 26px 64px rgba(26,31,41,.18)!important}
@@ -928,11 +913,6 @@ html:not([data-theme="modern"]) .font-heading{font-family:"Plus Jakarta Sans",-a
 
 @media (max-width:720px){
   html:not([data-theme="modern"]) body{background:linear-gradient(180deg,#faf9f7 0%,#f1f0ed 100%)!important;overflow-x:hidden!important}
-  html:not([data-theme="modern"]) header{margin:7px 8px 0!important;border-radius:19px!important;background:rgba(255,255,255,.95)!important;border:1px solid #ebe8e2!important;box-shadow:0 10px 28px rgba(35,32,28,.07)!important}
-  html:not([data-theme="modern"]) .classic-header-inner{height:62px!important;padding:0 10px!important}
-  html:not([data-theme="modern"]) .classic-brand-mark{width:37px!important;height:37px!important;border-radius:11px!important;background:#fff!important;border:1px solid #ebe8e2!important}
-  html:not([data-theme="modern"]) .classic-header-inner h1{font-size:11px!important;font-weight:800!important;letter-spacing:-.03em!important}
-  html:not([data-theme="modern"]) .classic-header-inner p{font-size:7px!important;color:#8c9199!important}
   html:not([data-theme="modern"]) #info-banner{margin:6px 8px 0!important;border-radius:13px!important;min-height:32px!important;padding:6px 9px!important;background:linear-gradient(90deg,#9f1830,#c62d3d 60%,#c95c39)!important;box-shadow:0 7px 18px rgba(159,24,48,.13)!important}
   html:not([data-theme="modern"]) main{padding:9px 8px 24px!important;gap:12px!important;overflow-x:hidden!important}
   html:not([data-theme="modern"]) #classic-hero{border-radius:24px!important;padding:16px!important;background:radial-gradient(circle at 90% 6%,rgba(222,168,72,.18),transparent 25%),radial-gradient(circle at 0% 105%,rgba(185,32,54,.18),transparent 38%),linear-gradient(145deg,#171b24 0%,#242d3a 72%,#37404b 100%)!important;box-shadow:0 18px 40px rgba(25,29,37,.18)!important}
@@ -960,8 +940,6 @@ html:not([data-theme="modern"]) .font-heading{font-family:"Plus Jakarta Sans",-a
    Prevents desktop hero/video from dominating reduced viewport.
    ========================================================= */
 @media (min-width:769px) and (max-width:1100px){
-  html:not([data-theme="modern"]) header{background:rgba(255,255,255,.96)!important;box-shadow:0 6px 22px rgba(32,31,28,.045)!important}
-  html:not([data-theme="modern"]) .classic-header-inner{min-height:66px!important;padding-left:18px!important;padding-right:18px!important}
   html:not([data-theme="modern"]) main{padding:20px 20px 34px!important;max-width:1100px!important}
   html:not([data-theme="modern"]) #classic-hero{border-radius:26px!important;padding:24px!important;box-shadow:0 20px 46px rgba(26,31,41,.15)!important}
   html:not([data-theme="modern"]) #classic-hero .relative.z-10{grid-template-columns:minmax(0,.88fr) minmax(320px,1.12fr)!important;gap:26px!important;align-items:center!important}
@@ -981,4 +959,28 @@ html:not([data-theme="modern"]) .font-heading{font-family:"Plus Jakarta Sans",-a
   html:not([data-theme="modern"]) #classic-hero h2{font-size:28px!important;max-width:650px!important}
   html:not([data-theme="modern"]) #classic-hero p{max-width:650px!important}
   html:not([data-theme="modern"]) #classic-hero .aspect-video{max-height:280px!important}
+}
+
+/* CLASSIC HEADER — single responsive presentation layer */
+@media (min-width:1101px){
+  html:not([data-theme="modern"]) header{background:rgba(255,255,255,.94)!important;border-bottom:1px solid #ebe8e2!important;box-shadow:0 8px 30px rgba(32,31,28,.045)!important;backdrop-filter:blur(18px)!important}
+  html:not([data-theme="modern"]) .classic-header-inner{min-height:78px!important;padding:0 34px!important;background:rgba(255,255,255,.94)!important;border-bottom:1px solid #eceef2!important}
+  html:not([data-theme="modern"]) .classic-brand-mark{width:44px!important;height:44px!important;border-radius:14px!important;background:#fff!important;border:1px solid #ebe7df!important;box-shadow:0 8px 20px rgba(34,31,27,.08)!important}
+}
+
+@media (min-width:769px) and (max-width:1100px){
+  html:not([data-theme="modern"]) header{background:rgba(255,255,255,.96)!important;box-shadow:0 6px 22px rgba(32,31,28,.045)!important}
+  html:not([data-theme="modern"]) .classic-header-inner{min-height:66px!important;padding-left:18px!important;padding-right:18px!important;background:rgba(255,255,255,.94)!important;border-bottom:1px solid #eceef2!important}
+}
+
+@media (max-width:720px){
+  html:not([data-theme="modern"]) header{margin:7px 8px 0!important;border-radius:19px!important;background:rgba(255,255,255,.95)!important;border:1px solid #ebe8e2!important;box-shadow:0 10px 28px rgba(35,32,28,.07)!important}
+  html:not([data-theme="modern"]) .classic-header-inner{height:62px!important;padding:0 10px!important}
+  html:not([data-theme="modern"]) .classic-brand-mark{width:37px!important;height:37px!important;border-radius:11px!important;background:#fff!important;border:1px solid #ebe8e2!important}
+  html:not([data-theme="modern"]) .classic-header-inner h1{font-size:11px!important;font-weight:800!important;letter-spacing:-.03em!important}
+  html:not([data-theme="modern"]) .classic-header-inner p{font-size:7px!important;color:#8c9199!important}
+  html:not([data-theme="modern"]) .classic-header-right{gap:5px!important}
+  html:not([data-theme="modern"]) .classic-date-time{display:none!important}
+  html:not([data-theme="modern"]) .classic-auth-logout{width:34px!important;height:34px!important;border-radius:11px!important;padding:0!important;justify-content:center!important}
+  html:not([data-theme="modern"]) .classic-auth-logout .auth-logout-label{display:none!important}
 }
