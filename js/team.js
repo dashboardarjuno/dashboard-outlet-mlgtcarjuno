@@ -241,7 +241,9 @@
                                 <span class="absolute top-2 right-2 sm:top-3 sm:right-3 ${groupConfig.tagBg} text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full uppercase">${safeJabatan}</span>
                                 
                                 <div class="relative w-14 h-14 sm:w-20 sm:h-20 mb-2 sm:mb-3 mt-1 sm:mt-0">
-                                    <img id="team-img-${m.index}" src="${safeAvatarSrc}" alt="${safeNama}" class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-white shadow-md">
+                                    <button type="button" id="team-photo-preview-trigger-${m.index}" onclick="openTeamPhotoPreview(${m.index})" onkeydown="if(event.key==='Escape') closeTeamPhotoPreview()" aria-label="Perbesar foto ${safeNama}" title="Perbesar foto" class="w-full h-full rounded-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                                        <img id="team-img-${m.index}" src="${safeAvatarSrc}" alt="${safeNama}" class="w-full h-full rounded-full object-cover border-2 sm:border-4 border-white shadow-md">
+                                    </button>
                                     <button type="button" onclick="editTeamMember(${m.index}, '${sanitizedNama}', '${sanitizedJabatan}', '${sanitizedNik}')" class="absolute bottom-0 right-0 bg-slate-900 text-white w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] sm:text-xs opacity-0 group-hover:opacity-100 transition shadow cursor-pointer" title="Edit Foto Profil">
                                         <i class="fa-solid fa-camera"></i>
                                     </button>
@@ -274,6 +276,31 @@
             });
 
             container.innerHTML = html;
+        }
+
+        function openTeamPhotoPreview(index) {
+            const sourceImage = document.getElementById(`team-img-${index}`);
+            const modal = document.getElementById('modal-team-photo-preview');
+            const previewImage = document.getElementById('team-photo-preview-image');
+            const previewName = document.getElementById('team-photo-preview-name');
+            if (!sourceImage || !modal || !previewImage || !previewName) return;
+
+            previewImage.src = sourceImage.currentSrc || sourceImage.src;
+            previewImage.alt = `Foto profil ${sourceImage.alt}`;
+            previewName.textContent = sourceImage.alt;
+            modal.dataset.returnFocusId = `team-photo-preview-trigger-${index}`;
+            openModal('modal-team-photo-preview');
+            document.getElementById('close-team-photo-preview')?.focus();
+        }
+
+        function closeTeamPhotoPreview() {
+            const modal = document.getElementById('modal-team-photo-preview');
+            if (!modal || modal.classList.contains('hidden')) return;
+
+            const returnFocusId = modal.dataset.returnFocusId;
+            closeModal('modal-team-photo-preview');
+            document.getElementById(returnFocusId)?.focus();
+            delete modal.dataset.returnFocusId;
         }
 
         function editTeamMember(index, currentName, role, currentNik) {
