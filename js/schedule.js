@@ -211,8 +211,39 @@ const fallbackMotivationVideos = [
     { videoId: "VirbuHEjmmY", startSecond: 30 }
 ];
 
+const motivationMobileQuery = window.matchMedia('(max-width: 767px)');
+
 function pickRandom(list) {
     return list[Math.floor(Math.random() * list.length)];
+}
+
+function syncMotivationVideoPresentation() {
+    const iframe = document.getElementById('motivationVideo');
+    const playButton = document.getElementById('motivation-video-play');
+    const videoFrame = document.getElementById('motivation-video-frame');
+    if (!iframe || !iframe.dataset.videoSrc) return;
+
+    const needsTap = motivationMobileQuery.matches && iframe.dataset.activated !== 'true';
+    if (needsTap) {
+        iframe.removeAttribute('src');
+        iframe.classList.add('hidden');
+        videoFrame?.classList.remove('is-playing');
+        if (playButton) playButton.hidden = false;
+        return;
+    }
+
+    if (iframe.getAttribute('src') !== iframe.dataset.videoSrc) {
+        iframe.src = iframe.dataset.videoSrc;
+    }
+    iframe.classList.remove('hidden');
+    videoFrame?.classList.add('is-playing');
+    if (playButton) playButton.hidden = true;
+}
+
+if (motivationMobileQuery.addEventListener) {
+    motivationMobileQuery.addEventListener('change', syncMotivationVideoPresentation);
+} else {
+    motivationMobileQuery.addListener(syncMotivationVideoPresentation);
 }
 
 function playMotivationVideo(selectedVideo) {
@@ -224,7 +255,17 @@ function playMotivationVideo(selectedVideo) {
     const extraParams = start > 0 ? `&start=${start}` : "";
 
     const embedUrl = `https://www.youtube.com/embed/${vid}?autoplay=1&mute=1&loop=1&playlist=${vid}${extraParams}`;
-    iframe.src = embedUrl;
+    iframe.dataset.videoSrc = embedUrl;
+    iframe.dataset.activated = 'false';
+    syncMotivationVideoPresentation();
+}
+
+function activateMotivationVideo() {
+    const iframe = document.getElementById('motivationVideo');
+    if (!iframe || !iframe.dataset.videoSrc) return;
+
+    iframe.dataset.activated = 'true';
+    syncMotivationVideoPresentation();
 }
 
 async function loadRandomMotivationVideo() {

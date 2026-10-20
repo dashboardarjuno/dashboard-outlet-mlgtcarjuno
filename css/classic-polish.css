@@ -476,6 +476,74 @@ html:not([data-theme="modern"]) body > footer .max-w-7xl {
   }
 }
 
+@media (max-width: 767px) {
+  html:not([data-theme="modern"]) body > main {
+    padding-top: 10px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero {
+    margin-top: 10px !important;
+    padding: 14px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero .relative.z-10 {
+    gap: 10px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero h2 {
+    font-size: 21px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero p {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero > div > div:first-child > span {
+    font-size: 9px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero .motivation-video-frame:not(.is-playing) {
+    aspect-ratio: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero .motivation-video-frame:not(.is-playing) #motivationVideo {
+    display: none !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-hero .motivation-video-frame:not(.is-playing) #motivation-video-play {
+    position: relative !important;
+    min-height: 44px !important;
+    border-radius: 12px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu {
+    margin-top: 12px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) {
+    min-height: 112px !important;
+    padding: 11px 10px !important;
+    border-radius: 16px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > div {
+    width: 38px !important;
+    height: 38px !important;
+    margin-bottom: 7px !important;
+  }
+
+  html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) > span:nth-of-type(2) {
+    font-size: 11px !important;
+  }
+
+}
+
 /* ---------- Aksesibilitas gerak ---------- */
 @media (prefers-reduced-motion: reduce) {
   html:not([data-theme="modern"]) body *,
@@ -497,5 +565,265 @@ html:not([data-theme="modern"]) body > footer .max-w-7xl {
   html:not([data-theme="modern"]) body #classic-quick-menu > div > :is(button, a) {
     border: 1px solid CanvasText !important;
     box-shadow: none !important;
+  }
+}
+
+html:not([data-theme="modern"]) body .classic-module-launcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e6e9ef;
+  border-radius: 12px;
+  background: #fff;
+  color: #263244;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, .045);
+  cursor: pointer;
+}
+
+html:not([data-theme="modern"]) body .classic-module-launcher > i:first-child {
+  color: var(--cp-red);
+}
+
+html:not([data-theme="modern"]) body .classic-module-launcher > i:last-child {
+  margin-left: auto;
+  color: var(--cp-muted);
+}
+
+html:not([data-theme="modern"]) body .classic-module-launcher:focus-visible,
+html:not([data-theme="modern"]) body .classic-module-panel :is(button, a):focus-visible {
+  outline: 2px solid var(--cp-red);
+  outline-offset: 2px;
+}
+
+html:not([data-theme="modern"]) body.classic-module-open {
+  overflow: hidden !important;
+}
+
+html:not([data-theme="modern"]) body #classic-module-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: none;
+}
+
+html:not([data-theme="modern"]) body #classic-module-drawer.is-open {
+  display: block;
+}
+
+html:not([data-theme="modern"]) body .classic-module-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: rgba(15, 23, 42, .48);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+html:not([data-theme="modern"]) body .classic-module-panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: min(560px, calc(100vw - 24px));
+  height: 100vh;
+  height: 100dvh;
+  padding: 22px 22px 16px;
+  background: #f7f8fa;
+  box-shadow: -18px 0 48px rgba(15, 23, 42, .18);
+  transform: translateX(102%);
+  transition: transform .24s var(--cp-ease);
+}
+
+html:not([data-theme="modern"]) body #classic-module-drawer.is-open .classic-module-panel {
+  transform: translateX(0);
+}
+
+html:not([data-theme="modern"]) body .classic-module-panel-head {
+  flex: 0 0 auto;
+}
+
+html:not([data-theme="modern"]) body .classic-module-handle {
+  display: none;
+}
+
+html:not([data-theme="modern"]) body .classic-module-panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+html:not([data-theme="modern"]) body .classic-module-panel-title > div > span {
+  color: var(--cp-muted);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+html:not([data-theme="modern"]) body .classic-module-panel-title h3 {
+  margin: 3px 0 0;
+  color: var(--cp-ink);
+  font-size: 19px;
+  font-weight: 800;
+}
+
+html:not([data-theme="modern"]) body .classic-module-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--cp-line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--cp-text);
+  font-size: 17px;
+  cursor: pointer;
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid {
+  flex: 1 1 auto;
+  align-content: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  overflow-y: auto;
+  padding: 2px 3px 12px;
+  scrollbar-width: thin;
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a) {
+  position: relative;
+  min-width: 0;
+  min-height: 132px;
+  padding: 14px 10px;
+  border: 1px solid var(--cp-line);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: var(--cp-shadow-sm);
+  text-align: center;
+  text-decoration: none;
+  transition: transform .2s var(--cp-ease), box-shadow .2s var(--cp-ease), border-color .2s var(--cp-ease);
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a):hover {
+  transform: translateY(-2px);
+  border-color: rgba(229, 36, 42, .28);
+  box-shadow: var(--cp-shadow-md);
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a) > div {
+  width: 44px !important;
+  height: 44px !important;
+  margin-bottom: 9px !important;
+  border-radius: 13px !important;
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a) > span:nth-of-type(1) {
+  color: var(--cp-ink) !important;
+  font-size: 12px !important;
+  line-height: 1.25 !important;
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a) > span:nth-of-type(2) {
+  margin-top: 4px !important;
+  color: var(--cp-muted) !important;
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > button:first-child {
+  border-color: transparent;
+  background: linear-gradient(150deg, #a3162f, #c92a3b);
+  box-shadow: 0 12px 28px rgba(163, 22, 47, .22);
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > button:first-child > span {
+  color: #fff !important;
+}
+
+html:not([data-theme="modern"]) body .classic-module-grid > button:first-child > div {
+  background: rgba(255, 255, 255, .16) !important;
+  color: #fff !important;
+}
+
+@media (max-width: 767px) {
+  html:not([data-theme="modern"]) body .classic-module-launcher {
+    justify-content: flex-start;
+    min-height: 52px;
+    padding: 10px 14px;
+  }
+
+  html:not([data-theme="modern"]) body .classic-module-panel {
+    inset: auto 0 0;
+    width: 100%;
+    height: min(84vh, 760px);
+    height: min(84dvh, 760px);
+    padding: 8px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -16px 44px rgba(15, 23, 42, .2);
+    transform: translateY(102%);
+    transition: transform .25s var(--cp-ease);
+  }
+
+  html:not([data-theme="modern"]) body #classic-module-drawer.is-open .classic-module-panel {
+    transform: translateY(0);
+  }
+
+  html:not([data-theme="modern"]) body .classic-module-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 28px;
+    margin: 0 auto 4px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  html:not([data-theme="modern"]) body .classic-module-handle > span {
+    width: 38px;
+    height: 4px;
+    border-radius: 999px;
+    background: #c7cbd3;
+  }
+
+  html:not([data-theme="modern"]) body .classic-module-panel-title {
+    margin-bottom: 12px;
+  }
+
+  html:not([data-theme="modern"]) body .classic-module-grid {
+    gap: 9px !important;
+    padding-bottom: 6px;
+  }
+
+  html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a) {
+    min-height: 116px;
+    padding: 11px 8px;
+    border-radius: 14px;
+  }
+
+  html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a) > div {
+    width: 38px !important;
+    height: 38px !important;
+    margin-bottom: 7px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-theme="modern"]) body .classic-module-panel,
+  html:not([data-theme="modern"]) body .classic-module-grid > :is(button, a) {
+    transition-duration: .01ms !important;
   }
 }

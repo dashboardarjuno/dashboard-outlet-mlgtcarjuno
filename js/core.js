@@ -205,6 +205,105 @@ let teamScheduleStatusReady = false;
             if (id === 'modal-absensi') stopCamera();
         }
 
+        function openClassicModuleDrawer() {
+            const drawer = document.getElementById('classic-module-drawer');
+            const trigger = document.getElementById('classic-module-open');
+            if (!drawer) return;
+
+            drawer.hidden = false;
+            drawer.classList.add('is-open');
+            drawer.setAttribute('aria-hidden', 'false');
+            trigger?.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('classic-module-open');
+            document.getElementById('classic-module-close')?.focus();
+        }
+
+        function closeClassicModuleDrawer(restoreFocus = true) {
+            const drawer = document.getElementById('classic-module-drawer');
+            const trigger = document.getElementById('classic-module-open');
+            const panel = document.getElementById('classic-module-panel');
+            if (!drawer || drawer.hidden) return;
+
+            drawer.classList.remove('is-open');
+            drawer.setAttribute('aria-hidden', 'true');
+            drawer.hidden = true;
+            trigger?.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('classic-module-open');
+            if (restoreFocus) trigger?.focus();
+            if (panel) {
+                panel.style.transform = '';
+                panel.style.transition = '';
+            }
+        }
+
+        const classicModuleDrawer = document.getElementById('classic-module-drawer');
+        const classicModulePanel = document.getElementById('classic-module-panel');
+        const classicModuleHandle = document.getElementById('classic-module-handle');
+        let classicModuleDragStartY = 0;
+        let classicModuleDragDistance = 0;
+        let classicModulePointerId = null;
+
+        classicModuleDrawer?.addEventListener('click', event => {
+            if (event.target.closest('[data-module-drawer-close]')) {
+                closeClassicModuleDrawer();
+                return;
+            }
+            if (event.target.closest('.classic-module-grid button, .classic-module-grid a')) {
+                closeClassicModuleDrawer(false);
+            }
+        }, true);
+
+        classicModuleDrawer?.addEventListener('keydown', event => {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                closeClassicModuleDrawer();
+                return;
+            }
+            if (event.key !== 'Tab' || !classicModulePanel) return;
+
+            const focusable = [...classicModulePanel.querySelectorAll('a[href], button:not([disabled])')]
+                .filter(element => element.getClientRects().length > 0);
+            if (!focusable.length) return;
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        });
+
+        classicModuleHandle?.addEventListener('pointerdown', event => {
+            if (!window.matchMedia('(max-width: 767px)').matches || event.button !== 0) return;
+            classicModuleDragStartY = event.clientY;
+            classicModuleDragDistance = 0;
+            classicModulePointerId = event.pointerId;
+            classicModulePanel.style.transition = 'none';
+            classicModuleHandle.setPointerCapture(event.pointerId);
+        });
+
+        classicModuleHandle?.addEventListener('pointermove', event => {
+            if (event.pointerId !== classicModulePointerId || !classicModulePanel) return;
+            classicModuleDragDistance = Math.max(0, event.clientY - classicModuleDragStartY);
+            classicModulePanel.style.transform = `translateY(${classicModuleDragDistance}px)`;
+        });
+
+        const finishClassicModuleDrag = event => {
+            if (event.pointerId !== classicModulePointerId) return;
+            classicModulePointerId = null;
+            if (classicModuleDragDistance > 90) {
+                closeClassicModuleDrawer();
+            } else if (classicModulePanel) {
+                classicModulePanel.style.transition = '';
+                classicModulePanel.style.transform = '';
+            }
+        };
+
+        classicModuleHandle?.addEventListener('pointerup', finishClassicModuleDrag);
+        classicModuleHandle?.addEventListener('pointercancel', finishClassicModuleDrag);
+
         // SATU-SATUNYA pembaruan tanggal & jam: header klasik (lebar + ringkas) dan
         // header modern (desktop + salinan mobile). Elemen yang tidak ada dilewati.
         function updateClocks() {

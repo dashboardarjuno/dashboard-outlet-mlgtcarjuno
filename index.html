@@ -56,7 +56,7 @@
     <link rel="stylesheet" href="css/theme-modern.css">
     <link rel="stylesheet" href="css/auth.css?v=2026.10.18.1">
     <!-- Polesan tampilan KLASIK saja (scoped, CSS only). Hapus baris ini untuk mematikan. -->
-    <link rel="stylesheet" href="css/classic-polish.css?v=2026.10.18.1">
+    <link rel="stylesheet" href="css/classic-polish.css?v=2026.10.21.4">
     <style id="auth-profile-force-style">
         /* Penguat prioritas tinggi: pastikan area foto profil selalu bisa
            diklik, apa pun aturan CSS lama lain yang mungkin masih menimpa
@@ -428,14 +428,19 @@
                     </p>
                 </div>
 
-                <!-- Video Container (Tinggi Pasti & Aman) -->
-                <div
-                    class="w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
-                    <iframe id="motivationVideo" class="w-full h-full absolute inset-0" src="" title="Motivasi Tim"
+                <!-- Video dimuat otomatis di desktop dan setelah disentuh di mobile -->
+                <div id="motivation-video-frame"
+                    class="motivation-video-frame w-full aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
+                    <iframe id="motivationVideo" class="hidden w-full h-full absolute inset-0" src="" title="Motivasi Tim"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
+                    <button type="button" id="motivation-video-play" onclick="activateMotivationVideo()"
+                        class="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 text-sm font-semibold text-white hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+                        <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
+                        <span>Putar video motivasi</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -445,9 +450,34 @@
             <h3 class="font-heading font-bold text-lg sm:text-xl text-slate-900 mb-4 sm:mb-5 flex items-center gap-2.5">
                 <i class="fa-solid fa-border-all text-brand-red"></i> Modul Utama Outlet
             </h3>
+            <button type="button" id="classic-module-open" onclick="openClassicModuleDrawer()"
+                aria-haspopup="dialog" aria-controls="classic-module-drawer" aria-expanded="false"
+                class="classic-module-launcher">
+                <i class="fa-solid fa-grid-2" aria-hidden="true"></i>
+                <span>Buka modul</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+            </button>
 
-            <!-- Grid Responsif: 2 kolom di HP, 4 di Tablet, 7 di Laptop -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-5">
+            <aside id="classic-module-drawer" class="classic-module-drawer" aria-hidden="true" hidden>
+                <button type="button" class="classic-module-backdrop" data-module-drawer-close aria-label="Tutup menu modul"></button>
+                <div id="classic-module-panel" class="classic-module-panel" role="dialog" aria-modal="true" aria-labelledby="classic-module-title" tabindex="-1">
+                    <div class="classic-module-panel-head">
+                        <button type="button" id="classic-module-handle" class="classic-module-handle" data-module-drawer-close aria-label="Tutup menu modul">
+                            <span aria-hidden="true"></span>
+                        </button>
+                        <div class="classic-module-panel-title">
+                            <div>
+                                <span>Akses cepat</span>
+                                <h3 id="classic-module-title">Modul Utama Outlet</h3>
+                            </div>
+                            <button type="button" id="classic-module-close" class="classic-module-close" data-module-drawer-close aria-label="Tutup menu modul" title="Tutup">
+                                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+
+            <!-- Grid Responsif: 2 kolom di HP dan desktop drawer -->
+            <div class="classic-module-grid grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-5">
 
                 <!-- Menu 1: Absensi Karyawan -->
                 <button onclick="openAbsensiModal()"
@@ -556,6 +586,8 @@
                 </button>
 
             </div>
+                </div>
+            </aside>
         </section>
 
         <!-- REKAP MATRIKS JADWAL OFF & CUTI BULANAN -->
@@ -1292,15 +1324,15 @@
 
     <!-- JAVASCRIPT SYSTEM INTEGRATED GAS (dipecah per modul) -->
     <script src="js/theme-switcher.js"></script>
-    <script src="js/core.js?v=2026.10.18.1"></script>
+    <script src="js/core.js?v=2026.10.21.2"></script>
     <!-- Firebase Authentication: dimuat setelah core agar endpoint/config siap -->
     <script src="js/auth.js?v=2026.10.03.1"></script>
-    <script src="js/team.js?v=2026.10.03.1"></script>
+    <script src="js/team.js?v=2026.10.21.3"></script>
     <script src="js/absensi.js?v=2026.10.03.1"></script>
     <script src="js/off-cuti.js?v=2026.10.03.1"></script>
     <script src="js/kas.js?v=2026.10.03.1"></script>
     <script src="js/banner.js?v=2026.10.03.1"></script>
-    <script src="js/schedule.js?v=2026.10.03.2"></script>
+    <script src="js/schedule.js?v=2026.10.21.2"></script>
     <script src="js/dashboard.js?v=2026.10.03.1"></script>
     <script src="js/modern-app.js?v=2026.10.18.1"></script>
     <script src="js/update-manager.js"></script>
