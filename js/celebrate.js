@@ -75,7 +75,14 @@
             '.cel-btn:hover{background:#ffedd5}',
             '.cel-pill{flex:0 0 auto;font-size:12px;font-weight:700;color:#166534;background:#dcfce7;border:1px solid #bbf7d0;border-radius:999px;padding:3px 10px}',
             '.cel-team-badge{position:absolute;right:-2px;bottom:-2px;z-index:2;width:22px;height:22px;border-radius:50%;background:#fff7ed;color:#ea580c;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10px;box-shadow:0 1px 3px rgba(15,23,42,.25)}',
-            'html[data-theme="modern"] #' + CARD_IDS.classic + '{display:none!important}'
+            '#' + CARD_IDS.modern + '{margin:12px 0 0}',
+            'html[data-theme="modern"] #' + CARD_IDS.classic + '{display:none!important}',
+            '@media (min-width:1025px){',
+            'html[data-theme="modern"] .modern-home.cel-has{grid-template-areas:"hero info" "hero title" "cel cel" "quick quick"!important}',
+            'html[data-theme="modern"] #' + CARD_IDS.modern + '{grid-area:cel;margin:0;padding:16px 22px;border-radius:22px}',
+            '#' + CARD_IDS.modern + ' .cel-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));column-gap:28px}',
+            '#' + CARD_IDS.modern + ' .cel-row + .cel-row{border-top:0}',
+            '}'
         ].join('\n');
         var style = document.createElement('style');
         style.id = 'celebrate-style';
@@ -121,7 +128,7 @@
             .join('');
         return '<section id="' + id + '" class="cel-card" role="region" aria-label="Perayaan hari ini">' +
             '<div class="cel-head"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i><span>Perayaan hari ini</span></div>' +
-            rows + '</section>';
+            '<div class="cel-list">' + rows + '</div></section>';
     }
 
     function removeCards() {
@@ -129,14 +136,25 @@
             var el = document.getElementById(CARD_IDS[key]);
             if (el && el.parentNode) el.parentNode.removeChild(el);
         });
+        var home = document.getElementById('modern-home');
+        if (home) home.classList.remove('cel-has');
     }
 
     function renderCards() {
         removeCards();
         if (!state.birthdays.length && !state.anniversaries.length) return;
 
-        var modernGrid = document.querySelector('#modern-home .modern-home-grid');
-        if (modernGrid) modernGrid.insertAdjacentHTML('beforeend', cardHtml(CARD_IDS.modern));
+        // Mode modern: kartu menjadi anak langsung #modern-home (sebelum judul
+        // "Akses cepat"), BUKAN di dalam .modern-home-grid, karena kotak itu
+        // tingginya terkunci di desktop sehingga isi tambahan menimpa judul.
+        var modernHome = document.getElementById('modern-home');
+        var modernTitle = document.querySelector('#modern-home .modern-section-title');
+        if (modernTitle) {
+            modernTitle.insertAdjacentHTML('beforebegin', cardHtml(CARD_IDS.modern));
+        } else if (modernHome) {
+            modernHome.insertAdjacentHTML('beforeend', cardHtml(CARD_IDS.modern));
+        }
+        if (modernHome && (modernTitle || modernHome)) modernHome.classList.add('cel-has');
 
         var classicHero = document.getElementById('classic-hero');
         if (classicHero) classicHero.insertAdjacentHTML('afterend', cardHtml(CARD_IDS.classic));
