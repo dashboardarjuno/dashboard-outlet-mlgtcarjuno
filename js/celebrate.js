@@ -74,7 +74,17 @@
             '.cel-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:#c2410c;background:#fff7ed;border:1px solid #fed7aa;border-radius:999px;padding:6px 12px;cursor:pointer;min-height:32px}',
             '.cel-btn:hover{background:#ffedd5}',
             '.cel-pill{flex:0 0 auto;font-size:12px;font-weight:700;color:#166534;background:#dcfce7;border:1px solid #bbf7d0;border-radius:999px;padding:3px 10px}',
-            '.cel-team-badge{position:absolute;right:-2px;bottom:-2px;z-index:2;width:22px;height:22px;border-radius:50%;background:#fff7ed;color:#ea580c;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10px;box-shadow:0 1px 3px rgba(15,23,42,.25)}',
+            '.cel-team-badge{position:absolute;right:-8px;bottom:-6px;z-index:3;width:28px;height:28px;border-radius:50%;background:#fff;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1;box-shadow:0 2px 6px rgba(15,23,42,.28)}',
+            '.cel-ring{border-radius:9999px}',
+            '.cel-ring::before{content:"";position:absolute;inset:-5px;border-radius:9999px;z-index:0;background:conic-gradient(from 0deg,#f59e0b,#ec4899,#f59e0b);animation:celPulse 2.6s ease-in-out infinite}',
+            '.cel-ring--ann::before{background:conic-gradient(from 0deg,#10b981,#06b6d4,#10b981)}',
+            '.cel-ring > button{position:relative;z-index:1}',
+            '.cel-team-card{box-shadow:0 0 0 2px #fdba74,0 10px 24px rgba(251,146,60,.28)!important}',
+            '.cel-team-card--ann{box-shadow:0 0 0 2px #6ee7b7,0 10px 24px rgba(16,185,129,.24)!important}',
+            '.cel-team-pill{display:inline-block;max-width:100%;margin-top:4px;padding:2px 9px;border-radius:999px;font-size:10px;font-weight:700;line-height:1.3;text-align:center;color:#9a3412;background:linear-gradient(90deg,#fef3c7,#fce7f3);border:1px solid #fed7aa}',
+            '.cel-team-pill--ann{color:#166534;background:linear-gradient(90deg,#dcfce7,#cffafe);border-color:#a7f3d0}',
+            '@keyframes celPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.07);opacity:.78}}',
+            '@media (prefers-reduced-motion:reduce){.cel-ring::before{animation:none}}',
             '#' + CARD_IDS.modern + '{margin:12px 0 0}',
             'html[data-theme="modern"] #' + CARD_IDS.classic + '{display:none!important}',
             '@media (min-width:1025px){',
@@ -176,7 +186,17 @@
         window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
     });
 
-    // ---------- ikon di foto kartu Our Team ----------
+    // ---------- tampilan perayaan di kartu Our Team ----------
+    // Foto diberi lingkaran warna, kartu diberi cahaya lembut, ada lencana
+    // emoji di foto, dan label kecil di bawah nama.
+    function clearTeamDecor(card, holder) {
+        holder.classList.remove('cel-ring', 'cel-ring--ann');
+        card.classList.remove('cel-team-card', 'cel-team-card--ann');
+        [holder, card].forEach(function (node) {
+            node.querySelectorAll('.cel-team-badge, .cel-team-pill').forEach(function (n) { n.remove(); });
+        });
+    }
+
     function injectTeamBadges() {
         var birthdayNiks = {};
         var anniversaryYears = {};
@@ -188,24 +208,38 @@
             var nik = (el.textContent || '').replace('NIK:', '').trim().toUpperCase();
             var trigger = document.getElementById('team-photo-preview-trigger-' + index);
             var holder = trigger ? trigger.parentElement : null;
-            if (!holder) return;
+            var card = holder ? holder.parentElement : null;
+            if (!holder || !card) return;
 
-            var old = holder.querySelector('.cel-team-badge');
-            if (old) old.remove();
+            clearTeamDecor(card, holder);
 
             var isBirthday = !!birthdayNiks[nik];
             var years = anniversaryYears[nik];
             if (!isBirthday && !years) return;
 
+            var ann = !isBirthday; // ulang tahun didahulukan bila bersamaan
+            var label = isBirthday ? 'Ulang tahun hari ini' : years + ' tahun bersama Arjuno';
+            if (isBirthday && years) label += ' \u00b7 ' + years + ' tahun bersama Arjuno';
+
+            holder.classList.add('cel-ring');
+            if (ann) holder.classList.add('cel-ring--ann');
+            card.classList.add('cel-team-card');
+            if (ann) card.classList.add('cel-team-card--ann');
+
             var badge = document.createElement('span');
             badge.className = 'cel-team-badge';
             badge.setAttribute('role', 'img');
-            var label = isBirthday ? 'Ulang tahun hari ini' : years + ' tahun bersama Arjuno';
-            if (isBirthday && years) label += ' \u00b7 ' + years + ' tahun bersama Arjuno';
-            badge.title = label;
             badge.setAttribute('aria-label', label);
-            badge.innerHTML = '<i class="fa-solid ' + (isBirthday ? 'fa-cake-candles' : 'fa-award') + '" aria-hidden="true"></i>';
+            badge.title = label;
+            badge.textContent = isBirthday ? '\ud83c\udf82' : '\ud83c\udfc5';
             holder.appendChild(badge);
+
+            var pill = document.createElement('div');
+            pill.className = 'cel-team-pill' + (ann ? ' cel-team-pill--ann' : '');
+            pill.textContent = isBirthday ? '\ud83c\udf89 Ulang tahun hari ini' : '\ud83c\udfc5 ' + years + ' tahun bersama Arjuno';
+            var nameEl = document.getElementById('team-nama-' + index);
+            if (nameEl) nameEl.insertAdjacentElement('afterend', pill);
+            else card.appendChild(pill);
         });
     }
 
