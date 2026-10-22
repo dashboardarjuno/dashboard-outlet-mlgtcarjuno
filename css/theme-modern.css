@@ -1242,7 +1242,6 @@ html[data-theme="modern"] body{background:var(--v3-bg)!important;color:var(--v3-
  html[data-theme="modern"] .modern-info-card{min-height:112px!important;padding:16px!important;border-radius:20px!important;background:#fff!important;border:1px solid #e8e9f0!important;box-shadow:0 6px 20px rgba(34,37,64,.045)!important}
  html[data-theme="modern"] .modern-section-title{margin:8px 2px 0!important}
  html[data-theme="modern"] .modern-section-title span{font-size:8px!important;letter-spacing:.14em!important}
- html[data-theme="modern"] .modern-section-title:after{content:"Akses cepat";font-size:17px;font-weight:800;letter-spacing:-.035em;color:#1c1f34;display:block;margin-top:3px}
  html[data-theme="modern"] .modern-quick-actions{display:flex!important;overflow-x:auto!important;gap:10px!important;padding:2px 1px 8px!important;scroll-snap-type:x mandatory!important;scrollbar-width:none!important}
  html[data-theme="modern"] .modern-quick-actions::-webkit-scrollbar{display:none!important}
  html[data-theme="modern"] .modern-quick-actions>button{flex:0 0 142px!important;min-height:138px!important;border-radius:20px!important;padding:15px!important;scroll-snap-align:start!important;background:#fff!important;border:1px solid #e8e9f0!important;box-shadow:0 6px 18px rgba(34,37,64,.04)!important;align-items:flex-start!important;text-align:left!important}
